@@ -1,0 +1,8 @@
+NAME            ID      TRIBE   HAIR    EYES    HAT     ARMOR   LEGS    BOOT    SWORD   OFFHAND RING1   RING2   NECK    X       Y       STR     INT     CON     WIS     AI      INV1    INV2    INV3    INV4    INV5|||||
+King Ahab     	01  	2    	0  	1    	0      	0    	0      	0      	0      	0      	0      	0      	0      	18	3	0    	0  	0   	0    	0    	0      	0      	0      	0      	0       
+Queen Jezebel	02  	1      	12	2      	0      	0      	0      	0      	0      	0      	0      	0      	0     	19 	3	0 	0	0	0	0   	0      	0      	0      	0      	0       
+Elijah      	03  	0      	8     	3      	0      	0      	0      	0      	0      	0      	0      	0      	0      	23	25	0  	0    	0    	0    	0    	0      	0      	0      	0      	0       
+Captain      	04  	3      	8      	3      	0      	0      	0      	0      	0      	0      	0      	0      	0      	20  	15	0   	0   	0   	0    	0    	0      	0      	0      	0      	0       
+Guard   	05  	2      	0      	1      	0      	0      	0      	0      	0      	0      	0      	0      	0      	17  	15 	0  	0   	0    	0    	0    	0      	0      	0      	0       0
+Wild Dog	06	4	16	4	0	0	0	0	0	0	0	0	0	8	8	0	0	0	0	1	0	0	0	0	0
+	

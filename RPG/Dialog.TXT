@@ -1,0 +1,32 @@
+ID	TEXT
+1	//I wish I could go to the wedding. Its almost harvesting season.                                                                 |
+2	Yahweh be praised. With this#union, Israel is sure to prosper!                                                                    |
+3	You can go in. You are on the list.                                                                                               |
+4	Thank you all for joining my#wedding party. My lovely queen Jezebel has asked me to make a toast.                                 |
+5	In honor of this auspicious#occasion,our united Kingdoms willrebuild the lost city of Jericho!                                    |
+6	Hiel of Bethel will oversee#the construction. Noblemen, report to him outside the city gate for more orders. Now, we feast!       |
+7	This is troubling. King Joshua#warned the death of the children of the man who rebuilt Jericho.                                   |
+8	Hello, I am Hiel. To rebuild Jericho, we need each noble to commit 50 wood and 50 stone. Please go in the forest and recover some.|
+9	I thank you for being here with#us on this special day. Please,#enjoy all the festivities!                                        |
+10	Enjoy the rest of the#celebration. When you are ready, go#see Hiel outside the city gate.                                         |
+11	Good morning. Yahweh be praised.                                                                                                  |
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
