@@ -104,7 +104,7 @@ U0 Serialize3()
    ptr+=sizeof(U8)*218;//ahab
    ptr+=sizeof(U8)*217;
    ptr+=sizeof(U8)*40;
-   //ptr+=sizeof(U8)*340; //jezebel 213 dif
+   //ptr+=sizeof(U8)*340; //jezebel 213 dif
    //ptr+=sizeof(U8)*550;//elijah
    //ptr+=sizeof(U8)*299;
    //MemCpy(&name,ptr,sizeof(U8)*15);
@@ -249,7 +249,53 @@ U0 Serialize5()
  //Free(newSave);
 
 }
+U8 myDialog[120];
+
+U0 DeserializeDialog(I64 textID)
+{
+ U8 *fptr = FileRead("T:/RPG/Dialog.TXT"), *lnptr,*ln;
+ StrUtil(fptr,SUF_REM_CTRL_CHARS);
+ U8 *nameptr = myDialog;
+ U8 id[8], *idptr=id;
+
+ lnptr = fptr;
+ I64 count = 0;
+
+ while(ln=ReadALine(&lnptr))
+ {
+ 
+  if(count!=textID || *ln=='#' || *ln==0)
+   goto skip;
+  StrScan(ln,"%s\t%s",&idptr,&nameptr);
+  "%s",myDialog;
+  break;
+  skip:;
+  Free(ln);
+  count++;
+ }
+ Free(fptr);
+
+}
+U0 Niggafart()
+{
+ I64 count = 0;
+
+  "\n";
+ for(count=0;count<120;count++)
+ {
+   U8 cha = myDialog[count];
+   "%c",cha;
+   //cha = '';
+ 
+ }
+ "\n";
+}
+
+//Print(FileNameAbs("Dialog.TXT"));
+//Print("\n");
+DeserializeDialog(2);
+Niggafart();
 
 //Serialize2;
-Serialize4;
+//Serialize4;
 $BK,1$$BK,0$$BK,0$$BK,0$$BK,1$$BK,0$//Serialize4;$BK,0$$BK,0$

@@ -1,4 +1,3 @@
-//Cd(__DIR__);;
 
 #define DC_NUM	4
 
@@ -31,7 +30,7 @@ U0 CleanUpImage()
 
 U0 BMP24View(U8 *filename,F64 scale=1.0, CDC* dc,CTask *task)
 {
-  RenderImage(task,dc);
+  RenderImage(task,dc);
   
 }
 

@@ -31,7 +31,7 @@ class Actor
   Bool dead;
   U8 ai_script,walking;
   U16 walkingSubFrame;
-  Inventory*myInv;
+  Inventory *myInv;
   U8 name[15];
 };
 
@@ -95,6 +95,13 @@ Item *MakeItem(I64 id)
   build->equip_slot=1;
   build->usable=FALSE;
   break;
+  case 2:
+  build->name = "Harpoon";
+  build->w=1,build->h=4;
+  build->equip_slot=1;
+  build->usable=FALSE;
+  break;
+
  }
  return build;
 }
@@ -104,9 +111,9 @@ Inventory *MakeInventory()
   I64 i,j;
   Inventory *newInv = MAlloc(sizeof(Inventory));
   //newInv->maxWeight = weight;
-  Item *item_que;
-  QueInit(&item_que);
-  //QueIns(MakeItem(0),item_que->last);
+  Item *item_que = MAlloc(sizeof(Item));
+  QueInit(item_que);
+  QueIns(MakeItem(0),item_que->last);
   newInv->collection = item_que;
   newInv->count = 0;
   for(i=0;i<11;i++)
@@ -459,7 +466,8 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
 
    if(area==(item->h)*(item->w))
    {
-    QueIns(item,&p->myInv->collection->last);
+    QueIns(item,p->myInv->collection->last);
+    //PopUpPrint( "item added");
     I64 cnt = ++p->myInv->count;
     
     for(x=item->w-1;x>=0;x--)
@@ -484,14 +492,15 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
 
 }
 
-I64 *RetrieveItemID(I64 aID, I64 index)
+I64 *RetrieveItemID(I64 aID, I64 index)
 {
-  Item *toBeRetrieved = &(GetNPC(aID))->myInv->collection->next;
+  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
   I64 i;
   for(i=0;i<index;i++)
   {
-    toBeRetrieved = &toBeRetrieved->next;
+    toBeRetrieved = toBeRetrieved->next;
   }
+  //DocPrint("%d",toBeRetrieved->id);
   return toBeRetrieved->id;
 
 }

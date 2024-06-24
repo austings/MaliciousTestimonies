@@ -1,12 +1,5 @@
 
-
-
-
-
-
-
-
-Matrix *Building1()
+Matrix *Building1()
 {
  Matrix *build = CreateMatrix(10,10);
 

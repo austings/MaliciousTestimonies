@@ -22,12 +22,13 @@ Vector *CreateVector(I32 size)
  
  for(i=0;i<size;i++)
  {
-  v->data[i] = CAlloc(sizeof(MapNode));
+  v->data[i] = CAlloc(sizeof(MapNode));
   v->data[i]->bg = 0;
   v->data[i]->len = 0;
   v->data[i]->hasNPC = FALSE;
   v->data[i]->idNPC = -1;
   v->data[i]->isSolid = FALSE;
+  v->data[i]->items = CAlloc(sizeof(NodeStuff));
   QueInit(v->data[i]->items);
   //Quev->data[i]->items[0]=0;
  }
@@ -115,8 +116,10 @@ U0 SetVector(Vector *v,F64 d,I32 i)
 {
 
  v->data[i]->bg = d; 
- if(d==17||d==1)
+ if(d==17||d==1||d==2)
   v->data[i]->isSolid=TRUE;
+ else
+  v->data[i]->isSolid=FALSE;
 
 }
 

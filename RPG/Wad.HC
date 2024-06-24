@@ -1,4 +1,3 @@
-//Cd(__DIR__);;
 //Original code by nrootconauto (Clayton Rhodes)
 
 
@@ -95,7 +94,7 @@ U8 *DitherPalette(CRGB *data) {
 }
 
 CDC *PaletteizeImage(I64 w,I64 h,U8 *dith_data) {
-  CDC *ret=DCNew(w*2,h*2);
+  CDC *ret=DCNew(w*2,h*2);
   DCFill(ret,TRANSPARENT);
   I64 x,y;
   for(y=0;y!=h;y++) {

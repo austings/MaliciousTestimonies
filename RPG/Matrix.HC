@@ -2,7 +2,6 @@
 //Last Change June 16th, 2023
 //Author Austin Sierra for Church of AI Christ
 //Subject to Creative Commons BY-NC 4.0
-//Cd(__DIR__);;
 #include "Vector.HC";
 
 
@@ -156,7 +155,7 @@ U0 RemoveMatrixNPC(Matrix *m, I64 row,I64 col)
 
 }
 //Set Matrix m at data position row col to value d
-U0 SetMatrixItem(Matrix *m,I64 d, I64 row,I64 col)
+U0 SetMatrixItem(Matrix *m,I64 d, I64 row,I64 col)
 {
  try{ 
   I64 i=0;

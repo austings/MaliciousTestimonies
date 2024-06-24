@@ -6,7 +6,6 @@
 
 
 //requires matrix implementation
-//Cd(__DIR__);;
 
 #include "Matrix.HC";
 
@@ -422,7 +421,7 @@ U0 DestroyTensor(Tensor3D *t)
 {
  //Vector *v = t->shape;
  I64 i, z=GetVector(t->shape,2);
- DestroyVector(t->shape);
+ DestroyVector(t->shape);
  for(i=0;i<z;i++)
  {
    Matrix *m = t->data;

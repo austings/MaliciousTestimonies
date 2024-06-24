@@ -9,24 +9,24 @@ ID	TEXT
 8	Hello, I am Hiel. To rebuild Jericho, we need each noble to commit 50 wood and 50 stone. Please go in the forest and recover some.|
 9	I thank you for being here with#us on this special day. Please,#enjoy all the festivities!                                        |
 10	Enjoy the rest of the#celebration. When you are ready, go#see Hiel outside the city gate.                                         |
-11	Good morning. Yahweh be praised.                                                                                                  |
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
+11	Good morning. Yahweh be praised.                                                                                                  |
+12	 
+13	 
+14	 
+15	 
+16	 
+17	 
+18	 
+19	 
+20	 
+21	 
+22	 
+23	 
+24	 
+25	 
+26	 
+27	 
+28	 
+29	 
+30	 
+31	 

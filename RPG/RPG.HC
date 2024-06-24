@@ -42,7 +42,7 @@ class Camera
   I64 cursorX, cursorY,//cursor positions 
       topLR,topUD,//for preventing pan at map corners
       cameraOffSetX,cameraOffSetY;//offset for smooth transition
-
+  
 };
 
 MenuControl *mc;
@@ -65,10 +65,13 @@ I64 wX,wY,wZ;
 //
 //Global variables
 //
-static CDC*		ITEM1;
+static CDC*		ITEM1; //dagger
 static CDC*		ITEM1I;
+static CDC*		ITEM2; //harpoon
+static CDC*		ITEM2I;
 
-static CDC*		A1L1;
+
+static CDC*		A1L1;//light
 static CDC*		A1L2;
 static CDC*		A1L3;
 static CDC*		A1U1;
@@ -81,7 +84,7 @@ static CDC*		A1R1;
 static CDC*		A1R2;
 static CDC*		A1R3;
 
-static CDC*		A2L1;
+static CDC*		A2L1;//tan
 static CDC*		A2L2;
 static CDC*		A2L3;
 static CDC*		A2U1;
@@ -94,7 +97,7 @@ static CDC*		A2R1;
 static CDC*		A2R2;
 static CDC*		A2R3;
 
-static CDC*		A3L1;
+static CDC*		A3L1;//dark
 static CDC*		A3L2;
 static CDC*		A3L3;
 static CDC*		A3U1;
@@ -107,7 +110,7 @@ static CDC*		A3R1;
 static CDC*		A3R2;
 static CDC*		A3R3;
 
-static CDC*		A4L1;
+static CDC*		A4L1;//black
 static CDC*		A4L2;
 static CDC*		A4L3;
 static CDC*		A4U1;
@@ -583,6 +586,15 @@ U8 *GetBG(I64 id)
    case 1:
     color = BLUE;
     break;
+   case 2:
+    color = CYAN;
+    break;
+   case 3:
+    color = BROWN;
+    break;
+   case 4:
+    color = YELLOW;
+    break;
    case 17:
     color = DKGRAY;
     break;
@@ -631,7 +643,7 @@ U0 Init()
  camera->topLR=0; camera->topUD=0;
  camera->cameraOffSetX = 0,  
  camera->cameraOffSetY = 0; 
-
+       
  //keys
  keys.left=FALSE;
  keys.right=FALSE;
@@ -643,6 +655,8 @@ U0 Init()
 
  ITEM1 = FramePtr("ITEM008");
  ITEM1I = FramePtr("WINV001");
+ ITEM2 = FramePtr("ITEM004");
+ ITEM2I = FramePtr("WINV037");
 
  A1L1 = FramePtr("ACTOR065");
  A1L2 = FramePtr("ACTOR066");
@@ -742,6 +756,9 @@ CDC *RenderInventory(Actor *p)
        case 1://dagger   
         GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM1I);
        break;
+       case 2://harpoon   
+        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM2I);
+       break;
       }
       //Free(&retrieved);
      }
@@ -751,7 +768,6 @@ CDC *RenderInventory(Actor *p)
   mc->inventoryRender = newInventoryRender;
   mc->reRenderInv=FALSE;
  }
- //GrBlot3(mc->inventoryRender,100,300,0,ITEM1);
  
  return mc->inventoryRender;
 
@@ -2155,7 +2171,7 @@ CDC *GetWalkAnimation(Actor *a)
     }
    break;
    case 4:
-    //Sprite3B(completeActor,-6,0,10,GetDog);
+    //Sprite3B(completeActor,-6,0,10,GetDog);
 
    break;
   }
@@ -2381,15 +2397,20 @@ U0 DrawIt(CTask *task,CDC*dc)
     if(camera->cameraOffSetX!=0)
     {
       if(camera->cameraOffSetX>0)
-       camera->cameraOffSetX=Max(0,camera->cameraOffSetX-1);
+      {
+        camera->cameraOffSetX=Max(0,camera->cameraOffSetX-1);
+      }
       else
-       camera->cameraOffSetX=Min(0,camera->cameraOffSetX+1);
-
+      {
+        camera->cameraOffSetX=Min(0,camera->cameraOffSetX+1);
+       
+      }
     }
    }
    else
    {
-      camera->cameraOffSetX=-GetWalkOffsetX(p->walking);
+     
+     camera->cameraOffSetX=-GetWalkOffsetX(p->walking);
    }
 
    //y pan
@@ -2407,7 +2428,7 @@ U0 DrawIt(CTask *task,CDC*dc)
    {
       camera->cameraOffSetY=-GetWalkOffsetY(p->walking);
    }
-
+   
    //draw world and one column and row extra for either side        
    for(i=-1;i<12;i++)
    {
@@ -2419,7 +2440,8 @@ U0 DrawIt(CTask *task,CDC*dc)
       {
        I16 c =  GetTensor(world->level,camera->topLR+i,camera->topUD+j,world->currentZ);
        dc->color = GetBG(c);
-       GrRect3(dc,i*camera->dividX+camera->cameraOffSetX, j*camera->dividY+camera->cameraOffSetY, -1,
+       GrRect3(dc,i*camera->dividX+camera->cameraOffSetX, 
+                j*camera->dividY+camera->cameraOffSetY, -1,
                 camera->dividX, camera->dividY);
        if(c>16)
        {
@@ -2466,8 +2488,12 @@ U0 DrawIt(CTask *task,CDC*dc)
          GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
               j*camera->dividY+camera->cameraOffSetY,10,
               ITEM1);
-
          break;
+         case 2:
+         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
+              j*camera->dividY+camera->cameraOffSetY,10,
+              ITEM2);
+
          default:
          break;
        }
@@ -2592,7 +2618,7 @@ U0 DrawIt(CTask *task,CDC*dc)
      
      }//if too large y
     }//for y
-    }//if too large x
+    }//if too large
    }//for x
 
    //Game Menus
@@ -2920,7 +2946,7 @@ U0 CleanUp()
 
 U0 RPGMain()
 {
-  CDC*dc=DCAlias;//Device Context
+  CDC *dc=DCAlias;//Device Context
   I64 arg1,arg2,msg_code;
   SettingsPush;
   WinMax;

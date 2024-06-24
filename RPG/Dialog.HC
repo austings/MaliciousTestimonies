@@ -1,10 +1,10 @@
 #define MAX_D 120
-
+#define DIALOG_FILE "RPG/Dialog.TXT"
 
 I32 currLetter =-1,yInc=0,xInc=0,nIndex=0,n2Index=0;
-U8 *myDialog;
+U8 myDialog[MAX_D];
 
-U0GrChar(CDC*dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale)
+U0 GrChar(CDC *dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale)
 {
   I64 i,j,k=0;
   for(i=0;i<FONT_HEIGHT;i++){
@@ -15,38 +15,49 @@ U0GrChar(CDC*dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale)
     }
   }
 }
-
+U8 *ReadATextLine(U8 **fbuf) {
+  U8 *en,*st=*fbuf,*buf;
+  if(!*st) return NULL;
+  if(en=StrFirstOcc(st,"\n")) {
+    buf=MAlloc(en-st+2);
+    MemCpy(buf,st,en-st+1);
+    buf[en-st+1]=0;
+    *fbuf=en+1;
+    return buf;
+  }
+  *fbuf+=StrLen(st);
+  return StrNew(st);
+}
 
 
 U0 DeserializeDialog(I64 textID)
 {
- U8 *fptr = FileRead("C:/Home/RPG/Dialog.TXT"),
-    *lnptr,*ln,*temp;
+ 
+ U8 *fptr =FileRead(MStrPrint("%s%s",DirCur,DIALOG_FILE)),
+    *lnptr=fptr,*ln,*temp;
  StrUtil(fptr,SUF_REM_CTRL_CHARS);
- U8 name[MAX_D],*nameptr=name;
+ U8 *nameptr=myDialog;
  U8 id[8],*idptr=id;
-
- lnptr=fptr;
 
  I32 count = 0;
  while(ln=ReadALine(&lnptr))
  {
+  //"%s",ln;
   if(count!=textID||*ln=='#'||*ln==0)
    goto skip;
-  StrScan(ln,"%s\t%s",
-   &idptr,&nameptr);
+  StrScan(ln,"%s\t%s",&idptr,&nameptr);
+  break;
   skip:;
   Free(ln);
   count++;
  }
  Free(fptr);
-
- for(count=0;count<MAX_D;count++)
- {
-  myDialog[count] = nameptr[count];
- }
+ //for(count=0;count<MAX_D;count++)
+ //{
+ //}
 
 }
+
 
 U0 GetDialogMsg(U8 textID)
 {
@@ -84,7 +95,7 @@ U0 ClearDialog()
 }
 
 
-U0 Chatbox(U8 *name, CDC*dc, CTask *task,U8 textID)
+U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
 {
  I64 i,nL,xInc,yInc;
  U8 c;
@@ -94,7 +105,7 @@ U0 Chatbox(U8 *name, CDC*dc, CTask *task,U8 textID)
    currLetter++;
  GetDialogMsg(textID);
 
-
+ //currLetter=0;
  for(i=0;i<currLetter;i++)
  {
   c = myDialog[i];
@@ -102,7 +113,7 @@ U0 Chatbox(U8 *name, CDC*dc, CTask *task,U8 textID)
   // AdamLog((&myDialog));
   if(c=='#')
   {
-   if(nIndex!=0&&i!=nIndex)
+   if(nIndex!=0 && i!=nIndex)
    {
     n2Index=i;
    }
@@ -113,9 +124,9 @@ U0 Chatbox(U8 *name, CDC*dc, CTask *task,U8 textID)
   }
   else
   {
-   if(i>nIndex&&nIndex!=0)
+   if(i>nIndex && nIndex!=0)
    {
-    if(i>n2Index&&n2Index!=0)
+    if(i>n2Index && n2Index!=0)
     {
      yInc=30;
      xInc=n2Index+1;
@@ -169,7 +180,7 @@ U0 CombatDialog1(CDC*dc, CTask *task, U8 selection)
    Sprite3B(dc,12+7*13,405,0,GetCross);
    break;
    case 2:
-   Sprite3B(dc,12+7*13,425,0,GetCross);
+   Sprite3B(dc,12+7*13,425,0,GetCross);
    break;
    case 3:
    Sprite3B(dc,12+5*13,445,0,GetCross);

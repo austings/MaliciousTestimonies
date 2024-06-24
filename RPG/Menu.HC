@@ -367,7 +367,7 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
   switch(currentHair)
   {
    case 0:
-    GrBlot3(dc,270,280,10,GetHair(0));
+    GrBlot3(dc,270,280,10,GetHair(0));
    break;
    case 4:
     GrBlot3(dc,270,280,10,GetHair(4));
@@ -376,7 +376,7 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
     GrBlot3(dc,270,280,10,GetHair(8));
    break;
    case 12:
-    GrBlot3(dc,270,280,10,GetHair(12));
+    GrBlot3(dc,270,280,10,GetHair(12));
    break;
   }
   //ARROWSANDARROWLABEL  

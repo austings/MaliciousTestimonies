@@ -1,3 +1,5 @@
+
+
 class NodeStuff:CQue
 {
   I64 id;
@@ -10,7 +12,7 @@ class MapNode
  Bool hasNPC;
  I64 idNPC;
  I64 len;
- NodeStuff *items;
+ NodeStuff *items;
   
 };
 
