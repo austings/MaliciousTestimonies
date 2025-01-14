@@ -43,6 +43,7 @@ Matrix *MakeCastle(Matrix *toAdd)
   SetMatrixNPC(toAdd,4,20,15);//guard
   SetMatrixNPC(toAdd,5,17,15);//captain
   SetMatrixNPC(toAdd,6,8,8);//wild dog
+  
   //Items
   SetMatrixItem(toAdd,1,1,1);
   SetMatrixItem(toAdd,1,2,1);
@@ -54,7 +55,7 @@ Matrix *MakeCastle(Matrix *toAdd)
   {
    for(j=22;j<34;j++)
    {
-    if((i<4&&j==22)||(i<6&&i>0&&j==23)||(i>2&&i<13&&j==24)||
+    if((i<4&&j==22)||(i<6&&i>0&&j==23)||(i>2&&i<13&&j==24)||
        (i>4&&i<14&&j==25)||(i>12&&i<16&&j==26)||(i==15&&(j==27||j==28)))
     {
      SetMatrix(toAdd,4,i,j);//sand

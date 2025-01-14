@@ -85,6 +85,12 @@ I64 GetTalkie(I64 id)
    case 5://captain
    talkie = 3;
    break;
+   case 6://wolf
+   talkie = 12;
+   break;
+   case 60000://wolf pt2
+   talkie = 13;
+   break;
   }
   return talkie;
 }
@@ -126,7 +132,7 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
   {
    if(i>nIndex && nIndex!=0)
    {
-    if(i>n2Index && n2Index!=0)
+    if(i>n2Index && n2Index!=0)
     {
      yInc=30;
      xInc=n2Index+1;
@@ -160,7 +166,7 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
 }
 
 
-U0 CombatDialog1(CDC*dc, CTask *task, U8 selection)
+U0 CombatDialog1(CDC *dc, CTask *task, U8 selection)
 {
  U8 *cOption1 = "Move";
  U8 *cOption2 = "Strike";
@@ -169,10 +175,15 @@ U0 CombatDialog1(CDC*dc, CTask *task, U8 selection)
 
  U8 c,i;
  dc->color=BLACK;
- Sprite3B(dc,0,375,0,GetDialogBox);
  
  switch(selection)
  {
+  case 10: break;
+  case 11: break;
+  case 12: break;
+  case 13: break;
+  start:
+   Sprite3B(dc,0,375,0,GetDialogBox);
    case 0:
    Sprite3B(dc,12+5*13,385,0,GetCross);
    break;
@@ -185,23 +196,29 @@ U0 CombatDialog1(CDC*dc, CTask *task, U8 selection)
    case 3:
    Sprite3B(dc,12+5*13,445,0,GetCross);
    break;
- }
- for(i=0;i<6;i++)
- {
-  c=cOption2[i];
-  GrChar(dc,c,12+i*13,405,2);
+  end:
+   for(i=0;i<6;i++)
+   {
+    c=cOption2[i];
+    GrChar(dc,c,12+i*13,405,2);
   
-  c=cOption3[i];
-  GrChar(dc,c,12+i*13,425,2);
+    c=cOption3[i];
+    GrChar(dc,c,12+i*13,425,2);
 
-  if(i<=3){
-   c=cOption1[i];
-   GrChar(dc,c,12+i*13,385,2);
+    if(i<=3){
+     c=cOption1[i];
+     GrChar(dc,c,12+i*13,385,2);
 
-   c=cOption4[i];
-   GrChar(dc,c,12+i*13,445,2);
-  }
+     c=cOption4[i];
+     GrChar(dc,c,12+i*13,445,2);
+    }
+   } 
+  break;  
 
- }   
+ }
+}
+
+U0 CombatDialog2(CDC *DC, CTask *Task, I64 target, U8 selection)
+{
 
 }

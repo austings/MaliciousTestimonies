@@ -1,3 +1,5 @@
+#define MAXACTORCOUNT	11
+
 class Item:CQue
 {
   U8* name;
@@ -64,6 +66,52 @@ U0 SetNPC(Actor *a)
   }
 }
 
+//StatusEffects
+
+U0 Die(Actor *a)
+{
+  a->dead = TRUE;
+}
+
+U0 RemoveMana(Actor *a, U64 magnitude)
+{
+  if(a->currentMana<=magnitude)
+  {
+    a->currentMana=0;
+  }
+  else
+  {
+   a->currentMana = a->currentMana- magnitude;
+
+   if(a->currentMana>a->mana)
+   {
+    a->currentMana=a->mana;
+   }
+  }
+
+}
+
+U0 RemoveHealth(Actor *a, U64 magnitude)
+{
+  if(a->currentHealth<=magnitude)
+  {
+    a->currentHealth=0;
+    Die(a);
+  }
+  else
+  {
+    a->currentHealth = a->currentHealth - magnitude;
+    if(a->currentHealth>a->health)
+    {
+     a->currentHealth = a->health;
+    }
+
+  }
+ 
+}
+
+//Inventory
+
 I64 InvNPCCount(Actor *a)
 {
   switch(a->id)
@@ -113,7 +161,7 @@ Inventory *MakeInventory()
   //newInv->maxWeight = weight;
   Item *item_que = MAlloc(sizeof(Item));
   QueInit(item_que);
-  QueIns(MakeItem(0),item_que->last);
+  QueIns(MakeItem(0),item_que->last);
   newInv->collection = item_que;
   newInv->count = 0;
   for(i=0;i<11;i++)
@@ -130,18 +178,6 @@ Inventory *MakeInventory()
 }
 
 
-U0 UpdateActorCoords(I64 id, U64 x, U64 y)
-{
-  switch(id)
-  {
-   case 0:
-    player->x = x;
-    player->y = y;
-    break;
-   case 1:
-    break;
-  }
-}
 
 U8 *ReadALine(U8 **fbuf) {
   U8 *en,*st=*fbuf,*buf;
@@ -234,7 +270,13 @@ Actor *DeserializeNPC(I64 npcid)
   p->con = Str2I64(con);
   p->wis = Str2I64(wis);
   p->ai_script = Str2I64(ai);
-  p->walking = 0,p->walkingSubFrame=0;
+  p->dead = FALSE;
+  p->walking = 0; p->walkingSubFrame=0;
+  p->health= Str2I64(con)*5;
+  p->currentHealth = p->health;
+  p->mana=Str2I64(wis)*5;
+  p->currentMana = p->mana;
+
   return p;
   //p->id = Str2I64(id); todo inv
   //Print(p->name);
@@ -246,6 +288,14 @@ Actor *DeserializeNPC(I64 npcid)
   count++;
  }
  Free(fptr);
+
+  p->dead = FALSE;
+  p->walking = 0; p->walkingSubFrame=0;
+  p->health= Str2I64(con)*5;
+  p->currentHealth = p->health;
+  p->mana=Str2I64(wis)*5;
+  p->currentMana = p->mana;
+
 
  return p;
 
@@ -358,12 +408,27 @@ Actor *GetNPC(I64 id)
   return NPC;
 }
 
+U0 UpdateActorCoords(I64 id, U64 x, U64 y)
+{
+  switch(id)
+  {
+   case 0:
+    player->x = x;
+    player->y = y;
+    break;
+   default:
+    Actor *p = GetNPC(id);
+    p->x = x;
+    p->y = y;
+    break;
+  }
+}
 
 
 Actor *MakeActor(I64 id,U8 race,U8 hair,U8 eye, 
 I64 hat,I64 armor, I64 legs, I64 boot, I64 sword,
 I64 offhand,I64 ring1, I64 ring2, I64 necklace, 
-U64 x, U64 y, U64 str, U64 int, U64 con, U64 wis, U8 ai)
+U64 x, U64 y, U64 str=1, U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
 {
  Actor *me = MAlloc(sizeof(Actor));
  me->id=id;

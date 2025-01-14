@@ -266,7 +266,7 @@ U0 DeserializeDialog(I64 textID)
  
   if(count!=textID || *ln=='#' || *ln==0)
    goto skip;
-  StrScan(ln,"%s\t%s",&idptr,&nameptr);
+  StrScan(ln,"%s\t%s",&idptr,&nameptr);
   "%s",myDialog;
   break;
   skip:;
@@ -284,18 +284,22 @@ U0 Niggafart()
  for(count=0;count<120;count++)
  {
    U8 cha = myDialog[count];
-   "%c",cha;
+   "%c",cha;
    //cha = '';
  
  }
  "\n";
 }
 
+U0 PrintActorShit()
+{
+}
+
 //Print(FileNameAbs("Dialog.TXT"));
 //Print("\n");
-DeserializeDialog(2);
-Niggafart();
-
+//DeserializeDialog(2);
+//Niggafart();
+PrintActorShit();
 //Serialize2;
 //Serialize4;
 $BK,1$$BK,0$$BK,0$$BK,0$$BK,1$$BK,0$//Serialize4;$BK,0$$BK,0$

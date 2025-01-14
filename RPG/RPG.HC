@@ -16,6 +16,11 @@ class Keys
  Bool left,right,up,down,enter;
 } keys;
 
+class CombatTurn:CQue
+{
+  Actor *ready;
+} combatCQue;
+
 class MenuControl
 {
   I32 currentSong,//for draw and song threads
@@ -29,6 +34,9 @@ class MenuControl
   Bool combatON;
   U16 combatMenuStage;
   U8 combatMenuSelection;
+  U8 turnIndex;
+  Actor *target;I64 tarposx,tarposy;
+
 
   //inventory render
   Bool displayInventory,reRenderInv;
@@ -46,6 +54,7 @@ class Camera
 };
 
 MenuControl *mc;
+CombatTurn *ctp;
 Camera *camera;
 World *world;//world
 Vector *worldSz;//world size, with values wX,wY,wZ
@@ -58,10 +67,12 @@ I64 wX,wY,wZ;
 
 #include "Menu.HC";
 
-
 #define SCREENX 480
 #define SCREENY 480
 #define FRAMERULE 3
+#include "Walk.HC";
+#include "Anim.HC";
+#include "Music.HC";
 //
 //Global variables
 //
@@ -71,243 +82,12 @@ static CDC*		ITEM2; //harpoon
 static CDC*		ITEM2I;
 
 
-static CDC*		A1L1;//light
-static CDC*		A1L2;
-static CDC*		A1L3;
-static CDC*		A1U1;
-static CDC*		A1U2;
-static CDC*		A1U3;
-static CDC*		A1D1;
-static CDC*		A1D2;
-static CDC*		A1D3;
-static CDC*		A1R1;
-static CDC*		A1R2;
-static CDC*		A1R3;
-
-static CDC*		A2L1;//tan
-static CDC*		A2L2;
-static CDC*		A2L3;
-static CDC*		A2U1;
-static CDC*		A2U2;
-static CDC*		A2U3;
-static CDC*		A2D1;
-static CDC*		A2D2;
-static CDC*		A2D3;
-static CDC*		A2R1;
-static CDC*		A2R2;
-static CDC*		A2R3;
-
-static CDC*		A3L1;//dark
-static CDC*		A3L2;
-static CDC*		A3L3;
-static CDC*		A3U1;
-static CDC*		A3U2;
-static CDC*		A3U3;
-static CDC*		A3D1;
-static CDC*		A3D2;
-static CDC*		A3D3;
-static CDC*		A3R1;
-static CDC*		A3R2;
-static CDC*		A3R3;
-
-static CDC*		A4L1;//black
-static CDC*		A4L2;
-static CDC*		A4L3;
-static CDC*		A4U1;
-static CDC*		A4U2;
-static CDC*		A4U3;
-static CDC*		A4D1;
-static CDC*		A4D2;
-static CDC*		A4D3;
-static CDC*		A4R1;
-static CDC*		A4R2;
-static CDC*		A4R3;
-
-
-/*
-
-F64 dividX, dividY;//ratio tile to screen h/w
-I64 cursorX = ms.pos.x, cursorY = ms.pos.y;//cursor positions
-   
-I64 talkieScene = -1;//dialogID
-U8* dialogName = "???";//dialog actor name
-
-//combat preferences
-Bool combatON;
-U16 combatMenuStage;
-U8 combatMenuSelection;
-*/
-
-
-
 U0 Quit()
 {
   //free everything
  
   //free player
   FreeActor(0);
-}
-
-
-U0 SongTask(CTask *task, CDC *dc)
-{
-  Fs->task_end_cb=&SndTaskEndCB;
-  MusicSettingsRst;
-  while(TRUE){
-   if(mc->currentSong==0)
-   {
-    //Town Song
-     Play("3qCet2EG3.q2BetDF3.qDet2FA3.qCet2EG3.2qGet1GB2D1G2CE1G2D2GA#3D.");//I am heading home
-     if(mc->currentSong!=0)
-     goto loop;
-
-     Play("3qCet2EG3.q2BetDF3.qDet2FA3.qCet2EG3.2.hA.et1AF#GEFGAC.");//I am heading home
-     if(mc->currentSong!=0)
-     goto loop;
-
-     Play("3qCtt2EG3..q2Bett1B2D#F#3..q3Dett1A2C#E3..q2Gett1GA#2D3..q2AGett1GA#2D..q2Bett1B2D#F#..q2Eett1FG#2C..q3Eett1FG#2C..q3DF2Bett1B2D#F#..q3hCq");//I am heading I am heading I am heading home
-     if(mc->currentSong!=0)
-     goto loop;
-
-     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qDett1A2C#E3..qEett1FG#2C3..qCett2EG3..qCett2EG3..qCett2EG3..q");//What should we expect of you?
-     if(mc->currentSong!=0)
-     goto loop;
-
-     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qCtt2EG3..wDett1A2C#E3..q");//When you've headed home?
-     if(mc->currentSong!=0)
-     goto loop;
-
-     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qDett1A2C#E3..qEett1FG#2C3..qCett2EG3..qCett2EG3..qCett2EG3..q");//What things shall we do with you?
-     if(mc->currentSong!=0)
-     goto loop;
-
-     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qDett1A2C#E3..wCtt2EG3..4qC");//Once you're safe at home?
-  
-     if(mc->currentSong!=0)
-     goto loop;
-    
-   }
-   if(mc->currentSong==1)
-   {
-    //Main Menu
-    Play("t5G4B");
-    if(mc->currentSong!=1)
-     goto loop;
-    Play("DED");
-    if(mc->currentSong!=1)
-     goto loop;
-    Play("B5G");
-    if(mc->currentSong!=1)
-     goto loop;
-    Play("4ACD");
-    if(mc->currentSong!=1)
-     goto loop;
-    Play("A3G");
-    if(mc->currentSong!=1)
-     goto loop;
-    Play("4BD");
-    if(mc->currentSong!=1)
-     goto loop;
-    Play("BA");
-    if(mc->currentSong!=1)
-     goto loop;
-    Play("EAA");
-    if(mc->currentSong!=1)
-     goto loop;
-    Play("3G5AC");
-    if(mc->currentSong!=1)
-     goto loop;
-    Play("ACD.");
-
-   }
-   if(mc->currentSong==2)
-   {//character select
-    Play("q3#F4A#C");
-    if(mc->currentSong!=2)
-     goto loop;
-    Play("3#F4AD3");
-    if(mc->currentSong!=2)
-     goto loop;
-    Play("#F4A");
-    if(mc->currentSong!=2)
-     goto loop;
-    Play("3E4A#C");   
-    if(mc->currentSong!=2)
-     goto loop;
-    Play("3E4AD"); 
-    if(mc->currentSong!=2)
-     goto loop;
-    Play("3E4A");
-    if(mc->currentSong!=2)
-     goto loop;
-    Play("3D#F4A");
-    if(mc->currentSong!=2)
-     goto loop;
-    Play("3D#F4rh#C");
-    if(mc->currentSong!=2)
-     goto loop;
-
-   }
-   if(mc->currentSong==3)
-   {//wedding Theme
-    Play("5FrErt4B5D");
-    if(mc->currentSong!=3)
-     goto loop;
-    Play("C4BG");
-    if(mc->currentSong!=3)
-     goto loop;
-    Play("FrGCG");
-    if(mc->currentSong!=3)
-     goto loop;
-    Play("AFA");
-    if(mc->currentSong!=3)
-     goto loop;
-    Play("CFA5C.Fr");
-    if(mc->currentSong!=3)
-     goto loop;
-     Play("Ert4B5DC4BG");
-    if(mc->currentSong!=3)
-     goto loop;
-     Play("FEFAGA");
-    if(mc->currentSong!=3)
-     goto loop;
-     Play("GFrFrFrFr");
-    if(mc->currentSong!=3)
-     goto loop;
-     Play("3FGAG");
-    if(mc->currentSong!=3)
-     goto loop;
-     Play("FEFD.");
-    if(mc->currentSong!=3)
-     goto loop;
-    
-   
-   }
-   if(mc->currentSong==4)//load theme
-   {
-    Play("4CrEFrrr");
-    if(mc->currentSong!=4)
-     goto loop;
-    Play("CrEFrErr");
-    if(mc->currentSong!=4)
-     goto loop;
-    Play("4CrEFrrr");
-    if(mc->currentSong!=4)
-     goto loop;
-    Play("4CEFGFEDr");
-    if(mc->currentSong!=4)
-     goto loop;
-        
-   }
-   if(mc->currentSong==5)//combat
-   {
-     Play("4CrEFrrr");
-    
-   }
-  loop:
-  SndRst;
-  music.note_len =.75;
-  }
 }
 
 
@@ -657,64 +437,13 @@ U0 Init()
  ITEM1I = FramePtr("WINV001");
  ITEM2 = FramePtr("ITEM004");
  ITEM2I = FramePtr("WINV037");
-
- A1L1 = FramePtr("ACTOR065");
- A1L2 = FramePtr("ACTOR066");
- A1L3 = FramePtr("ACTOR067");
- A1U1 = FramePtr("ACTOR091");
- A1U2 = FramePtr("ACTOR092");
- A1U3 = FramePtr("ACTOR093");
- A1D1 = FramePtr("ACTOR052");
- A1D2 = FramePtr("ACTOR053");
- A1D3 = FramePtr("ACTOR054");
- A1R1 = FramePtr("ACTOR078");
- A1R2 = FramePtr("ACTOR079");
- A1R3 = FramePtr("ACTOR080");
-
- A2L1 = FramePtr("ACTOR068");
- A2L2 = FramePtr("ACTOR069");
- A2L3 = FramePtr("ACTOR070");
- A2U1 = FramePtr("ACTOR094");
- A2U2 = FramePtr("ACTOR095");
- A2U3 = FramePtr("ACTOR096");
- A2D1 = FramePtr("ACTOR055");
- A2D2 = FramePtr("ACTOR056");
- A2D3 = FramePtr("ACTOR057");
- A2R1 = FramePtr("ACTOR081");
- A2R2 = FramePtr("ACTOR082");
- A2R3 = FramePtr("ACTOR083");
-
- A3L1 = FramePtr("ACTOR071");
- A3L2 = FramePtr("ACTOR072");
- A3L3 = FramePtr("ACTOR073");
- A3U1 = FramePtr("ACTOR097");
- A3U2 = FramePtr("ACTOR098");
- A3U3 = FramePtr("ACTOR099");
- A3D1 = FramePtr("ACTOR058");
- A3D2 = FramePtr("ACTOR059");
- A3D3 = FramePtr("ACTOR060");
- A3R1 = FramePtr("ACTOR084");
- A3R2 = FramePtr("ACTOR085");
- A3R3 = FramePtr("ACTOR086");
-
- A4L1 = FramePtr("ACTOR074");
- A4L2 = FramePtr("ACTOR075");
- A4L3 = FramePtr("ACTOR076");
- A4U1 = FramePtr("ACTOR100");
- A4U2 = FramePtr("ACTOR101");
- A4U3 = FramePtr("ACTOR102");
- A4D1 = FramePtr("ACTOR061");
- A4D2 = FramePtr("ACTOR062");
- A4D3 = FramePtr("ACTOR063");
- A4R1 = FramePtr("ACTOR087");
- A4R2 = FramePtr("ACTOR088");
- A4R3 = FramePtr("ACTOR089");
-
  //combat
  mc->combatON = FALSE;
  mc->combatMenuStage =0;
  mc->combatMenuSelection=0;
-
+ mc->target = GetNPC(0);
+ mc->tarposx = 0;
+ mc->tarposy = 0;
 }
 
 CDC *RenderInventory(Actor *p)
@@ -776,23 +505,74 @@ CDC *RenderInventory(Actor *p)
 U0 InteractActor(I64 npc)
 {
  Actor *aAtLoc= GetNPC(npc);
- if(aAtLoc->ai_script==1)//combat
+ if(aAtLoc->ai_script==1&&aAtLoc->dead==FALSE)//combat
  {
   mc->combatON=TRUE;
  }
  else
  {
+  if(aAtLoc->dead=TRUE)
+  {
+  }
     mc->dialogName = aAtLoc->name;
+    switch(npc)
+    {
+     case 6:
+    }
     mc->talkieScene = GetTalkie(npc);
  }
 
 } 
 
 
-U0 MovePlayer(U8 dir)
+U0 MoveActor(Actor *p, U8 dir)
 {
- Actor *p = GetNPC(0);
- //Actor *aAtLoc;
+ 
+ if(p->race>=4)
+ {
+  switch(dir)
+  {
+    case 0:
+     if(!CheckSolid(world->level,(p->x)-1,p->y,world->currentZ))
+     {
+      RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
+      SetTensorNPC(world->level,p->id,(p->x)-1,p->y,world->currentZ);
+      UpdateActorCoords(p->id,(p->x)-1,p->y);
+     }
+    break;
+    case 1:
+     if(!CheckSolid(world->level,(p->x)+1,p->y,world->currentZ))
+     {  
+      RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
+      SetTensorNPC(world->level,p->id,(p->x)+1,p->y,world->currentZ);
+      UpdateActorCoords(p->id,(p->x)+1,p->y);
+     }
+    break;
+    case 2:
+     if(!CheckSolid(world->level,p->x,(p->y)-1,world->currentZ))
+     {  
+      RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
+      SetTensorNPC(world->level,p->id,p->x,(p->y)-1,world->currentZ);
+      UpdateActorCoords(p->id,p->x,(p->y)-1);
+     }
+    break;
+    case 3:
+     if(!CheckSolid(world->level,p->x,(p->y)+1,world->currentZ))
+     {  
+      RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
+      SetTensorNPC(world->level,p->id,p->x,(p->y)+1,world->currentZ);
+      UpdateActorCoords(p->id,p->x,(p->y)+1);
+     }
+    
+    break;
+  }
+  return;
+
+ }else{
+
+
+ //actors with anim
+
  I64 npc;
  if(p->walking==0)
  {
@@ -802,7 +582,8 @@ U0 MovePlayer(U8 dir)
    p->walking=0;
    p->walkingSubFrame=3;
 
-   if(p->x-1>=0&&!CheckSolid(world->level,p->x-1,p->y,world->currentZ))
+   if(p->id==0&&p->x-1>=0&&!
+      CheckSolid(world->level,p->x-1,p->y,world->currentZ))
    {
     npc = GetTensorNPC(world->level,p->x-1,p->y,world->currentZ);
     if(npc!=-1)
@@ -832,7 +613,7 @@ U0 MovePlayer(U8 dir)
    p->walking=0;
    p->walkingSubFrame=2;
 
-   if(p->x+1!=wX&&!CheckSolid(world->level,p->x+1,p->y,world->currentZ))
+   if(p->id==0&&p->x+1!=wX&&!CheckSolid(world->level,p->x+1,p->y,world->currentZ))
    {
     npc =GetTensorNPC(world->level,p->x+1,p->y,world->currentZ); 
     if(npc!=-1)
@@ -857,7 +638,7 @@ U0 MovePlayer(U8 dir)
    p->walking=0;
    p->walkingSubFrame=1;
 
-   if(p->y-1>=0&&!CheckSolid(world->level,p->x,p->y-1,world->currentZ))
+   if(p->id==0&&p->y-1>=0&&!CheckSolid(world->level,p->x,p->y-1,world->currentZ))
    {
     npc =GetTensorNPC(world->level,p->x,p->y-1,world->currentZ); 
     if(npc!=-1)
@@ -883,7 +664,7 @@ U0 MovePlayer(U8 dir)
    p->walking=0;
    p->walkingSubFrame=0;
 
-   if(p->y+1!=wY&&!CheckSolid(world->level,p->x,p->y+1,world->currentZ))
+   if(p->id==0&&p->y+1!=wY&&!CheckSolid(world->level,p->x,p->y+1,world->currentZ))
    {
     npc = GetTensorNPC(world->level,p->x,p->y+1,world->currentZ);
     if(npc!=-1)
@@ -907,1282 +688,10 @@ U0 MovePlayer(U8 dir)
   break;
   }
  }//if not walking
+ }//else
 
 }
 
-CDC *GetWalkAnimation(Actor *a)
-{
-  CDC *completeActor = DCNew(100,100);
-  DCFill(completeActor, TRANSPARENT);
-
-  U8 walkdir = a->walking;
-  switch(a->race)
-  {
-   case 0://Judah
-    switch(walkdir)
-    {
-     case 0://not walking
-       switch(a->walkingSubFrame)
-       {
-        case 0://down
-         GrBlot3(completeActor,0,0,10,A1D2);
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=0;
- 	  break;
-          case 4...7:
-   	  a->hair=4;
- 	  break;
-          case 8...11:
-   	  a->hair=8;
- 	  break;
-          case 12...15:
-   	  a->hair=12;
- 	  break;
- 	 }
-        break;
-        case 1://up
-         GrBlot3(completeActor,0,0,10,A1U2);
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=3;
- 	  break;
-          case 4...7:
-   	  a->hair=7;
- 	  break;
-          case 8...11:
-   	  a->hair=11;
- 	  break;
-          case 12...15:
-   	  a->hair=15;
- 	  break;
-
- 	 }
-        break;
-        case 2://right
-         GrBlot3(completeActor,0,0,10,A1R2);
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=2;
- 	  break;
-          case 4...7:
-   	  a->hair=6;
- 	  break;
-          case 8...11:
-   	  a->hair=10;
- 	  break;
-          case 12...15:
-   	  a->hair=14;
- 	  break;
- 	 }
-        break;
-        case 3://left
-         GrBlot3(completeActor,0,0,10,A1L2);
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=1;
- 	  break;
-          case 4...7:
-   	  a->hair=5;
- 	  break;
-          case 8...11:
-   	  a->hair=9;
- 	  break;
-          case 12...15:
-   	  a->hair=13;
- 	  break;
- 	 }
-        break;
-       }
-     break;
-     case 1://left straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;       
-        a->walking = 5;
-       }
-       switch(a->hair)
-       {
-        case 0...3:
-        a->hair=1;
-        break;
-        case 4...7:
-   	a->hair=5;
- 	break;
-        case 8...11:
-   	a->hair=9;
- 	break;
-        case 12...15:
-   	a->hair=13;
- 	break;
-       }
-
-       GrBlot3(completeActor,0,0,10,A1L1);
-     break;
-     case 2://right straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 6;
-       }
-       switch(a->hair)
-       {	
-    	case 0...3:
-   	a->hair=2;
- 	break;
-        case 4...7:
-   	a->hair=6;
- 	break;
-        case 8...11:
-   	a->hair=10;
- 	break;
-        case 12...15:
-   	a->hair=14;
- 	break;
-       }
-
-       GrBlot3(completeActor,0,0,10,A1R1);
-     break;
-     case 3://up straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 7;
-       }
-       switch(a->hair)
-       {
-    	case 0...3:
-   	a->hair=3;
- 	break;
-        case 4...7:
-   	a->hair=7;
- 	break;
-        case 8...11:
-   	a->hair=11;
- 	break;
-        case 12...15:
-   	a->hair=15;
- 	break;
-       }
-
-       GrBlot3(completeActor,0,0,10,A1U1);
-     break;
-     case 4://down straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 8;
-       }
-       switch(a->hair)
-       {
-    	case 0...3:
-        a->hair=0;
-        break;
-        case 4...7:
-        a->hair=4;
-        break;
-        case 8...11:
-   	a->hair=8;
- 	break;
-        case 12...15:
-   	a->hair=12;
- 	break;
-       }
-
-       GrBlot3(completeActor,0,0,10,A1D1);
-     break;
-     case 5://left left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 9;
-       }
-
-       GrBlot3(completeActor,0,0,10,A1L2);
-     break;
-     case 6://right left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 10;
-       }
-       GrBlot3(completeActor,0,0,10,A1R2);
-     break;
-     case 7://up left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 11;
-       }
-       GrBlot3(completeActor,0,0,10,A1U2);
-     break;
-     case 8://down left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 12;
-       }
-       GrBlot3(completeActor,0,0,10,A1D2);
-     break;
-     case 9://left straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 13;
-       }
-       GrBlot3(completeActor,0,0,10,A1L3);
-     break;
-     case 10://right straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 14;
-       }
-       GrBlot3(completeActor,0,0,10,A1R3);
-     break;
-     case 11://up straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 15;
-       }
-       GrBlot3(completeActor,0,0,10,A1U3);
-     break;
-     case 12://down straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 16;
-       }
-       GrBlot3(completeActor,0,0,10,A1D3); 
-     break;
-     case 13://left right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=3;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,0,0,10,A1L2);
-     break;
-     case 14://right right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=2;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,0,0,10,A1R2);
-     break;
-     case 15://up right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=1;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,0,0,10,A1U2);
-     break;
-     case 16://down right leg 
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,0,0,10,A1D2);
-     break;
-
-    }
-   break;
-   case 1://Levi
-    switch(walkdir)
-    {
-     case 0://not walking
-       switch(a->walkingSubFrame)
-       {
-        case 0://down
-         GrBlot3(completeActor,-2,0,10,A2D2);
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=0;
- 	  break;
-          case 4...7:
-   	  a->hair=4;
- 	  break;
-          case 8...11:
-   	  a->hair=8;
- 	  break;
-          case 12...15:
-   	  a->hair=12;
- 	  break;
- 	 }
-
-        break;
-        case 1://up
-         GrBlot3(completeActor,-2,0,10,A2U2);
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=3;
- 	  break;
-          case 4...7:
-   	  a->hair=7;
- 	  break;
-          case 8...11:
-   	  a->hair=11;
- 	  break;
-          case 12...15:
-   	  a->hair=15;
- 	  break;
-
- 	 }
-
-        break;
-        case 2://right
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=2;
- 	  break;
-          case 4...7:
-   	  a->hair=6;
- 	  break;
-          case 8...11:
-   	  a->hair=10;
- 	  break;
-          case 12...15:
-   	  a->hair=14;
- 	  break;
- 	 }
-  
-         GrBlot3(completeActor,-2,0,10,A2R2);
-        break;
-        case 3://left
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=1;
- 	  break;
-          case 4...7:
-   	  a->hair=5;
- 	  break;
-          case 8...11:
-   	  a->hair=9;
- 	  break;
-          case 12...15:
-   	  a->hair=13;
- 	  break;
- 	 }
-
-         GrBlot3(completeActor,-2,0,10,A2L2);
-        break;
-
-       }
-     break;
-     case 1://left straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;       
-        a->walking = 5;
-       }
-       switch(a->hair)
-       {
-        case 0...3:
-        a->hair=1;
-        break;
-        case 4...7:
-   	a->hair=5;
- 	break;
-        case 8...11:
-   	a->hair=9;
- 	break;
-        case 12...15:
-   	a->hair=13;
- 	break;
-       }
-
-       GrBlot3(completeActor,-2,0,10,A2L1);
-     break;
-     case 2://right straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 6;
-       }
-       switch(a->hair)
-       {	
-    	case 0...3:
-   	a->hair=2;
- 	break;
-        case 4...7:
-   	a->hair=6;
- 	break;
-        case 8...11:
-   	a->hair=10;
- 	break;
-        case 12...15:
-   	a->hair=14;
- 	break;
-       }
-
-       GrBlot3(completeActor,-2,0,10,A2R1);
-     break;
-     case 3://up straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 7;
-       }
-       switch(a->hair)
-       {
-    	case 0...3:
-   	a->hair=3;
- 	break;
-        case 4...7:
-   	a->hair=7;
- 	break;
-        case 8...11:
-   	a->hair=11;
- 	break;
-        case 12...15:
-   	a->hair=15;
- 	break;
-       }
-
-       GrBlot3(completeActor,-2,0,10,A2U1);
-     break;
-     case 4://down straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 8;
-       }
-       switch(a->hair)
-       {
-    	case 0...3:
-        a->hair=0;
-        break;
-        case 4...7:
-        a->hair=4;
-        break;
-        case 8...11:
-   	a->hair=8;
- 	break;
-        case 12...15:
-   	a->hair=12;
- 	break;
-       }
-
-       GrBlot3(completeActor,-2,0,10,A2D1);
-     break;
-     case 5://left left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 9;
-       }
-
-       GrBlot3(completeActor,-2,0,10,A2L2);
-     break;
-     case 6://right left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 10;
-       }
-       GrBlot3(completeActor,-2,0,10,A2R2);
-     break;
-     case 7://up left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 11;
-       }
-       GrBlot3(completeActor,-2,0,10,A2U2);
-     break;
-     case 8://down left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 12;
-       }
-       GrBlot3(completeActor,-2,0,10,A2D2);
-     break;
-     case 9://left straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 13;
-       }
-       GrBlot3(completeActor,-2,0,10,A2L3);
-     break;
-     case 10://right straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 14;
-       }
-       GrBlot3(completeActor,-2,0,10,A2R3);
-     break;
-     case 11://up straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 15;
-       }
-       GrBlot3(completeActor,-2,0,10,A2U3);
-     break;
-     case 12://down straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 16;
-       }
-       GrBlot3(completeActor,-2,0,10,A2D3); 
-     break;
-     case 13://left right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=3;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-2,0,10,A2L2);
-     break;
-     case 14://right right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=2;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-2,0,10,A2R2);
-     break;
-     case 15://up right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=1;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-2,0,10,A2U2);
-     break;
-     case 16://down right leg 
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-2,0,10,A2D2);
-     break;
-
-    }
-   break;
-
-   case 2://Ephraim
-    switch(walkdir)
-    {
-     case 0://not walking
-       switch(a->walkingSubFrame)
-       {
-        case 0://down
-        GrBlot3(completeActor,-4,0,10,A3D2);
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=0;
- 	  break;
-          case 4...7:
-   	  a->hair=4;
- 	  break;
-          case 8...11:
-   	  a->hair=8;
- 	  break;
-          case 12...15:
-   	  a->hair=12;
- 	  break;
- 	 }
-
-        break;
-        case 1://up
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=3;
- 	  break;
-          case 4...7:
-   	  a->hair=7;
- 	  break;
-          case 8...11:
-   	  a->hair=11;
- 	  break;
-          case 12...15:
-   	  a->hair=15;
- 	  break;
-
- 	 }
-
-        GrBlot3(completeActor,-4,0,10,A3U2);
-        break;
-        case 2://right
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=2;
- 	  break;
-          case 4...7:
-   	  a->hair=6;
- 	  break;
-          case 8...11:
-   	  a->hair=10;
- 	  break;
-          case 12...15:
-   	  a->hair=14;
- 	  break;
- 	 }
-  
-        GrBlot3(completeActor,-4,0,10,A3R2);
-        break;
-        case 3://left
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=1;
- 	  break;
-          case 4...7:
-   	  a->hair=5;
- 	  break;
-          case 8...11:
-   	  a->hair=9;
- 	  break;
-          case 12...15:
-   	  a->hair=13;
- 	  break;
- 	 }
-
-        GrBlot3(completeActor,-4,0,10,A3L2);
-        break;
-
-       }
-     break;
-     case 1://left straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;       
-        a->walking = 5;
-       }
-       switch(a->hair)
-       {
-        case 0...3:
-        a->hair=1;
-        break;
-        case 4...7:
-   	a->hair=5;
- 	break;
-        case 8...11:
-   	a->hair=9;
- 	break;
-        case 12...15:
-   	a->hair=13;
- 	break;
-       }
-
-       GrBlot3(completeActor,-4,0,10,A3L1);
-     break;
-     case 2://right straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 6;
-       }
-       switch(a->hair)
-       {	
-    	case 0...3:
-   	a->hair=2;
- 	break;
-        case 4...7:
-   	a->hair=6;
- 	break;
-        case 8...11:
-   	a->hair=10;
- 	break;
-        case 12...15:
-   	a->hair=14;
- 	break;
-       }
-
-       GrBlot3(completeActor,-4,0,10,A3R1);
-     break;
-     case 3://up straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 7;
-       }
-       switch(a->hair)
-       {
-    	case 0...3:
-   	a->hair=3;
- 	break;
-        case 4...7:
-   	a->hair=7;
- 	break;
-        case 8...11:
-   	a->hair=11;
- 	break;
-        case 12...15:
-   	a->hair=15;
- 	break;
-       }
-
-       GrBlot3(completeActor,-4,0,10,A3U1);
-     break;
-     case 4://down straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 8;
-       }
-       switch(a->hair)
-       {
-    	case 0...3:
-        a->hair=0;
-        break;
-        case 4...7:
-        a->hair=4;
-        break;
-        case 8...11:
-   	a->hair=8;
- 	break;
-        case 12...15:
-   	a->hair=12;
- 	break;
-       }
-
-       GrBlot3(completeActor,-4,0,10,A3D1);
-     break;
-     case 5://left left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 9;
-       }
-
-       GrBlot3(completeActor,-4,0,10,A3L2);
-     break;
-     case 6://right left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 10;
-       }
-       GrBlot3(completeActor,-4,0,10,A3R2);
-     break;
-     case 7://up left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 11;
-       }
-       GrBlot3(completeActor,-4,0,10,A3U2);
-     break;
-     case 8://down left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 12;
-       }
-       GrBlot3(completeActor,-4,0,10,A3D2);
-     break;
-     case 9://left straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 13;
-       }
-       GrBlot3(completeActor,-4,0,10,A3L3);
-     break;
-     case 10://right straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 14;
-       }
-       GrBlot3(completeActor,-4,0,10,A3R3);
-     break;
-     case 11://up straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 15;
-       }
-       GrBlot3(completeActor,-4,0,10,A3U3);
-     break;
-     case 12://down straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 16;
-       }
-       GrBlot3(completeActor,-4,0,10,A3D3); 
-     break;
-     case 13://left right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=3;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-4,0,10,A3L2);
-     break;
-     case 14://right right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=2;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-4,0,10,A3R2);
-     break;
-     case 15://up right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=1;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-4,0,10,A3U2);
-     break;
-     case 16://down right leg 
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-4,0,10,A3D2);
-     break;
-
-    }
-   break;
-   case 3://Benjamin
-    switch(walkdir)
-    {
-     case 0://not walking
-       switch(a->walkingSubFrame)
-       {
-        case 0://down
-        GrBlot3(completeActor,-6,0,10,A4D2);
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=0;
- 	  break;
-          case 4...7:
-   	  a->hair=4;
- 	  break;
-          case 8...11:
-   	  a->hair=8;
- 	  break;
-          case 12...15:
-   	  a->hair=12;
- 	  break;
- 	 }
-
-        break;
-        case 1://up
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=3;
- 	  break;
-          case 4...7:
-   	  a->hair=7;
- 	  break;
-          case 8...11:
-   	  a->hair=11;
- 	  break;
-          case 12...15:
-   	  a->hair=15;
- 	  break;
-
- 	 }
-
-        GrBlot3(completeActor,-6,0,10,A4U2);
-        break;
-        case 2://right
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=2;
- 	  break;
-          case 4...7:
-   	  a->hair=6;
- 	  break;
-          case 8...11:
-   	  a->hair=10;
- 	  break;
-          case 12...15:
-   	  a->hair=14;
- 	  break;
- 	 }
-  
-        GrBlot3(completeActor,-6,0,10,A4R2);
-        break;
-        case 3://left
-         switch(a->hair)
-	 {
-    	  case 0...3:
-   	  a->hair=1;
- 	  break;
-          case 4...7:
-   	  a->hair=5;
- 	  break;
-          case 8...11:
-   	  a->hair=9;
- 	  break;
-          case 12...15:
-   	  a->hair=13;
- 	  break;
- 	 }
-
-        GrBlot3(completeActor,-6,0,10,A4L2);
-        break;
-
-       }
-     break;
-     case 1://left straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;       
-        a->walking = 5;
-       }
-       switch(a->hair)
-       {
-        case 0...3:
-        a->hair=1;
-        break;
-        case 4...7:
-   	a->hair=5;
- 	break;
-        case 8...11:
-   	a->hair=9;
- 	break;
-        case 12...15:
-   	a->hair=13;
- 	break;
-       }
-
-       GrBlot3(completeActor,-6,0,10,A4L1);
-     break;
-     case 2://right straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 6;
-       }
-       switch(a->hair)
-       {	
-    	case 0...3:
-   	a->hair=2;
- 	break;
-        case 4...7:
-   	a->hair=6;
- 	break;
-        case 8...11:
-   	a->hair=10;
- 	break;
-        case 12...15:
-   	a->hair=14;
- 	break;
-       }
-
-       GrBlot3(completeActor,-6,0,10,A4R1);
-     break;
-     case 3://up straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 7;
-       }
-       switch(a->hair)
-       {
-    	case 0...3:
-   	a->hair=3;
- 	break;
-        case 4...7:
-   	a->hair=7;
- 	break;
-        case 8...11:
-   	a->hair=11;
- 	break;
-        case 12...15:
-   	a->hair=15;
- 	break;
-       }
-
-       GrBlot3(completeActor,-6,0,10,A4U1);
-     break;
-     case 4://down straight start
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 8;
-       }
-       switch(a->hair)
-       {
-    	case 0...3:
-        a->hair=0;
-        break;
-        case 4...7:
-        a->hair=4;
-        break;
-        case 8...11:
-   	a->hair=8;
- 	break;
-        case 12...15:
-   	a->hair=12;
- 	break;
-       }
-
-       GrBlot3(completeActor,-6,0,10,A4D1);
-     break;
-     case 5://left left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 9;
-       }
-
-       GrBlot3(completeActor,-6,0,10,A4L2);
-     break;
-     case 6://right left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 10;
-       }
-       GrBlot3(completeActor,-6,0,10,A4R2);
-     break;
-     case 7://up left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 11;
-       }
-       GrBlot3(completeActor,-6,0,10,A4U2);
-     break;
-     case 8://down left leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 12;
-       }
-       GrBlot3(completeActor,-6,0,10,A4D2);
-     break;
-     case 9://left straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 13;
-       }
-       GrBlot3(completeActor,-6,0,10,A4L3);
-     break;
-     case 10://right straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 14;
-       }
-       GrBlot3(completeActor,-6,0,10,A4R3);
-     break;
-     case 11://up straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 15;
-       }
-       GrBlot3(completeActor,-6,0,10,A4U3);
-     break;
-     case 12://down straight mid
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 16;
-       }
-       GrBlot3(completeActor,-6,0,10,A4D3); 
-     break;
-     case 13://left right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=3;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-6,0,10,A4L2);
-     break;
-     case 14://right right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=2;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-6,0,10,A4R2);
-     break;
-     case 15://up right leg
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=1;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-6,0,10,A4U2);
-     break;
-     case 16://down right leg 
-       a->walkingSubFrame++;
-
-       if(a->walkingSubFrame== FRAMERULE)
-       {
-        a->walkingSubFrame=0;
-        a->walking = 0;
-       }
-       GrBlot3(completeActor,-6,0,10,A4D2);
-     break;
-
-    }
-   break;
-   case 4:
-    //Sprite3B(completeActor,-6,0,10,GetDog);
-
-   break;
-  }
-
- GrBlot3(completeActor,0,0,10,GetHair(a->hair));
-
- 
- return completeActor; 
-       
-
-}
 
 U8 GetWalkOffsetX(U8 walkdir)
 {
@@ -2286,13 +795,106 @@ U8 GetWalkOffsetY(U8 walkdir)
  return YOffset; 
 }
 
+//Combat Functions
 
-I64 test =0;
+#include "Attacks.HC";
+
+U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
+{
+  mc->combatON=TRUE;
+  mc->combatMenuStage=0;
+  mc->currentSong=5;
+  QueInit(&combatCQue);
+  
+  I64 maxChars;
+  CombatTurn *ctn;
+  for(maxChars=0;maxChars!=2;maxChars++)
+  {// Limit for one
+   ctn = CAlloc(sizeof(CombatTurn));
+   if(maxChars==0){
+    ctn->ready = GetNPC(0);}
+   else{
+    ctn->ready = toInsert;} //GetNPC(maxChars);
+   QueIns(ctn,combatCQue.last);
+  }
+  //combatCQue
+  
+  ctp = combatCQue.next;
+  mc->turnIndex = 1;
+
+}
+
+U0 RenderCombatVersion(Actor *toRender)
+{
+      //COMBATCYCLEENEMIES
+  if(mc->combatON==TRUE&&toRender->id!=0&&toRender->ai_script==1)
+  {
+    //good enough for now
+    if(mc->combatMenuStage==1)//stage 1 is the end of player's turn
+    {
+      mc->combatMenuStage=2;//go to stage 2, creature's turn 
+      mc->turnIndex= 2;   
+      ctp = combatCQue.next;//reset que pointers
+      ctp = ctp->next;//now pointer is to the first creature in the que
+      if(ctp->ready->dead==FALSE){
+       MoveActor(ctp->ready,RandU64%(4));
+       mc->combatON=TRUE;}//move it randomly}
+      else
+      {
+       mc->combatON=FALSE;
+      }
+    }
+    //attack
+    if(mc->combatMenuStage==2)
+    {
+      //reset back to stage 0, start of player's turn
+      mc->combatMenuStage=0;
+      mc->combatMenuSelection=0;
+      //RemoveMana(GetNPC(0), -GetNPC(0)->wis);
+     
+
+      //return que pointer to player
+      if(mc->turnIndex==QueCnt(combatCQue))
+      {
+        //ctp = ctp->next;
+        ctp = combatCQue.next;
+        mc->turnIndex = 1;
+
+
+      }
+    }
+  }
+        
+
+}
+
+
+//called after combatMenuSelection==11
+U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
+{
+    dc->color=RED;
+    dc->thick=5;
+    GrCircle(dc,hX+25,hY+45,15);
+    //GrFloodFill(dc,hX+13,hY+13,TRUE);   
+   
+}
+
+
+U0 RenderCharacter(CDC *dc,I64 iFinalX, I64 iFinalY,I64 iFinalZ,
+           CDC *character,Bool highlight=FALSE)
+{
+    GrBlot3(dc,iFinalX,iFinalY,iFinalZ,character);
+
+    if(highlight){
+       HighlightTarget(dc, iFinalX, iFinalY+24,iFinalZ+10);
+    }
+}
+
 //
 // Task Functions
 //
 
-U0 DrawIt(CTask *task,CDC*dc)
+U0 DrawIt(CTask *task, CDC *dc)
 {
  I64 i,j,l,colis;
  U8 sprite;
@@ -2314,12 +916,24 @@ U0 DrawIt(CTask *task,CDC*dc)
       switch(mc->combatMenuSelection)
       {
        case 0://move
+        mc->combatMenuSelection =10; 
        break;
        case 1://strike
+       mc->combatMenuSelection =11; 
        break;
        case 2://prayer
+
+        mc->combatMenuSelection =12; 
        break;
        case 3://flee
+
+        mc->combatMenuSelection =13; 
+       break;
+       case 10://move completion
+        mc->combatMenuStage=1;
+       break;
+       case 11://strike completion
+        mc->combatMenuSelection=111;
        break;
       }
      }
@@ -2344,7 +958,41 @@ U0 DrawIt(CTask *task,CDC*dc)
    {
      if(!mc->combatON)
      {
-      MovePlayer(0);
+      MoveActor(p,0);
+     }
+     else
+     {
+      switch(mc->combatMenuStage)
+      {
+       case 0:
+       switch(mc->combatMenuSelection)
+       {
+        case 10: //move menu
+         if(p->currentMana>=5){
+          MoveActor(p,0);
+          RemoveMana(p, 5);}
+         else{ 
+          mc->combatMenuStage=1;}
+        break;
+        case 11://strike menu
+          ctp = ctp->next;
+          mc->turnIndex++;
+          //return to player from head
+          if(mc->turnIndex>QueCnt(combatCQue))
+          {
+           //ctp = ctp->next;
+           ctp = combatCQue.next;
+           mc->turnIndex = 1;
+
+           }
+
+        break;
+
+       }
+       break;
+       case 1:
+       break;
+      }
      }
      keys.left=FALSE;
 
@@ -2354,36 +1002,103 @@ U0 DrawIt(CTask *task,CDC*dc)
    {
     if(!mc->combatON)
     {
-     MovePlayer(1);
+     MoveActor(p,1);
     }
-    keys.right=FALSE;
+    else
+    {
+     switch(mc->combatMenuStage)
+     {
+      case 0:
+      switch(mc->combatMenuSelection)
+      {
+       case 10: //move menu
+        if(p->currentMana>=5){
+         MoveActor(p,1);
+         RemoveMana(p, 5);}
+        else{
+         mc->combatMenuStage=1;}
+        break;
+       case 11://strike menu
+          ctp = ctp->last;
+          mc->turnIndex--;
+          if(mc->turnIndex==0)
+          {
+           //ctp = ctp->next;
+           ctp = combatCQue.last;
+           mc->turnIndex = QueCnt(combatCQue);
 
+          }
+
+        break;
+
+
+      }
+      break;
+      case 1:
+      break;
+     }
+    }
+
+    keys.right=FALSE;
    }
    if(keys.up==TRUE)
    {
-     if(mc->combatON)
+    if(mc->combatON)
+    {
+     switch(mc->combatMenuStage)
      {
-      if(mc->combatMenuSelection!=0) 
-       mc->combatMenuSelection--;
+      case 0:
+      switch(mc->combatMenuSelection)
+      {
+        case 0: break;
+        case 1...9:
+         mc->combatMenuSelection--;
+        break; 
+        case 10: //move menu
+         if(p->currentMana>=5){
+          MoveActor(p,2); RemoveMana(p, 5);}
+         else{
+          mc->combatMenuStage=1;}
+        
+        break;
+        
+      }
+      break;
+      case 1:
+      break;
      }
-     else{
-      MovePlayer(2);
-     }
-      keys.up=FALSE;
-
+    }else{
+      MoveActor(p,2);
+    }
+    keys.up=FALSE;
    }
    if(keys.down==TRUE)
    {
-     if(mc->combatON)
+    if(mc->combatON)
+    {
+     switch(mc->combatMenuStage)
      {
-      if(mc->combatMenuSelection!=3) 
-       mc->combatMenuSelection++;
+      case 0:
+      switch(mc->combatMenuSelection)
+      {
+        case 0...2: mc->combatMenuSelection++;
+        case 3: break;
+        case 10: //move menu
+         if(p->currentMana>=5){
+          MoveActor(p,3); RemoveMana(p, 5);
+         }else{
+         mc->combatMenuStage=1;}
+        break;
+        
+      }
+      break;
+      case 1:
+      break;
      }
-     else{
-      MovePlayer(3);
-     }
-      keys.down=FALSE;
-
+    }else{
+      MoveActor(p,3);
+    }
+    keys.down=FALSE;
    }
 
    dc->thick=1;
@@ -2410,7 +1125,7 @@ U0 DrawIt(CTask *task,CDC*dc)
    else
    {
      
-     camera->cameraOffSetX=-GetWalkOffsetX(p->walking);
+     camera->cameraOffSetX=-GetWalkOffsetX(p->walking);
    }
 
    //y pan
@@ -2504,17 +1219,22 @@ U0 DrawIt(CTask *task,CDC*dc)
      I64 npc= GetTensorNPC(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
    
-     //NPCS
+     //Actors
+     //start by converting matrix x,y position to screen X,Y
+     I64 convertedToScreenX,convertedToScreenY;
      if(npc!=-1)
      {
       Actor *toRender;
       I64 npcOffsetX=-camera->cameraOffSetX, npcOffsetY=-camera->cameraOffSetY;
       
       if(npc!=0){
-      toRender = GetNPC(npc);
+       toRender = GetNPC(npc);
+       
 
-      npcOffsetX=GetWalkOffsetX(toRender->walking), 
-      npcOffsetY=GetWalkOffsetY(toRender->walking);
+       npcOffsetX=GetWalkOffsetX(toRender->walking), 
+       npcOffsetY=GetWalkOffsetY(toRender->walking);
+       convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;
+       convertedToScreenY = j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY;
       }
       else
       {
@@ -2523,97 +1243,66 @@ U0 DrawIt(CTask *task,CDC*dc)
          npcOffsetX=GetWalkOffsetX(toRender->walking);
         if(camera->topUD==0||camera->topUD==wY-11)
          npcOffsetY=GetWalkOffsetY(toRender->walking);
+        convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;
+        convertedToScreenY = j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY;
+        //render attack from player
+        if(mc->combatMenuSelection==111)
+        {
+         switch(p->sword)
+         {
+          case 0: //fist
+           PunchMove(dc,toRender, mc->tarposx,
+                        mc->tarposy-mc->turnIndex,
+                        CalculateAngle(mc->tarposx,mc->tarposy,
+                         convertedToScreenX,convertedToScreenY));
+           mc->turnIndex++;
+           if(mc->turnIndex>50)
+           {
+            RemoveHealth(mc->target,p->str);
+            mc->turnIndex=1;
+            mc->combatMenuStage=1;
+           }//mc turnindex
+          break;
+         }//switch p sword
+        }//combat render phase
       
-      }
-      GrBlot3(dc,i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX,
-              j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY,10,
-              GetWalkAnimation(toRender));
-
-      /*
-      switch(toRender->race)
+      }//if player or not
+      
+      //COMBAT start initializations
+      //move enemy during combat turn 
+      if(toRender->ai_script==1)
       { 
-       case 0:
-       GrBlot3(dc,i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX,
-              j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY,10,
-              GetWalkAnimation(toRender));
+
+       if(mc->combatON==FALSE&&toRender->ai_script==1&&toRender->dead==FALSE&& //(enemy)
+          Abs((p->x)-(toRender->x))<=2&& //(aggro distance)
+          Abs((p->y)-(toRender->y))<=2)
+       {
+         CombatQueInit(toRender);
+       }
+       RenderCombatVersion(toRender);
+      }
+      //optionally highlight targets for strikes
+      Bool highlight= FALSE;
+      if(mc->combatMenuSelection==11&&toRender->id==ctp->ready->id)
+      {
+        highlight = TRUE;
+        mc->target = toRender;
+
+        mc->tarposx = convertedToScreenX;
+        mc->tarposy = convertedToScreenY;//change default target
+      }
+    
+      RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
+      10, GetActorAnimationJob(toRender), highlight);
+
+      
+      
+      
+
+
      
-       //Sprite3B(dc,i*camera->dividX+4,j*camera->dividY+2,10,A1D2);     
-       break;       
-       case 1:
-       GrBlot3(dc,i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX,
-              j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY,10,
-              GetWalkAnimation(toRender));
-
-       //Sprite3B(dc,i*camera->dividX+4+camera->cameraOffSetX,
-       //         j*camera->dividY+2+camera->cameraOffSetY,10,GetLevi());
-       break;     
-       case 2:
-       GrBlot3(dc,i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX,
-              j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY,10,
-              GetWalkAnimation(toRender));
-
-       //Sprite3B(dc,i*camera->dividX+4+camera->cameraOffSetX,
-       //         j*camera->dividY+2+camera->cameraOffSetY,10,GetEphraim());
-       break;       
-       case 3:
-       GrBlot3(dc,i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX,
-              j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY,10,
-              GetWalkAnimation(toRender));
-
-       //Sprite3B(dc,i*camera->dividX+4+camera->cameraOffSetX,
-       //            j*camera->dividY+2+camera->cameraOffSetY,10,GetBenjamin());
-       break;
-       case 4:
-       Sprite3B(dc,i*camera->dividX+4+camera->cameraOffSetX,
-                   j*camera->dividY+2+camera->cameraOffSetY,10,GetDog());
-       break;
-       
-      }
-      switch(toRender->eye)
-      {
-       case 0:
-       Sprite3B(dc,i*camera->dividX+12,j*camera->dividY-34,10,GetEyes(0));
-       break;
-       case 1:
-       Sprite3B(dc,i*camera->dividX+12,j*camera->dividY-34,10,GetEyes(1));
-       break;
-       case 2:
-       Sprite3B(dc,i*camera->dividX+12,j*camera->dividY-34,10,GetEyes(2));
-       break;
-       case 3:
-       Sprite3B(dc,i*camera->dividX+12,j*camera->dividY-34,10,GetEyes(3));
-       break;
-       case 4:
-       break;
-      }  
-      switch(toRender->hair)
-      {
-       case 0:
-       Sprite3B(dc,i*camera->dividX+10,j*camera->dividY-40,10,GetHair(0));
-       break;
-       case 1:
-       Sprite3B(dc,i*camera->dividX+10,j*camera->dividY-40,10,GetHair(1));
-       break;
-       case 2:
-       Sprite3B(dc,i*camera->dividX+10,j*camera->dividY-40,10,GetHair(2));
-       break;
-       case 3:
-       Sprite3B(dc,i*camera->dividX+10,j*camera->dividY-40,10,GetHair(3));
-       break; 
-       case 4:
-       break;     
-      }*/
-      if(mc->combatON==FALSE&&toRender->ai_script==1&&
-         Abs((p->x)-(toRender->x))<=2&&
-         Abs((p->y)-(toRender->y))<=2)
-      {
-        mc->combatON=TRUE;
-        //mc->currentMenu=5;
-        mc->currentSong=5;
-
-
-      }
      }//if npc
+      
 
      
      }//if too large y
@@ -2631,6 +1320,8 @@ U0 DrawIt(CTask *task,CDC*dc)
    //Inventory button
    Sprite3B(dc,494,50,0,GetMenuSprite(0));    
    Sprite3B(dc,510,62,0,GetMenuSprite(1));
+
+        
 
    //Current Spirit and Health 
    dc->color=BLUE;
@@ -2883,18 +1574,36 @@ U0 DrawIt(CTask *task,CDC*dc)
    else if(mc->combatON)//combat
    {
     mc->displayInventory=FALSE;
+      
     switch(mc->combatMenuStage)
     {
-     case 0:
-      CombatDialog1(dc,task, mc->combatMenuSelection);
+     case 0://Player action select
+      /*I64 deathloop,deathcounter;
+      ctp = combatCQue.next; 
+      for(deathloop=0;deathloop<QueCnt(combatCQue)-1;deathloop++)
+      {
+        if(ctp->ready->dead){
+         deathcounter++;}
+        ctp = ctp->next;
+      }
+      if(deathcounter==1)
+      {//enemies killed
+       mc->combatON = FALSE;
+      }
+      else{ */
+       CombatDialog1(dc,task, mc->combatMenuSelection);
+      //}
      break;
      case 1:
+      //Actor *attacker = ct->ready;    
      break;
      case 2:
+      //mc->combatMenuStage=1;
+      //mc->combatMenuStage=0;
      break;
      case 3:
      break;
-    } 
+    }
    }
    else if(mc->displayInventory)//inventory
    {
@@ -2918,7 +1627,8 @@ U0 DrawIt(CTask *task,CDC*dc)
    break;
    //character select
    case 2:
-   CharMenu(dc,task,A1D2,A2D2,A3D2,A4D2);   
+  // SetCharMenuSprites();
+   CharMenu(dc,task,A1D1,A2D1,A3D1,A4D1);   
    break;
    case 3:
    IntroCutscene(dc,task,mc->cutsceneTarget);
@@ -2961,7 +1671,7 @@ U0 RPGMain()
 
   Fs->draw_it=&DrawIt;
   Fs->song_task=
-        Spawn(&SongTask,NULL,"Song",,Fs);
+        Spawn(&SongTask,mc,"Song",,Fs);
 
   while(TRUE)
   {
