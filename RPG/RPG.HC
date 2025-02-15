@@ -1,451 +1,49 @@
 
-//
-// Classes
-//
 
-
-class World
+U0 InteractActor(I64 npc)
 {
- I64 currentZ;
- Tensor3D *level;
-};
-
-
-class Keys
-{
- Bool left,right,up,down,enter;
-} keys;
-
-class CombatTurn:CQue
-{
-  Actor *ready;
-} combatCQue;
-
-class MenuControl
-{
-  I32 currentSong,//for draw and song threads
-      currentMenu,
-      cutsceneTarget;//switch cutscene frames
-
-  I64 talkieScene;//dialogID
-  U8* dialogName;//dialog actor name
-
-  //combat preferences
-  Bool combatON;
-  U16 combatMenuStage;
-  U8 combatMenuSelection;
-  U8 turnIndex;
-  Actor *target;I64 tarposx,tarposy;
-
-
-  //inventory render
-  Bool displayInventory,reRenderInv;
-  CDC *inventoryRender;
-
-};
-
-class Camera
-{
-  F64 dividX, dividY;//ratio tile to screen h/w
-  I64 cursorX, cursorY,//cursor positions 
-      topLR,topUD,//for preventing pan at map corners
-      cameraOffSetX,cameraOffSetY;//offset for smooth transition
-  
-};
-
-MenuControl *mc;
-CombatTurn *ctp;
-Camera *camera;
-World *world;//world
-Vector *worldSz;//world size, with values wX,wY,wZ
-
-I64 wX,wY,wZ;
-
-//
-//Constants and Precompiler
-//
-
-#include "Menu.HC";
-
-#define SCREENX 480
-#define SCREENY 480
-#define FRAMERULE 3
-#include "Walk.HC";
-#include "Anim.HC";
-#include "Music.HC";
-//
-//Global variables
-//
-static CDC*		ITEM1; //dagger
-static CDC*		ITEM1I;
-static CDC*		ITEM2; //harpoon
-static CDC*		ITEM2I;
-
-
-U0 Quit()
-{
-  //free everything
- 
-  //free player
-  FreeActor(0);
-}
-
-
-//
-//Save and Load
-//
-
-U0 SaveForm()
-{
- //Save user input
- StrCpy(&saveFileFormat,"LastGameSave");
- if(DocForm(&saveFileFormat)){
- "Enter File Name:%s",saveFileFormat.saveFile;
- }
- else{"\n";}
- DocClear;
-
- //allocate file
- U8 *fileName = MStrPrint("%s%s%s","Saves/",saveFileFormat.saveFile,".BIN");
- CFile *file=FOpen(fileName,"w");
- SaveFileData *newSave= MAlloc(sizeof(SaveFileData));
- newSave->world = world;
- newSave->player = GetNPC(0);
- 
- //prepare buffer
- U8 buffer[BLK_SIZE];
- U8 *ptr = buffer;
- I64 i,k,bytesWritten=0,sector=0,currentSize=sizeof(I64),currentStep=0;
-
- while(currentStep==0)
+ Actor *aAtLoc= GetNPC(npc);
+ if(aAtLoc->ai_script==1&&aAtLoc->dead==FALSE)//combat
  {
-  if(bytesWritten+currentSize<BLK_SIZE)
+  mc->combatON=TRUE;
+ }
+ else
+ {
+  mc->dialogName = aAtLoc->name;
+  
+  if(aAtLoc->dead==TRUE)
   {
-    switch(currentStep)
+    if(mc->lootedSwitch==LOOTED) //already looted
     {
-     case 0://player data
-      //write currentZ
-      MemCpy(ptr,&(newSave->world->currentZ),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-     
-      //write player
-      MemCpy(ptr,&(newSave->player->race),sizeof(U8)); 
-      ptr+=sizeof(U8); bytesWritten+=sizeof(U8);
-      MemCpy(ptr,&(newSave->player->eye),sizeof(U8)); 
-      ptr+=sizeof(U8); bytesWritten+=sizeof(U8);
-      MemCpy(ptr,&(newSave->player->hair),sizeof(U8)); 
-      ptr+=sizeof(U8); bytesWritten+=sizeof(U8);
-      MemCpy(ptr,&(newSave->player->id),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->hat),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->armor),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->legs),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->boot),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->sword),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->offhand),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->ring1),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->ring2),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->necklace),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->x),sizeof(U64)); 
-      ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
-      MemCpy(ptr,&(newSave->player->y),sizeof(U64)); 
-      ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
-      MemCpy(ptr,&(newSave->player->health),sizeof(U64)); 
-      ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
-      MemCpy(ptr,&(newSave->player->mana),sizeof(U64)); 
-      ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
-      MemCpy(ptr,&(newSave->player->str),sizeof(U64)); 
-      ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
-      MemCpy(ptr,&(newSave->player->int),sizeof(U64)); 
-      ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
-      MemCpy(ptr,&(newSave->player->con),sizeof(U64)); 
-      ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
-      MemCpy(ptr,&(newSave->player->wis),sizeof(U64)); 
-      ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
-      MemCpy(ptr,&(newSave->player->dead),sizeof(Bool)); 
-      ptr+=sizeof(Bool); bytesWritten+=sizeof(Bool);
-      MemCpy(ptr,&(newSave->player->ai_script),sizeof(U8)); 
-      ptr+=sizeof(U8); bytesWritten+=sizeof(U8);
-//      MemCpy(ptr,&(newSave->player->myInv->maxWeight),sizeof(I32)); 
- //     ptr+=sizeof(I32); bytesWritten+=sizeof(I32);
-      
-      FBlkWrite(file,buffer,sector,BLK_SIZE);
-      ptr-=bytesWritten; bytesWritten=0;
-      sector++;
-      currentStep++;
-      break;/*
-     case 1://write player inventory
-      Item *toWrite = newSave->player->myInv->collection->next;
-      
-      for(i=0;i<InvNPCCount(&newSave->player);i++)
-      {
-       MemCpy(ptr,&(toWrite->name),sizeof(U8));//error? 
-       ptr+=sizeof(U8); bytesWritten+=sizeof(U8);
-       MemCpy(ptr,&(toWrite->weight),sizeof(F64)); 
-       ptr+=sizeof(F64); bytesWritten+=sizeof(F64);
-       MemCpy(ptr,&(toWrite->equip_slot),sizeof(I16)); 
-       ptr+=sizeof(I16); bytesWritten+=sizeof(I16);
-       MemCpy(ptr,&(toWrite->usable),sizeof(Bool));//error 
-       ptr+=sizeof(Bool); bytesWritten+=sizeof(Bool);
-       toWrite = toWrite->next;
-      }
-      FBlkWrite(file,buffer,sector,BLK_SIZE);
-      ptr-=bytesWritten; bytesWritten=0;
-      sector++;
-      currentStep++;       
-      break;*/
-     case 2://TODOwrite world to save
-      break;
+     //mc->talkieScene = GetTalkie(13);//empty corpse message
     }
-    
+    else
+    {
+     if(mc->lootedSwitch==LOOTABLE)
+     {
+      mc->loot = "..........";
+      switch(npc)
+      {
+        case 6://wolf fang
+        mc->loot = "wolf fang";
+        AddItemToInventory(0,3);
+        break;
+      }
+      mc->lootedSwitch=LOOTING;
+     }
+
+     //mc->talkieScene = 12;  
+    }
 
   }
   else
   {
-   FBlkWrite(file,buffer,sector,BLK_SIZE);
-   sector++;
-   ptr-=bytesWritten;
-   bytesWritten=0;
+   //AdamLog("Peace"); AdamLog(3);
+   mc->talkieScene = GetTalkie(npc);
   }
  }
 
- //write and close
- //FBlkWrite(file,buffer,sector,1);
- FClose(file);
- Free(newSave);
- //Quit;
-}
-
-
-U0 LoadGame(U8 *file)
-{
- CFile *load = FOpen(file,"r");
-                                            
-		      
- SaveFileData *newSave = MAlloc(sizeof(SaveFileData));
- newSave->world = world;
- newSave->player = GetNPC(0);
-
- U8 buffer[BLK_SIZE];
- U8 *ptr = buffer;
- I64 i=0, step=0,bytesRead=0;
-
- while(FBlkRead(load,buffer,BLK_SIZE*i,1)){
-  switch(step)
-  {
-   case 0:
-      MemCpy(&(newSave->world->currentZ),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      
-      //write player
-      MemCpy(&(newSave->player->race),ptr,sizeof(U8)); 
-      ptr+=sizeof(U8); bytesRead+=sizeof(U8);
-      MemCpy(&(newSave->player->eye),ptr,sizeof(U8)); 
-      ptr+=sizeof(U8); bytesRead+=sizeof(U8);
-      MemCpy(&(newSave->player->hair),ptr,sizeof(U8)); 
-      ptr+=sizeof(U8); bytesRead+=sizeof(U8);
-      MemCpy(&(newSave->player->id),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->hat),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->armor),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->legs),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->boot),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->sword),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->offhand),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->ring1),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->ring2),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->necklace),ptr,sizeof(I64)); //
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->x),ptr,sizeof(U64)); 
-      ptr+=sizeof(U64); bytesRead+=sizeof(U64);
-      MemCpy(&(newSave->player->y),ptr,sizeof(U64)); 
-      ptr+=sizeof(U64); bytesRead+=sizeof(U64);
-      MemCpy(&(newSave->player->health),ptr,sizeof(U64)); 
-      ptr+=sizeof(U64); bytesRead+=sizeof(U64);
-      MemCpy(&(newSave->player->mana),ptr,sizeof(U64)); 
-      ptr+=sizeof(U64); bytesRead+=sizeof(U64);
-      MemCpy(&(newSave->player->str),ptr,sizeof(U64)); 
-      ptr+=sizeof(U64); bytesRead+=sizeof(U64);
-      MemCpy(&(newSave->player->int),ptr,sizeof(U64));// 
-      ptr+=sizeof(U64); bytesRead+=sizeof(U64);
-      MemCpy(&(newSave->player->con),ptr,sizeof(U64)); 
-      ptr+=sizeof(U64); bytesRead+=sizeof(U64);
-      MemCpy(&(newSave->player->wis),ptr,sizeof(U64)); 
-      ptr+=sizeof(U64); bytesRead+=sizeof(U64);
-      MemCpy(&(newSave->player->dead),ptr,sizeof(Bool)); 
-      ptr+=sizeof(Bool); bytesRead+=sizeof(Bool);
-      MemCpy(&(newSave->player->ai_script),ptr,sizeof(U8)); 
-      ptr+=sizeof(U8); bytesRead+=sizeof(U8);
-      //MemCpy(&(newSave->player->myInv->maxWeight),ptr,sizeof(I32)); 
-      //ptr+=sizeof(I32); bytesRead+=sizeof(I32);
-      SetNPC(MakeActor(newSave->player->id,
-      newSave->player->race,
-      newSave->player->hair,
-      newSave->player->eye, 
-      newSave->player->hat,
-      newSave->player->armor,
-      newSave->player->legs,
-      newSave->player->boot,
-      newSave->player->sword,
-      newSave->player->offhand,
-      newSave->player->ring1,
-      newSave->player->ring2,
-      newSave->player->necklace,
-      newSave->player->x,
-      newSave->player->y,
-      newSave->player->str,
-      newSave->player->int,
-      newSave->player->con,
-      newSave->player->wis,
-      newSave->player->ai_script));
-      ptr-=bytesRead; bytesRead=0;
-      i++;
-      step++;
-   break;
-   default:
-    i++;
-   break;
-  }
- }
-
- FClose(load);
- mc->currentMenu=1;
- mc->currentSong=0;
- 
-}
-
-CDirEntry *loadRoot;
-
-//
-// Utility Functions
-//
- 
-
-//grabs the current backwardTrack from the stack
-U0 GetBT()
-{
-  //backwardTrack=backwardTrack->last;
-  //Vector *nextV = backwardTrack->data;
-  camera->topLR--;
-  
-}
-//grabs the current forwardTrack from the stack
-U0 GetFT()
-{
-  //forwardTrack=forwardTrack->last;
-  //Vector *nextV = forwardTrack->data;
-  camera->topUD--;
-  
-}
-
-U8 *GetBG(I64 id)
-{
-  U8 *color = BLUE; //= GREEN;
-  switch(id)
-  {
-   case 0:
-    color = GREEN;
-    break;
-   case 1:
-    color = BLUE;
-    break;
-   case 2:
-    color = CYAN;
-    break;
-   case 3:
-    color = BROWN;
-    break;
-   case 4:
-    color = YELLOW;
-    break;
-   case 17:
-    color = DKGRAY;
-    break;
-   case 18:
-    color = LTRED;
-    break;
-
-
-  }
-  return color;
-}
-
-U0 LevelDesign()
-{
-  SetTensorNPC(world->level,0,5,5,0);//player
-  SMFT(world->level,MakeCastle(GetMatrixFromTensor(world->level,0)),0);//castle
-  InitActors(0);
-}
-
-U0 Init()
-{
- //world
- world = CAlloc(sizeof(World));
- mc = CAlloc(sizeof(MenuControl));
- camera= CAlloc(sizeof(Camera));
- worldSz = CreateVector(3);
- wX = 100; wY = 100; wZ = 1;
- SetVector(worldSz,wX,0);
- SetVector(worldSz,wY,1);
- SetVector(worldSz,wZ,2);
- world->level = CreateTensor(worldSz);
- mc->currentSong=1;
- mc->currentMenu=0;
- mc->cutsceneTarget=0;//switch cutscene frames
- mc->talkieScene = -1;//dialogID
- mc->dialogName = "???";//dialog actor name
-
- mc->displayInventory=FALSE;
- mc->reRenderInv=TRUE;
- mc->inventoryRender = DCNew(640,480);
- DCFill(mc->inventoryRender, TRANSPARENT);
-
- //camera;    
- camera->dividX = SCREENX/(11);
- camera->dividY = SCREENY/(11);
- camera->topLR=0; camera->topUD=0;
- camera->cameraOffSetX = 0,  
- camera->cameraOffSetY = 0; 
-       
- //keys
- keys.left=FALSE;
- keys.right=FALSE;
- keys.up=FALSE;
- keys.down=FALSE;
- keys.enter=FALSE;
- //Level and NPCS
- LevelDesign;
-
- ITEM1 = FramePtr("ITEM008");
- ITEM1I = FramePtr("WINV001");
- ITEM2 = FramePtr("ITEM004");
- ITEM2I = FramePtr("WINV037");
- //combat
- mc->combatON = FALSE;
- mc->combatMenuStage =0;
- mc->combatMenuSelection=0;
- mc->target = GetNPC(0);
- mc->tarposx = 0;
- mc->tarposy = 0;
-}
-
+} 
 CDC *RenderInventory(Actor *p)
 { 
  if(mc->reRenderInv)
@@ -488,6 +86,9 @@ CDC *RenderInventory(Actor *p)
        case 2://harpoon   
         GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM2I);
        break;
+       case 3://wolfteeth
+        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM3I);
+       break;
       }
       //Free(&retrieved);
      }
@@ -502,31 +103,12 @@ CDC *RenderInventory(Actor *p)
 
 }
 
-U0 InteractActor(I64 npc)
-{
- Actor *aAtLoc= GetNPC(npc);
- if(aAtLoc->ai_script==1&&aAtLoc->dead==FALSE)//combat
- {
-  mc->combatON=TRUE;
- }
- else
- {
-  if(aAtLoc->dead=TRUE)
-  {
-  }
-    mc->dialogName = aAtLoc->name;
-    switch(npc)
-    {
-     case 6:
-    }
-    mc->talkieScene = GetTalkie(npc);
- }
-
-} 
-
 
 U0 MoveActor(Actor *p, U8 dir)
 {
+ DbgPutS("\n");
+
+ DbgPutS(DirCur(Fs));
  
  if(p->race>=4)
  {
@@ -574,12 +156,12 @@ U0 MoveActor(Actor *p, U8 dir)
  //actors with anim
 
  I64 npc;
+
  if(p->walking==0)
  {
   switch(dir)
   {
   case 0://left
-   p->walking=0;
    p->walkingSubFrame=3;
 
    if(p->id==0&&p->x-1>=0&&!
@@ -589,15 +171,15 @@ U0 MoveActor(Actor *p, U8 dir)
     if(npc!=-1)
     {
        InteractActor(npc);
+    
     }
     else
     {
-     if(mc->combatON)
-     {
-     }
-
+     
      mc->talkieScene = -1;
      ClearDialog;
+     if(mc->lootedSwitch==LOOTING){
+       mc->lootedSwitch=LOOTED;}
      if(camera->topLR!=0&&p->x<wX-5)
       camera->topLR--;
      p->walking=1;
@@ -610,7 +192,6 @@ U0 MoveActor(Actor *p, U8 dir)
    }
   break;
   case 1://right
-   p->walking=0;
    p->walkingSubFrame=2;
 
    if(p->id==0&&p->x+1!=wX&&!CheckSolid(world->level,p->x+1,p->y,world->currentZ))
@@ -624,6 +205,9 @@ U0 MoveActor(Actor *p, U8 dir)
     {
      mc->talkieScene = -1;
      ClearDialog;
+     if(mc->lootedSwitch==LOOTING){
+       mc->lootedSwitch=LOOTED;}
+
      if(camera->topLR!=wX-11&&p->x>=5)
        camera->topLR++;
      p->walking=2;
@@ -635,7 +219,6 @@ U0 MoveActor(Actor *p, U8 dir)
    }
   break;
   case 2://up
-   p->walking=0;
    p->walkingSubFrame=1;
 
    if(p->id==0&&p->y-1>=0&&!CheckSolid(world->level,p->x,p->y-1,world->currentZ))
@@ -649,6 +232,9 @@ U0 MoveActor(Actor *p, U8 dir)
     {
      mc->talkieScene = -1;
      ClearDialog;
+     if(mc->lootedSwitch==LOOTING){
+       mc->lootedSwitch=LOOTED;}
+
      if(camera->topUD!=0&&p->y<wY-5){
       camera->topUD--;
      }
@@ -661,7 +247,6 @@ U0 MoveActor(Actor *p, U8 dir)
    }
   break;
   case 3://down
-   p->walking=0;
    p->walkingSubFrame=0;
 
    if(p->id==0&&p->y+1!=wY&&!CheckSolid(world->level,p->x,p->y+1,world->currentZ))
@@ -675,6 +260,9 @@ U0 MoveActor(Actor *p, U8 dir)
     {
      mc->talkieScene = -1;
      ClearDialog;
+     if(mc->lootedSwitch==LOOTING){
+       mc->lootedSwitch=LOOTED;}
+
      if(camera->topUD!=wY-11&&p->y>=5){
       camera->topUD++;
      }
@@ -802,6 +390,8 @@ U8 GetWalkOffsetY(U8 walkdir)
 U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
 {
   mc->combatON=TRUE;
+  mc->loot = "";
+  mc->lootedSwitch=FALSE;
   mc->combatMenuStage=0;
   mc->currentSong=5;
   QueInit(&combatCQue);
@@ -842,6 +432,7 @@ U0 RenderCombatVersion(Actor *toRender)
       else
       {
        mc->combatON=FALSE;
+       mc->currentSong=0;
       }
     }
     //attack
@@ -1569,7 +1160,7 @@ U0 DrawIt(CTask *task, CDC *dc)
    if(mc->talkieScene!=-1)//dialog
    {
     mc->displayInventory=FALSE;
-    Chatbox(mc->dialogName,dc,task,mc->talkieScene);
+    Chatbox(mc->dialogName,dc,task,mc->talkieScene,mc->loot);
    }
    else if(mc->combatON)//combat
    {
@@ -1589,6 +1180,8 @@ U0 DrawIt(CTask *task, CDC *dc)
       if(deathcounter==1)
       {//enemies killed
        mc->combatON = FALSE;
+       mc->currentSong =0;
+       
       }
       else{ */
        CombatDialog1(dc,task, mc->combatMenuSelection);

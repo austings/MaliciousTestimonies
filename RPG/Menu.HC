@@ -10,7 +10,7 @@ U32 currLetter =0,yInc=0,xInc=0,nIndex=0;
 Bool newLine=FALSE;
 U8 *text1 = "You are hereby invited to the wedding of\nKing Ahab and Princess Jezebel.";
 U8 *text2 = "This union symbolizes peace between\nZidonia and Israel.";
-U8 *text3 ="Noblemen from all the tribes of Israel\nare called to this special occasion.";
+U8 *text3 = "Noblemen from all the tribes of Israel\nare called to this special occasion.";
 
 U8 *img1 = MStrPrint("%s%s",DirCur,"/BMP/jezebel1.bmp"); 
 U8 *img2 = MStrPrint("%s%s",DirCur,"/BMP/jezebel2.bmp"); 
@@ -440,8 +440,9 @@ U32 GetCurrLetter()
  return currLetter;
 }
 
-U0 IntroCutscene(CDC*dc, CTask *task,U8 textID)
+U0 IntroCutscene(CDC *dc, CTask *task,U8 textID)
 {
+
  I64 i;
  dc->color=BLACK;
    GrFloodFill(dc,15,15,FALSE,0,0);

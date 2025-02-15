@@ -1,3 +1,38 @@
+
+
+U8 *GetBG(I64 id)
+{
+  U8 *color = BLUE; //= GREEN;
+  switch(id)
+  {
+   case 0:
+    color = GREEN;
+    break;
+   case 1:
+    color = BLUE;
+    break;
+   case 2:
+    color = CYAN;
+    break;
+   case 3:
+    color = BROWN;
+    break;
+   case 4:
+    color = YELLOW;
+    break;
+   case 17:
+    color = DKGRAY;
+    break;
+   case 18:
+    color = LTRED;
+    break;
+
+
+  }
+  return color;
+}
+
+
 Matrix *MakeCastle(Matrix *toAdd)
 {
 
@@ -58,7 +93,7 @@ Matrix *MakeCastle(Matrix *toAdd)
     if((i<4&&j==22)||(i<6&&i>0&&j==23)||(i>2&&i<13&&j==24)||
        (i>4&&i<14&&j==25)||(i>12&&i<16&&j==26)||(i==15&&(j==27||j==28)))
     {
-     SetMatrix(toAdd,4,i,j);//sand
+     SetMatrix(toAdd,4,i,j);//sand
     }
     else{
      if((j==22)||(i>1&&j==23)||(i>2&&j==24)||(i>4&&j==25)||(i>12&&j==26)||

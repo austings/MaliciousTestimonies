@@ -1,27 +1,5 @@
 #define MAXACTORCOUNT	11
-
-class Item:CQue
-{
-  U8* name;
-  I16 equip_slot, id;
-  Bool usable;
-  U8 w, h;
-};
-
-class ItemNode
-{
- I8 occupied;
-
-};
-
-class Inventory
-{
-  I64 count;  
-  Item *collection;
-  ItemNode mtrx[4][11]; 
-};
-
-
+#define ACTOR_FILE "/Data/Actor.TXT"
 class Actor
 {
   U8  race,eye,hair;
@@ -73,8 +51,24 @@ U0 Die(Actor *a)
   a->dead = TRUE;
 }
 
-U0 RemoveMana(Actor *a, U64 magnitude)
+U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
 {
+  U8* indicator = "+";
+  if(magnitude<1)
+   indicator = MStrPrint("-%d%s",Abs(magnitude),currency);
+  else 
+    indicator= MStrPrint("%s%d%s",indicator,magnitude,currency);
+  
+  I64 i  =0 ;
+  for(i=0;i<StrLen(indicator);i++){
+  // GrChar(dc,indicator[i],realX+i*8,realY,10);
+  }
+
+}
+
+U0 RemoveMana(Actor *a, I64 magnitude)
+{
+  IndicatorText(a->x,a->y,magnitude,"Spirit");
   if(a->currentMana<=magnitude)
   {
     a->currentMana=0;
@@ -91,8 +85,9 @@ U0 RemoveMana(Actor *a, U64 magnitude)
 
 }
 
-U0 RemoveHealth(Actor *a, U64 magnitude)
+U0 RemoveHealth(Actor *a, I64 magnitude)
 {
+  IndicatorText(a->x,a->y,magnitude,"Health");
   if(a->currentHealth<=magnitude)
   {
     a->currentHealth=0;
@@ -108,73 +103,6 @@ U0 RemoveHealth(Actor *a, U64 magnitude)
 
   }
  
-}
-
-//Inventory
-
-I64 InvNPCCount(Actor *a)
-{
-  switch(a->id)
-  {
-   case 0:
-    return QueCnt(a->myInv->collection);
-    break;
-   case 1:
-    break;
-  }
-  return 0;
-}
-
-Item *MakeItem(I64 id)
-{
- Item * build = CAlloc(sizeof(Item));
- build->id=id;
- switch(id)
- {
-  case 0://not used
-  build->name = "Bag";
-  build->w=1,build->h=1;
-  build->equip_slot=3;
-  build->usable=FALSE;
-  break;
-  case 1:
-  build->name = "Dagger";
-  build->w=1,build->h=2;
-  build->equip_slot=1;
-  build->usable=FALSE;
-  break;
-  case 2:
-  build->name = "Harpoon";
-  build->w=1,build->h=4;
-  build->equip_slot=1;
-  build->usable=FALSE;
-  break;
-
- }
- return build;
-}
-
-Inventory *MakeInventory()
-{
-  I64 i,j;
-  Inventory *newInv = MAlloc(sizeof(Inventory));
-  //newInv->maxWeight = weight;
-  Item *item_que = MAlloc(sizeof(Item));
-  QueInit(item_que);
-  QueIns(MakeItem(0),item_que->last);
-  newInv->collection = item_que;
-  newInv->count = 0;
-  for(i=0;i<11;i++)
-  {
-   for(j=0;j<4;j++)
-   {
-     newInv->mtrx[j][i].occupied =-1;
-   }
-  }
-
- //QueInit(p->myInv->collection);
-
- return newInv;
 }
 
 
@@ -202,7 +130,7 @@ Actor *DeserializeNPC(I64 npcid)
  p->myInv = MakeInventory();
  if(npcid==-1)
   return p;
- U8 *fptr = FileRead("Actor.TXT"),
+ U8 *fptr = FileRead(MStrPrint("%s%s",DirCur,ACTOR_FILE)),
     *lnptr,*ln,*temp;
  StrUtil(fptr,SUF_REM_CTRL_CHARS);
  U8 name[15],*nameptr=name;
@@ -503,6 +431,22 @@ U0 FreeActor(I64 id)
  Free(&(a));
 }
 
+//Inventory
+
+I64 InvNPCCount(Actor *a)
+{
+  switch(a->id)
+  {
+   case 0:
+    return QueCnt(a->myInv->collection);
+    break;
+   case 1:
+    break;
+  }
+  return 0;
+}
+
+
 Bool AddItemToInventory(I64 actorID, I64 itemID)
 {
  I64 i,j,x,y,area;
@@ -569,3 +513,5 @@ I64 *RetrieveItemID(I64 aID, I64 index)
   return toBeRetrieved->id;
 
 }
+
+

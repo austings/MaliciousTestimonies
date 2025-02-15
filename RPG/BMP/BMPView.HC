@@ -26,6 +26,8 @@ U0 CleanUpImage()
   
   for (i=0;i<DC_NUM;i++)
     DCDel(cafe_dc[i]);
+
+
 }
 
 U0 BMP24View(U8 *filename,F64 scale=1.0, CDC* dc,CTask *task)

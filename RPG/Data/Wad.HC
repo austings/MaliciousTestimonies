@@ -192,7 +192,7 @@ CWad *LoadWad(U8 *filename) {
   return FileRead(filename);
 
 }
-static CWad *wad=LoadWad("RPG.WAD");
+static CWad *wad=LoadWad("Data/RPG.WAD");
 
 class CWadDirectory {
   U32 ptr;
@@ -417,5 +417,8 @@ found_pstart:
   return ret;
 }
 
+
 //LoadWad("RPG.WAD");
 LoadWadGr(wad);
+
+

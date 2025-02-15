@@ -10,10 +10,10 @@ ID	TEXT
 9	I thank you for being here with#us on this special day. Please,#enjoy all the festivities!                                        |
 10	Enjoy the rest of the#celebration. When you are ready, go#see Hiel outside the city gate.                                         |
 11	Good morning. Yahweh be praised.                                                                                                  |
-12	You scavenge the wolf's teeth #as a memento of the moment 
-13	There is nothing left on the #wolf's body. 
-14	 
-15	 
+12	You scavenge the %s#as a memento of the moment 	                                                                                  |
+13	There is nothing left #on the corpse.                                                                                             |
+14	You loot the %s's #%s.                                                                                                            |
+15	                                                                                                                                  |
 16	 
 17	 
 18	 

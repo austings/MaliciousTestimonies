@@ -54,7 +54,7 @@ static CDC*		A4R3;
  A1L1 = FramePtr("ACTOR065");
  A1L2 = FramePtr("ACTOR066");
  A1L3 = FramePtr("ACTOR067");
- A1U1 = FramePtr("ACTOR091");
+ A1U1 = FramePtr("ACTOR091");
  A1U2 = FramePtr("ACTOR092");
  A1U3 = FramePtr("ACTOR093");
  A1D1 = FramePtr("ACTOR052");

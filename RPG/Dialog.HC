@@ -1,5 +1,5 @@
 #define MAX_D 120
-#define DIALOG_FILE "RPG/Dialog.TXT"
+U8 *DIALOG_FILE = MStrPrint("%s%s",DirCur,"/Data/Dialog.TXT"); 
 
 I32 currLetter =-1,yInc=0,xInc=0,nIndex=0,n2Index=0;
 U8 myDialog[MAX_D];
@@ -33,11 +33,12 @@ U8 *ReadATextLine(U8 **fbuf) {
 U0 DeserializeDialog(I64 textID)
 {
  
- U8 *fptr =FileRead(MStrPrint("%s%s",DirCur,DIALOG_FILE)),
-    *lnptr=fptr,*ln,*temp;
+ U8 *fptr =FileRead(DIALOG_FILE);
+ U8 *lnptr,*ln,*temp;
  StrUtil(fptr,SUF_REM_CTRL_CHARS);
  U8 *nameptr=myDialog;
  U8 id[8],*idptr=id;
+ lnptr=fptr;
 
  I32 count = 0;
  while(ln=ReadALine(&lnptr))
@@ -52,17 +53,35 @@ U0 DeserializeDialog(I64 textID)
   count++;
  }
  Free(fptr);
- //for(count=0;count<MAX_D;count++)
- //{
- //}
 
 }
 
 
-U0 GetDialogMsg(U8 textID)
+U0 GetDialogMsg(U8 textID,U8 *mctext)
 {
+
   if(currLetter==0)
-   DeserializeDialog(textID);
+   DeserializeDialog(textID);/*
+  I64 len = StrLen(mctext);
+  if(len>2)
+  {
+   I64 index;
+   for(index=0;index<len-1;index++)
+   {
+    if(&myDialog[index]=='%' && &myDialog[index+1]=='s')
+    {
+     I64 index2 =0;
+     while(index<len)
+     {
+      myDialog[index] = mctext[index2];
+      index2++;
+      index++;
+     }
+     break;
+    }
+    //continue
+   }
+  }*/
 }
 
 I64 GetTalkie(I64 id)
@@ -88,9 +107,6 @@ I64 GetTalkie(I64 id)
    case 6://wolf
    talkie = 12;
    break;
-   case 60000://wolf pt2
-   talkie = 13;
-   break;
   }
   return talkie;
 }
@@ -101,7 +117,7 @@ U0 ClearDialog()
 }
 
 
-U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
+U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID,U8 *mctext="")
 {
  I64 i,nL,xInc,yInc;
  U8 c;
@@ -109,8 +125,8 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
  Sprite3B(dc,0,375,0,GetDialogBox);
  if(currLetter<MAX_D)
    currLetter++;
- GetDialogMsg(textID);
 
+ GetDialogMsg(textID,mctext);
  //currLetter=0;
  for(i=0;i<currLetter;i++)
  {
