@@ -91,7 +91,19 @@ U0 MainMenu(CDC*dc, CTask *task)
   Sprite3B(dc,220,300,10,GetButton(1));
   Sprite3B(dc,220,350,10,GetButton(2));
   Sprite3B(dc,220,400,10,GetButton(3));
-  
+
+  //music button
+  Sprite3B(dc,494,220,0,GetMenuSprite(0));    
+  Sprite3B(dc,493,222,0,GetMenuSprite(7));
+  if(mc->musicMuted)   
+    Sprite3B(dc,496,230,0,GetMenuSprite(6));
+
+  //fx button
+  Sprite3B(dc,554,220,0,GetMenuSprite(0));    
+  Sprite3B(dc,546,230,0,GetMenuSprite(5));
+  if(mc->fxMuted)
+    Sprite3B(dc,554,230,0,GetMenuSprite(6));
+ 
    
 }
 
@@ -546,4 +558,41 @@ U0 IntroCutscene(CDC *dc, CTask *task,U8 textID)
  }
  AddCurrLetter(1,textID);
  CleanUpImage;
+}
+
+
+
+//Main game side bar
+U0 RPGSideBar(CDC *dc)
+{
+
+   //Inventory button
+   Sprite3B(dc,494,40,0,GetMenuSprite(0));    
+   Sprite3B(dc,510,52,0,GetMenuSprite(1));
+
+   //stats button
+   Sprite3B(dc,554,40,0,GetMenuSprite(0));    
+   Sprite3B(dc,562,48,0,GetMenuSprite(4));
+
+   Sprite3B(dc,494,100,0,GetMenuSprite(0));    
+
+   Sprite3B(dc,554,100,0,GetMenuSprite(0));    
+
+   Sprite3B(dc,494,160,0,GetMenuSprite(0));    
+
+   Sprite3B(dc,554,160,0,GetMenuSprite(0));    
+
+
+   //music button
+   Sprite3B(dc,494,220,0,GetMenuSprite(0));    
+   Sprite3B(dc,493,222,0,GetMenuSprite(7));
+   if(mc->musicMuted)   
+    Sprite3B(dc,496,230,0,GetMenuSprite(6));
+
+   //fx button
+   Sprite3B(dc,554,220,0,GetMenuSprite(0));    
+   Sprite3B(dc,546,230,0,GetMenuSprite(5));
+   if(mc->fxMuted)
+    Sprite3B(dc,554,230,0,GetMenuSprite(6));
+
 }

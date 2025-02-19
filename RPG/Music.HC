@@ -4,75 +4,101 @@ U0 SongTask(MenuControl *mc, CTask *task, CDC *dc)
 {
   Fs->task_end_cb=&SndTaskEndCB;
   MusicSettingsRst;
+  Play("...0Ct1Ct2Ct3C4C");
   while(TRUE){
-   if(mc->currentSong==0)
+   if(mc->musicMuted){Sleep(100);goto loop;}
+   switch(mc->currentSong)//muted
    {
+    case 0:
     //Town Song
-     Play("3qCet2EG3.q2BetDF3.qDet2FA3.qCet2EG3.2qGet1GB2D1G2CE1G2D2GA#3D.");//I am heading home
-     if(mc->currentSong!=0)
+     Play("3qCet2EG3.q2BetDF3.qDet2FA3.qCet2EG3.");//I am heading home
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
+     goto loop;
+     Play("2qGet1GB2D1G2CE1G2D2GA#3D.");//I am heading home
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
      goto loop;
 
      Play("3qCet2EG3.q2BetDF3.qDet2FA3.qCet2EG3.2.hA.et1AF#GEFGAC.");//I am heading home
-     if(mc->currentSong!=0)
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
      goto loop;
 
-     Play("3qCtt2EG3..q2Bett1B2D#F#3..q3Dett1A2C#E3..q2Gett1GA#2D3..q2AGett1GA#2D..q2Bett1B2D#F#..q2Eett1FG#2C..q3Eett1FG#2C..q3DF2Bett1B2D#F#..q3hCq");//I am heading I am heading I am heading home
-     if(mc->currentSong!=0)
+
+     Play("3qCtt2EG3..q2Bett1B2D#F#3..q3Dett1A2C#E3..");//I am heading I am heading I am heading home
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
      goto loop;
 
-     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qDett1A2C#E3..qEett1FG#2C3..qCett2EG3..qCett2EG3..qCett2EG3..q");//What should we expect of you?
-     if(mc->currentSong!=0)
+     Play("q2Gett1GA#2D3..q2AGett1GA#2D..q2Bett1B2D#F#..");//I am heading I am heading I am heading home
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
      goto loop;
 
-     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qCtt2EG3..wDett1A2C#E3..q");//When you've headed home?
-     if(mc->currentSong!=0)
+     Play("q2Eett1FG#2C..q3Eett1FG#2C..q3DF2Bett1B2D#F#..q3hCq");//I am heading I am heading I am heading home
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
      goto loop;
 
-     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qDett1A2C#E3..qEett1FG#2C3..qCett2EG3..qCett2EG3..qCett2EG3..q");//What things shall we do with you?
-     if(mc->currentSong!=0)
+
+     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qDett1A2C#E3..");//What should we expect of you?
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
      goto loop;
 
-     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qDett1A2C#E3..wCtt2EG3..4qC");//Once you're safe at home?
-  
-     if(mc->currentSong!=0)
+     Play("qEett1FG#2C3..qCett2EG3..qCett2EG3..qCett2EG3..q");//What should we expect of you?
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
      goto loop;
-    
-   }
-   if(mc->currentSong==1)
-   {
+
+
+     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..");//When you've headed home?
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
+     goto loop;
+
+     Play("qCtt2EG3..wDett1A2C#E3..q");//When you've headed home?
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
+     goto loop;
+
+     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..");//What things shall we do with you?
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
+     goto loop;
+
+     Play("qDett1A2C#E3..qEett1FG#2C3..qCett2EG3..qCett2EG3..qCett2EG3..q");//What things shall we do with you?
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
+     goto loop;
+
+     Play("3Gett1GA#2D3..qEett1FG#2C3..qFett1F#A2C#3..qDett1A2C#E3..wCtt2EG3..4qC");//Once you're safe at home?  
+     if(mc->currentSong!=0||mc->musicMuted==TRUE)
+     goto loop;
+    break;
+    case 1:
     //Main Menu
     Play("t5G4B");
-    if(mc->currentSong!=1)
+    if(mc->currentSong!=1||mc->musicMuted==TRUE)
      goto loop;
     Play("DED");
-    if(mc->currentSong!=1)
+    if(mc->currentSong!=1||mc->musicMuted==TRUE)
      goto loop;
     Play("B5G");
-    if(mc->currentSong!=1)
+    if(mc->currentSong!=1||mc->musicMuted==TRUE)
      goto loop;
     Play("4ACD");
-    if(mc->currentSong!=1)
+    if(mc->currentSong!=1||mc->musicMuted==TRUE)
      goto loop;
     Play("A3G");
-    if(mc->currentSong!=1)
+    if(mc->currentSong!=1||mc->musicMuted==TRUE)
      goto loop;
     Play("4BD");
-    if(mc->currentSong!=1)
+    if(mc->currentSong!=1||mc->musicMuted==TRUE)
      goto loop;
     Play("BA");
-    if(mc->currentSong!=1)
+    if(mc->currentSong!=1||mc->musicMuted==TRUE)
      goto loop;
     Play("EAA");
-    if(mc->currentSong!=1)
+    if(mc->currentSong!=1||mc->musicMuted==TRUE)
      goto loop;
     Play("3G5AC");
-    if(mc->currentSong!=1)
+    if(mc->currentSong!=1||mc->musicMuted==TRUE)
      goto loop;
     Play("ACD.");
 
-   }
-   if(mc->currentSong==2)
-   {//character select
+   break;
+   case 2:
+   //character select
     Play("q3#F4A#C");
     if(mc->currentSong!=2)
      goto loop;
@@ -98,9 +124,9 @@ U0 SongTask(MenuControl *mc, CTask *task, CDC *dc)
     if(mc->currentSong!=2)
      goto loop;
 
-   }
-   if(mc->currentSong==3)
-   {//wedding Theme
+   break;
+   case 3:
+   //wedding Theme
     Play("5FrErt4B5D");
     if(mc->currentSong!=3)
      goto loop;
@@ -131,11 +157,9 @@ U0 SongTask(MenuControl *mc, CTask *task, CDC *dc)
      Play("FEFD.");
     if(mc->currentSong!=3)
      goto loop;
-    
+   break;
+   case 4://load theme
    
-   }
-   if(mc->currentSong==4)//load theme
-   {
     Play("4CrEFrrr");
     if(mc->currentSong!=4)
      goto loop;
@@ -149,12 +173,16 @@ U0 SongTask(MenuControl *mc, CTask *task, CDC *dc)
     if(mc->currentSong!=4)
      goto loop;
         
-   }
-   if(mc->currentSong==5)//combat
-   {
+   break;
+   case 5://combat
+   
      Play("4CrEFrrr");
+     if(mc->currentSong!=5||mc->musicMuted==TRUE)
+      goto loop;
+   
     
-   }
+   break;
+  }
   loop:
   SndRst;
   music.note_len =.75;

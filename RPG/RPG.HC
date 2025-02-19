@@ -884,18 +884,8 @@ U0 DrawIt(CTask *task, CDC *dc)
       }
     
       RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
-      10, GetActorAnimationJob(toRender), highlight);
-
-      
-      
-      
-
-
-     
+      10, GetActorAnimationJob(toRender), highlight);     
      }//if npc
-      
-
-     
      }//if too large y
     }//for y
     }//if too large
@@ -904,25 +894,15 @@ U0 DrawIt(CTask *task, CDC *dc)
    //Game Menus
    dc->color = DKGRAY;
    GrRect3(dc,12*camera->dividX+camera->cameraOffSetX,0,0,200,480);
+   Sprite3B(dc,11*camera->dividX-25,-4,0,GetSideMenu);
+   Sprite3B(dc,494,420,0,GetButton(4));//save button 
 
-   Sprite3B(dc,11*camera->dividX-25,-4,0,GetSideMenu); 
-   Sprite3B(dc,494,420,0,GetButton(4));
-
-   //Inventory button
-   Sprite3B(dc,494,50,0,GetMenuSprite(0));    
-   Sprite3B(dc,510,62,0,GetMenuSprite(1));
-
-        
+   RPGSideBar(dc);
 
    //Current Spirit and Health 
    dc->color=BLUE;
-
    GrCircle(dc,518,344,36);
-   
-
    I64 fillValue= ToI64((ToF64(p->currentMana)/ToF64(p->mana))*100);
-  
- 
    switch(fillValue)
    {
     case 1...5:
@@ -1278,7 +1258,7 @@ U0 RPGMain()
 	  {
 	  case MSG_MS_L_DOWN:
 	    if(camera->cursorX>=229&&camera->cursorX<=397)
-	      {
+	    {
 	      if(camera->cursorY>258&&camera->cursorY<298)
 	        {//new game
 	        mc->currentMenu=3;
@@ -1296,7 +1276,27 @@ U0 RPGMain()
 
 	        goto fs_end;
 	      }
-	    }
+            }
+            else if(camera->cursorX>=494&&camera->cursorX<=543&&//music 
+               camera->cursorY>=220&&camera->cursorY<=280
+               )
+            {
+ 	       if(mc->musicMuted==FALSE)
+               {
+                 mc->musicMuted=TRUE;
+               }else { mc->musicMuted=FALSE; }
+  
+            }
+            else if(camera->cursorX>=554&&camera->cursorX<=601&&//fx
+               camera->cursorY>=220&&camera->cursorY<=280)
+              {
+ 	      
+ 	       if(mc->fxMuted==FALSE)
+               {
+                 mc->fxMuted=TRUE;
+               }else { mc->fxMuted=FALSE; }
+            }
+ 
 	    break;
         }
         break;
@@ -1305,27 +1305,54 @@ U0 RPGMain()
 	      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
 	  {
 	  case MSG_MS_L_DOWN:
-	    if(camera->cursorX>=496&&camera->cursorX<=619&&
+	    if(camera->cursorX>=496&&camera->cursorX<=619&& //save button
                camera->cursorY>=421&&camera->cursorY<=458)
 	    {
 	      SaveForm;
 	      mc->currentMenu=0;
               mc->currentSong=1;
 	    }
-            else if(camera->cursorX>=496&&camera->cursorX<=543&&
-               camera->cursorY>=60&&camera->cursorY<=120)
+            else if(camera->cursorX>=496&&camera->cursorX<=543&& //inv button
+               camera->cursorY>=40&&camera->cursorY<=100)
 	    {
               if(mc->displayInventory==TRUE)
  		mc->displayInventory=FALSE;
               else
 	       mc->displayInventory=TRUE;
 	    }
-            else if(camera->cursorX>=460&&camera->cursorX<=480&&
+            else if(camera->cursorX>=460&&camera->cursorX<=480&&//inv x
                camera->cursorY>=290&&camera->cursorY<=310
                &&mc->displayInventory==TRUE)
             {
  	      mc->displayInventory=FALSE;
+            }  
+            else if(camera->cursorX>=460&&camera->cursorX<=480&&//stats on
+               camera->cursorY>=290&&camera->cursorY<=310
+               )
+            {
+ 	      mc->displayInventory=FALSE;
             }
+
+            else if(camera->cursorX>=494&&camera->cursorX<=543&&//music 
+               camera->cursorY>=220&&camera->cursorY<=280
+               )
+            {
+ 	      if(mc->musicMuted==FALSE)
+              {
+                mc->musicMuted=TRUE;
+              }else { mc->musicMuted=FALSE; }
+  
+            }
+            else if(camera->cursorX>=554&&camera->cursorX<=601&&//fx
+               camera->cursorY>=220&&camera->cursorY<=280)
+            {
+ 	      
+ 	      if(mc->fxMuted==FALSE)
+              {
+                mc->fxMuted=TRUE;
+              }else { mc->fxMuted=FALSE; }
+            }
+           
   
 	    break;
 	  case MSG_KEY_UP:

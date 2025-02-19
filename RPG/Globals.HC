@@ -28,6 +28,7 @@ class CombatTurn:CQue
 class MenuControl
 {
   //Narrative Control
+  Bool fxMuted,musicMuted;
   I32 currentSong,//for draw and song threads
       currentMenu,
       cutsceneTarget;//switch cutscene frames
@@ -57,7 +58,8 @@ class Camera
   F64 dividX, dividY;//ratio tile to screen h/w
   I64 cursorX, cursorY,//cursor positions 
       topLR,topUD,//for preventing pan at map corners
-      cameraOffSetX,cameraOffSetY;//offset for smooth transition
+      cameraOffSetX,cameraOffSetY;//offset for smooth
+                            //animation transition on underlying matrix
   
 };
 
