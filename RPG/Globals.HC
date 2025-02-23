@@ -48,7 +48,8 @@ class MenuControl
 
 
   //inventory render
-  Bool displayInventory,reRenderInv;
+  Bool displayInventory,reRenderInv, 
+       displayStats;
   CDC *inventoryRender;
 
 };

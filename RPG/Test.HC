@@ -65,8 +65,11 @@ U0 DeserializeDialog(I64 textID)
  Print(ln);
 
 }
-PrintErr(MStrPrint("%s%s",DirCur,DIALOG_FILE));
+//PrintErr(MStrPrint("%s%s",DirCur,DIALOG_FILE));
 //DeserializeDialog(10);
 //Print(myDialog)
 
-DbgPutS("You crashed the window manager,Ill try to restart it\n");
+I64 a= 85;
+//U8* ab = Str2I64(a);
+Print(MStrPrint("%d",a));
+//DbgPutS("You crashed the window manager,Ill try to restart it\n");

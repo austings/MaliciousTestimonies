@@ -162,7 +162,7 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
   U8 *t9 = "As part of the greater tribe ofJoseph,\nthe Ephraim settled in the northern kingdom of Israel.\nThe stalwart tribe played a central role as\nkey defenders of the political and religious order.";  
   U8 *t10= "Heirs of the Davidic monarchy and King Solomon's\nlegacy, the tribe of Judah played a central role\nin the formation of the Kingdom ofJudah\nand development of Judaism.";
   U8 *t11= "A relatively small tribe, the descendants of\nBenjamin were made significant by the first\nKing of Israel, Saul. They are mighty warriors\nthat control the key city of Jerusalem.";
-  U8 *t12="STRENGTH:Base Attack Damage";
+  U8 *t12= "STRENGTH:Base Attack Damage";
   U8 *t13= "CONSTITUTION:Base Attack Defense";
   U8 *t14= "INTELLIGENCE:Special Attack Damage";
   U8 *t15= "WISDOM:Special Attack Defense";
@@ -594,5 +594,135 @@ U0 RPGSideBar(CDC *dc)
    Sprite3B(dc,546,230,0,GetMenuSprite(5));
    if(mc->fxMuted)
     Sprite3B(dc,554,230,0,GetMenuSprite(6));
+
+}
+
+//stats menu bar
+
+CDC *RenderStats(Actor *player)
+{
+  I64 i;
+  U8 *t0a = "Tribe of Judah";
+  U8 *t0b = "Tribe of Levi";
+  U8 *t0c = "Tribe of Ephraim";
+  U8 *t0d = "Tribe of Benjamin";
+
+  U8 *t1 = "STR:";
+  U8 *t1a= "Base Attack Damage";
+  U8 *v1 = MStrPrint("%d",player->str);
+  U8 *t2= "CON:";
+  U8 *t2a= "Base Attack Defense";
+  U8 *v2 =  MStrPrint("%d",player->con);
+  U8 *t3= "INT:";
+  U8 *t3a="Special Attack Damage";
+  U8 *v3 =  MStrPrint("%d",player->int);
+  U8 *t4= "WIS:";
+  U8 *t4a= "Special Attack Defense";
+  U8 *v4 =  MStrPrint("%d",player->wis);
+
+  U8 *t5= "Experience:";
+  U8 *v5a= MStrPrint("%d",player->exp);
+  U8 *v5b= MStrPrint("%d",player->maxExp);
+  U8 *v5c= "/";
+  U8 *t6= "Current Level:";
+  U8 *v6= MStrPrint("%d",player->lvl);
+
+  CDC *completeMenu = DCNew(140,300);
+  DCFill(completeMenu, BLACK);
+
+  completeMenu->color=WHITE;
+
+  switch(player->race)
+  {
+    case 0:  
+     for(i=0;i<StrLen(t0a);i++)
+     {
+      GrChar(completeMenu,t0a[i],i*7,20,1);
+     }
+    break;
+    case 1:
+     for(i=0;i<StrLen(t0b);i++)
+     {
+      GrChar(completeMenu,t0b[i],i*7,20,1);
+     }
+    break;
+    case 2:  
+     for(i=0;i<StrLen(t0c);i++)
+     {
+      GrChar(completeMenu,t0c[i],i*7,20,1);
+     }
+    break;
+    case 3:
+     for(i=0;i<StrLen(t0d);i++)
+     {
+      GrChar(completeMenu,t0d[i],i*7,20,1);
+     }
+    break;
+  }
+
+  for(i=0;i<StrLen(t1);i++)
+  {
+   GrChar(completeMenu,t1[i],i*7,40,1);
+  }
+  for(i=0;i<StrLen(v1);i++)
+  {
+   GrChar(completeMenu,v1[i],(4*7)+i*7,40,1);
+  }
+
+  for(i=0;i<StrLen(t2);i++)
+  {
+   GrChar(completeMenu,t2[i],i*7,60,1);
+  }
+  for(i=0;i<StrLen(v2);i++)
+  {
+   GrChar(completeMenu,v2[i],(4*7)+i*7,60,1);
+  }
+
+  for(i=0;i<StrLen(t3);i++)
+  {
+   GrChar(completeMenu,t3[i],i*7,80,1);
+  }
+  for(i=0;i<StrLen(v3);i++)
+  {
+   GrChar(completeMenu,v3[i],(4*7)+i*7,80,1);
+  }
+
+  for(i=0;i<StrLen(t4);i++)
+  {
+   GrChar(completeMenu,t4[i],i*7,100,1);
+  }
+  for(i=0;i<StrLen(v4);i++)
+  {
+   GrChar(completeMenu,v4[i],(4*7)+i*7,100,1);
+  }
+
+  for(i=0;i<StrLen(t5);i++)
+  {
+   GrChar(completeMenu,t5[i],i*7,120,1);
+  }
+  for(i=0;i<StrLen(v5a);i++)
+  {
+   GrChar(completeMenu,v5a[(StrLen(v5a)-i)-1],(5*7)-(i*7),140,1);
+  }
+
+  GrChar(completeMenu,v5c[0],(5*7)+i*7,140,1);
+
+  for(i=0;i<StrLen(v5b);i++)
+  {
+   GrChar(completeMenu,v5b[i],(7*7)+(i*7),140,1);
+  }
+
+  for(i=0;i<StrLen(t6);i++)
+  {
+   GrChar(completeMenu,t6[i],i*7,160,1);
+  }
+  for(i=0;i<StrLen(v6);i++)
+  {
+   GrChar(completeMenu,v6[i],(5*7)+i*7,180,1);
+  }
+
+
+ Sprite3B(completeMenu,120,0,1,GetMenuSprite(3));//xbutton    
+ return completeMenu;
 
 }

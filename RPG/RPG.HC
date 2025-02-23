@@ -106,11 +106,8 @@ CDC *RenderInventory(Actor *p)
 
 U0 MoveActor(Actor *p, U8 dir)
 {
- DbgPutS("\n");
-
- DbgPutS(DirCur(Fs));
  
- if(p->race>=4)
+ /*if(p->race>=4)
  {
   switch(dir)
   {
@@ -150,7 +147,7 @@ U0 MoveActor(Actor *p, U8 dir)
   }
   return;
 
- }else{
+ }else{*/
 
 
  //actors with anim
@@ -162,15 +159,17 @@ U0 MoveActor(Actor *p, U8 dir)
   switch(dir)
   {
   case 0://left
-   p->walkingSubFrame=3;
+    p->walkingSubFrame=3;
 
-   if(p->id==0&&p->x-1>=0&&!
+   if(p->x-1>=0&&!
       CheckSolid(world->level,p->x-1,p->y,world->currentZ))
    {
     npc = GetTensorNPC(world->level,p->x-1,p->y,world->currentZ);
     if(npc!=-1)
     {
+      if(p->id==0){
        InteractActor(npc);
+      }
     
     }
     else
@@ -194,12 +193,17 @@ U0 MoveActor(Actor *p, U8 dir)
   case 1://right
    p->walkingSubFrame=2;
 
-   if(p->id==0&&p->x+1!=wX&&!CheckSolid(world->level,p->x+1,p->y,world->currentZ))
+
+   if(p->x+1!=wX&&!CheckSolid(world->level,p->x+1,p->y,world->currentZ))
    {
     npc =GetTensorNPC(world->level,p->x+1,p->y,world->currentZ); 
     if(npc!=-1)
     {  
-        InteractActor(npc); 
+
+      if(p->id==0){
+       InteractActor(npc);
+      }
+     
     }
     else
     {
@@ -221,12 +225,16 @@ U0 MoveActor(Actor *p, U8 dir)
   case 2://up
    p->walkingSubFrame=1;
 
-   if(p->id==0&&p->y-1>=0&&!CheckSolid(world->level,p->x,p->y-1,world->currentZ))
+   if(p->y-1>=0&&!CheckSolid(world->level,p->x,p->y-1,world->currentZ))
    {
     npc =GetTensorNPC(world->level,p->x,p->y-1,world->currentZ); 
     if(npc!=-1)
     {
+
+      if(p->id==0){
        InteractActor(npc);
+      }
+    
     }
     else
     {
@@ -249,12 +257,16 @@ U0 MoveActor(Actor *p, U8 dir)
   case 3://down
    p->walkingSubFrame=0;
 
-   if(p->id==0&&p->y+1!=wY&&!CheckSolid(world->level,p->x,p->y+1,world->currentZ))
+   if(p->y+1!=wY&&!CheckSolid(world->level,p->x,p->y+1,world->currentZ))
    {
     npc = GetTensorNPC(world->level,p->x,p->y+1,world->currentZ);
     if(npc!=-1)
     {
-        InteractActor(npc);
+
+      if(p->id==0){
+       InteractActor(npc);
+      }
+    
     }
     else
     {
@@ -276,7 +288,7 @@ U0 MoveActor(Actor *p, U8 dir)
   break;
   }
  }//if not walking
- }//else
+ //}//else
 
 }
 
@@ -396,17 +408,15 @@ U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
   mc->currentSong=5;
   QueInit(&combatCQue);
   
-  I64 maxChars;
   CombatTurn *ctn;
-  for(maxChars=0;maxChars!=2;maxChars++)
-  {// Limit for one
-   ctn = CAlloc(sizeof(CombatTurn));
-   if(maxChars==0){
-    ctn->ready = GetNPC(0);}
-   else{
-    ctn->ready = toInsert;} //GetNPC(maxChars);
-   QueIns(ctn,combatCQue.last);
-  }
+  // Limit for one
+  ctn = CAlloc(sizeof(CombatTurn));
+  ctn->ready = GetNPC(0); //GetNPC(maxChars);
+  QueIns(ctn,combatCQue.last);
+
+  ctn = CAlloc(sizeof(CombatTurn));
+  ctn->ready = toInsert; //GetNPC(maxChars);
+  QueIns(ctn,combatCQue.last);
   //combatCQue
   
   ctp = combatCQue.next;
@@ -427,8 +437,9 @@ U0 RenderCombatVersion(Actor *toRender)
       ctp = combatCQue.next;//reset que pointers
       ctp = ctp->next;//now pointer is to the first creature in the que
       if(ctp->ready->dead==FALSE){
-       MoveActor(ctp->ready,RandU64%(4));
-       mc->combatON=TRUE;}//move it randomly}
+       //MoveActor(ctp->ready,RandU64%(4));
+       mc->combatON=TRUE;
+      }//move it randomly}
       else
       {
        mc->combatON=FALSE;
@@ -440,9 +451,7 @@ U0 RenderCombatVersion(Actor *toRender)
     {
       //reset back to stage 0, start of player's turn
       mc->combatMenuStage=0;
-      mc->combatMenuSelection=0;
-      //RemoveMana(GetNPC(0), -GetNPC(0)->wis);
-     
+      mc->combatMenuSelection=0;      
 
       //return que pointer to player
       if(mc->turnIndex==QueCnt(combatCQue))
@@ -571,7 +580,6 @@ U0 DrawIt(CTask *task, CDC *dc)
           //return to player from head
           if(mc->turnIndex>QueCnt(combatCQue))
           {
-           //ctp = ctp->next;
            ctp = combatCQue.next;
            mc->turnIndex = 1;
 
@@ -614,7 +622,6 @@ U0 DrawIt(CTask *task, CDC *dc)
           mc->turnIndex--;
           if(mc->turnIndex==0)
           {
-           //ctp = ctp->next;
            ctp = combatCQue.last;
            mc->turnIndex = QueCnt(combatCQue);
 
@@ -646,7 +653,7 @@ U0 DrawIt(CTask *task, CDC *dc)
          mc->combatMenuSelection--;
         break; 
         case 10: //move menu
-         if(p->currentMana>=5){
+         if(p->currentMana>=5&&p->walking==0){
           MoveActor(p,2); RemoveMana(p, 5);}
          else{
           mc->combatMenuStage=1;}
@@ -675,7 +682,7 @@ U0 DrawIt(CTask *task, CDC *dc)
         case 0...2: mc->combatMenuSelection++;
         case 3: break;
         case 10: //move menu
-         if(p->currentMana>=5){
+         if(p->currentMana>=5&&p->walking==0){
           MoveActor(p,3); RemoveMana(p, 5);
          }else{
          mc->combatMenuStage=1;}
@@ -898,7 +905,10 @@ U0 DrawIt(CTask *task, CDC *dc)
    Sprite3B(dc,494,420,0,GetButton(4));//save button 
 
    RPGSideBar(dc);
-
+   if(mc->displayStats)
+   {
+    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));
+   }
    //Current Spirit and Health 
    dc->color=BLUE;
    GrCircle(dc,518,344,36);
@@ -1277,7 +1287,7 @@ U0 RPGMain()
 	        goto fs_end;
 	      }
             }
-            else if(camera->cursorX>=494&&camera->cursorX<=543&&//music 
+            else if(camera->cursorX>=494&&camera->cursorX<=549&&//music 
                camera->cursorY>=220&&camera->cursorY<=280
                )
             {
@@ -1287,7 +1297,7 @@ U0 RPGMain()
                }else { mc->musicMuted=FALSE; }
   
             }
-            else if(camera->cursorX>=554&&camera->cursorX<=601&&//fx
+            else if(camera->cursorX>=550&&camera->cursorX<=610&&//fx
                camera->cursorY>=220&&camera->cursorY<=280)
               {
  	      
@@ -1295,7 +1305,7 @@ U0 RPGMain()
                {
                  mc->fxMuted=TRUE;
                }else { mc->fxMuted=FALSE; }
-            }
+            }
  
 	    break;
         }
@@ -1312,8 +1322,9 @@ U0 RPGMain()
 	      mc->currentMenu=0;
               mc->currentSong=1;
 	    }
-            else if(camera->cursorX>=496&&camera->cursorX<=543&& //inv button
-               camera->cursorY>=40&&camera->cursorY<=100)
+            else if(camera->cursorX>=496&&camera->cursorX<=549&& //inv button
+               camera->cursorY>=40&&camera->cursorY<=100
+               &&mc->displayStats==FALSE)
 	    {
               if(mc->displayInventory==TRUE)
  		mc->displayInventory=FALSE;
@@ -1326,16 +1337,22 @@ U0 RPGMain()
             {
  	      mc->displayInventory=FALSE;
             }  
-            else if(camera->cursorX>=460&&camera->cursorX<=480&&//stats on
-               camera->cursorY>=290&&camera->cursorY<=310
-               )
+            else if(camera->cursorX>=550&&camera->cursorX<=610&&//stats on
+               camera->cursorY>=40&&camera->cursorY<=100
+               &&mc->displayStats==FALSE)
             {
- 	      mc->displayInventory=FALSE;
+ 	      mc->displayStats=TRUE;
+            }
+            else if(camera->cursorX>=580&&camera->cursorX<=641&&//stats x
+               camera->cursorY>=0&&camera->cursorY<=40
+               &&mc->displayStats==TRUE)
+            {
+ 	      mc->displayStats=FALSE;
             }
 
-            else if(camera->cursorX>=494&&camera->cursorX<=543&&//music 
+            else if(camera->cursorX>=494&&camera->cursorX<=549&&//music 
                camera->cursorY>=220&&camera->cursorY<=280
-               )
+               &&mc->displayStats==FALSE)
             {
  	      if(mc->musicMuted==FALSE)
               {
@@ -1343,8 +1360,9 @@ U0 RPGMain()
               }else { mc->musicMuted=FALSE; }
   
             }
-            else if(camera->cursorX>=554&&camera->cursorX<=601&&//fx
-               camera->cursorY>=220&&camera->cursorY<=280)
+            else if(camera->cursorX>=550&&camera->cursorX<=610&&//fx
+               camera->cursorY>=220&&camera->cursorY<=280
+               &&mc->displayStats==FALSE)
             {
  	      
  	      if(mc->fxMuted==FALSE)

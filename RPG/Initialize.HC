@@ -50,6 +50,7 @@ U0 Init()
  mc->dialogName = "???";//dialog actor name
 
  mc->displayInventory=FALSE;
+ mc->displayStats=FALSE;
  mc->reRenderInv=TRUE;
  mc->lootedSwitch=LOOTABLE;
  mc->inventoryRender = DCNew(640,480);

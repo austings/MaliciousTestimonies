@@ -2,14 +2,14 @@
 #define ACTOR_FILE "/Data/Actor.TXT"
 class Actor
 {
-  U8  race,eye,hair;
+  U8  race,eye,hair,points;
   I64 id,hat,armor,legs,boot,
       sword,offhand,
-      ring1,ring2,necklace;
+      ring1,ring2,necklace, maxExp;
   U64 x,y,health,mana, currentHealth, currentMana,
       str,int,con,wis;
   Bool dead;
-  U8 ai_script,walking;
+  U8 ai_script,walking, exp, lvl;
   U16 walkingSubFrame;
   Inventory *myInv;
   U8 name[15];
@@ -66,6 +66,13 @@ U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
 
 }
 
+U0 LvlUp(Actor *a)
+{
+  a->exp =0;
+  a->lvl = a->lvl+1;
+  a->maxExp = Pow(0.05*a->lvl,4)+Pow(2*a->lvl,3)
+                      +Pow(5*a->lvl,2)+10*a->lvl+3; 
+}
 U0 RemoveMana(Actor *a, I64 magnitude)
 {
   IndicatorText(a->x,a->y,magnitude,"Spirit");
@@ -204,6 +211,10 @@ Actor *DeserializeNPC(I64 npcid)
   p->currentHealth = p->health;
   p->mana=Str2I64(wis)*5;
   p->currentMana = p->mana;
+  p->exp = 0;
+  p->lvl = 1;
+  p->maxExp = 20;
+  p->points=0;
 
   return p;
   //p->id = Str2I64(id); todo inv
@@ -378,6 +389,10 @@ U64 x, U64 y, U64 str=1, U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  me->currentHealth = me->health;
  me->mana=wis*5;
  me->currentMana = me->mana;
+ me->maxExp = 20;
+ me->points=0;
+ me->exp = 0;
+ me->lvl = 1;
  me->str=str;
  me->int=int;
  me->con=con;

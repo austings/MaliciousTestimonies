@@ -726,7 +726,7 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
         a->walkingSubFrame=0;
         a->walking = 0;
        }
-       GrBlot3(completeActor,-2,0,10,A2D2);
+       GrBlot3(completeActor,-2,0,10,A2D2);
      break;
 
     }
@@ -1362,6 +1362,7 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
    break;
    case 4:
     Sprite3B(completeActor,0,32,10,GetDog);
+    return completeActor;
 
    break;
   }

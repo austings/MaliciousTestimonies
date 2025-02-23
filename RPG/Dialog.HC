@@ -34,7 +34,7 @@ U0 DeserializeDialog(I64 textID)
 {
  
  U8 *fptr =FileRead(DIALOG_FILE);
- U8 *lnptr,*ln,*temp;
+ U8 *lnptr,*ln,*temp;
  StrUtil(fptr,SUF_REM_CTRL_CHARS);
  U8 *nameptr=myDialog;
  U8 id[8],*idptr=id;
