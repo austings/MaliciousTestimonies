@@ -442,6 +442,14 @@ U0 RenderCombatVersion(Actor *toRender)
       }//move it randomly}
       else
       {
+       //GetNPC(0)->exp+
+       player->exp+=(ctp->ready->str+ ctp->ready->con+ 
+                     ctp->ready->int+ ctp->ready->wis);
+       if(player->exp>=player->maxExp)
+       {
+        Play("3wC#D#E#F#G#");
+        LvlUp(player);
+       }
        mc->combatON=FALSE;
        mc->currentSong=0;
       }
@@ -814,7 +822,7 @@ U0 DrawIt(CTask *task, CDC *dc)
                 
 
   
-     I64 npc= GetTensorNPC(world->level,
+     I64 npc= GetTensorNPC(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
    
      //Actors
@@ -1341,7 +1349,7 @@ U0 RPGMain()
                camera->cursorY>=40&&camera->cursorY<=100
                &&mc->displayStats==FALSE)
             {
- 	      mc->displayStats=TRUE;
+ 	      mc->displayStats=TRUE;
             }
             else if(camera->cursorX>=580&&camera->cursorX<=641&&//stats x
                camera->cursorY>=0&&camera->cursorY<=40

@@ -68,7 +68,7 @@ U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
 
 U0 LvlUp(Actor *a)
 {
-  a->exp =0;
+  a->exp = a->exp - a->maxExp;
   a->lvl = a->lvl+1;
   a->maxExp = Pow(0.05*a->lvl,4)+Pow(2*a->lvl,3)
                       +Pow(5*a->lvl,2)+10*a->lvl+3; 
@@ -390,7 +390,7 @@ U64 x, U64 y, U64 str=1, U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  me->mana=wis*5;
  me->currentMana = me->mana;
  me->maxExp = 20;
- me->points=0;
+ me->points=0;
  me->exp = 0;
  me->lvl = 1;
  me->str=str;
@@ -425,11 +425,10 @@ SetNPC(MakeActor(1,0,0,0,
      ReadNPC(4);
      ReadNPC(5);
      ReadNPC(6);
-     loaded7 = loaded1;
-     loaded8 = loaded1;
-     loaded9 = loaded1;
-     loaded10 = loaded1;
-     loaded=10;
+     ReadNPC(7);
+     ReadNPC(8);
+     ReadNPC(9);
+     ReadNPC(10);
      break;
    }
   }
