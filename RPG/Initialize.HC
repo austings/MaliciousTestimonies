@@ -51,6 +51,7 @@ U0 Init()
 
  mc->displayInventory=FALSE;
  mc->displayStats=FALSE;
+ mc->displayEquipment=FALSE;
  mc->reRenderInv=TRUE;
  mc->lootedSwitch=LOOTABLE;
  mc->inventoryRender = DCNew(640,480);

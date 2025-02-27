@@ -96,13 +96,13 @@ U0 MainMenu(CDC*dc, CTask *task)
   Sprite3B(dc,494,220,0,GetMenuSprite(0));    
   Sprite3B(dc,493,222,0,GetMenuSprite(7));
   if(mc->musicMuted)   
-    Sprite3B(dc,496,230,0,GetMenuSprite(6));
+    Sprite3B(dc,500,230,0,GetMenuSprite(6));
 
   //fx button
   Sprite3B(dc,554,220,0,GetMenuSprite(0));    
   Sprite3B(dc,546,230,0,GetMenuSprite(5));
   if(mc->fxMuted)
-    Sprite3B(dc,554,230,0,GetMenuSprite(6));
+    Sprite3B(dc,558,230,0,GetMenuSprite(6));
  
    
 }
@@ -566,15 +566,18 @@ U0 IntroCutscene(CDC *dc, CTask *task,U8 textID)
 U0 RPGSideBar(CDC *dc)
 {
 
-   //Inventory button
+   //equipment button
    Sprite3B(dc,494,40,0,GetMenuSprite(0));    
-   Sprite3B(dc,510,52,0,GetMenuSprite(1));
+   Sprite3B(dc,510,52,0,GetMenuSprite(8));
 
    //stats button
    Sprite3B(dc,554,40,0,GetMenuSprite(0));    
    Sprite3B(dc,562,48,0,GetMenuSprite(4));
 
+   //inventory button
    Sprite3B(dc,494,100,0,GetMenuSprite(0));    
+   Sprite3B(dc,510,112,0,GetMenuSprite(1));    
+
 
    Sprite3B(dc,554,100,0,GetMenuSprite(0));    
 
@@ -587,13 +590,13 @@ U0 RPGSideBar(CDC *dc)
    Sprite3B(dc,494,220,0,GetMenuSprite(0));    
    Sprite3B(dc,493,222,0,GetMenuSprite(7));
    if(mc->musicMuted)   
-    Sprite3B(dc,496,230,0,GetMenuSprite(6));
+    Sprite3B(dc,500,230,0,GetMenuSprite(6));
 
    //fx button
    Sprite3B(dc,554,220,0,GetMenuSprite(0));    
    Sprite3B(dc,546,230,0,GetMenuSprite(5));
    if(mc->fxMuted)
-    Sprite3B(dc,554,230,0,GetMenuSprite(6));
+    Sprite3B(dc,558,230,0,GetMenuSprite(6));
 
 }
 
@@ -625,7 +628,7 @@ CDC *RenderStats(Actor *player)
   U8 *v5b= MStrPrint("%d",player->maxExp);
   U8 *v5c= "/";
   U8 *t6= "Current Level:";
-  U8 *v6= MStrPrint("%d",player->lvl);
+  U8 *v6= MStrPrint("%d",player->lvl);
 
   CDC *completeMenu = DCNew(140,300);
   DCFill(completeMenu, BLACK);
@@ -724,5 +727,141 @@ CDC *RenderStats(Actor *player)
 
  Sprite3B(completeMenu,120,0,1,GetMenuSprite(3));//xbutton    
  return completeMenu;
+
+}
+
+ 
+CDC *RenderInventory(Actor *p)
+{ 
+ if(mc->reRenderInv)
+ {
+  I64 i,j;
+  CDC *newInventoryRender = DCNew(640,480);
+  DCFill(newInventoryRender, TRANSPARENT);
+  //items
+  static I16 scanned[44] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                       -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                       -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                       -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  U16 scanWriteIndex = 0;
+  for(i=0;i<11;i++)
+  {
+   for(j=0;j<4;j++)
+   {
+    I8 occupied= p->myInv->mtrx[j][i].occupied;
+    if(occupied!=-1)
+    {
+     Bool alreadyScanned = FALSE;
+     U8 scanIndex = 0;
+     while(scanIndex<scanWriteIndex)
+     {
+      if(scanned[scanIndex]==occupied)
+       alreadyScanned=TRUE;
+      scanIndex++;
+     }
+     if(!alreadyScanned)
+     {
+      scanned[scanWriteIndex] = occupied;
+      scanWriteIndex++;
+      I64 currentItemID = RetrieveItemID(0,occupied); 
+           
+      switch(currentItemID)
+      {
+       case 1://dagger   
+        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM1I);
+       break;
+       case 2://harpoon   
+        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM2I);
+       break;
+       case 3://wolfteeth
+        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM3I);
+       break;
+      }
+      //Free(&retrieved);
+     }
+    }
+   }
+  }
+  mc->inventoryRender = newInventoryRender;
+  mc->reRenderInv=FALSE;
+ }
+ 
+ return mc->inventoryRender;
+
+}
+
+
+CDC *RenderEquipment(Actor *player){
+
+  CDC *completeMenu = DCNew(160,300);
+
+  DCFill(completeMenu, BLACK);
+
+  completeMenu->color=LTGRAY;
+  GrRect3(completeMenu,0,0,0,160,3);
+  GrRect3(completeMenu,0,0,0,3,300);
+  GrRect3(completeMenu,0,297,0,160,3);
+  GrRect3(completeMenu,157,0,0,3,300);
+
+  completeMenu->color=WHITE;
+  I64 i;
+  U8 *title = "Equipment";
+ 
+  U8 *a = "HELM";
+  U8 *b = "WEPN";
+  U8 *c = "BODY";
+  U8 *d = "RING";
+
+  for(i=0;i<StrLen(title);i++)
+  {
+   GrChar(completeMenu,title[i],7+i*7,7,1);
+  }
+ 
+
+  //helm
+  Sprite3B(completeMenu,8,25,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,8+camera->dividX,25,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,8,25+camera->dividY,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,8+camera->dividX,25+camera->dividY,10,GetMenuSprite(2));
+  for(i=0;i<StrLen(a);i++)
+  {
+   GrChar(completeMenu,a[i],26+i*7,60,1);
+  }
+ 
+  //wepn
+  Sprite3B(completeMenu,8,116,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,8,116+camera->dividY,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,8,116+2*camera->dividY,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,8,116+3*camera->dividY,10,GetMenuSprite(2));
+  for(i=0;i<StrLen(b);i++)
+  {
+   GrChar(completeMenu,b[i],14+i*7,180,1);
+  }
+   
+  //body
+  Sprite3B(completeMenu,60,140,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,60+camera->dividX,140,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,60,140+camera->dividY,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,60+camera->dividX,140+camera->dividY,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,60,140+2*camera->dividY,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,60+camera->dividX,140+2*camera->dividY,10,GetMenuSprite(2));
+ 
+  for(i=0;i<StrLen(c);i++)
+  {
+   GrChar(completeMenu,c[i],75+i*7,190,1);
+  }
+   
+  //ring
+  Sprite3B(completeMenu,106,35,10,GetMenuSprite(2));
+  for(i=0;i<StrLen(d);i++)
+  {
+   GrChar(completeMenu,d[i],112+i*7,48,1);
+  }
+    
+
+ Sprite3B(completeMenu,140,0,1,GetMenuSprite(3));//xbutton
+    
+ return completeMenu;   
+  
 
 }

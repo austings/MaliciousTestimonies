@@ -29,7 +29,7 @@ class MenuControl
 {
   //Narrative Control
   Bool fxMuted,musicMuted;
-  I32 currentSong,//for draw and song threads
+  I32 currentSong,//for draw and song threads
       currentMenu,
       cutsceneTarget;//switch cutscene frames
 
@@ -47,9 +47,10 @@ class MenuControl
   Actor *target;I64 tarposx,tarposy;
 
 
-  //inventory render
+  //menus render
   Bool displayInventory,reRenderInv, 
-       displayStats;
+       displayStats,
+       displayEquipment;
   CDC *inventoryRender;
 
 };

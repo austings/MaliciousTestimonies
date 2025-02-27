@@ -46,7 +46,7 @@ Item *MakeItem(I64 id)
   build->usable=FALSE;
   break;
   case 3:
-  build->name = "Wolf fang";
+  build->name = "Wolf fang";
   build->w=1,build->h=1;
   build->equip_slot=0;
   build->usable=FALSE;
@@ -77,4 +77,4 @@ Inventory *MakeInventory()
  //QueInit(p->myInv->collection);
 
  return newInv;
-}
+}

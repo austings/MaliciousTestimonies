@@ -43,64 +43,6 @@ U0 InteractActor(I64 npc)
   }
  }
 
-} 
-CDC *RenderInventory(Actor *p)
-{ 
- if(mc->reRenderInv)
- {
-  I64 i,j;
-  CDC *newInventoryRender = DCNew(640,480);
-  DCFill(newInventoryRender, TRANSPARENT);
-  //items
-  static I16 scanned[44] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                       -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                       -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                       -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-  U16 scanWriteIndex = 0;
-  for(i=0;i<11;i++)
-  {
-   for(j=0;j<4;j++)
-   {
-    I8 occupied= p->myInv->mtrx[j][i].occupied;
-    if(occupied!=-1)
-    {
-     Bool alreadyScanned = FALSE;
-     U8 scanIndex = 0;
-     while(scanIndex<scanWriteIndex)
-     {
-      if(scanned[scanIndex]==occupied)
-       alreadyScanned=TRUE;
-      scanIndex++;
-     }
-     if(!alreadyScanned)
-     {
-      scanned[scanWriteIndex] = occupied;
-      scanWriteIndex++;
-      I64 currentItemID = RetrieveItemID(0,occupied); 
-           
-      switch(currentItemID)
-      {
-       case 1://dagger   
-        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM1I);
-       break;
-       case 2://harpoon   
-        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM2I);
-       break;
-       case 3://wolfteeth
-        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM3I);
-       break;
-      }
-      //Free(&retrieved);
-     }
-    }
-   }
-  }
-  mc->inventoryRender = newInventoryRender;
-  mc->reRenderInv=FALSE;
- }
- 
- return mc->inventoryRender;
-
 }
 
 
@@ -822,7 +764,7 @@ U0 DrawIt(CTask *task, CDC *dc)
                 
 
   
-     I64 npc= GetTensorNPC(world->level,
+     I64 npc= GetTensorNPC(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
    
      //Actors
@@ -905,7 +847,6 @@ U0 DrawIt(CTask *task, CDC *dc)
     }//for y
     }//if too large
    }//for x
-
    //Game Menus
    dc->color = DKGRAY;
    GrRect3(dc,12*camera->dividX+camera->cameraOffSetX,0,0,200,480);
@@ -917,6 +858,30 @@ U0 DrawIt(CTask *task, CDC *dc)
    {
     GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));
    }
+   if(mc->displayEquipment)
+   {
+    GrBlot3(dc,10,10,0,RenderEquipment(p));
+   }
+   if(mc->displayInventory)//inventory
+   {
+    dc->color = BLACK;
+    GrRect3(dc,0,300,0,480,190);
+    //background
+    for(i=0;i<11;i++)
+    {
+     for(j=0;j<4;j++)
+     {   
+     Sprite3B(dc,i*camera->dividX+2,j*camera->dividY+300,
+              0,GetMenuSprite(2));
+     }
+    }
+    GrBlot3(dc,0,0,10,RenderInventory(p));
+ 
+    Sprite3B(dc,460,280,0,GetMenuSprite(3));
+    
+   }
+ 
+
    //Current Spirit and Health 
    dc->color=BLUE;
    GrCircle(dc,518,344,36);
@@ -1196,25 +1161,7 @@ U0 DrawIt(CTask *task, CDC *dc)
      break;
     }
    }
-   else if(mc->displayInventory)//inventory
-   {
-    dc->color = LTGRAY;
-    GrRect3(dc,0,300,0,480,180);
-    //background
-    for(i=0;i<11;i++)
-    {
-     for(j=0;j<4;j++)
-     {   
-     Sprite3B(dc,i*camera->dividX+2,j*camera->dividY+300,
-              0,GetMenuSprite(2));
-     }
-    }
-    GrBlot3(dc,0,0,10,RenderInventory(p));
- 
-    Sprite3B(dc,460,280,0,GetMenuSprite(3));
-    
-   }
-   
+     
    break;
    //character select
    case 2:
@@ -1330,23 +1277,23 @@ U0 RPGMain()
 	      mc->currentMenu=0;
               mc->currentSong=1;
 	    }
-            else if(camera->cursorX>=496&&camera->cursorX<=549&& //inv button
-               camera->cursorY>=40&&camera->cursorY<=100
+            else if(camera->cursorX>=496&&camera->cursorX<=549&& //equip button
+               camera->cursorY>=40&&camera->cursorY<100
                &&mc->displayStats==FALSE)
 	    {
-              if(mc->displayInventory==TRUE)
- 		mc->displayInventory=FALSE;
+              if(mc->displayEquipment==TRUE)
+ 		mc->displayEquipment=FALSE;
               else
-	       mc->displayInventory=TRUE;
+	       mc->displayEquipment=TRUE;
 	    }
-            else if(camera->cursorX>=460&&camera->cursorX<=480&&//inv x
-               camera->cursorY>=290&&camera->cursorY<=310
-               &&mc->displayInventory==TRUE)
+            else if(camera->cursorX>=140&&camera->cursorX<=180&&//equip x
+               camera->cursorY>=10&&camera->cursorY<=40
+               &&mc->displayEquipment==TRUE)
             {
- 	      mc->displayInventory=FALSE;
-            }  
+ 	      mc->displayEquipment=FALSE;
+            }
             else if(camera->cursorX>=550&&camera->cursorX<=610&&//stats on
-               camera->cursorY>=40&&camera->cursorY<=100
+               camera->cursorY>=40&&camera->cursorY<100
                &&mc->displayStats==FALSE)
             {
  	      mc->displayStats=TRUE;
@@ -1357,7 +1304,23 @@ U0 RPGMain()
             {
  	      mc->displayStats=FALSE;
             }
+            else if(camera->cursorX>=496&&camera->cursorX<=549&& //inv button
+               camera->cursorY>=100&&camera->cursorY<=160&&
+               mc->displayStats==FALSE)
+	    {
 
+              if(mc->displayInventory==TRUE)
+ 		mc->displayInventory=FALSE;
+              else
+	       mc->displayInventory=TRUE;
+
+	    }
+            else if(camera->cursorX>=460&&camera->cursorX<=480&&//inv x
+               camera->cursorY>=290&&camera->cursorY<=310
+               &&mc->displayInventory==TRUE)
+            {
+ 	      mc->displayInventory=FALSE;
+            }  
             else if(camera->cursorX>=494&&camera->cursorX<=549&&//music 
                camera->cursorY>=220&&camera->cursorY<=280
                &&mc->displayStats==FALSE)
