@@ -65,11 +65,43 @@ U0 DeserializeDialog(I64 textID)
  Print(ln);
 
 }
+U0 DeserializeOpts()
+{
+ 
+ U8 *fptr =FileRead("Data/OPTIONS.TXT");
+ U8 *lnptr,*ln,*temp;
+ StrUtil(fptr,SUF_REM_CTRL_CHARS);
+ U8 id[8],*idptr=id;
+ U8 val[8],*valptr=val;
+
+ lnptr=fptr;
+
+ //I32 count = 0;
+ ln=ReadATextLine(&lnptr);
+ //{
+  //"%s",ln;
+  //if(count!=textID||*ln=='#'||*ln==0)
+  // goto skip;
+ StrScan(ln,"%s\t%s",&idptr,&valptr);
+ Bool ta = valptr;
+ "\n%s\n",ta;
+ ln=ReadATextLine(&lnptr);
+ StrScan(ln,"%s\t%s",&idptr,&valptr);
+ //"%s",ln;
+ "%s", val;
+ Free(ln);
+ //}
+ Free(fptr);
+
+}
+
+
+
 //PrintErr(MStrPrint("%s%s",DirCur,DIALOG_FILE));
-//DeserializeDialog(10);
+DeserializeOpts;
 //Print(myDialog)
 
 I64 a= 85;
 //U8* ab = Str2I64(a);
-Print(MStrPrint("%d",a));
+Print(MStrPrint("%d",a));
 //DbgPutS("You crashed the window manager,Ill try to restart it\n");

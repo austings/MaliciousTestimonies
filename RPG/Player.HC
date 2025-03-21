@@ -206,7 +206,7 @@ Actor *DeserializeNPC(I64 npcid)
   p->wis = Str2I64(wis);
   p->ai_script = Str2I64(ai);
   p->dead = FALSE;
-  p->walking = 0; p->walkingSubFrame=0;
+  p->walking = 0; p->walkingSubFrame=0;
   p->health= Str2I64(con)*5;
   p->currentHealth = p->health;
   p->mana=Str2I64(wis)*5;
@@ -467,21 +467,21 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
  Actor *p = GetNPC(actorID);
  Item *item = MakeItem(itemID);
  
- for(i=0;i<4;i++)
+ for(i=0;i<11;i++)
  {
-  for(j=0;j<11;j++)
+  for(j=0;j<4;j++)
   {
    area=0;
    for(x=item->w-1;x>=0;x--)
    {
-    if(j+x>=11)
+    if(i+x>=11)
      goto skip_num;
  
     for(y=item->h-1;y>=0;y--)
     {
-     if(i+y>=4)
+     if(j+y>=4)
       goto skip_num;
-     if(p->myInv->mtrx[i+y][j+x].occupied<0)
+     if(p->myInv->mtrx[j+y][i+x].occupied<0)
        area++;
   
     }
@@ -497,10 +497,11 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
     {  
      for(y=item->h-1;y>=0;y--)
      {
-      p->myInv->mtrx[i+y][j+x].occupied = cnt;
+      p->myInv->mtrx[j+y][i+x].occupied = cnt;
      }
     }
-   return TRUE;
+    item->invID = cnt;
+    return TRUE;
 
 
    }
@@ -515,7 +516,46 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
 
 }
 
-I64 *RetrieveItemID(I64 aID, I64 index)
+U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
+{
+ Actor *p = GetNPC(0);
+
+ I64 i,j,x,y;
+
+ //remove old loc
+ for(i=0;i<11;i++)
+ {
+  for(j=0;j<4;j++)
+  {
+    if(p->myInv->mtrx[j][i].occupied==item->invID)
+    {  p->myInv->mtrx[j][i].occupied=-1; }
+   
+      
+  }
+ }
+ item->visible=TRUE;
+ //add new loc
+ for(i=0;i<11;i++)
+ {
+  for(j=0;j<4;j++)
+  {
+    if(i==newI&&j==newJ){
+     for(x=0;x<item->w;x++)
+     {  
+      for(y=0;y<item->h;y++)
+      {
+       p->myInv->mtrx[j+y][i+x].occupied = item->invID;
+      }
+     }
+    }
+
+  }
+ }
+
+
+}
+
+I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE)
 {
   Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
   I64 i;
@@ -524,8 +564,24 @@ I64 *RetrieveItemID(I64 aID, I64 index)
     toBeRetrieved = toBeRetrieved->next;
   }
   //DocPrint("%d",toBeRetrieved->id);
-  return toBeRetrieved->id;
+  if(select)//move to mouse
+  {
+   toBeRetrieved->visible = FALSE;
+   return toBeRetrieved->id;
+  }
+  if(toBeRetrieved->visible==TRUE)
+   return toBeRetrieved->id;
 
+}
+Item *RetrieveItem(I64 aID, I64 index, Bool select=FALSE)
+{
+  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
+  I64 i;
+  for(i=0;i<index;i++)
+  {
+    toBeRetrieved = toBeRetrieved->next;
+  }
+  return toBeRetrieved;
 }
 
 

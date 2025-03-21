@@ -862,25 +862,7 @@ U0 DrawIt(CTask *task, CDC *dc)
    {
     GrBlot3(dc,10,10,0,RenderEquipment(p));
    }
-   if(mc->displayInventory)//inventory
-   {
-    dc->color = BLACK;
-    GrRect3(dc,0,300,0,480,190);
-    //background
-    for(i=0;i<11;i++)
-    {
-     for(j=0;j<4;j++)
-     {   
-     Sprite3B(dc,i*camera->dividX+2,j*camera->dividY+300,
-              0,GetMenuSprite(2));
-     }
-    }
-    GrBlot3(dc,0,0,10,RenderInventory(p));
- 
-    Sprite3B(dc,460,280,0,GetMenuSprite(3));
-    
-   }
- 
+   RPGInvLogic(dc,p);
 
    //Current Spirit and Health 
    dc->color=BLUE;
@@ -1195,7 +1177,7 @@ U0 CleanUp()
 U0 RPGMain()
 {
   CDC *dc=DCAlias;//Device Context
-  I64 arg1,arg2,msg_code;
+  I64 arg1,arg2,msg_code,i,j;
   SettingsPush;
   WinMax;
   WinBorder;
@@ -1213,38 +1195,25 @@ U0 RPGMain()
 
   while(TRUE)
   {
-
-    camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
-    switch(mc->currentMenu)
-      {
-      case 0://main menu
-        switch (msg_code=GetMsg(&arg1,&arg2,
-	      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
-	  {
-	  case MSG_MS_L_DOWN:
-	    if(camera->cursorX>=229&&camera->cursorX<=397)
-	    {
-	      if(camera->cursorY>258&&camera->cursorY<298)
-	        {//new game
-	        mc->currentMenu=3;
-                mc->currentSong=3;
-	      } else if(camera->cursorY>307&&camera->cursorY<349)
-	        {//load game
-	        loadRoot = FilesFind("Saves/*",FUF_JUST_FILES);
-	        mc->currentMenu=4;
-                mc->currentSong=4;
-	      } else if(camera->cursorY>358&&camera->cursorY<399)
-	        {//options
-
-	      } else if(camera->cursorY>408&&camera->cursorY<448)
-	        {//exit
-
-	        goto fs_end;
-	      }
-            }
-            else if(camera->cursorX>=494&&camera->cursorX<=549&&//music 
-               camera->cursorY>=220&&camera->cursorY<=280
-               )
+   camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
+   switch(mc->currentMenu){
+    case 0://main menu
+     switch(msg_code=GetMsg(&arg1,&arg2,
+     1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)){
+      case MSG_MS_L_DOWN:
+       if(camera->cursorX>=229&&camera->cursorX<=397){//menu buttons
+	if(camera->cursorY>258&&camera->cursorY<298){//new game
+	 mc->currentMenu=3;mc->currentSong=3;
+	} else if(camera->cursorY>307&&camera->cursorY<349){//load game
+	 loadRoot = FilesFind("Saves/*",FUF_JUST_FILES);
+	 mc->currentMenu=4;mc->currentSong=4;
+	} else if(camera->cursorY>358&&camera->cursorY<399){//options
+	} else if(camera->cursorY>408&&camera->cursorY<448){//exit
+	 goto fs_end;
+	}
+       }//end menu buttons
+      else if(camera->cursorX>=494&&camera->cursorX<=549&&//music 
+              camera->cursorY>=220&&camera->cursorY<=280)
             {
  	       if(mc->musicMuted==FALSE)
                {
@@ -1265,56 +1234,111 @@ U0 RPGMain()
 	    break;
         }
         break;
-      case 1://main game
-        switch (msg_code=GetMsg(&arg1,&arg2,
-	      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
-	  {
-	  case MSG_MS_L_DOWN:
-	    if(camera->cursorX>=496&&camera->cursorX<=619&& //save button
-               camera->cursorY>=421&&camera->cursorY<=458)
-	    {
+     case 1://main game
+      switch (msg_code=GetMsg(&arg1,&arg2,
+      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
+      {
+       case MSG_MS_L_DOWN:
+       if(camera->cursorX>=496&&camera->cursorX<=619&& //save button
+          camera->cursorY>=421&&camera->cursorY<=458){
 	      SaveForm;
 	      mc->currentMenu=0;
               mc->currentSong=1;
-	    }
-            else if(camera->cursorX>=496&&camera->cursorX<=549&& //equip button
-               camera->cursorY>=40&&camera->cursorY<100
-               &&mc->displayStats==FALSE)
-	    {
+       }else if(camera->cursorX>=496&&camera->cursorX<=549&& //equip button
+          camera->cursorY>=40&&camera->cursorY<100
+          &&mc->displayStats==FALSE){
               if(mc->displayEquipment==TRUE)
  		mc->displayEquipment=FALSE;
               else
 	       mc->displayEquipment=TRUE;
-	    }
-            else if(camera->cursorX>=140&&camera->cursorX<=180&&//equip x
-               camera->cursorY>=10&&camera->cursorY<=40
-               &&mc->displayEquipment==TRUE)
-            {
+       }else if(camera->cursorX>=140&&camera->cursorX<=180&&//equip x
+          camera->cursorY>=10&&camera->cursorY<=40
+          &&mc->displayEquipment==TRUE){
  	      mc->displayEquipment=FALSE;
-            }
-            else if(camera->cursorX>=550&&camera->cursorX<=610&&//stats on
-               camera->cursorY>=40&&camera->cursorY<100
-               &&mc->displayStats==FALSE)
-            {
+       }else if(camera->cursorX>=550&&camera->cursorX<=610&&//stats on
+          camera->cursorY>=40&&camera->cursorY<100&&
+          mc->displayStats==FALSE){
  	      mc->displayStats=TRUE;
-            }
-            else if(camera->cursorX>=580&&camera->cursorX<=641&&//stats x
-               camera->cursorY>=0&&camera->cursorY<=40
-               &&mc->displayStats==TRUE)
-            {
+       }else if(camera->cursorX>=580&&camera->cursorX<=641&&//stats x
+          camera->cursorY>=0&&camera->cursorY<=40&&
+          mc->displayStats==TRUE){
  	      mc->displayStats=FALSE;
-            }
-            else if(camera->cursorX>=496&&camera->cursorX<=549&& //inv button
-               camera->cursorY>=100&&camera->cursorY<=160&&
-               mc->displayStats==FALSE)
-	    {
-
+       }else if(camera->cursorX>=496&&camera->cursorX<=549&& //inv button
+          camera->cursorY>=100&&camera->cursorY<=160&&
+          mc->displayStats==FALSE){
               if(mc->displayInventory==TRUE)
  		mc->displayInventory=FALSE;
               else
 	       mc->displayInventory=TRUE;
+       }else if(camera->cursorX>=0&&camera->cursorX<=480&&//inv drag
+          camera->cursorY>=300&&
+          camera->cursorY<=5*42+300&&
+          mc->displayInventory==TRUE){
+             for(i=0;i<11;i++)
+             {
+               for(j=0;j<4;j++)
+               {
+                if(camera->cursorX>=(i*45)+2    &&
+                   camera->cursorX< (i+1)*45+2&&
+                   camera->cursorY>=(j*42)+310  &&
+                   camera->cursorY< (j+1)*42+310)
+                {
+                 I8 occupied= GetNPC(0)->myInv->mtrx[j][i].occupied;
+                  
+                 if(mc->draggingInv==FALSE)//start dragging
+                 {
+                  if(occupied!=-1)//if there is an item underneath
+                  {
+                   mc->draggingID = RetrieveItemID(0,occupied,TRUE);
+                   mc->draggingItem = RetrieveItem(0,occupied,TRUE);
+                   mc->reRenderInv=TRUE;
+                   mc->draggingInv=TRUE;
+                  }
+                 }
+                 else //release
+                 {
+                  Bool marked = FALSE;
+                   
+                  if(occupied!=-1&&occupied!=mc->draggingItem->invID)//if there is an item underneath
+                  {
+                   //continue drag
+                   marked = TRUE;
+                  }
+                  else{
+                  //if open space, drop and release w=1 h=2
+                   U8 itemW, itemH;
+                   U8 invHMax= mc->draggingItem->h;
+                   U8 invWMax = mc->draggingItem->w;
+                   for(itemW=0;itemW<invWMax;itemW++)
+                   {
+                    for(itemH=0;itemH<invHMax;itemH++)
+                    {
+                     I8 tempOccupied = 
+                   GetNPC(0)->myInv->mtrx[j+(itemH)][i+(itemW)].occupied;
+                     if(tempOccupied!=-1&& tempOccupied!=mc->draggingItem->invID)
+                     {
+                      marked=TRUE;break;
+                     }
+                    }
+                   }
+                  }
 
-	    }
+                  if(!marked)
+                  {
+                    ChangeItemLoc(i, j, mc->draggingItem);
+                     
+                    mc->reRenderInv=TRUE;
+                    mc->draggingInv=FALSE; 
+                  }
+
+                   
+                 }//end release
+
+                }//end inventory if
+               }//end inventory height
+             }//end inventory width
+            }//end inv drag  
+
             else if(camera->cursorX>=460&&camera->cursorX<=480&&//inv x
                camera->cursorY>=290&&camera->cursorY<=310
                &&mc->displayInventory==TRUE)
@@ -1472,7 +1496,7 @@ U0 RPGMain()
 	    break;
 	  case 4://load menu
 	    CDirEntry *cur;
-	    I64 yInc=0,i;
+	    I64 yInc=0;
 	    switch (msg_code=GetMsg(&arg1,&arg2,
 		  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
 	      {

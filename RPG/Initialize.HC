@@ -53,6 +53,9 @@ U0 Init()
  mc->displayStats=FALSE;
  mc->displayEquipment=FALSE;
  mc->reRenderInv=TRUE;
+ mc->draggingInv=FALSE;
+ mc->draggingItem=MakeItem(0);
+ mc->draggingID=0;
  mc->lootedSwitch=LOOTABLE;
  mc->inventoryRender = DCNew(640,480);
  DCFill(mc->inventoryRender, TRANSPARENT);
@@ -72,7 +75,7 @@ U0 Init()
  keys.enter=FALSE;
  //Level and NPCS
 
- SetTensorNPC(world->level,0,5,5,0);//player
+ SetTensorNPC(world->level,0,5,5,0);//player
  SMFT(world->level,MakeCastle(GetMatrixFromTensor(world->level,0)),0);//castle
  InitActors(0);
 

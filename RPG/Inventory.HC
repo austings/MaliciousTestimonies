@@ -2,9 +2,9 @@
 class Item:CQue
 {
   U8* name;
-  I16 equip_slot, id;
-  Bool usable;
-  U8 w, h;
+  I16 equip_slot, id, invID;
+  Bool usable, visible;
+  U8 w, h, wOff,hOff;
 };
 
 class ItemNode
@@ -25,6 +25,11 @@ Item *MakeItem(I64 id)
 {
  Item * build = CAlloc(sizeof(Item));
  build->id=id;
+ build->invID = -1;
+ build->visible = TRUE;
+ build->wOff=0;
+ build->hOff=0;
+  
  switch(id)
  {
   case 0://not used
@@ -36,7 +41,9 @@ Item *MakeItem(I64 id)
   case 1:
   build->name = "Dagger";
   build->w=1,build->h=2;
-  build->equip_slot=1;
+  build->wOff=15;
+  build->hOff=50;
+  build->equip_slot=1;
   build->usable=FALSE;
   break;
   case 2:
@@ -46,7 +53,7 @@ Item *MakeItem(I64 id)
   build->usable=FALSE;
   break;
   case 3:
-  build->name = "Wolf fang";
+  build->name = "Wolf fang";
   build->w=1,build->h=1;
   build->equip_slot=0;
   build->usable=FALSE;

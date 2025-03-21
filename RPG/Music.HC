@@ -4,9 +4,13 @@ U0 SongTask(MenuControl *mc, CTask *task, CDC *dc)
 {
   Fs->task_end_cb=&SndTaskEndCB;
   MusicSettingsRst;
-  Play("...0Ct1Ct2Ct3C4C");
+  DeserializeOpts;
+  if(!mc->musicMuted){
+   Play("...0Ct1Ct2Ct3C4C");}
   while(TRUE){
-   if(mc->musicMuted){Sleep(100);goto loop;}
+   DeserializeOpts;
+  
+   if(mc->musicMuted){Sleep(100);goto loop;}
    switch(mc->currentSong)//muted
    {
     case 0:

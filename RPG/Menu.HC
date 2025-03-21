@@ -1,5 +1,7 @@
 #include "BMP/FileBMP.HC";
 #include "BMP/BMPView.HC";
+U8 *OPTS_FILE = MStrPrint("%s%s",DirCur,"/Data/OPTIONS.TXT"); 
+
 
 U8 currentSelection = 0, currentHair=0,currentEyes=0;
 U8 animationCounter = 0;
@@ -576,7 +578,7 @@ U0 RPGSideBar(CDC *dc)
 
    //inventory button
    Sprite3B(dc,494,100,0,GetMenuSprite(0));    
-   Sprite3B(dc,510,112,0,GetMenuSprite(1));    
+   Sprite3B(dc,510,112,0,GetMenuSprite(1));    
 
 
    Sprite3B(dc,554,100,0,GetMenuSprite(0));    
@@ -599,6 +601,7 @@ U0 RPGSideBar(CDC *dc)
     Sprite3B(dc,558,230,0,GetMenuSprite(6));
 
 }
+
 
 //stats menu bar
 
@@ -739,10 +742,11 @@ CDC *RenderInventory(Actor *p)
   CDC *newInventoryRender = DCNew(640,480);
   DCFill(newInventoryRender, TRANSPARENT);
   //items
-  static I16 scanned[44] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                       -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                       -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                       -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  static I16 scanned[44] = 
+         {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+          -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+          -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+          -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
   U16 scanWriteIndex = 0;
   for(i=0;i<11;i++)
   {
@@ -767,6 +771,9 @@ CDC *RenderInventory(Actor *p)
            
       switch(currentItemID)
       {
+       case 0:
+        //not visible
+       break;
        case 1://dagger   
         GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM1I);
        break;
@@ -864,4 +871,81 @@ CDC *RenderEquipment(Actor *player){
  return completeMenu;   
   
 
+}
+
+U0 LiveOptionsSave()
+{
+
+}
+
+U0 DeserializeOpts()
+{
+ 
+ U8 *fptr =FileRead(OPTS_FILE);
+ U8 *lnptr,*ln,*temp;
+ StrUtil(fptr,SUF_REM_CTRL_CHARS);
+ U8 id[8],*idptr=id;
+ U8 val[8],*valptr=val;
+
+ lnptr=fptr;
+
+ //I32 count = 0;
+ ln=ReadALine(&lnptr);
+ //{
+  //"%s",ln;
+  //if(count!=textID||*ln=='#'||*ln==0)
+  // goto skip;
+ StrScan(ln,"%s\t%s",&idptr,&valptr);
+ mc->fxMuted = valptr;
+ ln=ReadATextLine(&lnptr);
+ StrScan(ln,"%s\t%s",&idptr,&valptr);
+ mc->musicMuted = valptr;
+ Free(ln);
+ //}
+ Free(fptr);
+
+}
+
+
+
+
+U0 RPGInvLogic(CDC *dc, Actor *p)
+{
+  I64 i,j;
+  if(mc->displayInventory)//inventory
+  {
+   dc->color = BLACK;
+   GrRect3(dc,0,300,0,480,190);
+   //background
+   for(i=0;i<11;i++)
+   {
+    for(j=0;j<4;j++)
+    {   
+    Sprite3B(dc,i*camera->dividX+2,j*camera->dividY+300,
+             0,GetMenuSprite(2));
+    }
+   }
+   GrBlot3(dc,0,0,10,RenderInventory(p));
+   Sprite3B(dc,460,280,0,GetMenuSprite(3));
+   if(mc->draggingInv){
+    switch(mc->draggingID)
+    {
+      case 0:
+       //not visible
+      break;
+      case 1://dagger   
+       GrBlot3(dc,camera->cursorX-(mc->draggingItem->wOff),
+                  camera->cursorY-(mc->draggingItem->hOff),
+                  0,ITEM1I);
+      break;
+      case 2://harpoon   
+       GrBlot3(dc,camera->cursorX,camera->cursorY,0,ITEM2I);
+      break;
+      case 3://wolfteeth
+       GrBlot3(dc,camera->cursorX,camera->cursorY,0,ITEM3I);
+      break;
+    }
+   }  //Free(&retrieved);
+ 
+  } 
 }
