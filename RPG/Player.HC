@@ -16,7 +16,7 @@ class Actor
 };
 
 Actor *player;
-Actor *loaded1,*loaded2,*loaded3,
+Actor *loaded1,*loaded2,*loaded3,
 *loaded4,*loaded5,*loaded6,*loaded7,
 *loaded8,*loaded9,*loaded10;
 U8 loaded = 0;
@@ -206,7 +206,7 @@ Actor *DeserializeNPC(I64 npcid)
   p->wis = Str2I64(wis);
   p->ai_script = Str2I64(ai);
   p->dead = FALSE;
-  p->walking = 0; p->walkingSubFrame=0;
+  p->walking = 0; p->walkingSubFrame=0;
   p->health= Str2I64(con)*5;
   p->currentHealth = p->health;
   p->mana=Str2I64(wis)*5;

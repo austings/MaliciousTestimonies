@@ -30,7 +30,7 @@ class CombatTurn:CQue
 
 #define SCREENX 480
 #define SCREENY 480
-#define FRAMERULE 3
+#define FRAMERULE 3
 
 class MenuControl
 {
@@ -67,7 +67,7 @@ class MenuControl
 class Camera
 {
   F64 dividX, dividY;//ratio tile to screen h/w
-  I64 cursorX, cursorY,//cursor positions 
+  I64 cursorX, cursorY,//cursor positions 
       topLR,topUD,//for preventing pan at map corners
       cameraOffSetX,cameraOffSetY;//offset for smooth
                             //animation transition on underlying matrix

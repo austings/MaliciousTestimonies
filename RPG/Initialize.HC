@@ -75,14 +75,14 @@ U0 Init()
  keys.enter=FALSE;
  //Level and NPCS
 
- SetTensorNPC(world->level,0,5,5,0);//player
+ SetTensorNPC(world->level,0,5,5,0);//player
  SMFT(world->level,MakeCastle(GetMatrixFromTensor(world->level,0)),0);//castle
  InitActors(0);
 
  ITEM1 = FramePtr("ITEM008");
  ITEM1I = FramePtr("WINV001");
  ITEM2 = FramePtr("ITEM004");
- ITEM2I = FramePtr("WINV037");
+ ITEM2I = FramePtr("WINV015");
  //Sprite3B(ITEM3I,0,0,10,GetFang);
  //combat
  mc->combatON = FALSE;

@@ -778,7 +778,7 @@ CDC *RenderInventory(Actor *p)
         GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM1I);
        break;
        case 2://harpoon   
-        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM2I);
+        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+302,0,ITEM2I);
        break;
        case 3://wolfteeth
         GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM3I);
@@ -835,7 +835,7 @@ CDC *RenderEquipment(Actor *player){
    GrChar(completeMenu,a[i],26+i*7,60,1);
   }
  
-  //wepn
+  //wepn bkgrd
   Sprite3B(completeMenu,8,116,10,GetMenuSprite(2));
   Sprite3B(completeMenu,8,116+camera->dividY,10,GetMenuSprite(2));
   Sprite3B(completeMenu,8,116+2*camera->dividY,10,GetMenuSprite(2));
@@ -843,6 +843,21 @@ CDC *RenderEquipment(Actor *player){
   for(i=0;i<StrLen(b);i++)
   {
    GrChar(completeMenu,b[i],14+i*7,180,1);
+  }
+  //wepn
+  I64 wepn = GetNPC(0)->sword;
+  if(wepn>0)
+  {
+   switch(wepn){
+    case 1://dagger   
+     GrBlot3(completeMenu,8,
+             116+(camera->dividY),0,ITEM1I);
+     break;
+    case 2://harpoon   
+     GrBlot3(completeMenu,8,
+             116,0,ITEM2I);
+     break;
+   }
   }
    
   //body
@@ -922,7 +937,7 @@ U0 RPGInvLogic(CDC *dc, Actor *p)
     for(j=0;j<4;j++)
     {   
     Sprite3B(dc,i*camera->dividX+2,j*camera->dividY+300,
-             0,GetMenuSprite(2));
+             0,GetMenuSprite(2));
     }
    }
    GrBlot3(dc,0,0,10,RenderInventory(p));
@@ -939,7 +954,9 @@ U0 RPGInvLogic(CDC *dc, Actor *p)
                   0,ITEM1I);
       break;
       case 2://harpoon   
-       GrBlot3(dc,camera->cursorX,camera->cursorY,0,ITEM2I);
+       GrBlot3(dc,camera->cursorX,
+                  camera->cursorY-(mc->draggingItem->hOff),
+                  0,ITEM2I);
       break;
       case 3://wolfteeth
        GrBlot3(dc,camera->cursorX,camera->cursorY,0,ITEM3I);

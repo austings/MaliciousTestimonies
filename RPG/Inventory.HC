@@ -23,7 +23,7 @@ class Inventory
 
 Item *MakeItem(I64 id)
 {
- Item * build = CAlloc(sizeof(Item));
+ Item * build = CAlloc(sizeof(Item));
  build->id=id;
  build->invID = -1;
  build->visible = TRUE;
@@ -43,12 +43,14 @@ Item *MakeItem(I64 id)
   build->w=1,build->h=2;
   build->wOff=15;
   build->hOff=50;
-  build->equip_slot=1;
+  build->equip_slot=1;
   build->usable=FALSE;
   break;
   case 2:
   build->name = "Harpoon";
-  build->w=1,build->h=4;
+  build->w=1,build->h=3;
+  build->wOff=25;
+  build->hOff=25;
   build->equip_slot=1;
   build->usable=FALSE;
   break;

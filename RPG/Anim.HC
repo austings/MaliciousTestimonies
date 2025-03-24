@@ -69,7 +69,7 @@ U0 CheckAnimQueue()
    //decrement
    active_job->num_frames_left=active_job->num_frames_left--;
    //check if job is done
-   if(active_job->num_frames_left==0)
+   if(active_job->num_frames_left==0)
    { 
     FreeAnimJobFromQue();
    }

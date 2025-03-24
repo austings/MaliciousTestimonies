@@ -1179,27 +1179,18 @@ U0 RPGMain()
   CDC *dc=DCAlias;//Device Context
   I64 arg1,arg2,msg_code,i,j;
   SettingsPush;
-  WinMax;
-  WinBorder;
-  DocCursor;
-  DocClear;
-  MenuPush("");
-
-
-  Init;
-//PrintTensor(world->level);
-
+  WinMax;WinBorder;
+  DocCursor;DocClear;MenuPush("");Init;
   Fs->draw_it=&DrawIt;
-  Fs->song_task=
-        Spawn(&SongTask,mc,"Song",,Fs);
-
-  while(TRUE)
-  {
+  Fs->song_task=Spawn(&SongTask,mc,"Song",,Fs);
+  while(TRUE){
    camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
    switch(mc->currentMenu){
     case 0://main menu
      switch(msg_code=GetMsg(&arg1,&arg2,
-     1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)){
+     1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|
+     1<<MSG_MS_L_UP|1<<MSG_MS_MOVE))
+     {
       case MSG_MS_L_DOWN:
        if(camera->cursorX>=229&&camera->cursorX<=397){//menu buttons
 	if(camera->cursorY>258&&camera->cursorY<298){//new game
@@ -1214,28 +1205,22 @@ U0 RPGMain()
        }//end menu buttons
       else if(camera->cursorX>=494&&camera->cursorX<=549&&//music 
               camera->cursorY>=220&&camera->cursorY<=280)
-            {
- 	       if(mc->musicMuted==FALSE)
-               {
-                 mc->musicMuted=TRUE;
-               }else { mc->musicMuted=FALSE; }
-  
-            }
-            else if(camera->cursorX>=550&&camera->cursorX<=610&&//fx
+      {
+       if(mc->musicMuted==FALSE){
+        mc->musicMuted=TRUE;
+       }else { mc->musicMuted=FALSE; }
+      } else if(camera->cursorX>=550&&camera->cursorX<=610&&//fx
                camera->cursorY>=220&&camera->cursorY<=280)
-              {
- 	      
- 	       if(mc->fxMuted==FALSE)
-               {
-                 mc->fxMuted=TRUE;
-               }else { mc->fxMuted=FALSE; }
-            }
- 
-	    break;
-        }
-        break;
-     case 1://main game
-      switch (msg_code=GetMsg(&arg1,&arg2,
+      {	      
+       if(mc->fxMuted==FALSE){
+        mc->fxMuted=TRUE;
+       }else { mc->fxMuted=FALSE; }
+      }
+      break;
+     }
+     break;
+    case 1://main game
+     switch (msg_code=GetMsg(&arg1,&arg2,
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
       {
        case MSG_MS_L_DOWN:
@@ -1270,10 +1255,24 @@ U0 RPGMain()
  		mc->displayInventory=FALSE;
               else
 	       mc->displayInventory=TRUE;
-       }else if(camera->cursorX>=0&&camera->cursorX<=480&&//inv drag
-          camera->cursorY>=300&&
-          camera->cursorY<=5*42+300&&
-          mc->displayInventory==TRUE){
+       }else if(mc->displayInventory==TRUE||
+           mc->displayEquipment==TRUE){
+
+            //if release on equip wep slot
+             if(mc->displayEquipment==TRUE&&mc->draggingInv){
+              if(camera->cursorX>=8    &&
+                 camera->cursorX< 60  &&
+                 camera->cursorY>=116  &&
+                 camera->cursorY< 116+(3*camera->dividY))
+               {
+               //switch from inv to sword, del from inv
+               GetNPC(0)->sword =mc->draggingID;
+               mc->reRenderInv=TRUE;
+               mc->draggingInv=FALSE; 
+               }
+             }
+
+            //check inventory region
              for(i=0;i<11;i++)
              {
                for(j=0;j<4;j++)
@@ -1281,7 +1280,7 @@ U0 RPGMain()
                 if(camera->cursorX>=(i*45)+2    &&
                    camera->cursorX< (i+1)*45+2&&
                    camera->cursorY>=(j*42)+310  &&
-                   camera->cursorY< (j+1)*42+310)
+                   camera->cursorY< (j+1)*42+310)
                 {
                  I8 occupied= GetNPC(0)->myInv->mtrx[j][i].occupied;
                   
@@ -1375,7 +1374,7 @@ U0 RPGMain()
 	   case 0:
 	    switch(arg2.u8[0])
 	      {
-                break;
+                //break;
 	      case SC_CURSOR_LEFT:
 	        keys.left=FALSE;
 	        break;
@@ -1385,7 +1384,7 @@ U0 RPGMain()
 	      case SC_CURSOR_UP:
 	        keys.up=FALSE;
 	        break;
-	      caseSC_CURSOR_DOWN:
+	      case SC_CURSOR_DOWN:
 	        keys.down=FALSE;
 	        break;
 	    }
@@ -1397,6 +1396,18 @@ U0 RPGMain()
               case 'i':
                 mc->displayInventory=TRUE; 
                 break;
+              case 'W':
+              case 'w': keys.up=TRUE;
+		break;
+              case 'A':
+              case 'a': keys.left=TRUE;
+		break;
+              case 'S': 
+              case 's': keys.down=TRUE;
+		break;
+              case 'D':
+              case 'd': keys.right=TRUE;
+		break;
            
 	      //case CH_ESC:
 	      case CH_SHIFT_ESC:
@@ -1513,7 +1524,7 @@ U0 RPGMain()
 		    {
                       U8* edit = cur->name;
                       edit =MStrPrint("%s%s","Saves/",edit);
-                                                               
+                                                               
 		      LoadGame(edit);
 
 		    }
