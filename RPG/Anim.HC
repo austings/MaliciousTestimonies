@@ -1,82 +1,158 @@
-/*
+#include "Data/Frames.HC"
 
 class Animation:CQue{
     CDC *frame;
-    I8 subFrameDuration;
-    I8 subFrameIndex;
-    I32 xOffset;
-    I32 yOffset;
+    I8 frameDuration,
+       durationIndex,
+       xOffset, yOffset;
 };
 
 
 class AnimationJob:CQue{
   Animation *sequence;
-  I32 num_frames_left;
+  U8 *name;
+  I32 index;
+  I32 frameCount;
   I32 x;
   I32 y;
   I32 z;
-} anim_jobs;
+} animationQue;
 
-AnimationJob *active_job;
+CHashTable *allAnimations = HashTableNew(4096);
 
-
-Animation *CreateFrame(CDC*frame,I8 sfd=3,I32 xO=0,I32 yO=0)
+Animation *AddFrame( CDC *frame,I8 sfd=3,I32 xO=0,I32 yO=0)
 {
   Animation *createdFrame = CAlloc(sizeof(Animation));
-  createdFrame->subFrameDuration = sfd;
-  createdFrame->subFrameIndex=0;
+  createdFrame->frame = frame;
+  createdFrame->frameDuration = sfd;
+  createdFrame->durationIndex = 0;
   createdFrame->xOffset=xO;
   createdFrame->yOffset=yO;
   return createdFrame;
 }
 
-U0 PlayAnimation(Animation *cur, I32 numFrames,I32 x,I32 y, I32 z)
-{
-  //if(cur->subFrameIndex==0)
-  //{
-   CDC *animContext = DCNew(100,100);
-   DCFill(animContext, TRANSPARENT);
-   GrBlot3(animContext,0+cur->xOffset,0+cur->yOffset,10,cur->frame);
-  //}
-  //else
-  //{
-   
-  //}
 
+Animation *CreateAnimation(U8* wadFrameName)
+{
+ Animation *job = CAlloc(sizeof(Animation));
+ QueInit(&job);
+ switch(wadFrameName)
+ {
+  case "T1Ready":
+  QueIns(AddFrame(AAE60),job.last);
+  QueIns(AddFrame(AAE61),job.last);
+  QueIns(AddFrame(AAE62),job.last);    
+  break;
+  case "T2Ready":
+  QueIns(AddFrame(AAE115),job.last);
+  QueIns(AddFrame(AAE116),job.last);
+  QueIns(AddFrame(AAE117),job.last);    
+  break; 
+  case "T3Ready":
+  QueIns(AddFrame(AAE169),job.last);
+  QueIns(AddFrame(AAE170),job.last);
+  QueIns(AddFrame(AAE171),job.last);    
+  break; 
+  case "T4Ready":
+  QueIns(AddFrame(AAE7),job.last);
+  QueIns(AddFrame(AAE8),job.last);
+  QueIns(AddFrame(AAE9),job.last);    
+  break; 
+  case "T1Punch":
+  break;
+  case "T2Punch":
+  break; 
+  case "T3Punch":
+  break; 
+  case "T4Punch":
+  break; 
+ 
+ }
+ return job;
+}
+
+
+U0 AddToHashTable(U8 *string)
+{
+  CHashGeneric *entry =CAlloc(sizeof CHashGeneric);
+  entry->str = string;
+  entry->user_data0= CreateAnimation(entry->str);
+  entry->type = HTT_FRAME_PTR;
+  HashAdd(entry,allAnimations);
 
 }
 
-U0 AddAnimJobToQue(AnimationJob *newJob)
+U0 InitializeAnimator(){
+  //initialize empty job queue
+  QueInit(&animationQue);
+  //load all animations into the hashtable  
+  AddToHashTable("T1Ready");
+  AddToHashTable("T2Ready");
+  AddToHashTable("T3Ready");
+  AddToHashTable("T4Ready");
+}
+
+
+U0 PlayAnimation(Animation *cur)
 {
-  QueIns(newJob, anim_jobs.last);
+   CDC *animContext = DCNew(100,100);
+   DCFill(animContext, TRANSPARENT);
+   GrBlot3(animContext,0+cur->xOffset,0+cur->yOffset,10,cur->frame);
+   //TODO
+   //print to gr.dc
+
+}
+
+U0 AddAnimJobToQue(U8 *key)
+{
+  AnimationJob *newJob = FramePtr(key);
+  QueIns(newJob, animationQue.last);
 }
 
 U0 FreeAnimJobFromQue()
 {
-  QueDel(&active_job->sequence);
-  Free(&active_job->sequence);
-  QueRem(anim_jobs);
+  //QueDel(&active_job->sequence);
+  //Free(&active_job->sequence); do at end?
+  QueRem(animationQue);
 }
 
+//needs to be a subprocess/on its own thread
 U0 CheckAnimQueue()
-{ 
-  if(QueCnt(anim_jobs)!=0)
+{
+  //run one frame in every animation in the que
+  I8 numberToPlay= QueCnt(animationQue); 
+  while(numberToPlay!=0)
   {
-   active_job = anim_jobs.next;
-   PlayAnimation(active_job->sequence,
-                 QueCnt(active_job->sequence),
-                 active_job->x,active_job->y,active_job->z);
-   //decrement
-   active_job->num_frames_left=active_job->num_frames_left--;
-   //check if job is done
-   if(active_job->num_frames_left==0)
-   { 
-    FreeAnimJobFromQue();
+   animationQue = animationQue.next;
+   PlayAnimation(animationQue->sequence);
+    //check if frame is done
+   if(animationQue->sequence->durationIndex==
+      animationQue->sequence->frameDuration)
+   {
+    //check if animation is done
+    if(animationQue->index==animationQue->frameCount)
+    {
+  
+     FreeAnimJobFromQue();
+    }
+    else
+    {
+     animationQue->index++;
+    } 
+    
    }
-   
+   else
+   {
+    animationQue->sequence->durationIndex++;
+   }
+   //move on to the next job
+   numberToPlay--;
   }
+  //reset to head
+  active_job = animationQue.next;
+  
 }
-*/
+
 CDC *GetActorAnimationJob(Actor *a)
 {
  CDC *completeActor = DCNew(100,100);
@@ -95,9 +171,8 @@ CDC *GetActorAnimationJob(Actor *a)
   return completeActor;
 
 }
+U0 EndAnimator(){
+  QueDel(&animationQue);
+  Free(&animationQue);
 
-/*
-U0 InitializeAnimator(){
-  QueInit(&anim_jobs);
-
-}*/
+}

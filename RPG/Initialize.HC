@@ -91,6 +91,8 @@ U0 Init()
  mc->target = GetNPC(0);
  mc->tarposx = 0;
  mc->tarposy = 0;
+
+ InitializeAnimator;
 }
 
 #include "RPG";

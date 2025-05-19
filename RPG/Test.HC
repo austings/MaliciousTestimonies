@@ -1,6 +1,6 @@
 Cd(__DIR__);;
 //Print(MStrPrint("%s%s",DirCur,DIALOG_FILE));
-
+/*
 #define MAX_D 120
 #define DIALOG_FILE "Data/Dialog.TXT" 
 
@@ -105,3 +105,20 @@ I64 a= 85;
 //U8* ab = Str2I64(a);
 Print(MStrPrint("%d",a));
 //DbgPutS("You crashed the window manager,Ill try to restart it\n");
+
+
+*/
+
+
+class Animation:CQue{
+    CDC *frame;
+    I8 subFrameDuration,
+       subFrameDurationIndex,
+       subFrameIndex,
+       xOffset, yOffset;
+};
+
+Animation *test = CAlloc(sizeof(Animation));
+QueInit(&test);
+QueDel(&test);
+Free(&test);
