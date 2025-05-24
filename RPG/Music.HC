@@ -8,7 +8,7 @@ U0 SongTask(MenuControl *mc, CTask *task, CDC *dc)
   if(!mc->musicMuted){
    Play("...0Ct1Ct2Ct3C4C");}
   while(TRUE){
-   DeserializeOpts;
+   //DeserializeOpts;
   
    if(mc->musicMuted){Sleep(100);goto loop;}
    switch(mc->currentSong)//muted

@@ -20,7 +20,7 @@ class AnimationJob:CQue{
 
 CHashTable *allAnimations = HashTableNew(4096);
 
-Animation *AddFrame( CDC *frame,I8 sfd=3,I32 xO=0,I32 yO=0)
+Animation *AddFrame( CDC *frame,I32 xO=0,I32 yO=0,I8 sfd=3)
 {
   Animation *createdFrame = CAlloc(sizeof(Animation));
   createdFrame->frame = frame;
@@ -35,39 +35,42 @@ Animation *AddFrame( CDC *frame,I8 sfd=3,I32 xO=0,I32 yO=0)
 Animation *CreateAnimation(U8* wadFrameName)
 {
  Animation *job = CAlloc(sizeof(Animation));
- QueInit(&job);
+
+ QueInit(*job);
+
  switch(wadFrameName)
  {
-  case "T1Ready":
-  QueIns(AddFrame(AAE60),job.last);
-  QueIns(AddFrame(AAE61),job.last);
-  QueIns(AddFrame(AAE62),job.last);    
-  break;
-  case "T2Ready":
-  QueIns(AddFrame(AAE115),job.last);
-  QueIns(AddFrame(AAE116),job.last);
-  QueIns(AddFrame(AAE117),job.last);    
-  break; 
-  case "T3Ready":
-  QueIns(AddFrame(AAE169),job.last);
-  QueIns(AddFrame(AAE170),job.last);
-  QueIns(AddFrame(AAE171),job.last);    
-  break; 
-  case "T4Ready":
-  QueIns(AddFrame(AAE7),job.last);
-  QueIns(AddFrame(AAE8),job.last);
-  QueIns(AddFrame(AAE9),job.last);    
-  break; 
-  case "T1Punch":
-  break;
-  case "T2Punch":
-  break; 
-  case "T3Punch":
-  break; 
-  case "T4Punch":
-  break; 
+  case 'T1Ready':
+   QueIns(AddFrame(AAE60),(*job).last);
+   QueIns(AddFrame(AAE61),(*job).last);
+   QueIns(AddFrame(AAE62),(*job).last);    
+   break;
+  case 'T2Ready':
+   QueIns(AddFrame(AAE115),(*job).last);
+   QueIns(AddFrame(AAE116),(*job).last);
+   QueIns(AddFrame(AAE117),(*job).last);    
+   break; 
+  case 'T3Ready':
+   QueIns(AddFrame(AAE169),(*job).last);
+   QueIns(AddFrame(AAE170),(*job).last);
+   QueIns(AddFrame(AAE171),(*job).last);    
+   break; 
+  case 'T4Ready':
+   QueIns(AddFrame(AAE7),(*job).last);
+   QueIns(AddFrame(AAE8),(*job).last);
+   QueIns(AddFrame(AAE9),(*job).last);    
+   break; 
+  /*case 'T1Punch':
+   break;
+  case 'T2Punch':
+   break; 
+  case 'T3Punch':
+   break; 
+  case 'T4Punch':
+   break;*/
  
  }
+
  return job;
 }
 
@@ -86,20 +89,24 @@ U0 InitializeAnimator(){
   //initialize empty job queue
   QueInit(&animationQue);
   //load all animations into the hashtable  
-  AddToHashTable("T1Ready");
+  /*AddToHashTable("T1Ready");
   AddToHashTable("T2Ready");
   AddToHashTable("T3Ready");
-  AddToHashTable("T4Ready");
+  AddToHashTable("T4Ready");*/
 }
 
 
-U0 PlayAnimation(Animation *cur)
-{
-   CDC *animContext = DCNew(100,100);
-   DCFill(animContext, TRANSPARENT);
-   GrBlot3(animContext,0+cur->xOffset,0+cur->yOffset,10,cur->frame);
+U0 PlayAnimation(AnimationJob *cur)
+{ 
+   Animation *ajc = cur->sequence;
+   //DCFill(animContext, TRANSPARENT);
+   GrBlot3(gr.dc,0+ajc->xOffset,
+                 0+ajc->yOffset,10,
+                 ajc->frame);
+   ajc->durationIndex++;
+   
    //TODO
-   //print to gr.dc
+   //print to gr.dc
 
 }
 
@@ -124,32 +131,33 @@ U0 CheckAnimQueue()
   while(numberToPlay!=0)
   {
    animationQue = animationQue.next;
-   PlayAnimation(animationQue->sequence);
+   PlayAnimation(animationQue);
     //check if frame is done
-   if(animationQue->sequence->durationIndex==
-      animationQue->sequence->frameDuration)
+   if(animationQue.sequence->durationIndex==
+      animationQue.sequence->frameDuration)
    {
     //check if animation is done
-    if(animationQue->index==animationQue->frameCount)
+    if(animationQue.index==animationQue.frameCount)
     {
   
      FreeAnimJobFromQue();
     }
     else
     {
-     animationQue->index++;
+     animationQue.sequence = animationQue.sequence->next;
+     animationQue.index++;
     } 
     
    }
    else
    {
-    animationQue->sequence->durationIndex++;
+    animationQue.sequence->durationIndex++;
    }
    //move on to the next job
    numberToPlay--;
   }
   //reset to head
-  active_job = animationQue.next;
+  animationQue = animationQue.next;
   
 }
 

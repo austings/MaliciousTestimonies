@@ -1207,13 +1207,13 @@ U0 RPGMain()
               camera->cursorY>=220&&camera->cursorY<=280)
       {
        if(mc->musicMuted==FALSE){
-        mc->musicMuted=TRUE;
-       }else { mc->musicMuted=FALSE; }
+        mc->musicMuted=TRUE; 
+       }else { mc->musicMuted=FALSE;  }
       } else if(camera->cursorX>=550&&camera->cursorX<=610&&//fx
                camera->cursorY>=220&&camera->cursorY<=280)
       {	      
        if(mc->fxMuted==FALSE){
-        mc->fxMuted=TRUE;
+        mc->fxMuted=TRUE; 
        }else { mc->fxMuted=FALSE; }
       }
       break;
@@ -1524,7 +1524,7 @@ U0 RPGMain()
 		    {
                       U8* edit = cur->name;
                       edit =MStrPrint("%s%s","Saves/",edit);
-                                                               
+                                                               
 		      LoadGame(edit);
 
 		    }
