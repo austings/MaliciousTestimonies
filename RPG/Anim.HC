@@ -36,39 +36,29 @@ Animation *CreateAnimation(U8* wadFrameName)
 {
  Animation *job = CAlloc(sizeof(Animation));
 
- QueInit(*job);
+ QueInit(job);
 
- switch(wadFrameName)
- {
-  case 'T1Ready':
+ if(       StrCmp(wadFrameName,"T1Ready")){
    QueIns(AddFrame(AAE60),(*job).last);
    QueIns(AddFrame(AAE61),(*job).last);
    QueIns(AddFrame(AAE62),(*job).last);    
-   break;
-  case 'T2Ready':
+  
+ } else if(StrCmp(wadFrameName,"T2Ready")){
    QueIns(AddFrame(AAE115),(*job).last);
    QueIns(AddFrame(AAE116),(*job).last);
    QueIns(AddFrame(AAE117),(*job).last);    
-   break; 
-  case 'T3Ready':
+  
+ } else if(StrCmp(wadFrameName,"T3Ready")){
    QueIns(AddFrame(AAE169),(*job).last);
    QueIns(AddFrame(AAE170),(*job).last);
    QueIns(AddFrame(AAE171),(*job).last);    
-   break; 
-  case 'T4Ready':
+  
+ } else if(StrCmp(wadFrameName,"T4Ready")){
    QueIns(AddFrame(AAE7),(*job).last);
    QueIns(AddFrame(AAE8),(*job).last);
    QueIns(AddFrame(AAE9),(*job).last);    
-   break; 
-  /*case 'T1Punch':
-   break;
-  case 'T2Punch':
-   break; 
-  case 'T3Punch':
-   break; 
-  case 'T4Punch':
-   break;*/
- 
+  
+ } else if(StrCmp(wadFrameName,"T1Punch")){
  }
 
  return job;
@@ -77,7 +67,7 @@ Animation *CreateAnimation(U8* wadFrameName)
 
 U0 AddToHashTable(U8 *string)
 {
-  CHashGeneric *entry =CAlloc(sizeof CHashGeneric);
+  CHashGeneric *entry =CAlloc(sizeof(CHashGeneric));
   entry->str = string;
   entry->user_data0= CreateAnimation(entry->str);
   entry->type = HTT_FRAME_PTR;
@@ -89,10 +79,10 @@ U0 InitializeAnimator(){
   //initialize empty job queue
   QueInit(&animationQue);
   //load all animations into the hashtable  
-  /*AddToHashTable("T1Ready");
+  AddToHashTable("T1Ready");
   AddToHashTable("T2Ready");
   AddToHashTable("T3Ready");
-  AddToHashTable("T4Ready");*/
+  AddToHashTable("T4Ready");
 }
 
 
