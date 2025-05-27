@@ -1,29 +1,8 @@
 
-class Item:CQue
-{
-  U8* name;
-  I16 equip_slot, id, invID;
-  Bool usable, visible;
-  U8 w, h, wOff,hOff;
-};
-
-class ItemNode
-{
- I8 occupied;
-
-};
-
-class Inventory
-{
-  I64 count;  
-  Item *collection;
-  ItemNode mtrx[4][11]; 
-};
 
 
-Item *MakeItem(I64 id)
-{
- Item * build = CAlloc(sizeof(Item));
+Item *MakeItem(I64 id){
+ Item * build = CAlloc(sizeof(Item));
  build->id=id;
  build->invID = -1;
  build->visible = TRUE;

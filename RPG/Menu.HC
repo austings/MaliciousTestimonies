@@ -60,6 +60,43 @@ U0 MenuQuit()
 
 }
 
+I64 MainMenuControls(I64 arg1, I64 arg2,I64 msg_code)
+{
+     switch(msg_code=GetMsg(&arg1,&arg2,
+     1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|
+     1<<MSG_MS_L_UP|1<<MSG_MS_MOVE))
+     {
+      case MSG_MS_L_DOWN:
+       if(camera->cursorX>=229&&camera->cursorX<=397){//menu buttons
+	if(camera->cursorY>258&&camera->cursorY<298){//new game
+	 mc->currentMenu=3;mc->currentSong=3;
+	} else if(camera->cursorY>307&&camera->cursorY<349){//load game
+	 loadRoot = FilesFind("Saves/*",FUF_JUST_FILES);
+	 mc->currentMenu=4;mc->currentSong=4;
+	} else if(camera->cursorY>358&&camera->cursorY<399){//options
+	} else if(camera->cursorY>408&&camera->cursorY<448){//exit
+           return 1;
+	}
+       }//end menu buttons
+      else if(camera->cursorX>=494&&camera->cursorX<=549&&//music 
+              camera->cursorY>=220&&camera->cursorY<=280)
+      {
+       if(mc->musicMuted==FALSE){
+        mc->musicMuted=TRUE; 
+       }else { mc->musicMuted=FALSE;  }
+      } else if(camera->cursorX>=550&&camera->cursorX<=610&&//fx
+               camera->cursorY>=220&&camera->cursorY<=280)
+      {	      
+       if(mc->fxMuted==FALSE){
+        mc->fxMuted=TRUE; 
+       }else { mc->fxMuted=FALSE; }
+      }
+      break;
+     }
+ return 0;
+  
+}
+
 U8 GetSelectedStats(U8 id)
 {
  switch(id)
@@ -567,6 +604,10 @@ U0 IntroCutscene(CDC *dc, CTask *task,U8 textID)
 //Main game side bar
 U0 RPGSideBar(CDC *dc)
 {
+   dc->color = DKGRAY;
+   GrRect3(dc,12*camera->dividX+camera->cameraOffSetX,0,0,200,480);
+   Sprite3B(dc,11*camera->dividX-25,-4,0,GetSideMenu);
+   Sprite3B(dc,494,420,0,GetButton(4));//save button 
 
    //equipment button
    Sprite3B(dc,494,40,0,GetMenuSprite(0));    

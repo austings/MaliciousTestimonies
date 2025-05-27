@@ -1,6 +1,5 @@
 
 // Construct Graphics from WAD
-
 #include "Data/Wad.HC";
 
 // Load built-in Graphics
@@ -8,31 +7,34 @@
 #include "Sprites/SpriteSheet2.HC";
 #include "Sprites/SpriteSheet3.HC";
 #include "Sprites/SpriteSheet4.HC";
-
 // Loading Map
 #include "Map/Map.HC";
 #include "Map/Tensor3D.HC";
-
-// Loading Player
-#include "Inventory.HC";
-#include "Player.HC";
-
 // Loading Data Into Map
 #include "Map/Level.HC";
 
+// Loading Player
+#include "Globals.HC";
+#include "Inventory.HC";
+#include "Player.HC";
+
 // Loading Narrative
 #include "Dialog.HC";
-#include "Globals.HC"
+
 #include "Menu.HC";
 #include "Walk.HC";
 #include "Anim.HC";
 #include "Music.HC";
 #include "Save.HC";
 
+//Combat Functions
 
+#include "Attacks.HC";
+#include "Combat.HC";
+#include "Render.HC";
+#include "Inputs.HC";
 
-U0 Init()
-{
+U0 Init(){
  //world
  world = CAlloc(sizeof(World));
  mc = CAlloc(sizeof(MenuControl));
@@ -68,11 +70,7 @@ U0 Init()
  camera->cameraOffSetY = 0; 
        
  //keys
- keys.left=FALSE;
- keys.right=FALSE;
- keys.up=FALSE;
- keys.down=FALSE;
- keys.enter=FALSE;
+ keys.pressed=0;
  //Level and NPCS
 
  SetTensorNPC(world->level,0,5,5,0);//player
@@ -92,7 +90,6 @@ U0 Init()
  mc->tarposx = 0;
  mc->tarposy = 0;
 
- InitializeAnimator;
+ InitializeAnimator;
 }
-
 #include "RPG";

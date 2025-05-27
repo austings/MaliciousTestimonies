@@ -1,3 +1,40 @@
+
+
+I64 *DumpKey(U8 *_d,U8 *class_name=lastclass)
+{
+  CHashClass *tmpc=HashFind(class_name,Fs->hash_table,HTT_CLASS);
+  I64 *q; 
+  if (!tmpc) return 0;
+  CMemberLst *ml;
+  ml=tmpc->member_lst_and_root;
+  while (ml) {
+    q=_d+ml->offset;
+    I64 ret = ToI64((*q));
+    ml=ml->next;
+    return ret;
+
+  }
+}
+
+Bool *DumpBoolIndex(I64 i,U8 *_d,U8 *class_name=lastclass)
+{
+  CHashClass *tmpc=HashFind(class_name,Fs->hash_table,HTT_CLASS);
+  I64 *q; I64 check=0;
+  if (!tmpc) return 0;
+  CMemberLst *ml;
+  ml=tmpc->member_lst_and_root;
+  Bool* ret;
+  while (check<i) {
+    q=_d+ml->offset;
+    //"%s",ml->str;
+    ret=MemberMetaData("print_str",ml);
+    ml=ml->next;
+    check++;
+  }
+  return ret;
+}
+
+
 //Original code by nrootconauto (Clayton Rhodes)
 
 

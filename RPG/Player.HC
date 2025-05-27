@@ -1,22 +1,8 @@
 #define MAXACTORCOUNT	11
-#define ACTOR_FILE "/Data/Actor.TXT"
-class Actor
-{
-  U8  race,eye,hair,points;
-  I64 id,hat,armor,legs,boot,
-      sword,offhand,
-      ring1,ring2,necklace, maxExp;
-  U64 x,y,health,mana, currentHealth, currentMana,
-      str,int,con,wis;
-  Bool dead;
-  U8 ai_script,walking, exp, lvl;
-  U16 walkingSubFrame;
-  Inventory *myInv;
-  U8 name[15];
-};
+#define ACTOR_FILE "/Data/Actor.TXT"
 
 Actor *player;
-Actor *loaded1,*loaded2,*loaded3,
+Actor *loaded1,*loaded2,*loaded3,
 *loaded4,*loaded5,*loaded6,*loaded7,
 *loaded8,*loaded9,*loaded10;
 U8 loaded = 0;

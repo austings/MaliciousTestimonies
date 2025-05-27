@@ -10,7 +10,7 @@ U0 Quit()
 }
 
 
-
+
 //
 //Save and Load
 //
@@ -251,6 +251,5 @@ U0 LoadGame(U8 *file)
  
 }
 
-CDirEntry *loadRoot;
 
 //

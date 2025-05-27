@@ -108,7 +108,7 @@ Print(MStrPrint("%d",a));
 
 
 */
-
+/*
 
 class Animation:CQue{
     CDC *frame;
@@ -118,7 +118,95 @@ class Animation:CQue{
        xOffset, yOffset;
 };
 
-Animation *test = CAlloc(sizeof(Animation));
+Animation *test = CAlloc(sizeof(Animation));
 QueInit(&test);
 QueDel(&test);
 Free(&test);
+
+
+
+*/
+class Keys
+{
+ I64 pressed;
+} keys;
+
+I64 *DumpKeyOld(U8 *_d,U8 *class_name=lastclass)
+{
+  CHashClass *tmpc=HashFind(class_name,Fs->hash_table,HTT_CLASS);
+  I64 *q; 
+  if (!tmpc) return 0;
+  CMemberLst *ml;
+  ml=tmpc->member_lst_and_root;
+  while (ml) {
+    q=_d+ml->offset;
+    I64 ret = ToI64((*q));
+    ml=ml->next;
+    return ret;
+
+  }
+}
+
+
+I64 *DumpKey(U8 *_d,U8 *class_name=lastclass)
+{
+  CHashClass *tmpc=HashFind(class_name,Fs->hash_table,HTT_CLASS);
+  I64 *q; 
+  if (!tmpc) return 0;
+  CMemberLst *ml;
+  ml=tmpc->member_lst_and_root;
+  while (ml) {
+    q=_d+ml->offset;
+    I64 ret = ToI64((*q));
+    ml=ml->next;
+    return ret;
+
+  }
+}
+
+
+Bool *DumpBoolIndex(I64 i,U8 *_d,U8 *class_name=lastclass)
+{
+  CHashClass *tmpc=HashFind(class_name,Fs->hash_table,HTT_CLASS);
+  I64 *q; I64 check=0;
+  if (!tmpc) return 0;
+  CMemberLst *ml;
+  ml=tmpc->member_lst_and_root;
+  Bool* ret;
+  while (check<i) {
+    q=_d+ml->offset;
+    "%s",ml->str;
+    ret=MemberMetaData("print_str",ml);
+    ml=ml->next;
+    check++;
+  }
+  return ret;
+}
+keys.pressed = 7;
+
+while(TRUE){
+I64 list = DumpKey(&keys);
+if(list)
+{
+ "Hello World! %d\n", list;
+}
+}
+
+/*
+//keys.left= TRUE;
+//keys.right=FALSE;
+DumpStruct
+CHashClass *keyStack = HashFind("Keys",Fs->hash_table,HTT_CLASS);
+CMemberLst *keyMember = keyStack->member_lst_and_root;
+I64 *q;
+while(keyMember){
+  U8 *val = MemberMetaData("val",keyMember)(Bool);
+  q=sizeof(keys)+keyMember->offset;
+  "%s:%d\n",keyMember->str,val;
+  keyMember=keyMember->next; 
+}//MemberFind("left",keyStack);
+
+
+
+
+

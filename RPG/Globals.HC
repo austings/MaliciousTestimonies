@@ -1,3 +1,4 @@
+CDirEntry *loadRoot;
 
 class World
 {
@@ -5,11 +6,18 @@ class World
  Tensor3D *level;
 };
 
-
 class Keys
 {
- Bool left,right,up,down,enter;
+ I64 pressed;
 } keys;
+
+
+#define DIR_LEFT	1
+#define DIR_RIGHT	2
+#define DIR_UP		3
+#define DIR_DOWN	4
+#define DIR_ENTER       5
+#define DIR_ESC         6
 
 class CombatTurn:CQue
 {
@@ -30,10 +38,34 @@ class CombatTurn:CQue
 
 #define SCREENX 480
 #define SCREENY 480
-#define FRAMERULE 3
+#define FRAMERULE 3
 
-class MenuControl
-{
+
+//ai scripts
+#define AI_DEFAULT	1
+#define AI_FISHING	10
+
+//combat menu stage
+#define CMS_MOVE		0
+#define CS_MOVE			1
+#define CMS_MOVE_DONE		10
+#define MOVEMENT_COST		5
+
+//combat Menu Selection
+
+#define CMS_STRIKE		1
+#define CS_STRIKE		11
+#define CMS_STRIKE_DONE		111
+
+#define CMS_PRAYER		2
+#define CS_PRAYER		12
+
+#define CMS_FLEE		3
+#define CS_FLEE			13
+
+
+
+class MenuControl{
   //Narrative Control
   Bool fxMuted,musicMuted;
   I32 currentSong,//for draw and song threads
@@ -53,7 +85,6 @@ class MenuControl
   U8 turnIndex;
   Actor *target;I64 tarposx,tarposy;
 
-
   //menus render
   I64 draggingID;//inventory mouse item
   Item *draggingItem;
@@ -64,8 +95,7 @@ class MenuControl
 
 };
 
-class Camera
-{
+class Camera{
   F64 dividX, dividY;//ratio tile to screen h/w
   I64 cursorX, cursorY,//cursor positions 
       topLR,topUD,//for preventing pan at map corners

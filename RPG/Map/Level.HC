@@ -1,29 +1,79 @@
+//Tile Codes
+#define BG_GREEN	0
+#define BG_BLUE		1
+#define BG_CYAN		2
+#define BG_BROWN	3
+#define BG_YELLOW	4
+#define BG_DK_GRAY	17
+#define BG_LT_RED	18
+
+class Item:CQue
+{
+  U8* name;
+  I16 equip_slot, id, invID;
+  Bool usable, visible;
+  U8 w, h, wOff,hOff;
+};
+
+class ItemNode
+{
+ I8 occupied;
+
+};
+
+
+class Inventory
+{
+  I64 count;  
+  Item *collection;
+  ItemNode mtrx[4][11]; 
+};
+
+class Actor
+{
+  U8  race,eye,hair,points;
+  I64 id,hat,armor,legs,boot,
+      sword,offhand,
+      ring1,ring2,necklace, maxExp;
+  U64 x,y,health,mana, currentHealth, currentMana,
+      str,int,con,wis;
+  Bool dead;
+  U8 ai_script,walking, exp, lvl;
+  U16 walkingSubFrame;
+  Inventory *myInv;
+  U8 name[15];
+};
+
+
+//		  //
+// End Tile Codes //
+//		  //
 
 
 U8 *GetBG(I64 id)
 {
-  U8 *color = BLUE; //= GREEN;
+  U8 *color = BLUE; 
   switch(id)
   {
-   case 0:
+   case BG_GREEN:
     color = GREEN;
     break;
-   case 1:
+   case BG_BLUE:
     color = BLUE;
     break;
-   case 2:
+   case BG_CYAN:
     color = CYAN;
     break;
-   case 3:
+   case BG_BROWN:
     color = BROWN;
     break;
-   case 4:
+   case BG_YELLOW:
     color = YELLOW;
     break;
-   case 17:
+   case BG_DK_GRAY:
     color = DKGRAY;
     break;
-   case 18:
+   case BG_LT_RED:
     color = LTRED;
     break;
 
@@ -40,22 +90,22 @@ Matrix *MakeCastle(Matrix *toAdd)
   //four walls 
   for(i=11;i<27;i++)
   {
-   SetMatrix(toAdd,17,i,0);//17 for castlewall
+   SetMatrix(toAdd,BG_DK_GRAY,i,0);//17 for castlewall
   }
   for(i=1;i<15;i++)
   {
-   SetMatrix(toAdd,17,12,i);
-   SetMatrix(toAdd,17,11,i);
+   SetMatrix(toAdd,BG_DK_GRAY,12,i);
+   SetMatrix(toAdd,BG_DK_GRAY,11,i);
   }
   for(i=1;i<15;i++)
   {
-   SetMatrix(toAdd,17,25,i);
-   SetMatrix(toAdd,17,26,i);
+   SetMatrix(toAdd,BG_DK_GRAY,25,i);
+   SetMatrix(toAdd,BG_DK_GRAY,26,i);
   }
   for(i=12;i<26;i++)
   {
    if(i!=18&&i!=19&&i)
-    SetMatrix(toAdd,17,i,14);
+    SetMatrix(toAdd,BG_DK_GRAY,i,14);
   }
   //floor
   for(i=13;i<25;i++)
@@ -63,13 +113,13 @@ Matrix *MakeCastle(Matrix *toAdd)
    for(j=1;j<14;j++)
    {
     if(j==10&&i>15&&i<22)
-     SetMatrix(toAdd,17,i,j);//entrance hall wall
+     SetMatrix(toAdd,BG_DK_GRAY,i,j);//entrance hall wall
     else
-     SetMatrix(toAdd,18,i,j);
+     SetMatrix(toAdd,BG_LT_RED,i,j);
    }
   }
   
-  //Other buildings
+  //Other buildings
 
   //NPCS
   SetMatrixNPC(toAdd,2,19,3);//jezebel
@@ -84,11 +134,11 @@ Matrix *MakeCastle(Matrix *toAdd)
   SetMatrixNPC(toAdd,10,27,17);//wild dog
    
   //Items
-  SetMatrixItem(toAdd,1,1,1);
-  SetMatrixItem(toAdd,1,2,1);
-  SetMatrixItem(toAdd,1,3,1);
-  SetMatrixItem(toAdd,1,4,1);
-  SetMatrixItem(toAdd,2,5,20);
+  SetMatrixItem(toAdd,IT_DAGGER,1,1);
+  SetMatrixItem(toAdd,IT_DAGGER,2,1);
+  SetMatrixItem(toAdd,IT_DAGGER,3,1);
+  SetMatrixItem(toAdd,IT_DAGGER,4,1);
+  SetMatrixItem(toAdd,IT_HARPOON,5,20);
   //water and sand
   for(i=0;i<50;i++)
   {
