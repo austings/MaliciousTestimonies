@@ -1,4 +1,5 @@
 
+//key frame fetch pressed
 
 I64 *DumpKey(U8 *_d,U8 *class_name=lastclass)
 {
@@ -15,7 +16,17 @@ I64 *DumpKey(U8 *_d,U8 *class_name=lastclass)
 
   }
 }
-
+//device fetch
+I64 GatherInputMsg(I64 arg1, I64 arg2)
+{
+ I64 msg_code=GetMsg(&arg1,&arg2,
+      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
+      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE);
+
+ return msg_code;
+}
+
+//dump hash @ index (slow)
 Bool *DumpBoolIndex(I64 i,U8 *_d,U8 *class_name=lastclass)
 {
   CHashClass *tmpc=HashFind(class_name,Fs->hash_table,HTT_CLASS);
@@ -35,6 +46,7 @@ Bool *DumpBoolIndex(I64 i,U8 *_d,U8 *class_name=lastclass)
 }
 
 
+//data files fetch
 //Original code by nrootconauto (Clayton Rhodes)
 
 

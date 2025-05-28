@@ -11,7 +11,7 @@ class Keys
  I64 pressed;
 } keys;
 
-
+
 #define DIR_LEFT	1
 #define DIR_RIGHT	2
 #define DIR_UP		3
@@ -32,7 +32,7 @@ class CombatTurn:CQue
 
 //serialize options
 #define OPT_MC_FX_OFF   0
-#define OPT_MC_FX_ON    1
+#define OPT_MC_FX_ON    1
 #define OPT_MC_MUS_OFF  2
 #define OPT_MC_MUS_ON   3
 

@@ -416,4 +416,20 @@ U0 DrawHealthMana(CDC *dc,Actor *p,I64 i, I64 j){
      GrChar(dc,t1[i],580+i*7,347,1);
    }
 
-}
+}
+
+
+U0 PickUpItemTrigger(Actor *p,MapNode *puin)
+{
+
+ if(puin->len>0)
+ {
+  I64 pui = (PickUpItem(puin,0))->id;
+  mc->reRenderInv=TRUE;       
+  if(!AddItemToInventory(0,pui))
+  {
+   Play("ArE"); 
+  }
+ }
+
+}

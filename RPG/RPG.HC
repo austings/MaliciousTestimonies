@@ -84,108 +84,113 @@ DocCursor;DocClear;MenuPush("");Init;
 //Set Current Task Threads  
 Fs->draw_it=&DrawIt;Fs->song_task=Spawn(&SongTask,mc,"Song",,Fs);
 //Main Game Loop, set mouse context
-while(TRUE){ camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
+while(TRUE){ 
 //Switch on Main Window Context
+camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
+  
  switch(mc->currentMenu){
   //
+       
   case 0://main menu
    if(MainMenuControls(arg1,arg2,msg_code))
     goto fs_end;
   break; 
   case 1://main game
-     //HandleMouse(msg_code);
-     switch (msg_code=GetMsg(&arg1,&arg2,
-      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
-      {
-       case MSG_KEY_UP:
-       case '\n':
-        keys.pressed=0;
-       break;
-       case 0:
-	switch(arg2.u8[0])
-	{
-         //break;
+     switch (GetMsg(&arg1,&arg2,
+      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
+      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
+     {
+      case MSG_KEY_UP:
+      case '\n':
+       keys.pressed=0;
+      break;
+      case 0:
+       switch(arg2.u8[0])
+       {
 	 case SC_CURSOR_LEFT:
 	 case SC_CURSOR_RIGHT:
 	 case SC_CURSOR_DOWN:
 	 case SC_CURSOR_UP:
 	  keys.pressed=0;
 	 break;
-	}
-       break;
-       case MSG_KEY_DOWN:
-	switch(arg1)
-	{
-	 case 'I':
-         case 'i':
-          if(mc->displayInventory){
-           mc->displayInventory=FALSE;} 
-          else{
-           mc->displayInventory=TRUE;} 
-          break;
-         case 'W':
-         case 'w': keys.pressed=DIR_UP;
-	 break;
-         case 'A':
-         case 'a': keys.pressed=DIR_LEFT;
-         break;
-         case 'S': 
-         case 's': keys.pressed=DIR_DOWN;
-	 break;
-         case 'D':
-         case 'd': keys.pressed=DIR_RIGHT;
-         break;
-         case 'E':
-         case 'e': 
-          if(mc->displayEquipment){ 
-           mc->displayEquipment=FALSE;
-          }else{
-           mc->displayEquipment=TRUE;}
-         break;
-         case 'C':
-         case 'c':
-	  if(mc->displayStats){ 
-           mc->displayStats=FALSE;}
-          else{
-           mc->displayStats=TRUE;}
-          break;           
-	 case CH_ESC:
-          keys.pressed=DIR_ESC; 
-               break;
-              case CH_SHIFT_ESC:
-	        goto fs_end;
-	        break;
-              case '\n':
-                keys.pressed=DIR_ENTER;
-       		break;
-	      case 0:
-	        switch(arg2.u8[0])
-		  {
-                  case SC_ENTER:
-                     keys.pressed=DIR_ENTER;
-                    break;
-		  case SC_CURSOR_LEFT:
-		     keys.pressed=DIR_LEFT;
-		    break;
-		  case SC_CURSOR_RIGHT:
-		     keys.pressed=DIR_RIGHT;
-		    break;
-		  case SC_CURSOR_UP:
-		     keys.pressed=DIR_UP;
-		    break;
-		  case SC_CURSOR_DOWN:
-		     keys.pressed=DIR_DOWN;
-		    break;
-	        }
-	        break;
-	    }
-	    break;
-          }
-	  break;
-	  case 2://character creation
+       }
+      break;
+      case MSG_KEY_DOWN:
+      switch(arg1){
+        case 'I':
+        case 'i':
+         if(mc->displayInventory){
+          mc->displayInventory=FALSE;} 
+         else{
+          mc->displayInventory=TRUE;} 
+         break;
+        case 'W':
+        case 'w': keys.pressed=DIR_UP;
+        break;
+        case 'A':
+        case 'a': keys.pressed=DIR_LEFT;
+        break;
+        case 'S': 
+        case 's': keys.pressed=DIR_DOWN;
+        break;
+        case 'D':
+        case 'd': keys.pressed=DIR_RIGHT;
+        break;
+        case 'E':
+         case 'e': 
+         if(mc->displayEquipment){ 
+          mc->displayEquipment=FALSE;
+         }else{
+          mc->displayEquipment=TRUE;}
+        break;
+        case 'C':
+        case 'c':
+        if(mc->displayStats){ 
+          mc->displayStats=FALSE;}
+         else{
+          mc->displayStats=TRUE;}
+         break;           
+        case CH_ESC:
+         keys.pressed=DIR_ESC; 
+              break;
+        case CH_SHIFT_ESC:
+         goto fs_end;
+        break;
+        case '\n':
+         keys.pressed=DIR_ENTER;
+        break;
+        case 0:
+         switch(arg2.u8[0]){
+          case SC_ENTER:
+           keys.pressed=DIR_ENTER;
+          break;
+          case SC_CURSOR_LEFT:
+           keys.pressed=DIR_LEFT;
+          break;
+          case SC_CURSOR_RIGHT:
+           keys.pressed=DIR_RIGHT;
+          break;
+          case SC_CURSOR_UP:
+           keys.pressed=DIR_UP;
+          break;
+          case SC_CURSOR_DOWN:
+           keys.pressed=DIR_DOWN;
+          break;
+         }
+        break;
+      }
+      break;
+      case MSG_MS_L_DOWN:
+       HandleMouse(camera->cursorX,camera->cursorY,i,j);
+      break;
+     }
+   break;
+  case 2://character creation
+     
 	    switch (msg_code=GetMsg(&arg1,&arg2,
 		  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
 	      {
+              
 	      case MSG_MS_L_DOWN:
 	        if(camera->cursorX>=386&&camera->cursorX<=429)
 		  {
@@ -235,6 +240,7 @@ while(TRUE){ camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
 	    }
 	    break;
 	  case 3://cutscene
+           
 	    switch (msg_code=GetMsg(&arg1,&arg2,
 		  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
 	      {
@@ -251,6 +257,7 @@ while(TRUE){ camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
 
 	    break;
 	  case 4://load menu
+          
 	    CDirEntry *cur;
 	    I64 yInc=0;
 	    switch (msg_code=GetMsg(&arg1,&arg2,

@@ -15,12 +15,11 @@
 
 // Loading Player
 #include "Globals.HC";
-#include "Inventory.HC";
+#include "Inventory.HC";
 #include "Player.HC";
 
 // Loading Narrative
-#include "Dialog.HC";
-
+#include "Dialog.HC";
 #include "Menu.HC";
 #include "Walk.HC";
 #include "Anim.HC";

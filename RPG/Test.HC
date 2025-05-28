@@ -131,7 +131,8 @@ class Keys
  I64 pressed;
 } keys;
 
-I64 *DumpKeyOld(U8 *_d,U8 *class_name=lastclass)
+
+I64 *DumpKey(U8 *_d,U8 *class_name="Keys")
 {
   CHashClass *tmpc=HashFind(class_name,Fs->hash_table,HTT_CLASS);
   I64 *q; 
@@ -146,51 +147,38 @@ I64 *DumpKeyOld(U8 *_d,U8 *class_name=lastclass)
 
   }
 }
-
-
-I64 *DumpKey(U8 *_d,U8 *class_name=lastclass)
-{
-  CHashClass *tmpc=HashFind(class_name,Fs->hash_table,HTT_CLASS);
-  I64 *q; 
-  if (!tmpc) return 0;
-  CMemberLst *ml;
-  ml=tmpc->member_lst_and_root;
-  while (ml) {
-    q=_d+ml->offset;
-    I64 ret = ToI64((*q));
-    ml=ml->next;
-    return ret;
-
-  }
-}
-
-
-Bool *DumpBoolIndex(I64 i,U8 *_d,U8 *class_name=lastclass)
-{
-  CHashClass *tmpc=HashFind(class_name,Fs->hash_table,HTT_CLASS);
-  I64 *q; I64 check=0;
-  if (!tmpc) return 0;
-  CMemberLst *ml;
-  ml=tmpc->member_lst_and_root;
-  Bool* ret;
-  while (check<i) {
-    q=_d+ml->offset;
-    "%s",ml->str;
-    ret=MemberMetaData("print_str",ml);
-    ml=ml->next;
-    check++;
-  }
-  return ret;
-}
-keys.pressed = 7;
-
+keys.pressed = 3;
+#include "Data/Wad.HC"
+#define DIR_UP 5
+I64 arg1, arg2;
 while(TRUE){
-I64 list = DumpKey(&keys);
-if(list)
-{
- "Hello World! %d\n", list;
+ I64 list = DumpKey(&keys);
+  
+     switch (GetMsg(&arg1,&arg2,
+      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
+      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
+      {
+       case MSG_KEY_DOWN:
+	switch(arg1)
+	{
+         case 'W':
+         case 'w': keys.pressed=DIR_UP; list = keys.pressed;
+	 break;
+         case 's':
+         case 'S':keys.pressed=3;
+         break;
+        }
+       break;
+      } 
+
+  if(keys.pressed)
+  {
+   "Hello World! %d\n", keys.pressed;
+   keys.pressed=0;
+   list = 0;
+  }
 }
-}
+
 
 /*
 //keys.left= TRUE;

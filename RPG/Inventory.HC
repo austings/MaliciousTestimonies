@@ -62,7 +62,7 @@ Inventory *MakeInventory()
    }
   }
 
- //QueInit(p->myInv->collection);
+ //QueInit(p->myInv->collection);
 
  return newInv;
 }
