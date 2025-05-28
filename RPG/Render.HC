@@ -94,7 +94,12 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
          GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
               j*camera->dividY+camera->cameraOffSetY,10,
               ITEM2);
-
+         break;
+         case 999: 
+         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
+              j*camera->dividY+camera->cameraOffSetY,10,
+              SPECIAL1);
+         break;
          default:
          break;
        }
@@ -415,21 +420,5 @@ U0 DrawHealthMana(CDC *dc,Actor *p,I64 i, I64 j){
    {
      GrChar(dc,t1[i],580+i*7,347,1);
    }
-
 }
 
-
-U0 PickUpItemTrigger(Actor *p,MapNode *puin)
-{
-
- if(puin->len>0)
- {
-  I64 pui = (PickUpItem(puin,0))->id;
-  mc->reRenderInv=TRUE;       
-  if(!AddItemToInventory(0,pui))
-  {
-   Play("ArE"); 
-  }
- }
-
-}

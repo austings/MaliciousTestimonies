@@ -1,86 +1,3 @@
-//Tile Codes
-#define BG_GREEN	0
-#define BG_BLUE		1
-#define BG_CYAN		2
-#define BG_BROWN	3
-#define BG_YELLOW	4
-#define BG_DK_GRAY	17
-#define BG_LT_RED	18
-
-class Item:CQue
-{
-  U8* name;
-  I16 equip_slot, id, invID;
-  Bool usable, visible;
-  U8 w, h, wOff,hOff;
-};
-
-class ItemNode
-{
- I8 occupied;
-
-};
-
-
-class Inventory
-{
-  I64 count;  
-  Item *collection;
-  ItemNode mtrx[4][11]; 
-};
-
-class Actor
-{
-  U8  race,eye,hair,points;
-  I64 id,hat,armor,legs,boot,
-      sword,offhand,
-      ring1,ring2,necklace, maxExp;
-  U64 x,y,health,mana, currentHealth, currentMana,
-      str,int,con,wis;
-  Bool dead;
-  U8 ai_script,walking, exp, lvl;
-  U16 walkingSubFrame;
-  Inventory *myInv;
-  U8 name[15];
-};
-
-
-//		  //
-// End Tile Codes //
-//		  //
-
-
-U8 *GetBG(I64 id)
-{
-  U8 *color = BLUE; 
-  switch(id)
-  {
-   case BG_GREEN:
-    color = GREEN;
-    break;
-   case BG_BLUE:
-    color = BLUE;
-    break;
-   case BG_CYAN:
-    color = CYAN;
-    break;
-   case BG_BROWN:
-    color = BROWN;
-    break;
-   case BG_YELLOW:
-    color = YELLOW;
-    break;
-   case BG_DK_GRAY:
-    color = DKGRAY;
-    break;
-   case BG_LT_RED:
-    color = LTRED;
-    break;
-
-
-  }
-  return color;
-}
 
 
 Matrix *MakeCastle(Matrix *toAdd)
@@ -105,7 +22,7 @@ Matrix *MakeCastle(Matrix *toAdd)
   for(i=12;i<26;i++)
   {
    if(i!=18&&i!=19&&i)
-    SetMatrix(toAdd,BG_DK_GRAY,i,14);
+    SetMatrix(toAdd,BG_DK_GRAY,i,14);
   }
   //floor
   for(i=13;i<25;i++)
@@ -166,8 +83,10 @@ Matrix *MakeCastle(Matrix *toAdd)
    }
   }
   //add dock
-  SetMatrix(toAdd,3,6,25);
-  SetMatrix(toAdd,3,6,26);
+  SetMatrix(toAdd,BG_BROWN,6,25);
+  SetMatrix(toAdd,BG_BROWN,6,26);
+  SetMatrixItem(toAdd,SP_FISHING_SPOT,6,26);
+ 
 
 
   return toAdd;

@@ -128,7 +128,7 @@ U0 SetMatrixNPC(Matrix *m,I64 d, I64 row,I64 col)
    SetVectorNPC(m->data,d,col);
  }
  catch{
-   "Matrix Location Out of Range";
+   "Matrix Location Out of Range";
    PutExcept;
 
  };

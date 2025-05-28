@@ -9,12 +9,7 @@
 
 #include "Map/Matrix.HC";
 
-//items
-#define IT_DAGGER 	1
-#define IT_HARPOON	2
-#define IT_TOOTH 	3
 
-
 //Tensor Object Declaration
 public class Tensor3D
 {

@@ -37,6 +37,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    else if(mc->combatON){
      HandleCombatLoop(task, dc);
    }
+   CheckAnimQueue();
 /*
    if(keys.esc==TRUE){
     dc->color=WHITE;      
@@ -85,34 +86,29 @@ DocCursor;DocClear;MenuPush("");Init;
 Fs->draw_it=&DrawIt;Fs->song_task=Spawn(&SongTask,mc,"Song",,Fs);
 //Main Game Loop, set mouse context
 while(TRUE){ 
-//Switch on Main Window Context
-camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
-  
- switch(mc->currentMenu){
-  //
-       
+ //Switch on Main Window Context
+ camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
+ switch(mc->currentMenu){    
   case 0://main menu
    if(MainMenuControls(arg1,arg2,msg_code))
     goto fs_end;
   break; 
   case 1://main game
      switch (GetMsg(&arg1,&arg2,
-      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
-      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
-     {
+     1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
+     |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
       case MSG_KEY_UP:
       case '\n':
        keys.pressed=0;
       break;
       case 0:
-       switch(arg2.u8[0])
-       {
-	 case SC_CURSOR_LEFT:
-	 case SC_CURSOR_RIGHT:
-	 case SC_CURSOR_DOWN:
-	 case SC_CURSOR_UP:
-	  keys.pressed=0;
-	 break;
+       switch(arg2.u8[0]){
+	case SC_CURSOR_LEFT:
+	case SC_CURSOR_RIGHT:
+	case SC_CURSOR_DOWN:
+	case SC_CURSOR_UP:
+	 keys.pressed=0;
+	break;
        }
       break;
       case MSG_KEY_DOWN:
@@ -186,8 +182,7 @@ camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
      }
    break;
   case 2://character creation
-     
-	    switch (msg_code=GetMsg(&arg1,&arg2,
+         switch (msg_code=GetMsg(&arg1,&arg2,
 		  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
 	      {
               

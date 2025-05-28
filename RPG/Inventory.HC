@@ -9,8 +9,7 @@ Item *MakeItem(I64 id){
  build->wOff=0;
  build->hOff=0;
   
- switch(id)
- {
+ switch(id){
   case 0://not used
   build->name = "Bag";
   build->w=1,build->h=1;
@@ -39,6 +38,12 @@ Item *MakeItem(I64 id){
   build->equip_slot=0;
   build->usable=FALSE;
   break;
+  case 999:
+  build->name = "FISHINGSPOT";
+  build->w=0,build->h=0;
+  build->equip_slot=0;
+  build->usable=FALSE;
+  break;
 
  }
  return build;
@@ -54,15 +59,15 @@ Inventory *MakeInventory()
   QueIns(MakeItem(0),item_que->last);
   newInv->collection = item_que;
   newInv->count = 0;
-  for(i=0;i<11;i++)
+  for(i=0;i<INVWIDTH;i++)
   {
-   for(j=0;j<4;j++)
+   for(j=0;j<INVHEIGHT;j++)
    {
-     newInv->mtrx[j][i].occupied =-1;
+     newInv->mtrx[j][i].occupied =IT_NULL;
    }
   }
 
- //QueInit(p->myInv->collection);
+ //QueInit(p->myInv->collection);
 
  return newInv;
 }

@@ -1,5 +1,20 @@
+U0 PickUpItemTrigger(Actor *p, MapNode *puin)
+{
+ if(puin->len>0)
+ {
+  I64 pui = (PickUpItem(puin,0))->id;
+  mc->reRenderInv=TRUE;
+  if(pui==SP_FISHING_SPOT)
+  {
+   FishingHoleTrigger(p);
+  }else if(!AddItemToInventory(0,pui)){
+   Play("ArE"); 
+  }
+ }
 
-U0 KeyEnter(Actor *p, MapNode *puin)
+}
+
+U0 KeyEnter(Actor *p, MapNode *puin)
 {
  if(mc->combatON){
   switch(mc->combatMenuSelection){
@@ -89,10 +104,10 @@ U0 HandleKeyboard(Actor *p, MapNode *puin)
 
 U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 {
-if(M_X>=496&&M_X<=619&& //save button
-          M_Y>=421&&M_Y<=458){
-	      SaveForm;
-	      mc->currentMenu=0;
+ if(M_X>=496&&M_X<=619&& //save button
+    M_Y>=421&&M_Y<=458){
+  SaveForm;
+  mc->currentMenu=0;
               mc->currentSong=1;
        }else if(M_X>=496&&M_X<=549&& //equip button
           M_Y>=40&&M_Y<100
@@ -106,7 +121,7 @@ if(M_X>=496&&M_X<=619&& //save button
           &&mc->displayEquipment==TRUE){
  	      mc->displayEquipment=FALSE;
        }else if(M_X>=450&&M_X<=480&&//inv x
-               M_Y>=290&&M_Y<=310
+               M_Y>=290&&M_Y<=310
                &&mc->displayInventory==TRUE)
             {
  	      mc->displayInventory=FALSE;
@@ -128,7 +143,6 @@ if(M_X>=496&&M_X<=619&& //save button
 	       mc->displayInventory=TRUE;
        }else if(mc->displayInventory==TRUE||
            mc->displayEquipment==TRUE){
-
             //if release on equip wep slot
              if(mc->displayEquipment==TRUE&&mc->draggingInv){
               if(M_X>=8    &&
@@ -207,9 +221,7 @@ if(M_X>=496&&M_X<=619&& //save button
                 }//end inventory if
                }//end inventory height
              }//end inventory width
-            }//end inv drag  
-
-              
+            }//end inv drag    
             else if(M_X>=494&&M_X<=549&&//music 
                M_Y>=220&&M_Y<=280
                &&mc->displayStats==FALSE)

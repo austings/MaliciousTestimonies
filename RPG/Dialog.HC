@@ -18,7 +18,7 @@ U0 GrChar(CDC *dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale)
 U8 *ReadATextLine(U8 **fbuf) {
   U8 *en,*st=*fbuf,*buf;
   if(!*st) return NULL;
-  if(en=StrFirstOcc(st,"\n")) {
+  if(en=StrFirstOcc(st,"\n")) {
     buf=MAlloc(en-st+2);
     MemCpy(buf,st,en-st+1);
     buf[en-st+1]=0;

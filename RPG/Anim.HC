@@ -87,12 +87,6 @@ Animation *CreateAnimation(U8* wadFrameName)
 
 
 
-
-
-
-
-
-
  return job;
 }
 
@@ -118,23 +112,21 @@ U0 InitializeAnimator(){
 }
 
 
-U0 PlayAnimation(AnimationJob *cur)
+U0 PlayAnimation(AnimationJob *cur)
 { 
    Animation *ajc = cur->sequence;
    //DCFill(animContext, TRANSPARENT);
-   GrBlot3(gr.dc,0+ajc->xOffset,
-                 0+ajc->yOffset,10,
+   GrBlot3(gr.dc,cur->x+ajc->xOffset,
+                 cur->y+ajc->yOffset,10,
                  ajc->frame);
    ajc->durationIndex++;
    
-   //TODO
-   //print to gr.dc
-
 }
 
-U0 AddAnimJobToQue(U8 *key)
+U0 AddAnimJobToQue(U8 *key,I64 run_x, I64 run_y)
 {
   AnimationJob *newJob = FramePtr(key);
+  newJob->x = run_x; newJob->y = run_y;
   QueIns(newJob, animationQue.last);
 }
 

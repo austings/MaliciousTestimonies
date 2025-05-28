@@ -11,6 +11,7 @@
 #include "Map/Map.HC";
 #include "Map/Tensor3D.HC";
 // Loading Data Into Map
+#include "Map/Actors.HC";
 #include "Map/Level.HC";
 
 // Loading Player
@@ -19,22 +20,24 @@
 #include "Player.HC";
 
 // Loading Narrative
-#include "Dialog.HC";
+#include "Dialog.HC";
 #include "Menu.HC";
 #include "Walk.HC";
 #include "Anim.HC";
 #include "Music.HC";
 #include "Save.HC";
 
-//Combat Functions
+// Loading Combat Scenarios
 
 #include "Attacks.HC";
 #include "Combat.HC";
 #include "Render.HC";
+
+// Loading Skills
+#include "Fishing.HC";
 #include "Inputs.HC";
 
-U0 Init(){
- //world
+U0 Init(){ //world
  world = CAlloc(sizeof(World));
  mc = CAlloc(sizeof(MenuControl));
  camera= CAlloc(sizeof(Camera));
@@ -76,11 +79,16 @@ U0 Init(){
  SMFT(world->level,MakeCastle(GetMatrixFromTensor(world->level,0)),0);//castle
  InitActors(0);
 
- ITEM1 = FramePtr("ITEM008");
+ ITEM1 = FramePtr("ITEM008");// dagger
  ITEM1I = FramePtr("WINV001");
- ITEM2 = FramePtr("ITEM004");
+ ITEM2 = FramePtr("ITEM004");// harpoon
  ITEM2I = FramePtr("WINV015");
  //Sprite3B(ITEM3I,0,0,10,GetFang);
+ //ITEM4 = FramePtr("");
+ ITEM4I = FramePtr("ITEM164");//fish
+ SPECIAL1 = FramePtr("EFF075");//special point
+ SPECIAL2 = FramePtr("EFF076");
+
  //combat
  mc->combatON = FALSE;
  mc->combatMenuStage =0;
@@ -91,4 +99,5 @@ U0 Init(){
 
  InitializeAnimator;
 }
+
 #include "RPG";

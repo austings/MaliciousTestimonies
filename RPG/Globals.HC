@@ -32,7 +32,7 @@ class CombatTurn:CQue
 
 //serialize options
 #define OPT_MC_FX_OFF   0
-#define OPT_MC_FX_ON    1
+#define OPT_MC_FX_ON    1
 #define OPT_MC_MUS_OFF  2
 #define OPT_MC_MUS_ON   3
 
@@ -112,14 +112,6 @@ Vector *worldSz;//world size, with values wX,wY,wZ
 //
 //Global variables
 //
-static CDC*		ITEM1; //dagger
-static CDC*		ITEM1I;
-static CDC*		ITEM2; //harpoon
-static CDC*		ITEM2I;
-static CDC*		ITEM3; //wolf tooth
-static CDC*		ITEM3I;
 
 I64 wX,wY,wZ;
 
-
-//

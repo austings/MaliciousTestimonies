@@ -63,7 +63,7 @@ U0 MenuQuit()
 I64 MainMenuControls(I64 arg1, I64 arg2,I64 msg_code){
  switch(GetMsg(&arg1,&arg2,
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
-      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) //msg_code=GetMsg(&arg1,&arg2,//1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|//1<<MSG_MS_L_UP|1<<MSG_MS_MOVE))
+      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) //msg_code=GetMsg(&arg1,&arg2,//1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|//1<<MSG_MS_L_UP|1<<MSG_MS_MOVE))
  {
   case MSG_MS_L_DOWN:
    if(camera->cursorX>=229&&camera->cursorX<=397){//menu buttons
@@ -678,25 +678,25 @@ CDC *RenderStats(Actor *player)
 
   switch(player->race)
   {
-    case 0:  
+    case T_JUDA:  
      for(i=0;i<StrLen(t0a);i++)
      {
       GrChar(completeMenu,t0a[i],i*7,20,1);
      }
     break;
-    case 1:
+    case T_LEVI:
      for(i=0;i<StrLen(t0b);i++)
      {
       GrChar(completeMenu,t0b[i],i*7,20,1);
      }
     break;
-    case 2:  
+    case T_EPHR:  
      for(i=0;i<StrLen(t0c);i++)
      {
       GrChar(completeMenu,t0c[i],i*7,20,1);
      }
     break;
-    case 3:
+    case T_BENJ:
      for(i=0;i<StrLen(t0d);i++)
      {
       GrChar(completeMenu,t0d[i],i*7,20,1);
@@ -812,14 +812,17 @@ CDC *RenderInventory(Actor *p)
        case 0:
         //not visible
        break;
-       case 1://dagger   
+       case IT_DAGGER://dagger   
         GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM1I);
        break;
-       case 2://harpoon   
+       case IT_HARPOON://harpoon   
         GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+302,0,ITEM2I);
        break;
-       case 3://wolfteeth
+       case IT_TOOTH://wolfteeth
         GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM3I);
+       break;
+       case IT_FISH1://fish
+        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM$ER$4I);
        break;
       }
       //Free(&retrieved);
@@ -827,7 +830,7 @@ CDC *RenderInventory(Actor *p)
     }
    }
   }
-  mc->inventoryRender = newInventoryRender;
+  mc->inventoryRender = newInventoryRender;
   mc->reRenderInv=FALSE;
  }
  
@@ -970,9 +973,9 @@ U0 RPGInvLogic(CDC *dc, Actor *p)
    dc->color = BLACK;
    GrRect3(dc,0,300,0,480,190);
    //background
-   for(i=0;i<11;i++)
+   for(i=0;i<INVWIDTH;i++)
    {
-    for(j=0;j<4;j++)
+    for(j=0;j<INVHEIGHT;j++)
     {   
     Sprite3B(dc,i*camera->dividX+2,j*camera->dividY+300,
              0,GetMenuSprite(2));
@@ -986,18 +989,21 @@ U0 RPGInvLogic(CDC *dc, Actor *p)
       case 0:
        //not visible
       break;
-      case 1://dagger   
+      case IT_DAGGER://dagger   
        GrBlot3(dc,camera->cursorX-(mc->draggingItem->wOff),
                   camera->cursorY-(mc->draggingItem->hOff),
                   0,ITEM1I);
       break;
-      case 2://harpoon   
+      case IT_HARPOON://harpoon   
        GrBlot3(dc,camera->cursorX,
                   camera->cursorY-(mc->draggingItem->hOff),
                   0,ITEM2I);
       break;
-      case 3://wolfteeth
+      case IT_TOOTH://wolfteeth
        GrBlot3(dc,camera->cursorX,camera->cursorY,0,ITEM3I);
+      break;
+      case IT_FISH1: //fish
+       GrBlot3(dc,camera->cursorX,camera->cursorY,0,ITEM4I);
       break;
     }
    }  //Free(&retrieved);
