@@ -112,43 +112,50 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
      if(npc!=-1){
       Actor *toRender;
       I64 npcOffsetX=-camera->cameraOffSetX, npcOffsetY=-camera->cameraOffSetY;
+      
       if(npc!=0){
        toRender = GetNPC(npc);
+
        npcOffsetX=GetWalkOffsetX(toRender->walking), 
        npcOffsetY=GetWalkOffsetY(toRender->walking);
        convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;
        convertedToScreenY = j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY;
+       toRender->screenX = convertedToScreenX;
+       toRender->screenY = convertedToScreenY;     
       }
       else {
-        toRender = p;
-        if(camera->topLR==0||camera->topLR==wX-11)
+       toRender = p;
+
+       if(camera->topLR==0||camera->topLR==wX-11)
          npcOffsetX=GetWalkOffsetX(toRender->walking);
-        if(camera->topUD==0||camera->topUD==wY-11)
+       if(camera->topUD==0||camera->topUD==wY-11)
          npcOffsetY=GetWalkOffsetY(toRender->walking);
-        convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;
-        convertedToScreenY = j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY;
-        //render attack from player
-        if(mc->combatMenuSelection==111)
+
+       convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;
+       convertedToScreenY = j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY;
+       p->screenX  = convertedToScreenX;
+       p->screenY = convertedToScreenY;
+       //render attack from player
+       if(mc->combatMenuSelection==111)
+       {
+        switch(p->sword)
         {
-         switch(p->sword)
-         {
-          case 0: //fist
-           PunchMove(dc,toRender, mc->tarposx,
-                        mc->tarposy-mc->turnIndex,
-                        CalculateAngle(mc->tarposx,mc->tarposy,
-                         convertedToScreenX,convertedToScreenY));
-           mc->turnIndex++;
-           if(mc->turnIndex>50)
-           {
-            RemoveHealth(mc->target,p->str);
-            mc->turnIndex=1;
-            mc->combatMenuStage=1;
-           }//mc turnindex
-          break;
-         }//switch p sword
-        }//combat render phase
-      
-      }//if player or not
+         case 0: //fist
+          PunchMove(dc,toRender, mc->tarposx,
+                    mc->tarposy-mc->turnIndex,
+                    CalculateAngle(mc->tarposx,mc->tarposy,
+                    convertedToScreenX,convertedToScreenY));
+          mc->turnIndex++;
+          if(mc->turnIndex>50)
+          {
+           RemoveHealth(mc->target,p->str);
+           mc->turnIndex=1;
+           mc->combatMenuStage=1;
+          }//mc turnindex
+         break;
+        }//switch p sword
+       }//combat render phase
+      }//if player or not, visible
       
       //COMBAT start initializations
       //move enemy during combat turn 
@@ -173,9 +180,11 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
         mc->tarposx = convertedToScreenX;
         mc->tarposy = convertedToScreenY;//change default target
       }
-    
-      RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
-      10, GetActorAnimationJob(toRender), highlight);     
+      if(toRender->visible){
+      
+       RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
+       10, GetActorAnimationJob(toRender), highlight);
+      }     
      }//if npc
      }//if too large y
     }//for y

@@ -1,173 +1,146 @@
-#include "Data/Frames.HC"
+#define NoDirective "None"
+//static CDC* AAE110 = FramePtr("AAE110");
+//static CDC* AAE111 = FramePtr("AAE111");
 
 class Animation:CQue{
-    CDC *frame;
-    I8 frameDuration,
-       durationIndex,
-       xOffset, yOffset;
-};
-
-
-class AnimationJob:CQue{
-  Animation *sequence;
+  CDC *frame;
+  I8 frameDuration,
+     frameDurationIndex,
+     xOffset, yOffset;
   U8 *name;
-  I32 index;
-  I32 frameCount;
-  I32 x;
-  I32 y;
-  I32 z;
-} animationQue;
+  I8 frameIndex;
+} allAnimations;
 
-CHashTable *allAnimations = HashTableNew(4096);
+class Director{
+  U8 *cQueDirective;
+  I32 animIndex;
+  I64 x; I64 y; I64 z;
+  Actor *a;
 
-Animation *AddFrame( CDC *frame,I32 xO=0,I32 yO=0,I8 sfd=3)
+} direct;
+
+Animation *AddFrame(CDC *frame,U8* key,I8 fIndex; 
+                    I8 xO=0,I8 yO=0,I8 sfd=16)
 {
   Animation *createdFrame = CAlloc(sizeof(Animation));
   createdFrame->frame = frame;
   createdFrame->frameDuration = sfd;
-  createdFrame->durationIndex = 0;
+  createdFrame->frameDurationIndex = 0;
+  createdFrame->frameIndex = fIndex;
   createdFrame->xOffset=xO;
   createdFrame->yOffset=yO;
+  createdFrame->name = key;  
   return createdFrame;
 }
 
 
-Animation *CreateAnimation(U8* wadFrameName)
-{
- Animation *job = CAlloc(sizeof(Animation));
 
- QueInit(job);
+Animation *CreateAnimation(U8* wadFrameName){
+ if(!StrCmp(wadFrameName,T1FISH)){
+   QueIns(AddFrame(AAE110,T1FISH,0),allAnimations.last);  
+   QueIns(AddFrame(AAE111,T1FISH,1),allAnimations.last);
+ } else if(!StrCmp(wadFrameName,T2FISH)){
+   QueIns(AddFrame(AAE164,T2FISH,0),allAnimations.last);   
+   QueIns(AddFrame(AAE165,T2FISH,1),allAnimations.last);
+ } else if(!StrCmp(wadFrameName,T3FISH)){
+   QueIns(AddFrame(AAE2,T3FISH,0),allAnimations.last);  
+   QueIns(AddFrame(AAE3,T3FISH,1),allAnimations.last);
+ } else if(!StrCmp(wadFrameName,T4FISH)){
+   QueIns(AddFrame(AAE56,T4FISH,0),allAnimations.last); 
+   QueIns(AddFrame(AAE57,T4FISH,1),allAnimations.last);
 
- if(       StrCmp(wadFrameName,"T1Ready")){
-   QueIns(AddFrame(AAE60),(*job).last);
-   QueIns(AddFrame(AAE61),(*job).last);
-   QueIns(AddFrame(AAE62),(*job).last);    
+
+ }/*
+ if(!StrCmp(wadFrameName,T1READY)){
+   QueIns(AddFrame(AAE60),allAnimations.last);
+   QueIns(AddFrame(AAE61),allAnimations.last);
+   QueIns(AddFrame(AAE62),allAnimations.last);    
   
- } else if(StrCmp(wadFrameName,"T2Ready")){
+ } else if(StrCmp(wadFrameName,T2READY)){
    QueIns(AddFrame(AAE115),(*job).last);
    QueIns(AddFrame(AAE116),(*job).last);
    QueIns(AddFrame(AAE117),(*job).last);    
   
- } else if(StrCmp(wadFrameName,"T3Ready")){
+ } else if(StrCmp(wadFrameName,T3READY)){
    QueIns(AddFrame(AAE169),(*job).last);
    QueIns(AddFrame(AAE170),(*job).last);
    QueIns(AddFrame(AAE171),(*job).last);    
   
- } else if(StrCmp(wadFrameName,"T4Ready")){
+ } else if(StrCmp(wadFrameName,T4READY)){
    QueIns(AddFrame(AAE7),(*job).last);
    QueIns(AddFrame(AAE8),(*job).last);
    QueIns(AddFrame(AAE9),(*job).last);    
   
- } else if(StrCmp(wadFrameName,"T1Punch")){
- } else if(StrCmp(wadFrameName,"T2Punch")){
- } else if(StrCmp(wadFrameName,"T3Punch")){
- } else if(StrCmp(wadFrameName,"T4Punch")){
- } else if(StrCmp(wadFrameName,"T1Fish")){
-   QueIns(AddFrame(AAE110),(*job).last);  
-   QueIns(AddFrame(AAE111),(*job).last);
+ } else if(StrCmp(wadFrameName,T1PUNCH)){
+ } else if(StrCmp(wadFrameName,T2PUNCH)){
+ } else if(StrCmp(wadFrameName,T3PUNCH)){
+ } else if(StrCmp(wadFrameName,T4PUNCH)){
+ */
 
-
- } else if(StrCmp(wadFrameName,"T2Fish")){
-   QueIns(AddFrame(AAE164),(*job).last);   
-   QueIns(AddFrame(AAE165),(*job).last);
-
-
- } else if(StrCmp(wadFrameName,"T3Fish")){
-   QueIns(AddFrame(AAE2),(*job).last);  
-   QueIns(AddFrame(AAE3),(*job).last);
-
-
- } else if(StrCmp(wadFrameName,"T4Fish")){
-   QueIns(AddFrame(AAE56),(*job).last); 
-   QueIns(AddFrame(AAE57),(*job).last);
-
-
- } else if(StrCmp(wadFrameName,"T1")){
- }
-
-
-
- return job;
 }
-
-
-U0 AddToHashTable(U8 *string)
+U0 ResetDirective()
 {
-  CHashGeneric *entry =CAlloc(sizeof(CHashGeneric));
-  entry->str = string;
-  entry->user_data0= CreateAnimation(entry->str);
-  entry->type = HTT_FRAME_PTR;
-  HashAdd(entry,allAnimations);
-
+  direct.cQueDirective = NoDirective;
+  direct.animIndex = 0;
+  direct.x = 0;
+  direct.y = 0;
+  direct.z = 0;
+  direct.a = NULL;
 }
+
+U0 PlayAnimation(CDC *dc){ 
+ Animation *ajc = allAnimations.next;
+ while(StrCmp(direct.cQueDirective,ajc->name)){//if anim call this one
+  ajc = ajc->next;
+ } 
+ 
+ while(direct.animIndex=0&&ajc->frameIndex!=0){
+  ajc = ajc->last;
+ }
+ if(ajc->frameDurationIndex<ajc->frameDuration){
+  ajc->frameDurationIndex++;
+ }
+ else{
+  ajc->frameDurationIndex=0;
+  Animation *tmp = ajc->next;
+  direct.animIndex++;
+  if(tmp->frameIndex<=ajc->frameIndex)
+  {
+    ResetDirective;
+  }
+ }
+ GrBlot3(dc,direct.x+ajc->xOffset,
+             direct.y+ajc->yOffset,
+             direct.z+100,
+             ajc->frame);
+  
+}
+
+
 
 U0 InitializeAnimator(){
   //initialize empty job queue
-  QueInit(&animationQue);
-  //load all animations into the hashtable  
-  AddToHashTable("T1Ready");
-  AddToHashTable("T2Ready");
-  AddToHashTable("T3Ready");
-  AddToHashTable("T4Ready");
+  QueInit(&allAnimations);
+  ResetDirective;
+  CreateAnimation(T1FISH);
+  CreateAnimation(T2FISH);
+  CreateAnimation(T3FISH);
+  CreateAnimation(T4FISH);
+  //load all animations into the hashtable 
 }
 
 
-U0 PlayAnimation(AnimationJob *cur)
-{ 
-   Animation *ajc = cur->sequence;
-   //DCFill(animContext, TRANSPARENT);
-   GrBlot3(gr.dc,cur->x+ajc->xOffset,
-                 cur->y+ajc->yOffset,10,
-                 ajc->frame);
-   ajc->durationIndex++;
-   
-}
-
-U0 AddAnimJobToQue(U8 *key,I64 run_x, I64 run_y)
+U0 CheckAnimQueue(CDC *dc)
 {
-  AnimationJob *newJob = FramePtr(key);
-  newJob->x = run_x; newJob->y = run_y;
-  QueIns(newJob, animationQue.last);
-}
-
-U0 FreeAnimJobFromQue()
-{
-  //QueDel(&active_job->sequence);
-  //Free(&active_job->sequence); do at end?
-  QueRem(animationQue);
-}
-
-//needs to be a subprocess/on its own thread
-U0 CheckAnimQueue()
-{
-  //run one frame in every animation in the que
-  I8 numberToPlay= QueCnt(animationQue); 
-  while(numberToPlay!=0){
-   animationQue = animationQue.next;
-   PlayAnimation(animationQue);
-    //check if frame is done
-   if(animationQue.sequence->durationIndex==
-      animationQue.sequence->frameDuration){
-    //check if animation is done
-    if(animationQue.index==animationQue.frameCount){  
-     FreeAnimJobFromQue();
-    }
-    else{
-     animationQue.sequence = animationQue.sequence->next;
-     animationQue.index++;
-    } 
-    
-   }
-   else{
-    animationQue.sequence->durationIndex++;
-   }
-   //move on to the next job
-   numberToPlay--;
+  if(StrCmp(direct.cQueDirective,NoDirective))
+  {
+   PlayAnimation(dc);
   }
-  //reset to head
-  animationQue = animationQue.next;
-  
+ 
 }
+
+
+
 
 CDC *GetActorAnimationJob(Actor *a)
 {
@@ -187,13 +160,6 @@ CDC *GetActorAnimationJob(Actor *a)
   return completeActor;
 
 }
-U0 EndAnimator(){
-  QueDel(&animationQue);
-  Free(&animationQue);
-
-}
-
-
 
 
 U0 InteractActor(I64 npc)
@@ -238,11 +204,9 @@ U0 InteractActor(I64 npc)
    mc->talkieScene = GetTalkie(npc);
   }
  }
-
 }
 
-U0 MoveActor(Actor *p, U8 dir)
-{
+U0 MoveActor(Actor *p, U8 dir){
  //actors with anim
  I64 npc;
  if(p->walking==0){

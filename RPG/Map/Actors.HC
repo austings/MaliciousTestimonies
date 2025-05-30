@@ -4,9 +4,10 @@ class Actor
   I64 id,hat,armor,legs,boot,
       sword,offhand,
       ring1,ring2,necklace, maxExp;
-  U64 x,y,health,mana, currentHealth, currentMana,
-      str,int,con,wis;
-  Bool dead;
+  U64 x,y,health,mana, currentHealth, currentMana,
+      str,int,con,wis,
+      screenX, screenY;
+  Bool dead,visible;
   U8 ai_script,walking, exp, lvl;
   U16 walkingSubFrame;
   Inventory *myInv;

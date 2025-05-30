@@ -37,8 +37,8 @@ U0 DrawIt(CTask *task, CDC *dc){
    else if(mc->combatON){
      HandleCombatLoop(task, dc);
    }
-   CheckAnimQueue();
-/*
+   CheckAnimQueue(dc);
+  /*
    if(keys.esc==TRUE){
     dc->color=WHITE;      
     GrRect(gr.dc,0,0,480,100);//dev console
@@ -96,7 +96,7 @@ while(TRUE){
   case 1://main game
      switch (GetMsg(&arg1,&arg2,
      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
-     |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
+     |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
       case MSG_KEY_UP:
       case '\n':
        keys.pressed=0;
@@ -133,7 +133,7 @@ while(TRUE){
         case 'd': keys.pressed=DIR_RIGHT;
         break;
         case 'E':
-         case 'e': 
+        case 'e': 
          if(mc->displayEquipment){ 
           mc->displayEquipment=FALSE;
          }else{
@@ -182,10 +182,8 @@ while(TRUE){
      }
    break;
   case 2://character creation
-         switch (msg_code=GetMsg(&arg1,&arg2,
-		  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
-	      {
-              
+   switch (msg_code=GetMsg(&arg1,&arg2,
+    1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
 	      case MSG_MS_L_DOWN:
 	        if(camera->cursorX>=386&&camera->cursorX<=429)
 		  {

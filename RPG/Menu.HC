@@ -830,7 +830,7 @@ CDC *RenderInventory(Actor *p)
     }
    }
   }
-  mc->inventoryRender = newInventoryRender;
+  mc->inventoryRender = newInventoryRender;
   mc->reRenderInv=FALSE;
  }
  

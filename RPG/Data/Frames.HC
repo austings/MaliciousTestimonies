@@ -13,7 +13,7 @@ static CDC* AAE12= FramePtr("AAE12");
 static CDC* AAE13= FramePtr("AAE13");
 static CDC* AAE14= FramePtr("AAE14");
 static CDC* AAE15= FramePtr("AAE15");
-static CDC* AAE16= FramePtr("AAE16");
+static CDC* AAE16= FramePtr("AAE16");
 static CDC* AAE17= FramePtr("AAE17");
 static CDC* AAE18= FramePtr("AAE18");
 static CDC* AAE19= FramePtr("AAE19");
@@ -214,3 +214,16 @@ static CDC* AAE213= FramePtr("AAE213");
 static CDC* AAE214= FramePtr("AAE214");
 static CDC* AAE215= FramePtr("AAE215");
 static CDC* AAE216= FramePtr("AAE216");
+
+#define T1FISH "T1Fish"
+#define T2FISH "T2Fish"
+#define T3FISH "T3Fish"
+#define T4FISH "T4Fish"
+#define T1PUNCH "T1Punch"
+#define T2PUNCH "T2Punch"
+#define T3PUNCH "T3Punch"
+#define T4PUNCH "T4Punch"
+#define T1READY "T1Ready"
+#define T2READY "T2Ready"
+#define T3READY "T3Ready"
+#define T4READY "T4Ready"

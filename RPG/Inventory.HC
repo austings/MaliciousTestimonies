@@ -39,7 +39,7 @@ Item *MakeItem(I64 id){
   build->usable=FALSE;
   break;
   case 999:
-  build->name = "FISHINGSPOT";
+  build->name = "FISHINGSPOT";
   build->w=0,build->h=0;
   build->equip_slot=0;
   build->usable=FALSE;

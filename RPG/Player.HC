@@ -1,5 +1,5 @@
 #define MAXACTORCOUNT	11
-#define ACTOR_FILE "/Data/Actor.TXT"
+#define ACTOR_FILE "/Data/Actor.TXT"
 
 Actor *player;
 Actor *loaded1,*loaded2,*loaded3,
@@ -201,6 +201,7 @@ Actor *DeserializeNPC(I64 npcid)
   p->lvl = 1;
   p->maxExp = 20;
   p->points=0;
+  p->visible=TRUE;
 
   return p;
   //p->id = Str2I64(id); todo inv
@@ -385,6 +386,9 @@ U64 x, U64 y, U64 str=1, U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  me->wis=wis;
  me->ai_script=ai;
  me->dead=FALSE;
+ me->screenX = 0;
+ me->screenY = 0;
+ me->visible = TRUE;
  Inventory *newInv = MakeInventory();
  me->myInv = newInv;
  me->walking = 0,me->walkingSubFrame=0;

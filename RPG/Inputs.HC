@@ -6,7 +6,7 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
   mc->reRenderInv=TRUE;
   if(pui==SP_FISHING_SPOT)
   {
-   FishingHoleTrigger(p);
+   FishingHoleTrigger(p); Play("ArE");
   }else if(!AddItemToInventory(0,pui)){
    Play("ArE"); 
   }
@@ -14,7 +14,7 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
 
 }
 
-U0 KeyEnter(Actor *p, MapNode *puin)
+U0 KeyEnter(Actor *p, MapNode *puin)
 {
  if(mc->combatON){
   switch(mc->combatMenuSelection){
@@ -25,7 +25,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     mc->combatMenuSelection =CS_STRIKE; 
     break;
    case CMS_PRAYER://prayer
-    mc->combatMenuSelection =CS_PRAYER; 
+    mc->combatMenuSelection =CS_PRAYER; 
     break;
    case CMS_FLEE://flee
     mc->combatMenuSelection =CS_FLEE; 
