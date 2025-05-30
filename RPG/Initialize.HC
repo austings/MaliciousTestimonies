@@ -1,6 +1,7 @@
 // Construct Graphics from WAD
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
+#include "Data/Ids.HC";
 
 // Load built-in Graphics
 #include "Sprites/SS1.HC"; 
@@ -28,7 +29,7 @@
 #include "Save.HC";
 
 // Loading Combat Scenarios
-
+#include "Equipment.HC";
 #include "Attacks.HC";
 #include "Combat.HC";
 #include "Render.HC";
@@ -67,7 +68,7 @@ U0 Init(){ //world
  //camera;    
  camera->dividX = SCREENX/(11);
  camera->dividY = SCREENY/(11);
- camera->topLR=0; camera->topUD=0;
+ camera->topLR=0; camera->topUD=0;
  camera->cameraOffSetX = 0,  
  camera->cameraOffSetY = 0; 
        

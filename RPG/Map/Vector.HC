@@ -66,7 +66,7 @@ NodeStuff *PickUpItem(MapNode *n,I64 index)
   for(i=0;i<index;i++){
     toBeRemoved = toBeRemoved->next;
   } 
-  if(toBeRemoved->id<SP_FISHING_SPOT){
+  if(toBeRemoved->id<SP_FISHING_SPOT){
    QueRem(toBeRemoved);
    n->len = n->len-1;
   } 

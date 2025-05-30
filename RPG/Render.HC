@@ -96,8 +96,8 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
               ITEM2);
          break;
          case 999: 
-         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
-              j*camera->dividY+camera->cameraOffSetY,10,
+         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-2,
+              j*camera->dividY+camera->cameraOffSetY-16,10,
               SPECIAL1);
          break;
          default:
@@ -182,7 +182,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
       }
       if(toRender->visible){
       
-       RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
+       RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
        10, GetActorAnimationJob(toRender), highlight);
       }     
      }//if npc
@@ -223,7 +223,7 @@ U0 DrawHealthMana(CDC *dc,Actor *p,I64 i, I64 j){
      dc->color=BLACK;         
      break;
     case 21...25:
-     GrLine(dc,490,370,542,370);//1         
+     GrLine(dc,490,370,542,370);//1         
      GrFloodFill(dc,521,378,TRUE); 
      dc->color=BLACK;        
      break;

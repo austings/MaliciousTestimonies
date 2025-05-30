@@ -16,7 +16,7 @@ Item *MakeItem(I64 id){
   build->equip_slot=3;
   build->usable=FALSE;
   break;
-  case 1:
+  case IT_DAGGER:
   build->name = "Dagger";
   build->w=1,build->h=2;
   build->wOff=15;
@@ -24,7 +24,7 @@ Item *MakeItem(I64 id){
   build->equip_slot=1;
   build->usable=FALSE;
   break;
-  case 2:
+  case IT_HARPOON:
   build->name = "Harpoon";
   build->w=1,build->h=3;
   build->wOff=25;
@@ -32,11 +32,18 @@ Item *MakeItem(I64 id){
   build->equip_slot=1;
   build->usable=FALSE;
   break;
-  case 3:
+  case IT_TOOTH:
   build->name = "Wolf fang";
   build->w=1,build->h=1;
   build->equip_slot=0;
   build->usable=FALSE;
+  break;
+  case IT_FISH1:
+  build->name = "Trout";
+  build->w=1,build->h=2;
+  build->hOff=32;
+  build->equip_slot=0;
+  build->usable=TRUE;
   break;
   case 999:
   build->name = "FISHINGSPOT";

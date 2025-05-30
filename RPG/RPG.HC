@@ -96,7 +96,7 @@ while(TRUE){
   case 1://main game
      switch (GetMsg(&arg1,&arg2,
      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
-     |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
+     |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
       case MSG_KEY_UP:
       case '\n':
        keys.pressed=0;

@@ -1,6 +1,4 @@
 #define NoDirective "None"
-//static CDC* AAE110 = FramePtr("AAE110");
-//static CDC* AAE111 = FramePtr("AAE111");
 
 class Animation:CQue{
   CDC *frame;
@@ -11,6 +9,8 @@ class Animation:CQue{
   I8 frameIndex;
 } allAnimations;
 
+
+
 class Director{
   U8 *cQueDirective;
   I32 animIndex;
@@ -18,6 +18,8 @@ class Director{
   Actor *a;
 
 } direct;
+
+
 
 Animation *AddFrame(CDC *frame,U8* key,I8 fIndex; 
                     I8 xO=0,I8 yO=0,I8 sfd=16)
@@ -37,20 +39,21 @@ Animation *AddFrame(CDC *frame,U8* key,I8 fIndex;
 
 Animation *CreateAnimation(U8* wadFrameName){
  if(!StrCmp(wadFrameName,T1FISH)){
-   QueIns(AddFrame(AAE110,T1FISH,0),allAnimations.last);  
-   QueIns(AddFrame(AAE111,T1FISH,1),allAnimations.last);
+   QueIns(AddFrame(AAE110,T1FISH,0,5,2),allAnimations.last);  
+   QueIns(AddFrame(AAE111,T1FISH,1,5,2),allAnimations.last);
  } else if(!StrCmp(wadFrameName,T2FISH)){
-   QueIns(AddFrame(AAE164,T2FISH,0),allAnimations.last);   
-   QueIns(AddFrame(AAE165,T2FISH,1),allAnimations.last);
+   QueIns(AddFrame(AAE164,T2FISH,0,5,2),allAnimations.last);   
+   QueIns(AddFrame(AAE165,T2FISH,1,5,2),allAnimations.last);
  } else if(!StrCmp(wadFrameName,T3FISH)){
-   QueIns(AddFrame(AAE2,T3FISH,0),allAnimations.last);  
-   QueIns(AddFrame(AAE3,T3FISH,1),allAnimations.last);
+   QueIns(AddFrame(AAE2,T3FISH,0,5,2),allAnimations.last);  
+   QueIns(AddFrame(AAE3,T3FISH,1,5,2),allAnimations.last);
  } else if(!StrCmp(wadFrameName,T4FISH)){
-   QueIns(AddFrame(AAE56,T4FISH,0),allAnimations.last); 
-   QueIns(AddFrame(AAE57,T4FISH,1),allAnimations.last);
+   QueIns(AddFrame(AAE56,T4FISH,0,5,2),allAnimations.last); 
+   QueIns(AddFrame(AAE57,T4FISH,1,5,2),allAnimations.last);
 
+ }
 
- }/*
+/*
  if(!StrCmp(wadFrameName,T1READY)){
    QueIns(AddFrame(AAE60),allAnimations.last);
    QueIns(AddFrame(AAE61),allAnimations.last);
@@ -82,31 +85,37 @@ U0 ResetDirective()
 {
   direct.cQueDirective = NoDirective;
   direct.animIndex = 0;
-  direct.x = 0;
-  direct.y = 0;
+  direct.x = 999;
+  direct.y = 999;
   direct.z = 0;
-  direct.a = NULL;
+  
 }
 
 U0 PlayAnimation(CDC *dc){ 
+
  Animation *ajc = allAnimations.next;
- while(StrCmp(direct.cQueDirective,ajc->name)){//if anim call this one
+
+ while(!StrCmp(direct.cQueDirective,ajc->name)){//if anim call this one
   ajc = ajc->next;
  } 
  
- while(direct.animIndex=0&&ajc->frameIndex!=0){
+ while(direct.animIndex==ajc->frameIndex){
   ajc = ajc->last;
  }
+
  if(ajc->frameDurationIndex<ajc->frameDuration){
   ajc->frameDurationIndex++;
  }
+
  else{
   ajc->frameDurationIndex=0;
   Animation *tmp = ajc->next;
-  direct.animIndex++;
+  direct.animIndex = direct.animIndex+1;
   if(tmp->frameIndex<=ajc->frameIndex)
   {
     ResetDirective;
+    direct.a->visible = TRUE;
+ 
   }
  }
  GrBlot3(dc,direct.x+ajc->xOffset,
@@ -121,6 +130,7 @@ U0 PlayAnimation(CDC *dc){
 U0 InitializeAnimator(){
   //initialize empty job queue
   QueInit(&allAnimations);
+  direct.a = MAlloc(sizeof(Actor));
   ResetDirective;
   CreateAnimation(T1FISH);
   CreateAnimation(T2FISH);
@@ -147,7 +157,7 @@ CDC *GetActorAnimationJob(Actor *a)
  CDC *completeActor = DCNew(100,100);
  DCFill(completeActor, TRANSPARENT);
 
-  if(a->race<4)
+  if(a->race<=T_BENJ)
   {
    completeActor = GetWalkAnimation(a,completeActor);
   }
@@ -200,7 +210,6 @@ U0 InteractActor(I64 npc)
   }
   else
   {
-   //AdamLog("Peace"); AdamLog(3);
    mc->talkieScene = GetTalkie(npc);
   }
  }

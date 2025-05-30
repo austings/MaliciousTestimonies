@@ -18,7 +18,7 @@ U0 GrChar(CDC *dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale)
 U8 *ReadATextLine(U8 **fbuf) {
   U8 *en,*st=*fbuf,*buf;
   if(!*st) return NULL;
-  if(en=StrFirstOcc(st,"\n")) {
+  if(en=StrFirstOcc(st,"\n")) {
     buf=MAlloc(en-st+2);
     MemCpy(buf,st,en-st+1);
     buf[en-st+1]=0;
@@ -61,27 +61,7 @@ U0 GetDialogMsg(U8 textID,U8 *mctext)
 {
 
   if(currLetter==0)
-   DeserializeDialog(textID);/*
-  I64 len = StrLen(mctext);
-  if(len>2)
-  {
-   I64 index;
-   for(index=0;index<len-1;index++)
-   {
-    if(&myDialog[index]=='%' && &myDialog[index+1]=='s')
-    {
-     I64 index2 =0;
-     while(index<len)
-     {
-      myDialog[index] = mctext[index2];
-      index2++;
-      index++;
-     }
-     break;
-    }
-    //continue
-   }
-  }*/
+   DeserializeDialog(textID);
 }
 
 I64 GetTalkie(I64 id)
@@ -89,23 +69,26 @@ I64 GetTalkie(I64 id)
   I64 talkie =0;
   switch(id)
   {
-   case 1://king
+   case SV_KING_1://king
    talkie = 10;
    break;
-   case 2://jezebel
+   case SV_JEZ_1://jezebel
    talkie = 9;
    break;
-   case 3://elijah
+   case SV_ELI_1://elijah
    talkie = 11;
    break;
-   case 4://guard
+   case SV_GUARD1://guard
    talkie = 2;
    break;
-   case 5://captain
+   case SV_GUARD2://captain
    talkie = 3;
    break;
-   case 6://wolf
+   case SV_WOLF1://wolf
    talkie = 12;
+   break;
+   case SV_MISS_FISH_EQUIP://missing fish equip
+   talkie = 15;
    break;
   }
   return talkie;

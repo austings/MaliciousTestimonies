@@ -6,8 +6,17 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
   mc->reRenderInv=TRUE;
   if(pui==SP_FISHING_SPOT)
   {
-   FishingHoleTrigger(p); Play("ArE");
-  }else if(!AddItemToInventory(0,pui)){
+   if(p->sword==IT_HARPOON)
+   {
+    FishingHoleTrigger(p); Play("ArE");
+   }
+   else
+   {
+    mc->dialogName = " ";
+    mc->talkieScene = GetTalkie(SV_MISS_FISH_EQUIP);
+
+   }
+  }else if(!AddItemToInventory(PLAYER,pui)){
    Play("ArE"); 
   }
  }
@@ -25,7 +34,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     mc->combatMenuSelection =CS_STRIKE; 
     break;
    case CMS_PRAYER://prayer
-    mc->combatMenuSelection =CS_PRAYER; 
+    mc->combatMenuSelection =CS_PRAYER; 
     break;
    case CMS_FLEE://flee
     mc->combatMenuSelection =CS_FLEE; 

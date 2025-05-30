@@ -22,7 +22,7 @@ Matrix *CreateMatrix(I64 row,I64 col)
 {
 
  I64 i,j, size;
- Matrix *m = MAlloc(sizeof(Matrix));
+ Matrix *m = MAlloc(sizeof(Matrix));
  Matrix *first = m;
 
  size = sizeof(Vector); 
@@ -128,7 +128,7 @@ U0 SetMatrixNPC(Matrix *m,I64 d, I64 row,I64 col)
    SetVectorNPC(m->data,d,col);
  }
  catch{
-   "Matrix Location Out of Range";
+   "Matrix Location Out of Range";
    PutExcept;
 
  };

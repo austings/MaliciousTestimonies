@@ -33,7 +33,7 @@ class Director{
 
 } direct;
 
-Animation *AddFrame(CDC *frame,U8* key,I8 fIndex; 
+Animation *AddFrame(CDC *frame,U8* key,I8 fIndex; 
                     I8 xO=0,I8 yO=0,I8 sfd=3)
 {
   Animation *createdFrame = CAlloc(sizeof(Animation));
@@ -127,7 +127,7 @@ U0 PlayAnimation(CDC *dc){
              ajc->frame);
   
 }
-
+
 
 U0 InitializeAnimator(){
   //initialize empty job queue
@@ -165,37 +165,21 @@ Animation *ajc = allAnimations.next;
 
 "\nName;%s\n",ajc->name;
 Fs->draw_it=&DrawIt;
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
+Sleep(1000);
 Sleep(10);
 
-//direct.cQueDirective = NoDirective;
 Sleep(10);
 Sleep(10);
 
 direct.cQueDirective = T2FISH;
 Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
-Sleep(10);
+Sleep(1000);
+
+direct.cQueDirective = T3FISH;
+Sleep(1000);
+
+direct.cQueDirective = T4FISH;
+Sleep(1000);
+direct.cQueDirective = NoDirective;
 
 

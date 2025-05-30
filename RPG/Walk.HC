@@ -106,9 +106,9 @@ static CDC*		A4R3;
 CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
 {
   U8 walkdir = a->walking;
-  switch(a->race)
+  switch(a->race)
   {
-   case 0://Judah
+   case T_JUDA://Judah
     switch(walkdir)
     {
      case 0://not walking
@@ -417,7 +417,7 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
 
     }
    break;
-   case 1://Levi
+   case T_LEVI://Levi
     switch(walkdir)
     {
      case 0://not walking
@@ -732,7 +732,7 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
     }
    break;
 
-   case 2://Ephraim
+   case T_EPHR://Ephraim
     switch(walkdir)
     {
      case 0://not walking
@@ -1046,7 +1046,7 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
 
     }
    break;
-   case 3://Benjamin
+   case T_BENJ://Benjamin
     switch(walkdir)
     {
      case 0://not walking

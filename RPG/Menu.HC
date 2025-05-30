@@ -822,7 +822,7 @@ CDC *RenderInventory(Actor *p)
         GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM3I);
        break;
        case IT_FISH1://fish
-        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM$ER$4I);
+        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+312,0,ITEM4I);
        break;
       }
       //Free(&retrieved);

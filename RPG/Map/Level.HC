@@ -22,7 +22,7 @@ Matrix *MakeCastle(Matrix *toAdd)
   for(i=12;i<26;i++)
   {
    if(i!=18&&i!=19&&i)
-    SetMatrix(toAdd,BG_DK_GRAY,i,14);
+    SetMatrix(toAdd,BG_DK_GRAY,i,14);
   }
   //floor
   for(i=13;i<25;i++)
