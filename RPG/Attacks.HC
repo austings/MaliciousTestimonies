@@ -27,6 +27,8 @@ U0 PunchMove(CDC *screen,Actor *tar,I64 sX,I64 sY, I64 theta)
  Mat4x4RotX(loadedAttackFrame->r,theta+180);
  GrBlot3(screen,sX,sY,10, loadedAttackFrame);
 
+
+
  //hp bar
  //CDC *newFill = DCNew(100,100);
  //GrRect(newFill,0,0,((tar->currentHealth)/tar->health)*100,20);
@@ -40,14 +42,14 @@ U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
   mc->combatON=TRUE;
   mc->loot = "";
   mc->lootedSwitch=FALSE;
-  mc->combatMenuStage=0;
+  mc->combatMenuStage=CMS_MOVE;
   mc->currentSong=5;
   QueInit(&combatCQue);
   
   CombatTurn *ctn;
   // Limit for one
   ctn = CAlloc(sizeof(CombatTurn));
-  ctn->ready = GetNPC(0); //GetNPC(maxChars);
+  ctn->ready = GetNPC(PLAYER); //GetNPC(maxChars);
   QueIns(ctn,combatCQue.last);
 
   ctn = CAlloc(sizeof(CombatTurn));
@@ -57,6 +59,32 @@ U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
   
   ctp = combatCQue.next;
   mc->turnIndex = 1;
+
+
+ if(!StrCmp(direct.cQueDirective,NoDirective)&&toInsert->race<=T_BENJ)
+ {
+  direct.x = toInsert->screenX;//(p->x)*camera->dividX;
+  direct.y = toInsert->screenY;//(p->y)*camera->dividY;
+  direct.a = toInsert;
+ 
+  switch(toInsert->race){
+   case T_JUDA:
+    direct.cQueDirective = T1READY;  
+   break;
+   case T_LEVI:
+      direct.cQueDirective = T2READY;
+    break;
+   case T_EPHR:
+      direct.cQueDirective = T3READY;
+   break;
+   case T_BENJ:
+      direct.cQueDirective = T4READY;
+   break;
+  }
+  toInsert->visible=FALSE;
+  
+
+ }
 
 }
 
@@ -95,7 +123,7 @@ U0 RenderCombatVersion(Actor *toRender)
     {
       //reset back to stage 0, start of player's turn
       mc->combatMenuStage=0;
-      mc->combatMenuSelection=0;      
+      mc->combatMenuSelection=0;      
 
       //return que pointer to player
       if(mc->turnIndex==QueCnt(combatCQue))
@@ -121,4 +149,45 @@ U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
     GrCircle(dc,hX+25,hY+45,15);
     //GrFloodFill(dc,hX+13,hY+13,TRUE);   
    
+}
+
+U0 PlayStrikeAnim(Actor *p)
+{
+ if(!StrCmp(direct.cQueDirective,NoDirective))
+ {
+  direct.x = p->screenX;//(p->x)*camera->dividX;
+  direct.y = p->screenY;//(p->y)*camera->dividY;
+  direct.a = p;
+
+ 
+  switch(p->race){
+   case T_JUDA:
+    switch(p->sword){
+     case 0: //fist
+      direct.cQueDirective = T1PUNCH;
+     break;
+    }  
+   break;
+   case T_LEVI:
+    switch(p->sword){
+     case 0: //fist
+      direct.cQueDirective = T2PUNCH;
+     break;
+    }   break;
+   case T_EPHR:
+    switch(p->sword){
+     case 0: //fist
+      direct.cQueDirective = T3PUNCH;
+     break;
+    }   break;
+   case T_BENJ:
+    switch(p->sword){
+     case 0: //fist
+      direct.cQueDirective = T4PUNCH;
+     break;
+    }   break;
+  }
+  p->visible=FALSE;
+ }
+ 
 }

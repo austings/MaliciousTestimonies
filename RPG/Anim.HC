@@ -41,44 +41,95 @@ Animation *CreateAnimation(U8* wadFrameName){
  if(!StrCmp(wadFrameName,T1FISH)){
    QueIns(AddFrame(AAE110,T1FISH,0,5,2),allAnimations.last);  
    QueIns(AddFrame(AAE111,T1FISH,1,5,2),allAnimations.last);
+
  } else if(!StrCmp(wadFrameName,T2FISH)){
    QueIns(AddFrame(AAE164,T2FISH,0,5,2),allAnimations.last);   
    QueIns(AddFrame(AAE165,T2FISH,1,5,2),allAnimations.last);
+
  } else if(!StrCmp(wadFrameName,T3FISH)){
    QueIns(AddFrame(AAE2,T3FISH,0,5,2),allAnimations.last);  
    QueIns(AddFrame(AAE3,T3FISH,1,5,2),allAnimations.last);
+
  } else if(!StrCmp(wadFrameName,T4FISH)){
    QueIns(AddFrame(AAE56,T4FISH,0,5,2),allAnimations.last); 
    QueIns(AddFrame(AAE57,T4FISH,1,5,2),allAnimations.last);
 
- }
-
-/*
- if(!StrCmp(wadFrameName,T1READY)){
-   QueIns(AddFrame(AAE60),allAnimations.last);
-   QueIns(AddFrame(AAE61),allAnimations.last);
-   QueIns(AddFrame(AAE62),allAnimations.last);    
+ } else if(!StrCmp(wadFrameName,T1READY)){
+   QueIns(AddFrame(AAE60,T1READY,0),allAnimations.last);
+   QueIns(AddFrame(AAE61,T1READY,1),allAnimations.last);
+   QueIns(AddFrame(AAE62,T1READY,2),allAnimations.last);    
   
- } else if(StrCmp(wadFrameName,T2READY)){
-   QueIns(AddFrame(AAE115),(*job).last);
-   QueIns(AddFrame(AAE116),(*job).last);
-   QueIns(AddFrame(AAE117),(*job).last);    
+ } else if(!StrCmp(wadFrameName,T2READY)){
+   QueIns(AddFrame(AAE115,T2READY,0),allAnimations.last);
+   QueIns(AddFrame(AAE116,T2READY,1),allAnimations.last);
+   QueIns(AddFrame(AAE117,T2READY,2),allAnimations.last);    
   
- } else if(StrCmp(wadFrameName,T3READY)){
-   QueIns(AddFrame(AAE169),(*job).last);
-   QueIns(AddFrame(AAE170),(*job).last);
-   QueIns(AddFrame(AAE171),(*job).last);    
+ } else if(!StrCmp(wadFrameName,T3READY)){
+   QueIns(AddFrame(AAE169,T3READY,0),allAnimations.last);
+   QueIns(AddFrame(AAE170,T3READY,1),allAnimations.last);
+   QueIns(AddFrame(AAE171,T3READY,2),allAnimations.last);    
   
- } else if(StrCmp(wadFrameName,T4READY)){
-   QueIns(AddFrame(AAE7),(*job).last);
-   QueIns(AddFrame(AAE8),(*job).last);
-   QueIns(AddFrame(AAE9),(*job).last);    
+ } else if(!StrCmp(wadFrameName,T4READY)){
+   QueIns(AddFrame(AAE7,T4READY,0),allAnimations.last);
+   QueIns(AddFrame(AAE8,T4READY,1),allAnimations.last);
+   QueIns(AddFrame(AAE9,T4READY,2),allAnimations.last);    
   
- } else if(StrCmp(wadFrameName,T1PUNCH)){
- } else if(StrCmp(wadFrameName,T2PUNCH)){
+ } else if(!StrCmp(wadFrameName,T1PUNCH)){
+   QueIns(AddFrame(AAE60,T1PUNCH,0),allAnimations.last);
+   QueIns(AddFrame(AAE61,T1PUNCH,1),allAnimations.last);
+   QueIns(AddFrame(AAE62,T1PUNCH,2),allAnimations.last);    
+   QueIns(AddFrame(AAE63,T1PUNCH,3),allAnimations.last);
+   QueIns(AddFrame(AAE64,T1PUNCH,4),allAnimations.last);
+   QueIns(AddFrame(AAE65,T1PUNCH,5),allAnimations.last);    
+   QueIns(AddFrame(AAE66,T1PUNCH,6),allAnimations.last);
+   QueIns(AddFrame(AAE67,T1PUNCH,7),allAnimations.last);
+   QueIns(AddFrame(AAE68,T1PUNCH,8),allAnimations.last);    
+   QueIns(AddFrame(AAE69,T1PUNCH,9),allAnimations.last);
+   QueIns(AddFrame(AAE70,T1PUNCH,10),allAnimations.last);
+   QueIns(AddFrame(AAE71,T1PUNCH,11),allAnimations.last);    
+  
+ } else if(!StrCmp(wadFrameName,T2PUNCH)){
+   QueIns(AddFrame(AAE115,T2PUNCH,0),allAnimations.last);
+   QueIns(AddFrame(AAE116,T2PUNCH,1),allAnimations.last);
+   QueIns(AddFrame(AAE117,T2PUNCH,2),allAnimations.last);    
+   QueIns(AddFrame(AAE118,T2PUNCH,3),allAnimations.last);
+   QueIns(AddFrame(AAE119,T2PUNCH,4),allAnimations.last);
+   QueIns(AddFrame(AAE120,T2PUNCH,5),allAnimations.last);    
+   QueIns(AddFrame(AAE121,T2PUNCH,6),allAnimations.last);
+   QueIns(AddFrame(AAE122,T2PUNCH,7),allAnimations.last);
+   QueIns(AddFrame(AAE123,T2PUNCH,8),allAnimations.last);    
+   QueIns(AddFrame(AAE124,T2PUNCH,9),allAnimations.last);
+   QueIns(AddFrame(AAE125,T2PUNCH,10),allAnimations.last);
+   QueIns(AddFrame(AAE126,T2PUNCH,11),allAnimations.last);
+    
  } else if(StrCmp(wadFrameName,T3PUNCH)){
- } else if(StrCmp(wadFrameName,T4PUNCH)){
- */
+   QueIns(AddFrame(AAE169,T3PUNCH,0),allAnimations.last);
+   QueIns(AddFrame(AAE170,T3PUNCH,1),allAnimations.last);
+   QueIns(AddFrame(AAE171,T3PUNCH,2),allAnimations.last);    
+   QueIns(AddFrame(AAE172,T3PUNCH,3),allAnimations.last);
+   QueIns(AddFrame(AAE173,T3PUNCH,4),allAnimations.last);
+   QueIns(AddFrame(AAE174,T3PUNCH,5),allAnimations.last);    
+   QueIns(AddFrame(AAE175,T3PUNCH,6),allAnimations.last);
+   QueIns(AddFrame(AAE176,T3PUNCH,7),allAnimations.last);
+   QueIns(AddFrame(AAE177,T3PUNCH,8),allAnimations.last);    
+   QueIns(AddFrame(AAE178,T3PUNCH,9),allAnimations.last);
+   QueIns(AddFrame(AAE179,T3PUNCH,10),allAnimations.last);
+   QueIns(AddFrame(AAE180,T3PUNCH,11),allAnimations.last);
+    
+ } else if(!StrCmp(wadFrameName,T4PUNCH)){
+   QueIns(AddFrame(AAE7,T4PUNCH,0),allAnimations.last);
+   QueIns(AddFrame(AAE8,T4PUNCH,1),allAnimations.last);
+   QueIns(AddFrame(AAE9,T4PUNCH,2),allAnimations.last);    
+   QueIns(AddFrame(AAE10,T4PUNCH,3),allAnimations.last);
+   QueIns(AddFrame(AAE11,T4PUNCH,4),allAnimations.last);
+   QueIns(AddFrame(AAE12,T4PUNCH,5),allAnimations.last);    
+   QueIns(AddFrame(AAE13,T4PUNCH,6),allAnimations.last);
+   QueIns(AddFrame(AAE14,T4PUNCH,7),allAnimations.last);
+   QueIns(AddFrame(AAE15,T4PUNCH,8),allAnimations.last);    
+   QueIns(AddFrame(AAE16,T4PUNCH,9),allAnimations.last);
+   QueIns(AddFrame(AAE17,T4PUNCH,10),allAnimations.last);
+   QueIns(AddFrame(AAE18,T4PUNCH,11),allAnimations.last);     
+ } 
 
 }
 U0 ResetDirective()
@@ -136,6 +187,16 @@ U0 InitializeAnimator(){
   CreateAnimation(T2FISH);
   CreateAnimation(T3FISH);
   CreateAnimation(T4FISH);
+
+  CreateAnimation(T1READY);
+  CreateAnimation(T2READY);
+  CreateAnimation(T3READY);
+  CreateAnimation(T4READY);
+
+  CreateAnimation(T1PUNCH);
+  CreateAnimation(T2PUNCH);
+  CreateAnimation(T3PUNCH);
+  CreateAnimation(T4PUNCH);
   //load all animations into the hashtable 
 }
 
@@ -442,3 +503,5 @@ U8 GetWalkOffsetY(U8 walkdir)
  }
  return YOffset; 
 }
+
+

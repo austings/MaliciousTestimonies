@@ -26,6 +26,6 @@ U0 FishingHoleTrigger(Actor *p)
   p->visible=FALSE;
   
 
-  AddItemToInventory(PLAYER,IT_FISH1);
+  AddItemToInventory(PLAYER,IT_FISH1);
  }
-}
+}

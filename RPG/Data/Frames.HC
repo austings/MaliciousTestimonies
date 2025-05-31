@@ -1,3 +1,16 @@
+#define T1FISH "T1Fish"
+#define T2FISH "T2Fish"
+#define T3FISH "T3Fish"
+#define T4FISH "T4Fish"
+#define T1PUNCH "T1Punch"
+#define T2PUNCH "T2Punch"
+#define T3PUNCH "T3Punch"
+#define T4PUNCH "T4Punch"
+#define T1READY "T1Ready"
+#define T2READY "T2Ready"
+#define T3READY "T3Ready"
+#define T4READY "T4Ready"
+#define Nothing NULL
 static CDC* AAE1= FramePtr("AAE1");
 static CDC* AAE2= FramePtr("AAE2");
 static CDC* AAE3= FramePtr("AAE3");
@@ -215,15 +228,3 @@ static CDC* AAE214= FramePtr("AAE214");
 static CDC* AAE215= FramePtr("AAE215");
 static CDC* AAE216= FramePtr("AAE216");
 
-#define T1FISH "T1Fish"
-#define T2FISH "T2Fish"
-#define T3FISH "T3Fish"
-#define T4FISH "T4Fish"
-#define T1PUNCH "T1Punch"
-#define T2PUNCH "T2Punch"
-#define T3PUNCH "T3Punch"
-#define T4PUNCH "T4Punch"
-#define T1READY "T1Ready"
-#define T2READY "T2Ready"
-#define T3READY "T3Ready"
-#define T4READY "T4Ready"

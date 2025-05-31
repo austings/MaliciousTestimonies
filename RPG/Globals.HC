@@ -24,7 +24,8 @@ class CombatTurn:CQue
   Actor *ready;
 } combatCQue;
 
-
+#define AGGRO_DIS	2
+
 //looting contants for looting previous corpse check
 #define LOOTED		0
 #define LOOTING		1

@@ -136,7 +136,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
        p->screenX  = convertedToScreenX;
        p->screenY = convertedToScreenY;
        //render attack from player
-       if(mc->combatMenuSelection==111)
+       if(mc->combatMenuSelection==CMS_STRIKE_DONE)
        {
         switch(p->sword)
         {
@@ -163,8 +163,8 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
       { 
        if(mc->combatON==FALSE   && toRender->ai_script==1&&
           toRender->dead==FALSE && //(enemy)
-          Abs((p->x)-(toRender->x))<=2&& //(aggro distance)
-          Abs((p->y)-(toRender->y))<=2)
+          Abs((p->x)-(toRender->x))<=AGGRO_DIS&& //(aggro distance)
+          Abs((p->y)-(toRender->y))<=AGGRO_DIS)
        {
          CombatQueInit(toRender);
        }
@@ -172,11 +172,10 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
       }
       //optionally highlight targets for strikes
       Bool highlight= FALSE;
-      if(mc->combatMenuSelection==11&&toRender->id==ctp->ready->id)
+      if(mc->combatMenuSelection==CS_STRIKE&&toRender->id==ctp->ready->id)
       {
         highlight = TRUE;
         mc->target = toRender;
-
         mc->tarposx = convertedToScreenX;
         mc->tarposy = convertedToScreenY;//change default target
       }
@@ -223,7 +222,7 @@ U0 DrawHealthMana(CDC *dc,Actor *p,I64 i, I64 j){
      dc->color=BLACK;         
      break;
     case 21...25:
-     GrLine(dc,490,370,542,370);//1         
+     GrLine(dc,490,370,542,370);//1         
      GrFloodFill(dc,521,378,TRUE); 
      dc->color=BLACK;        
      break;

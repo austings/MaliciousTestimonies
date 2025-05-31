@@ -1,5 +1,4 @@
 
-
 U0 Death()
 {
 //Player action select
@@ -25,11 +24,11 @@ U0 HandleCombatLoop(CTask *task, CDC *dc){
  mc->displayInventory=FALSE;   
  switch(mc->combatMenuStage){
   case 0:  
-   CombatDialog1(dc,task, mc->combatMenuSelection);
+   CombatDialog1(dc,task, mc->combatMenuSelection);
      
      break;
   case 1:
-      //Actor *attacker = ct->ready;    
+      //Actor *attacker = ct->ready;    
      break;
   case 2:
       //mc->combatMenuStage=1;
@@ -39,4 +38,46 @@ U0 HandleCombatLoop(CTask *task, CDC *dc){
      break;
  }
 
+}
+
+U0 CombatTurnArrows(Actor *p)
+{
+ switch(mc->combatMenuSelection){
+     case 0:
+      if(keys.pressed==DIR_UP){break;}
+      if(keys.pressed==DIR_DOWN){mc->combatMenuSelection++;}
+     break;
+     case 1:
+     case 2: 
+      if(keys.pressed==DIR_DOWN){
+       mc->combatMenuSelection++;
+      }
+      if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+     break;
+     case 3:
+     if(keys.pressed==DIR_DOWN){
+      break;
+     }
+     if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+     break;
+     case 4...9:
+      if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+     break;
+     case CMS_MOVE_DONE: 
+      if(p->currentMana>=MOVEMENT_COST){
+       MoveActor(p,keys.pressed);
+       RemoveMana(p,MOVEMENT_COST);
+      } 
+      else{mc->combatMenuStage=CS_MOVE;}
+     break;
+     case CS_STRIKE:
+      ctp = ctp->next;
+      mc->turnIndex++;
+      //return to player from head
+      if(mc->turnIndex>QueCnt(combatCQue)){
+       ctp = combatCQue.next;
+       mc->turnIndex = 1;
+      } 
+     break;
+ }//switch end
 }

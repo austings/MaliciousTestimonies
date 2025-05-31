@@ -16,6 +16,7 @@ class MapNode
   
 };
 
+
 #define INVWIDTH	11
 #define INVHEIGHT	4
 //items

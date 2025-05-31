@@ -44,6 +44,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     break;
    case CS_STRIKE://strike completion
     mc->combatMenuSelection=CMS_STRIKE_DONE;
+    PlayStrikeAnim(p);
     break;
   }//end switch
  }else
@@ -60,26 +61,9 @@ U0 KeyArrow(Actor *p)
  else{ 
   switch(mc->combatMenuStage){
    case CMS_MOVE:
-    switch(mc->combatMenuSelection){
-     case CMS_MOVE_DONE: 
-      if(p->currentMana>=MOVEMENT_COST){
-       MoveActor(p,keys.pressed);
-       RemoveMana(p,MOVEMENT_COST);
-      } 
-      else{mc->combatMenuStage=CS_MOVE;}
-     break;
-     case CMS_STRIKE:
-      ctp = ctp->next;
-      mc->turnIndex++;
-      //return to player from head
-      if(mc->turnIndex>QueCnt(combatCQue)){
-       ctp = combatCQue.next;
-       mc->turnIndex = 1;
-      }
-     break;
-    }//switch end     
-    break; 
-  }
+    CombatTurnArrows(p);     
+   break; 
+ }
  } 
 }
 
