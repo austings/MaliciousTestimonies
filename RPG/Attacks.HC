@@ -67,7 +67,7 @@ U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
   direct.y = toInsert->screenY;//(p->y)*camera->dividY;
   direct.a = toInsert;
  
-  switch(toInsert->race){
+  switch(toInsert->race){
    case T_JUDA:
     direct.cQueDirective = T1READY;  
    break;

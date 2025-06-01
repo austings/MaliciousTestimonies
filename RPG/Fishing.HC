@@ -8,7 +8,6 @@ U0 FishingHoleTrigger(Actor *p)
   direct.x = p->screenX;//(p->x)*camera->dividX;
   direct.y = p->screenY;//(p->y)*camera->dividY;
   direct.a = p;
- 
   switch(p->race){
    case T_JUDA:
     direct.cQueDirective = T1FISH;
@@ -28,4 +27,4 @@ U0 FishingHoleTrigger(Actor *p)
 
   AddItemToInventory(PLAYER,IT_FISH1);
  }
-}
+}

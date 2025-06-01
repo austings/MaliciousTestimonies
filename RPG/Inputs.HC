@@ -12,7 +12,7 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
    }
    else
    {
-    mc->dialogName = " ";
+    mc->dialogName = "Missing Proper Weapon";
     mc->talkieScene = GetTalkie(SV_MISS_FISH_EQUIP);
 
    }
