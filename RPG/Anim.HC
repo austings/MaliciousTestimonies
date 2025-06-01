@@ -22,13 +22,13 @@ class Director{
 
 
 Animation *AddFrame(CDC *frame,U8* key,I8 fIndex; 
-                    I8 xO=0,I8 yO=0,I8 sfd=16)
+                    I8 xO=0,I8 yO=0,I8 sfd=4)
 {
   Animation *createdFrame = CAlloc(sizeof(Animation));
   createdFrame->frame = frame;
   createdFrame->frameDuration = sfd;
   createdFrame->frameDurationIndex = 0;
-  createdFrame->frameIndex = fIndex;
+  createdFrame->frameIndex = fIndex;
   createdFrame->xOffset=xO;
   createdFrame->yOffset=yO;
   createdFrame->name = key;  
@@ -39,40 +39,40 @@ Animation *AddFrame(CDC *frame,U8* key,I8 fIndex;
 
 Animation *CreateAnimation(U8* wadFrameName){
  if(StrCmp(wadFrameName,T1FISH)==0){
-   QueIns(AddFrame(AAE110,T1FISH,0,5,2),allAnimations.last);  
-   QueIns(AddFrame(AAE111,T1FISH,1,5,2),allAnimations.last);
+   QueIns(AddFrame(AAE110,T1FISH,0,5,2,24),allAnimations.last);  
+   QueIns(AddFrame(AAE111,T1FISH,1,5,2,24),allAnimations.last);
 
  } else if(StrCmp(wadFrameName,T2FISH)==0){
-   QueIns(AddFrame(AAE164,T2FISH,0,5,2),allAnimations.last);   
-   QueIns(AddFrame(AAE165,T2FISH,1,5,2),allAnimations.last);
+   QueIns(AddFrame(AAE164,T2FISH,0,5,2,24),allAnimations.last);   
+   QueIns(AddFrame(AAE165,T2FISH,1,5,2,24),allAnimations.last);
 
  } else if(StrCmp(wadFrameName,T3FISH)==0){
-   QueIns(AddFrame(AAE2,T3FISH,0,5,2),allAnimations.last);  
-   QueIns(AddFrame(AAE3,T3FISH,1,5,2),allAnimations.last);
+   QueIns(AddFrame(AAE2,T3FISH,0,5,2,24),allAnimations.last);  
+   QueIns(AddFrame(AAE3,T3FISH,1,5,2,24),allAnimations.last);
 
  } else if(StrCmp(wadFrameName,T4FISH)==0){
-   QueIns(AddFrame(AAE56,T4FISH,0,5,2),allAnimations.last); 
-   QueIns(AddFrame(AAE57,T4FISH,1,5,2),allAnimations.last);
+   QueIns(AddFrame(AAE56,T4FISH,0,5,2,24),allAnimations.last); 
+   QueIns(AddFrame(AAE57,T4FISH,1,5,2,24),allAnimations.last);
 
  } else if(StrCmp(wadFrameName,T1READY)==0){
-   QueIns(AddFrame(AAE60,T1READY,0),allAnimations.last);
-   QueIns(AddFrame(AAE61,T1READY,1),allAnimations.last);
-   QueIns(AddFrame(AAE62,T1READY,2),allAnimations.last);    
+   QueIns(AddFrame(AAE60,T1READY,0,0,0,24),allAnimations.last);
+   QueIns(AddFrame(AAE61,T1READY,1,0,0,24),allAnimations.last);
+   QueIns(AddFrame(AAE62,T1READY,2,0,0,24),allAnimations.last);    
   
  } else if(StrCmp(wadFrameName,T2READY)==0){
-   QueIns(AddFrame(AAE115,T2READY,0),allAnimations.last);
-   QueIns(AddFrame(AAE116,T2READY,1),allAnimations.last);
-   QueIns(AddFrame(AAE117,T2READY,2),allAnimations.last);    
+   QueIns(AddFrame(AAE115,T2READY,0,0,0,24),allAnimations.last);
+   QueIns(AddFrame(AAE116,T2READY,1,0,0,24),allAnimations.last);
+   QueIns(AddFrame(AAE117,T2READY,2,0,0,24),allAnimations.last);    
   
  } else if(StrCmp(wadFrameName,T3READY)==0){
-   QueIns(AddFrame(AAE169,T3READY,0),allAnimations.last);
-   QueIns(AddFrame(AAE170,T3READY,1),allAnimations.last);
-   QueIns(AddFrame(AAE171,T3READY,2),allAnimations.last);    
+   QueIns(AddFrame(AAE169,T3READY,0,0,0,24),allAnimations.last);
+   QueIns(AddFrame(AAE170,T3READY,1,0,0,24),allAnimations.last);
+   QueIns(AddFrame(AAE171,T3READY,2,0,0,24),allAnimations.last);    
   
  } else if(StrCmp(wadFrameName,T4READY)==0){
-   QueIns(AddFrame(AAE7,T4READY,0),allAnimations.last);
-   QueIns(AddFrame(AAE8,T4READY,1),allAnimations.last);
-   QueIns(AddFrame(AAE9,T4READY,2),allAnimations.last);    
+   QueIns(AddFrame(AAE7,T4READY,0,0,0,24),allAnimations.last);
+   QueIns(AddFrame(AAE8,T4READY,1,0,0,24),allAnimations.last);
+   QueIns(AddFrame(AAE9,T4READY,2,0,0,24),allAnimations.last);    
   
  } else if(StrCmp(wadFrameName,T1PUNCH)==0){
    QueIns(AddFrame(AAE61,T1PUNCH,0),allAnimations.last);
@@ -86,7 +86,7 @@ Animation *CreateAnimation(U8* wadFrameName){
    QueIns(AddFrame(AAE69,T1PUNCH,8),allAnimations.last);    
    QueIns(AddFrame(AAE70,T1PUNCH,9),allAnimations.last);
    QueIns(AddFrame(AAE71,T1PUNCH,10),allAnimations.last);
-   QueIns(AddFrame(AAE72,T1PUNCH,11),allAnimations.last);    
+   QueIns(AddFrame(AAE72,T1PUNCH,11),allAnimations.last);    
   
  } else if(StrCmp(wadFrameName,T2PUNCH)==0){
    QueIns(AddFrame(AAE115,T2PUNCH,0),allAnimations.last);
