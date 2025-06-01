@@ -1,109 +1,4 @@
 
-static CDC*		A1L1;//light
-static CDC*		A1L2;
-static CDC*		A1L3;
-static CDC*		A1U1;
-static CDC*		A1U2;
-static CDC*		A1U3;
-static CDC*		A1D1;
-static CDC*		A1D2;
-static CDC*		A1D3;
-static CDC*		A1R1;
-static CDC*		A1R2;
-static CDC*		A1R3;
-
-static CDC*		A2L1;//tan
-static CDC*		A2L2;
-static CDC*		A2L3;
-static CDC*		A2U1;
-static CDC*		A2U2;
-static CDC*		A2U3;
-static CDC*		A2D1;
-static CDC*		A2D2;
-static CDC*		A2D3;
-static CDC*		A2R1;
-static CDC*		A2R2;
-static CDC*		A2R3;
-
-static CDC*		A3L1;//dark
-static CDC*		A3L2;
-static CDC*		A3L3;
-static CDC*		A3U1;
-static CDC*		A3U2;
-static CDC*		A3U3;
-static CDC*		A3D1;
-static CDC*		A3D2;
-static CDC*		A3D3;
-static CDC*		A3R1;
-static CDC*		A3R2;
-static CDC*		A3R3;
-
-static CDC*		A4L1;//black
-static CDC*		A4L2;
-static CDC*		A4L3;
-static CDC*		A4U1;
-static CDC*		A4U2;
-static CDC*		A4U3;
-static CDC*		A4D1;
-static CDC*		A4D2;
-static CDC*		A4D3;
-static CDC*		A4R1;
-static CDC*		A4R2;
-static CDC*		A4R3;
-
- A1L1 = FramePtr("ACTOR065");
- A1L2 = FramePtr("ACTOR066");
- A1L3 = FramePtr("ACTOR067");
- A1U1 = FramePtr("ACTOR091");
- A1U2 = FramePtr("ACTOR092");
- A1U3 = FramePtr("ACTOR093");
- A1D1 = FramePtr("ACTOR052");
- A1D2 = FramePtr("ACTOR053");
- A1D3 = FramePtr("ACTOR054");
- A1R1 = FramePtr("ACTOR078");
- A1R2 = FramePtr("ACTOR079");
- A1R3 = FramePtr("ACTOR080");
-
- A2L1 = FramePtr("ACTOR068");
- A2L2 = FramePtr("ACTOR069");
- A2L3 = FramePtr("ACTOR070");
- A2U1 = FramePtr("ACTOR094");
- A2U2 = FramePtr("ACTOR095");
- A2U3 = FramePtr("ACTOR096");
- A2D1 = FramePtr("ACTOR055");
- A2D2 = FramePtr("ACTOR056");
- A2D3 = FramePtr("ACTOR057");
- A2R1 = FramePtr("ACTOR081");
- A2R2 = FramePtr("ACTOR082");
- A2R3 = FramePtr("ACTOR083");
-
- A3L1 = FramePtr("ACTOR071");
- A3L2 = FramePtr("ACTOR072");
- A3L3 = FramePtr("ACTOR073");
- A3U1 = FramePtr("ACTOR097");
- A3U2 = FramePtr("ACTOR098");
- A3U3 = FramePtr("ACTOR099");
- A3D1 = FramePtr("ACTOR058");
- A3D2 = FramePtr("ACTOR059");
- A3D3 = FramePtr("ACTOR060");
- A3R1 = FramePtr("ACTOR084");
- A3R2 = FramePtr("ACTOR085");
- A3R3 = FramePtr("ACTOR086");
-
- A4L1 = FramePtr("ACTOR074");
- A4L2 = FramePtr("ACTOR075");
- A4L3 = FramePtr("ACTOR076");
- A4U1 = FramePtr("ACTOR100");
- A4U2 = FramePtr("ACTOR101");
- A4U3 = FramePtr("ACTOR102");
- A4D1 = FramePtr("ACTOR061");
- A4D2 = FramePtr("ACTOR062");
- A4D3 = FramePtr("ACTOR063");
- A4R1 = FramePtr("ACTOR087");
- A4R2 = FramePtr("ACTOR088");
- A4R3 = FramePtr("ACTOR089");
-
-
 U0 SetActorHairLeft(Actor *a)
 {
  switch(a->hair)
@@ -196,393 +91,174 @@ U0 SetActorSubFrameRule(Actor *a,I64 wsf,I64 w )
 
 }
 
+#define W_IDLEDOWN      0
+#define W_IDLEUP        1
+#define W_IDLERIGHT     2
+#define W_IDLELEFT      3
+
+#define W_NOTWALKING       00
+#define W_LEFTSTRAIGHT     01
+#define W_RIGHTSTRAIGHT    02
+#define W_UPSTRAIGHT       03
+#define W_DOWNSTRAIGHT     04
+#define W_LEFTLEFT         05
+#define W_RIGHTLEFT        06
+#define W_UPLEFT           07
+#define W_DOWNLEFT         08
+#define W_LEFTMID          09
+#define W_RIGHTMID         10
+#define W_UPMID            11
+#define W_DOWNMID          12
+#define W_LEFTRIGHT        13
+#define W_RIGHTRIGHT       14
+#define W_UPRIGHT          15
+#define W_DOWNRIGHT        16
+
+CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
+                        CDC *L1,CDC *L2,CDC *L3,
+                        CDC *R1,CDC *R2,CDC *R3,
+                        CDC *U1,CDC *U2,CDC *U3,
+                        CDC *D1,CDC *D2,CDC *D3)
+{
+  U8 walkDir = a->walking;
+  U8 subWalk = a->walkingSubFrame;
+ 
+ switch(walkDir){
+     case W_NOTWALKING:
+       switch(subWalk)
+       {
+        case W_IDLEDOWN://down
+         GrBlot3(completeActor,0,0,10,D2);
+         SetActorHairDown(a);
+        break;
+        case W_IDLEUP://up
+         GrBlot3(completeActor,0,0,10,U2);
+         SetActorHairUp(a);
+        break;
+        case W_IDLERIGHT://right
+         GrBlot3(completeActor,0,0,10,R2);
+         SetActorHairRight(a);
+        break;
+        case W_IDLELEFT://left
+         GrBlot3(completeActor,0,0,10,L2);
+         SetActorHairLeft(a);
+        break;
+       }
+     break;
+     case W_LEFTSTRAIGHT://left straight start
+       SetActorSubFrameRule(a,0,5);
+       SetActorHairLeft(a);
+       GrBlot3(completeActor,0,0,10,L1);
+     break;
+     case W_RIGHTSTRAIGHT://right straight start
+       SetActorSubFrameRule(a,0,6);
+       SetActorHairRight(a);
+       GrBlot3(completeActor,0,0,10,R1);
+     break;
+     case W_UPSTRAIGHT://up straight start
+       SetActorSubFrameRule(a,0,7);
+       SetActorHairUp(a);
+       GrBlot3(completeActor,0,0,10,U1);
+     break;
+     case W_DOWNSTRAIGHT://down straight start
+       SetActorSubFrameRule(a,0,8); 
+       SetActorHairDown(a);
+       GrBlot3(completeActor,0,0,10,D1);
+     break;
+     case W_LEFTLEFT://left left leg
+       SetActorSubFrameRule(a,0,9);
+       GrBlot3(completeActor,0,0,10,L2);
+     break;
+     case W_RIGHTLEFT://right left leg
+       SetActorSubFrameRule(a,0,10);
+       GrBlot3(completeActor,0,0,10,R2);
+     break;
+     case W_UPLEFT://up left leg
+       SetActorSubFrameRule(a,0,11);
+       GrBlot3(completeActor,0,0,10,U2);
+     break;
+     case W_DOWNLEFT://down left leg
+       SetActorSubFrameRule(a,0,12);
+       GrBlot3(completeActor,0,0,10,D2);
+     break;
+     case W_LEFTMID://left straight mid
+       SetActorSubFrameRule(a,0,13);
+       GrBlot3(completeActor,0,0,10,L3);
+     break;
+     case W_RIGHTMID://right straight mid
+       SetActorSubFrameRule(a,0,14);
+       GrBlot3(completeActor,0,0,10,R3);
+     break;
+     case W_UPMID://up straight mid
+       SetActorSubFrameRule(a,0,15);
+       GrBlot3(completeActor,0,0,10,U3);
+     break;
+     case W_DOWNMID://down straight mid
+       SetActorSubFrameRule(a,0,16);
+       GrBlot3(completeActor,0,0,10,D3); 
+     break;
+     case W_LEFTRIGHT://left right leg
+       SetActorSubFrameRule(a,3,0);
+       GrBlot3(completeActor,0,0,10,L2);
+     break;
+     case W_RIGHTRIGHT://right right leg
+       SetActorSubFrameRule(a,2,0);
+       GrBlot3(completeActor,0,0,10,R2);
+     break;
+     case W_UPRIGHT://up right leg
+       SetActorSubFrameRule(a,1,0);
+       GrBlot3(completeActor,0,0,10,U2);
+     break;
+     case W_DOWNRIGHT://down right leg 
+       SetActorSubFrameRule(a,0,0);
+       GrBlot3(completeActor,0,0,10,D2);
+     break;
+  }
+
+ return completeActor;
+
+}
+
+
 CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
 {
-  U8 walkdir = a->walking;
   switch(a->race)
   {
    case T_JUDA://Judah
-    switch(walkdir)
-    {
-     case 0://not walking
-       switch(a->walkingSubFrame)
-       {
-        case 0://down
-         GrBlot3(completeActor,0,0,10,A1D2);
-         SetActorHairDown(a);
-        break;
-        case 1://up
-         GrBlot3(completeActor,0,0,10,A1U2);
-         SetActorHairUp(a);
-        break;
-        case 2://right
-         GrBlot3(completeActor,0,0,10,A1R2);
-         SetActorHairRight(a);
-        break;
-        case 3://left
-         GrBlot3(completeActor,0,0,10,A1L2);
-         SetActorHairLeft(a);
-        break;
-       }
-     break;
-     case 1://left straight start
-       SetActorSubFrameRule(a,0,5);
-       SetActorHairLeft(a);
-       GrBlot3(completeActor,0,0,10,A1L1);
-     break;
-     case 2://right straight start
-       SetActorSubFrameRule(a,0,6);
-       SetActorHairRight(a);
-       GrBlot3(completeActor,0,0,10,A1R1);
-     break;
-     case 3://up straight start
-       SetActorSubFrameRule(a,0,7);
-       SetActorHairUp(a);
-       GrBlot3(completeActor,0,0,10,A1U1);
-     break;
-     case 4://down straight start
-       SetActorSubFrameRule(a,0,8); 
-       SetActorHairDown(a);
-       GrBlot3(completeActor,0,0,10,A1D1);
-     break;
-     case 5://left left leg
-       SetActorSubFrameRule(a,0,9);
-       GrBlot3(completeActor,0,0,10,A1L2);
-     break;
-     case 6://right left leg
-       SetActorSubFrameRule(a,0,10);
-       GrBlot3(completeActor,0,0,10,A1R2);
-     break;
-     case 7://up left leg
-       SetActorSubFrameRule(a,0,11);
-       GrBlot3(completeActor,0,0,10,A1U2);
-     break;
-     case 8://down left leg
-       SetActorSubFrameRule(a,0,12);
-       GrBlot3(completeActor,0,0,10,A1D2);
-     break;
-     case 9://left straight mid
-       SetActorSubFrameRule(a,0,13);
-       GrBlot3(completeActor,0,0,10,A1L3);
-     break;
-     case 10://right straight mid
-       SetActorSubFrameRule(a,0,14);
-       GrBlot3(completeActor,0,0,10,A1R3);
-     break;
-     case 11://up straight mid
-       SetActorSubFrameRule(a,0,15);
-       GrBlot3(completeActor,0,0,10,A1U3);
-     break;
-     case 12://down straight mid
-       SetActorSubFrameRule(a,0,16);
-       GrBlot3(completeActor,0,0,10,A1D3); 
-     break;
-     case 13://left right leg
-       SetActorSubFrameRule(a,3,0);
-       GrBlot3(completeActor,0,0,10,A1L2);
-     break;
-     case 14://right right leg
-       SetActorSubFrameRule(a,2,0);
-       GrBlot3(completeActor,0,0,10,A1R2);
-     break;
-     case 15://up right leg
-       SetActorSubFrameRule(a,1,0);
-       GrBlot3(completeActor,0,0,10,A1U2);
-     break;
-     case 16://down right leg 
-       SetActorSubFrameRule(a,0,0);
-       GrBlot3(completeActor,0,0,10,A1D2);
-     break;
+    completeActor = HandleWalkSubFrame(a, 
+                        completeActor,
+                        A1L1, A1L2, A1L3,
+                        A1R1, A1R2, A1R3,
+                        A1U1, A1U2, A1U3,
+                        A1D1, A1D2, A1D3);
 
-    }
    break;
    case T_LEVI://Levi
-    switch(walkdir)
-    {
-     case 0://not walking
-       switch(a->walkingSubFrame)
-       {
-        case 0://down
-         GrBlot3(completeActor,-2,0,10,A2D2);
-         SetActorHairDown(a);
+    completeActor = HandleWalkSubFrame(a, 
+                        completeActor,
+                        A2L1, A2L2, A2L3,
+                        A2R1, A2R2, A2R3,
+                        A2U1, A2U2, A2U3,
+                        A2D1, A2D2, A2D3);
 
-        break;
-        case 1://up
-         GrBlot3(completeActor,-2,0,10,A2U2);
-         SetActorHairUp(a);
-        break;
-        case 2://right
-         SetActorHairRight(a);  
-         GrBlot3(completeActor,-2,0,10,A2R2);
-        break;
-        case 3://left
-         SetActorHairLeft(a);
-         GrBlot3(completeActor,-2,0,10,A2L2);
-        break;
-
-       }
-     break;
-     case 1://left straight start
-       SetActorSubFrameRule(a,0,5);
-       SetActorHairLeft(a);
-       GrBlot3(completeActor,-2,0,10,A2L1);
-     break;
-     case 2://right straight start
-
-       SetActorSubFrameRule(a,0,6);
-       SetActorHairRight(a);
-       GrBlot3(completeActor,-2,0,10,A2R1);
-     break;
-     case 3://up straight start
-       SetActorSubFrameRule(a,0,7);
-       SetActorHairUp(a);
-       GrBlot3(completeActor,-2,0,10,A2U1);
-     break;
-     case 4://down straight start
-       SetActorSubFrameRule(a,0,8);
-       SetActorHairDown(a);
-       GrBlot3(completeActor,-2,0,10,A2D1);
-     break;
-     case 5://left left leg
-       SetActorSubFrameRule(a,0,9);
-       GrBlot3(completeActor,-2,0,10,A2L2);
-     break;
-     case 6://right left leg
-       SetActorSubFrameRule(a,0,10);
-       GrBlot3(completeActor,-2,0,10,A2R2);
-     break;
-     case 7://up left leg
-       SetActorSubFrameRule(a,0,11);
-       GrBlot3(completeActor,-2,0,10,A2U2);
-     break;
-     case 8://down left leg
-       SetActorSubFrameRule(a,0,12);
-      GrBlot3(completeActor,-2,0,10,A2D2);
-     break;
-     case 9://left straight mid
-       SetActorSubFrameRule(a,0,13);
-       GrBlot3(completeActor,-2,0,10,A2L3);
-     break;
-     case 10://right straight mid
-       SetActorSubFrameRule(a,0,14);
-       GrBlot3(completeActor,-2,0,10,A2R3);
-     break;
-     case 11://up straight mid
-       SetActorSubFrameRule(a,0,15);
-       GrBlot3(completeActor,-2,0,10,A2U3);
-     break;
-     case 12://down straight mid
-       SetActorSubFrameRule(a,0,16);
-       GrBlot3(completeActor,-2,0,10,A2D3); 
-     break;
-     case 13://left right leg
-       SetActorSubFrameRule(a,3,0);
-       GrBlot3(completeActor,-2,0,10,A2L2);
-     break;
-     case 14://right right leg
-       SetActorSubFrameRule(a,2,0);
-       GrBlot3(completeActor,-2,0,10,A2R2);
-     break;
-     case 15://up right leg
-       SetActorSubFrameRule(a,1,0);
-       GrBlot3(completeActor,-2,0,10,A2U2);
-     break;
-     case 16://down right leg 
-       SetActorSubFrameRule(a,0,0);
-       GrBlot3(completeActor,-2,0,10,A2D2);
-     break;
-    }
    break;
    case T_EPHR://Ephraim
-    switch(walkdir){
-     case 0://not walking
-       switch(a->walkingSubFrame)
-       {
-        case 0://down
-        GrBlot3(completeActor,-4,0,10,A3D2);
-        SetActorHairDown(a);
-        break;
-        case 1://up
-         SetActorHairUp(a);
-         GrBlot3(completeActor,-4,0,10,A3U2);
-        break;
-        case 2://right
-         SetActorHairRight(a);  
-         GrBlot3(completeActor,-4,0,10,A3R2);
-        break;
-        case 3://left
-         SetActorHairLeft(a);
-         GrBlot3(completeActor,-4,0,10,A3L2);
-        break;
+    completeActor = HandleWalkSubFrame(a, 
+                        completeActor,
+                        A3L1, A3L2, A3L3,
+                        A3R1, A3R2, A3R3,
+                        A3U1, A3U2, A3U3,
+                        A3D1, A3D2, A3D3);
 
-       }
-     break;
-     case 1://left straight start
-       SetActorSubFrameRule(a,0,5);
-       SetActorHairLeft(a);
-       GrBlot3(completeActor,-4,0,10,A3L1);
-     break;
-     case 2://right straight start
-       SetActorSubFrameRule(a,0,6);
-       SetActorHairRight(a);
-       GrBlot3(completeActor,-4,0,10,A3R1);
-     break;
-     case 3://up straight start
-       SetActorSubFrameRule(a,0,7);
-       SetActorHairUp(a);
-       GrBlot3(completeActor,-4,0,10,A3U1);
-     break;
-     case 4://down straight start
-       SetActorSubFrameRule(a,0,8);
-       SetActorHairDown(a);
-       GrBlot3(completeActor,-4,0,10,A3D1);
-     break;
-     case 5://left left leg
-       SetActorSubFrameRule(a,0,9);
-       GrBlot3(completeActor,-4,0,10,A3L2);
-     break;
-     case 6://right left leg
-       SetActorSubFrameRule(a,0,10);
-       GrBlot3(completeActor,-4,0,10,A3R2);
-     break;
-     case 7://up left leg
-       SetActorSubFrameRule(a,0,11);
-       GrBlot3(completeActor,-4,0,10,A3U2);
-     break;
-     case 8://down left leg
-       SetActorSubFrameRule(a,0,12);
-       GrBlot3(completeActor,-4,0,10,A3D2);
-     break;
-     case 9://left straight mid
-       SetActorSubFrameRule(a,0,13);
-       GrBlot3(completeActor,-4,0,10,A3L3);
-     break;
-     case 10://right straight mid
-       SetActorSubFrameRule(a,0,14);
-       GrBlot3(completeActor,-4,0,10,A3R3);
-     break;
-     case 11://up straight mid
-       SetActorSubFrameRule(a,0,15);
-       GrBlot3(completeActor,-4,0,10,A3U3);
-     break;
-     case 12://down straight mid
-       SetActorSubFrameRule(a,0,16);
-       GrBlot3(completeActor,-4,0,10,A3D3); 
-     break;
-     case 13://left right leg
-       SetActorSubFrameRule(a,3,0);
-       GrBlot3(completeActor,-4,0,10,A3L2);
-     break;
-     case 14://right right leg
-       SetActorSubFrameRule(a,2,0);
-       GrBlot3(completeActor,-4,0,10,A3R2);
-     break;
-     case 15://up right leg
-       SetActorSubFrameRule(a,1,0,);
-       GrBlot3(completeActor,-4,0,10,A3U2);
-     break;
-     case 16://down right leg 
-       SetActorSubFrameRule(a,0,0);
-       GrBlot3(completeActor,-4,0,10,A3D2);
-     break;
-
-    }
    break;
    case T_BENJ://Benjamin
-    switch(walkdir)
-    {
-     case 0://not walking
-       switch(a->walkingSubFrame)
-       {
-        case 0://down
-         GrBlot3(completeActor,-6,0,10,A4D2);
-         SetActorHairDown(a);
-        break;
-        case 1://up
-         SetActorHairUp(a);
-         GrBlot3(completeActor,-6,0,10,A4U2);
-        break;
-        case 2://right
-         SetActorHairRight(a);  
-        GrBlot3(completeActor,-6,0,10,A4R2);
-        break;
-        case 3://left
-         SetActorHairLeft(a);
-        GrBlot3(completeActor,-6,0,10,A4L2);
-        break;
+    completeActor = HandleWalkSubFrame(a, 
+                        completeActor,
+                        A4L1, A4L2, A4L3,
+                        A4R1, A4R2, A4R3,
+                        A4U1, A4U2, A4U3,
+                        A4D1, A4D2, A4D3);
 
-       }
-     break;
-     case 1://left straight start
-       SetActorSubFrameRule(a,0,5);
-       SetActorHairLeft(a);
-       GrBlot3(completeActor,-6,0,10,A4L1);
-     break;
-     case 2://right straight start
-       SetActorSubFrameRule(a,0,6);
-       SetActorHairRight(a);
-       GrBlot3(completeActor,-6,0,10,A4R1);
-     break;
-     case 3://up straight start
-       SetActorSubFrameRule(a,0,7);
-       SetActorHairUp(a);
-       GrBlot3(completeActor,-6,0,10,A4U1);
-     break;
-     case 4://down straight start
-       SetActorSubFrameRule(a,0,8);
-       SetActorHairDown(a);
-       GrBlot3(completeActor,-6,0,10,A4D1);
-     break;
-     case 5://left left leg
-       SetActorSubFrameRule(a,0,9);
-       GrBlot3(completeActor,-6,0,10,A4L2);
-     break;
-     case 6://right left leg
-       SetActorSubFrameRule(a,0,10);
-       GrBlot3(completeActor,-6,0,10,A4R2);
-     break;
-     case 7://up left leg
-       SetActorSubFrameRule(a,0,11);
-       GrBlot3(completeActor,-6,0,10,A4U2);
-     break;
-     case 8://down left leg
-       SetActorSubFrameRule(a,0,12);
-       GrBlot3(completeActor,-6,0,10,A4D2);
-     break;
-     case 9://left straight mid
-       SetActorSubFrameRule(a,0,13);
-       GrBlot3(completeActor,-6,0,10,A4L3);
-     break;
-     case 10://right straight mid
-       SetActorSubFrameRule(a,0,14);
-       GrBlot3(completeActor,-6,0,10,A4R3);
-     break;
-     case 11://up straight mid
-       SetActorSubFrameRule(a,0,15);
-       GrBlot3(completeActor,-6,0,10,A4U3);
-     break;
-     case 12://down straight mid
-       SetActorSubFrameRule(a,0,16);
-       GrBlot3(completeActor,-6,0,10,A4D3); 
-     break;
-     case 13://left right leg
-       SetActorSubFrameRule(a,3,0);
-       GrBlot3(completeActor,-6,0,10,A4L2);
-     break;
-     case 14://right right leg
-       SetActorSubFrameRule(a,2,0);
-       GrBlot3(completeActor,-6,0,10,A4R2);
-     break;
-     case 15://up right leg
-       SetActorSubFrameRule(a,1,0);
-       GrBlot3(completeActor,-6,0,10,A4U2);
-     break;
-     case 16://down right leg 
-       SetActorSubFrameRule(a,0,0);
-       GrBlot3(completeActor,-6,0,10,A4D2);
-     break;
-
-    }
    break;
    case 4:
     Sprite3B(completeActor,0,32,10,GetDog);
