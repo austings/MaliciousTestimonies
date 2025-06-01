@@ -28,7 +28,7 @@ Animation *AddFrame(CDC *frame,U8* key,I8 fIndex;
   createdFrame->frame = frame;
   createdFrame->frameDuration = sfd;
   createdFrame->frameDurationIndex = 0;
-  createdFrame->frameIndex = fIndex;
+  createdFrame->frameIndex = fIndex;
   createdFrame->xOffset=xO;
   createdFrame->yOffset=yO;
   createdFrame->name = key;  

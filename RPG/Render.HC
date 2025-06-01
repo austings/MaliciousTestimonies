@@ -6,7 +6,7 @@ U0 RenderCharacter(CDC *dc,I64 iFinalX, I64 iFinalY,I64 iFinalZ,
     GrBlot3(dc,iFinalX,iFinalY,iFinalZ,character);
 
     if(highlight){
-       //HighlightTarget(dc, iFinalX, iFinalY+24,iFinalZ+10);
+       HighlightTarget(dc, iFinalX, iFinalY+24,iFinalZ+10);
     }
 }
 
@@ -179,11 +179,10 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
         mc->tarposx = convertedToScreenX;
         mc->tarposy = convertedToScreenY;//change default target
       }
-      if(toRender->visible){
       
        RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
        10, GetActorAnimationJob(toRender), highlight);
-      }     
+           
      }//if npc
      }//if too large y
     }//for y

@@ -114,7 +114,7 @@ Animation *CreateAnimation(U8* wadFrameName){
    QueIns(AddFrame(AAE125,T2PUNCH,10),allAnimations.last);
    QueIns(AddFrame(AAE126,T2PUNCH,11),allAnimations.last);
     
- } else if(StrCmp(wadFrameName,T3PUNCH)==0){
+ } else if(StrCmp(wadFrameName,T3PUNCH)==0){
    QueIns(AddFrame(AAE169,T3PUNCH,0),allAnimations.last);
    QueIns(AddFrame(AAE170,T3PUNCH,1),allAnimations.last);
    QueIns(AddFrame(AAE171,T3PUNCH,2),allAnimations.last);    
@@ -155,7 +155,7 @@ U0 ResetDirective()
 
 U0 PlayAnimation(CDC *dc){ 
  Animation *ajc = allAnimations.next;
-
+
  while(StrCmp(direct.cQueDirective,ajc->name)!=0)
  {
   ajc = ajc->next;
@@ -237,11 +237,6 @@ direct.cQueDirective = T1PUNCH;
 //direct.cQueDirective = T4PUNCH;
 
 Fs->draw_it=&DrawIt;
-while(TRUE)
-{
- "%d", direct.animIndex;
- Sleep(10);
-}
 Sleep(10000);
 Sleep(1000);
 

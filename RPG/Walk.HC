@@ -128,19 +128,23 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
        switch(subWalk)
        {
         case W_IDLEDOWN://down
-         GrBlot3(completeActor,0,0,10,D2);
+         if(a->visible)
+          GrBlot3(completeActor,0,0,10,D2);
          SetActorHairDown(a);
         break;
         case W_IDLEUP://up
-         GrBlot3(completeActor,0,0,10,U2);
+         if(a->visible)
+          GrBlot3(completeActor,0,0,10,U2);
          SetActorHairUp(a);
         break;
         case W_IDLERIGHT://right
-         GrBlot3(completeActor,0,0,10,R2);
+         if(a->visible)
+          GrBlot3(completeActor,0,0,10,R2);
          SetActorHairRight(a);
         break;
         case W_IDLELEFT://left
-         GrBlot3(completeActor,0,0,10,L2);
+         if(a->visible)
+          GrBlot3(completeActor,0,0,10,L2);
          SetActorHairLeft(a);
         break;
        }
@@ -148,70 +152,86 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
      case W_LEFTSTRAIGHT://left straight start
        SetActorSubFrameRule(a,0,5);
        SetActorHairLeft(a);
-       GrBlot3(completeActor,0,0,10,L1);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,L1);
      break;
      case W_RIGHTSTRAIGHT://right straight start
        SetActorSubFrameRule(a,0,6);
        SetActorHairRight(a);
-       GrBlot3(completeActor,0,0,10,R1);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,R1);
      break;
      case W_UPSTRAIGHT://up straight start
        SetActorSubFrameRule(a,0,7);
        SetActorHairUp(a);
-       GrBlot3(completeActor,0,0,10,U1);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,U1);
      break;
      case W_DOWNSTRAIGHT://down straight start
        SetActorSubFrameRule(a,0,8); 
        SetActorHairDown(a);
-       GrBlot3(completeActor,0,0,10,D1);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,D1);
      break;
      case W_LEFTLEFT://left left leg
        SetActorSubFrameRule(a,0,9);
-       GrBlot3(completeActor,0,0,10,L2);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,L2);
      break;
      case W_RIGHTLEFT://right left leg
        SetActorSubFrameRule(a,0,10);
-       GrBlot3(completeActor,0,0,10,R2);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,R2);
      break;
      case W_UPLEFT://up left leg
        SetActorSubFrameRule(a,0,11);
-       GrBlot3(completeActor,0,0,10,U2);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,U2);
      break;
      case W_DOWNLEFT://down left leg
        SetActorSubFrameRule(a,0,12);
-       GrBlot3(completeActor,0,0,10,D2);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,D2);
      break;
      case W_LEFTMID://left straight mid
        SetActorSubFrameRule(a,0,13);
-       GrBlot3(completeActor,0,0,10,L3);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,L3);
      break;
      case W_RIGHTMID://right straight mid
        SetActorSubFrameRule(a,0,14);
-       GrBlot3(completeActor,0,0,10,R3);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,R3);
      break;
      case W_UPMID://up straight mid
        SetActorSubFrameRule(a,0,15);
-       GrBlot3(completeActor,0,0,10,U3);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,U3);
      break;
      case W_DOWNMID://down straight mid
        SetActorSubFrameRule(a,0,16);
-       GrBlot3(completeActor,0,0,10,D3); 
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,D3); 
      break;
      case W_LEFTRIGHT://left right leg
        SetActorSubFrameRule(a,3,0);
-       GrBlot3(completeActor,0,0,10,L2);
+       if(a->visible)
+        GrBlot3(completeActor,0,0,10,L2);
      break;
      case W_RIGHTRIGHT://right right leg
        SetActorSubFrameRule(a,2,0);
-       GrBlot3(completeActor,0,0,10,R2);
+       if(a->visible)
+        GrBlot3(completeActor,0,0,10,R2);
      break;
      case W_UPRIGHT://up right leg
        SetActorSubFrameRule(a,1,0);
-       GrBlot3(completeActor,0,0,10,U2);
+       if(a->visible)
+        GrBlot3(completeActor,0,0,10,U2);
      break;
      case W_DOWNRIGHT://down right leg 
        SetActorSubFrameRule(a,0,0);
-       GrBlot3(completeActor,0,0,10,D2);
+       if(a->visible)
+          GrBlot3(completeActor,0,0,10,D2);
      break;
   }
 
@@ -239,7 +259,7 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
                         A2L1, A2L2, A2L3,
                         A2R1, A2R2, A2R3,
                         A2U1, A2U2, A2U3,
-                        A2D1, A2D2, A2D3);
+                        A2D1, A2D2, A2D3);
 
    break;
    case T_EPHR://Ephraim

@@ -17,6 +17,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    StartCameraPan(dc,p);   
    //Draw world and one column and row extra for either side        
    ReDrawWorld(dc,i,j);
+   CheckAnimQueue(dc);
    DrawActorsAndItems(dc,p,i,j,l);
    //Game Menus
    RPGSideBar(dc);
@@ -37,7 +38,6 @@ U0 DrawIt(CTask *task, CDC *dc){
    else if(mc->combatON){
      HandleCombatLoop(task, dc);
    }
-   CheckAnimQueue(dc);
   /*
    if(keys.esc==TRUE){
     dc->color=WHITE;      
