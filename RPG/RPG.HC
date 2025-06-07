@@ -17,7 +17,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    StartCameraPan(dc,p);   
    //Draw world and one column and row extra for either side        
    ReDrawWorld(dc,i,j);
-   CheckAnimQueue(dc);
+   CheckAnimQueue(dc);
    DrawActorsAndItems(dc,p,i,j,l);
    //Game Menus
    RPGSideBar(dc);
@@ -25,7 +25,7 @@ U0 DrawIt(CTask *task, CDC *dc){
     GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));
    }
    if(mc->displayEquipment){
-    GrBlot3(dc,10,10,0,RenderEquipment(p));
+    GrBlot3(dc,10,10,0,RenderEquipment(p));
    }
    RPGInvLogic(dc,p);
    DrawHealthMana(dc,p,i,j);

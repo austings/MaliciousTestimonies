@@ -72,7 +72,7 @@ U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
     direct.cQueDirective = T1READY;  
    break;
    case T_LEVI:
-      direct.cQueDirective = T2READY;
+      direct.cQueDirective = T2READY;
     break;
    case T_EPHR:
       direct.cQueDirective = T3READY;

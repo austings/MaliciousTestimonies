@@ -114,7 +114,7 @@ Animation *CreateAnimation(U8* wadFrameName){
    QueIns(AddFrame(AAE125,T2PUNCH,10),allAnimations.last);
    QueIns(AddFrame(AAE126,T2PUNCH,11),allAnimations.last);
     
- } else if(StrCmp(wadFrameName,T3PUNCH)==0){
+ } else if(StrCmp(wadFrameName,T3PUNCH)==0){
    QueIns(AddFrame(AAE169,T3PUNCH,0),allAnimations.last);
    QueIns(AddFrame(AAE170,T3PUNCH,1),allAnimations.last);
    QueIns(AddFrame(AAE171,T3PUNCH,2),allAnimations.last);    
@@ -155,6 +155,7 @@ U0 ResetDirective()
 
 U0 PlayAnimation(CDC *dc){ 
  Animation *ajc = allAnimations.next;
+I64 glbl_r[4][4];
 
  while(StrCmp(direct.cQueDirective,ajc->name)!=0)
  {
@@ -177,15 +178,20 @@ U0 PlayAnimation(CDC *dc){
   if(StrCmp(direct.cQueDirective,tmp->name)!=0)
   {
      ResetDirective;
-     //direct.a->visible = TRUE;
- 
+     
   }
  }
+ CDC *dcflip = DCCopy(ajc->frame);
+ //Mat4x4IdentEqu(dcflip->r);
+ dcflip->flags|=DCF_TRANSFORMATION;
+ Mat4x4RotY(glbl_r,180);
+ DCMat4x4Set(dcflip,glbl_r); //This assigns to dc->r and sets r_norm.
+   
 
- GrBlot3(dc,direct.x+ajc->xOffset,
+ GrBlot(dc,direct.x+ajc->xOffset,
             direct.y+ajc->yOffset,
-            direct.z+100,
-             ajc->frame);
+            //direct.z+100,
+             dcflip);
   
 }
 
@@ -235,6 +241,7 @@ InitializeAnimator;
 //direct.cQueDirective = T4FISH;
 direct.cQueDirective = T1PUNCH;
 //direct.cQueDirective = T4PUNCH;
+
 
 Fs->draw_it=&DrawIt;
 Sleep(10000);
