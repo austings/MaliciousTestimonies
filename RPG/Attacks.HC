@@ -37,8 +37,7 @@ U0 PunchMove(CDC *screen,Actor *tar,I64 sX,I64 sY, I64 theta)
 }
 
 
-U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
-{
+U0 CombatQueInit(Actor *toInsert){ //parameter encounter file?
   mc->combatON=TRUE;
   mc->loot = "";
   mc->lootedSwitch=FALSE;
@@ -61,8 +60,7 @@ U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
   mc->turnIndex = 1;
 
 
- if(!StrCmp(direct.cQueDirective,NoDirective)&&toInsert->race<=T_BENJ)
- {
+ if(!StrCmp(direct.cQueDirective,NoDirective)&&toInsert->race<=T_BENJ){
   direct.x = toInsert->screenX;//(p->x)*camera->dividX;
   direct.y = toInsert->screenY;//(p->y)*camera->dividY;
   direct.a = toInsert;
@@ -88,11 +86,9 @@ U0 CombatQueInit(Actor *toInsert) //parameter encounter file?
 
 }
 
-U0 RenderCombatVersion(Actor *toRender)
-{
+U0 RenderCombatVersion(Actor *toRender){
       //COMBATCYCLEENEMIES
-  if(mc->combatON==TRUE&&toRender->id!=0&&toRender->ai_script==1)
-  {
+  if(mc->combatON==TRUE&&toRender->id!=0&&toRender->ai_script==1){
     //good enough for now
     if(mc->combatMenuStage==1)//stage 1 is the end of player's turn
     {
@@ -158,8 +154,11 @@ U0 PlayStrikeAnim(Actor *p)
   direct.x = p->screenX;//(p->x)*camera->dividX;
   direct.y = p->screenY;//(p->y)*camera->dividY;
   direct.a = p;
+  if(p->x<=mc->target->x){
+   direct.flip = TRUE;
+   SetActorHairRight(p);
+  }else {SetActorHairLeft(p);}
 
- 
   switch(p->race){
    case T_JUDA:
     switch(p->sword){
@@ -176,7 +175,7 @@ U0 PlayStrikeAnim(Actor *p)
     }   break;
    case T_EPHR:
     switch(p->sword){
-     case 0: //fist
+     case 0: //fist
       direct.cQueDirective = T3PUNCH;
      break;
     }   break;

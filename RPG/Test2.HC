@@ -153,9 +153,71 @@ U0 ResetDirective()
   direct.y = 0;
 }
 
+public I64 *Mat4x4MirrorY(I64 *r)
+{
+  // Reflect across Y-axis (negate X axis)
+  r[0*4+0] = -r[0*4+0]; // Negate X scale component
+  return r;
+}
+
+$SP,"<1>",BI=1$
+
+
+
+
+
+
+
+
+
+CDC* DCFlippedY_MemCpy(CDC* src)
+{
+    I64 scanline, y;
+    CDC* dst = DCNew(src->width, src->height);
+    for (y = 0; y < src->height; y++) {
+        scanline = y * src->width_internal;
+        MemCpy(dst->body + ((src->height - 1) * src->width_internal) - 
+               scanline, src->body + scanline, src->width_internal);
+    }
+    return dst;
+}
+CDC* DCFlippedXold_MemCpy(CDC* src)
+{
+    I64 scanline, y;
+    CDC* dst = DCNew(src->width, src->height);
+    for (y = 0; y < src->height; y++) {
+        scanline = y * src->width_internal;
+        MemCpy(dst->body + ((src->height - 1) * src->width_internal) - 
+               scanline, src->body + scanline, src->width_internal);
+    }
+    return dst;
+}
+CDC* DCFlippedX_MemCpy(CDC* src)
+{
+    I64 x, y;
+    CDC* dst = DCNew(src->width, src->height);
+    for (y = 0; y < src->height; y++) {
+        for (x = 0; x < src->width; x++) {
+            dst->body[y * src->width_internal + x] =
+                src->body[y * src->width_internal + (src->width - 1 - x)];
+        }
+    }
+    return dst;
+}
+
+CDC* DCFlippedY_BuiltIn(CDC* src)
+{
+    CDC* dst = DCNew(src->width, src->height);
+    CSprite* s = DC2Sprite(src);
+    Sprite3XB(dst, 0, src->height - 1, 0, s, 179);
+    Free(s);
+    return dst;
+}
+
+
 U0 PlayAnimation(CDC *dc){ 
  Animation *ajc = allAnimations.next;
-I64 glbl_r[4][4];
+ I64 glbl_r[4][4];
 
  while(StrCmp(direct.cQueDirective,ajc->name)!=0)
  {
@@ -181,18 +243,18 @@ I64 glbl_r[4][4];
      
   }
  }
- CDC *dcflip = DCCopy(ajc->frame);
- //Mat4x4IdentEqu(dcflip->r);
- dcflip->flags|=DCF_TRANSFORMATION;
- Mat4x4RotY(glbl_r,180);
- DCMat4x4Set(dcflip,glbl_r); //This assigns to dc->r and sets r_norm.
-   
-
+ CDC *dcflip = DCFlippedX_MemCpy(DCCopy(ajc->frame));
+// dc->flags |= DCF_SYMMETRY | DCF_JUST_MIRROR;
+// DCSymmetrySet(dc, 0, -1, 0, 1);
  GrBlot(dc,direct.x+ajc->xOffset,
             direct.y+ajc->yOffset,
             //direct.z+100,
-             dcflip);
-  
+            dcflip);
+
+// DC2Sprite
+ //Sprite3(dc, x, y, z, elems);
+
+ //Sprite3(dc,-100,0,0,elems);  
 }
 
 
@@ -260,3 +322,4 @@ Sleep(1);
 Sleep(10000);
 
 
+        %            K   F   9      E   (    

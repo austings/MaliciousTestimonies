@@ -25,7 +25,7 @@ class CombatTurn:CQue
 } combatCQue;
 
 #define AGGRO_DIS	2
-
+
 //looting contants for looting previous corpse check
 #define LOOTED		0
 #define LOOTING		1
@@ -84,7 +84,7 @@ class MenuControl{
   U16 combatMenuStage;
   U8 combatMenuSelection;
   U8 turnIndex;
-  Actor *target;I64 tarposx,tarposy;
+  Actor *target;I64 tarposx,tarposy;
 
   //menus render
   I64 draggingID;//inventory mouse item

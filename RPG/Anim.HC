@@ -15,6 +15,7 @@ class Director{
   U8 *cQueDirective;
   I32 animIndex;
   I64 x; I64 y; I64 z;
+  Bool flip;
   Actor *a;
 
 } direct;
@@ -139,20 +140,33 @@ U0 ResetDirective()
   direct.x = 999;
   direct.y = 999;
   direct.z = 0;
+  direct.flip = FALSE;
   
 }
 
-U0 PlayAnimation(CDC *dc){ 
+CDC* DCFlippedX(CDC* src){
+ if(direct.flip){
+  I64 x, y;
+  CDC* dst = DCNew(src->width, src->height);
+  for (y = 0; y < src->height; y++) {
+   for (x = 0; x < src->width; x++) {
+    dst->body[y * src->width_internal + x] =
+    src->body[y * src->width_internal + (src->width - 1 - x)];
+   }
+  }
+  return dst;
+ }
+ return src;
+}
 
+
+U0 PlayAnimation(CDC *dc){ 
  Animation *ajc = allAnimations.next;
 
-
- while(StrCmp(direct.cQueDirective,ajc->name)!=0)
- {
+ while(StrCmp(direct.cQueDirective,ajc->name)!=0){
   ajc = ajc->next;
  } 
- while(direct.animIndex!=ajc->frameIndex)
- {
+ while(direct.animIndex!=ajc->frameIndex){
   ajc = ajc->next;
  }
  
@@ -172,10 +186,11 @@ U0 PlayAnimation(CDC *dc){
  
   }
  }
+
  GrBlot3(dc,direct.x+ajc->xOffset,
              direct.y+ajc->yOffset,
              direct.z+100,
-             ajc->frame);
+             DCFlippedX(ajc->frame));
 }
 
 
@@ -238,27 +253,20 @@ CDC *GetActorAnimationJob(Actor *a)
 U0 InteractActor(I64 npc)
 {
  Actor *aAtLoc= GetNPC(npc);
- if(aAtLoc->ai_script==1&&aAtLoc->dead==FALSE)//combat
- {
+ if(aAtLoc->ai_script==1&&aAtLoc->dead==FALSE) {//combat
   mc->combatON=TRUE;
  }
- else
- {
+ else{
   mc->dialogName = aAtLoc->name;
   
-  if(aAtLoc->dead==TRUE)
-  {
-    if(mc->lootedSwitch==LOOTED) //already looted
-    {
+  if(aAtLoc->dead==TRUE){
+    if(mc->lootedSwitch==LOOTED){ //already looted
      //mc->talkieScene = GetTalkie(13);//empty corpse message
     }
-    else
-    {
-     if(mc->lootedSwitch==LOOTABLE)
-     {
+    else{
+     if(mc->lootedSwitch==LOOTABLE){
       mc->loot = "..........";
-      switch(npc)
-      {
+      switch(npc){
         case 6://wolf fang
         mc->loot = "wolf fang";
         AddItemToInventory(0,3);
@@ -368,19 +376,14 @@ U0 MoveActor(Actor *p, U8 dir){
   case DIR_DOWN://down
    p->walkingSubFrame=0;
 
-   if(p->y+1!=wY&&!CheckSolid(world->level,p->x,p->y+1,world->currentZ))
-   {
+   if(p->y+1!=wY&&!CheckSolid(world->level,p->x,p->y+1,world->currentZ)){
     npc = GetTensorNPC(world->level,p->x,p->y+1,world->currentZ);
-    if(npc!=-1)
-    {
-
+    if(npc!=-1){
       if(p->id==0){
        InteractActor(npc);
-      }
-    
+      }    
     }
-    else
-    {
+    else{
      mc->talkieScene = -1;
      ClearDialog;
      if(mc->lootedSwitch==LOOTING){
@@ -404,11 +407,9 @@ U0 MoveActor(Actor *p, U8 dir){
 }
 
 
-U8 GetWalkOffsetX(U8 walkdir)
-{
+U8 GetWalkOffsetX(U8 walkdir){
  U8 XOffset = 0;
- switch(walkdir)
- {
+ switch(walkdir){
   case 0://not walking
   break;
   case 1://left straight start
@@ -455,11 +456,9 @@ U8 GetWalkOffsetX(U8 walkdir)
  return XOffset; 
 }
 
-U8 GetWalkOffsetY(U8 walkdir)
-{
+U8 GetWalkOffsetY(U8 walkdir){
  U8 YOffset = 0;
- switch(walkdir)
- {
+ switch(walkdir){
   case 0://not walking
   break;
   case 1://left straight start

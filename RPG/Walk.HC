@@ -132,22 +132,22 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
         case W_IDLEDOWN://down
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,D2);
-         SetActorHairDown(a);
+         //SetActorHairDown(a);
         break;
         case W_IDLEUP://up
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,U2);
-         SetActorHairUp(a);
+         //SetActorHairUp(a);
         break;
         case W_IDLERIGHT://right
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,R2);
-         SetActorHairRight(a);
+         //SetActorHairRight(a);
         break;
         case W_IDLELEFT://left
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,L2);
-         SetActorHairLeft(a);
+         //SetActorHairLeft(a);
         break;
        }
      break;

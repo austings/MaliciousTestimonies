@@ -3,7 +3,7 @@
 
 U0 FishingHoleTrigger(Actor *p)
 {
- if(!StrCmp(direct.cQueDirective,NoDirective))
+ if(!StrCmp(direct.cQueDirective,NoDirective))
  {
   direct.x = p->screenX;//(p->x)*camera->dividX;
   direct.y = p->screenY;//(p->y)*camera->dividY;
