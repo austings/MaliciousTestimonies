@@ -200,7 +200,6 @@ Actor *DeserializeNPC(I64 npcid)
   p->exp = 0;
   p->lvl = 1;
   p->maxExp = 20;
-  p->points=0;
   p->visible=TRUE;
 
   return p;
@@ -377,7 +376,6 @@ U64 x, U64 y, U64 str=1, U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  me->mana=wis*5;
  me->currentMana = me->mana;
  me->maxExp = 20;
- me->points=0;
  me->exp = 0;
  me->lvl = 1;
  me->str=str;

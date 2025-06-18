@@ -22,13 +22,14 @@
 
 // Loading Narrative
 #include "Dialog.HC";
+#include "Save.HC";
+#include "Buttons.HC";
 #include "Menu.HC";
 #include "Walk.HC";
 #include "Anim.HC";
 #include "Music.HC";
-#include "Save.HC";
 
-// Loading Combat Scenarios
+// Loading Combat Scenarios
 #include "Equipment.HC";
 #include "Attacks.HC";
 #include "Combat.HC";

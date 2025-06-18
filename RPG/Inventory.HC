@@ -1,5 +1,6 @@
 
-
+#define INVWIDTH 11
+#define INVHEIGHT 4
 
 Item *MakeItem(I64 id){
  Item * build = CAlloc(sizeof(Item));

@@ -1,25 +1,3 @@
-#define NoDirective "None"
-
-class Animation:CQue{
-  CDC *frame;
-  I8 frameDuration,
-     frameDurationIndex,
-     xOffset, yOffset;
-  U8 *name;
-  I8 frameIndex;
-} allAnimations;
-
-
-
-class Director{
-  U8 *cQueDirective;
-  I32 animIndex;
-  I64 x; I64 y; I64 z;
-  Bool flip;
-  Actor *a;
-
-} direct;
-
 
 
 Animation *AddFrame(CDC *frame,U8* key,I8 fIndex; 
@@ -60,7 +38,7 @@ Animation *CreateAnimation(U8* wadFrameName){
    QueIns(AddFrame(AAE61,T1READY,1,0,0,24),allAnimations.last);
    QueIns(AddFrame(AAE62,T1READY,2,0,0,24),allAnimations.last);    
   
- } else if(StrCmp(wadFrameName,T2READY)==0){
+ } else if(StrCmp(wadFrameName,T2READY)==0){
    QueIns(AddFrame(AAE115,T2READY,0,0,0,24),allAnimations.last);
    QueIns(AddFrame(AAE116,T2READY,1,0,0,24),allAnimations.last);
    QueIns(AddFrame(AAE117,T2READY,2,0,0,24),allAnimations.last);    
@@ -253,7 +231,7 @@ CDC *GetActorAnimationJob(Actor *a)
 U0 InteractActor(I64 npc)
 {
  Actor *aAtLoc= GetNPC(npc);
- if(aAtLoc->ai_script==1&&aAtLoc->dead==FALSE) {//combat
+ if(aAtLoc->ai_script==1&&aAtLoc->dead==FALSE) {//combat
   mc->combatON=TRUE;
  }
  else{

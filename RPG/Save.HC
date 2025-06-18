@@ -1,3 +1,16 @@
+class SaveFormat
+{
+U8  saveFile[32]	format "$$DA-P,A=\"FileName:%s\"$$\n";
+} saveFileFormat;  
+
+class SaveFileData
+{
+ World *world;
+ Actor *player;
+};
+
+
+#assert sizeof(SaveFileData)<=BLK_SIZE
 
 
 

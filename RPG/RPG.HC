@@ -25,7 +25,7 @@ U0 DrawIt(CTask *task, CDC *dc){
     GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));
    }
    if(mc->displayEquipment){
-    GrBlot3(dc,10,10,0,RenderEquipment(p));
+    GrBlot3(dc,10,10,0,RenderEquipment(p));
    }
    RPGInvLogic(dc,p);
    DrawHealthMana(dc,p,i,j);
@@ -80,7 +80,7 @@ U0 RPGMain()
 //Set Device context, iterables, peripheral arguments
 CDC *dc=DCAlias; I64 arg1,arg2,msg_code,i,j;
 //Default Window settings
-SettingsPush;WinMax;WinBorder;
+SettingsPush;WinMax;WinBorder;
 DocCursor;DocClear;MenuPush("");Init;
 //Set Current Task Threads  
 Fs->draw_it=&DrawIt;Fs->song_task=Spawn(&SongTask,mc,"Song",,Fs);

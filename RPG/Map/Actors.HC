@@ -1,9 +1,11 @@
 class Actor
 {
-  U8  race,eye,hair,points;
+  U8  race,eye,hair;
   I64 id,hat,armor,legs,boot,
       sword,offhand,
       ring1,ring2,necklace, maxExp;
+  Vector *hat_coord,hair_coord,armor_coord,
+          sword_coord,hand_coord,leg_coord,boot_coord;
   U64 x,y,health,mana, currentHealth, currentMana,
       str,int,con,wis,
       screenX, screenY;
@@ -29,7 +31,7 @@ class Actor
 #define A_WILD_DOG 06
 
 
-static CDC*		A1L1;//light
+static CDC*		A1L1;//light
 static CDC*		A1L2;
 static CDC*		A1L3;
 static CDC*		A1U1;

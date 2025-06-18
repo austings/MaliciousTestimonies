@@ -19,19 +19,6 @@ U8 *img2 = MStrPrint("%s%s",DirCur,"/BMP/jezebel2.bmp");
 U8 *img3 = MStrPrint("%s%s",DirCur,"/BMP/jezebel3.bmp"); 
 
 
-class SaveFormat
-{
-U8  saveFile[32]	format "$$DA-P,A=\"FileName:%s\"$$\n";
-} saveFileFormat;  
-
-class SaveFileData
-{
- World *world;
- Actor *player;
-};
-
-
-#assert sizeof(SaveFileData)<=BLK_SIZE
 
 U0 IncSelect(U8 type)
 {

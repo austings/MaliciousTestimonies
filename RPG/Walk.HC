@@ -1,3 +1,26 @@
+#define NoDirective "None"
+
+class Animation:CQue{
+  CDC *frame;
+  I8 frameDuration,
+     frameDurationIndex,
+     xOffset, yOffset;
+  U8 *name;
+  I8 frameIndex;
+} allAnimations;
+
+
+
+class Director{
+  U8 *cQueDirective;
+  I32 animIndex;
+  I64 x; I64 y; I64 z;
+  Bool flip;
+  Actor *a;
+
+} direct;
+
+
 
 U0 SetActorHairLeft(Actor *a)
 {
@@ -132,22 +155,26 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
         case W_IDLEDOWN://down
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,D2);
-         //SetActorHairDown(a);
+          if(StrCmp(direct.cQueDirective,NoDirective)==0)
+           SetActorHairDown(a);
         break;
         case W_IDLEUP://up
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,U2);
-         //SetActorHairUp(a);
+          if(StrCmp(direct.cQueDirective,NoDirective)==0)
+           SetActorHairUp(a);
         break;
         case W_IDLERIGHT://right
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,R2);
-         //SetActorHairRight(a);
+          if(StrCmp(direct.cQueDirective,NoDirective)==0)
+           SetActorHairRight(a);
         break;
         case W_IDLELEFT://left
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,L2);
-         //SetActorHairLeft(a);
+          if(StrCmp(direct.cQueDirective,NoDirective)==0)
+           SetActorHairLeft(a);
         break;
        }
      break;
