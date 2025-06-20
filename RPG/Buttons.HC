@@ -12,7 +12,7 @@ U0 EquipButton()
  if(mc->displayEquipment==TRUE)
   mc->displayEquipment=FALSE;
  else
-  mc->displayEquipment=TRUE;
+  mc->displayEquipment=TRUE;
 }
 
 U0 InvButton()
@@ -43,9 +43,16 @@ U0 FxButton()
 U0 ReleaseSword()
 {
  //switch from inv to sword, del from inv
+ I64 equip =  GetNPC(0)->sword;
+ if(equip!=0){
+  AddItemToInventory(0,GetNPC(0)->sword);
+ }
  GetNPC(0)->sword =mc->draggingID;
+
  mc->reRenderInv=TRUE;
  mc->draggingInv=FALSE; 
+ RemoveItemLoc(mc->draggingItem);                 
+
 }
 
 //check if user click or release for each 'button' of inventory
@@ -53,6 +60,7 @@ U0 ReleaseSword()
 //j: inv height
 U0 InvDrag(I64 i, I64 j)
 {
+ Bool marked = FALSE;                 
  I8 occupied= GetNPC(0)->myInv->mtrx[j][i].occupied;                 
  if(mc->draggingInv==FALSE)//start dragging
  {
@@ -64,7 +72,6 @@ U0 InvDrag(I64 i, I64 j)
    mc->draggingInv=TRUE;
   }
  }else{//release
-  Bool marked = FALSE;                 
   //if there is an item underneath
   if(occupied!=-1&&occupied!=mc->draggingItem->invID){
    //continue drag
@@ -81,6 +88,7 @@ U0 InvDrag(I64 i, I64 j)
       marked=TRUE;break;
      }
     }
+    if(marked){break;}
    }
   }
   if(!marked){

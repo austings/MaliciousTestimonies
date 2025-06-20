@@ -28,7 +28,7 @@ U0 HandleCombatLoop(CTask *task, CDC *dc){
      
      break;
   case 1:
-      //Actor *attacker = ct->ready;    
+      //Actor *attacker = ct->ready;    
      break;
   case 2:
       //mc->combatMenuStage=1;
@@ -64,7 +64,7 @@ U0 CombatTurnArrows(Actor *p)
       if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
      break;
      case CMS_MOVE_DONE: 
-      if(p->currentMana>=MOVEMENT_COST){
+      if(p->currentMana>=MOVEMENT_COST&&p->walking==W_NOTWALKING){
        MoveActor(p,keys.pressed);
        RemoveMana(p,MOVEMENT_COST);
       } 

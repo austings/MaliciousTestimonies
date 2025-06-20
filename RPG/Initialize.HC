@@ -19,10 +19,11 @@
 #include "Globals.HC";
 #include "Inventory.HC";
 #include "Player.HC";
-
+#include "Equipment.HC";
+
 // Loading Narrative
 #include "Dialog.HC";
-#include "Save.HC";
+#include "Save.HC";
 #include "Buttons.HC";
 #include "Menu.HC";
 #include "Walk.HC";
@@ -30,7 +31,6 @@
 #include "Music.HC";
 
 // Loading Combat Scenarios
-#include "Equipment.HC";
 #include "Attacks.HC";
 #include "Combat.HC";
 #include "Render.HC";

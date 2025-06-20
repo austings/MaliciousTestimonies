@@ -38,7 +38,7 @@ Animation *CreateAnimation(U8* wadFrameName){
    QueIns(AddFrame(AAE61,T1READY,1,0,0,24),allAnimations.last);
    QueIns(AddFrame(AAE62,T1READY,2,0,0,24),allAnimations.last);    
   
- } else if(StrCmp(wadFrameName,T2READY)==0){
+ } else if(StrCmp(wadFrameName,T2READY)==0){
    QueIns(AddFrame(AAE115,T2READY,0,0,0,24),allAnimations.last);
    QueIns(AddFrame(AAE116,T2READY,1,0,0,24),allAnimations.last);
    QueIns(AddFrame(AAE117,T2READY,2,0,0,24),allAnimations.last);    
@@ -192,7 +192,7 @@ U0 InitializeAnimator(){
   CreateAnimation(T2PUNCH);
   CreateAnimation(T3PUNCH);
   CreateAnimation(T4PUNCH);
-  //load all animations into the hashtable 
+  //load all animations into the hashtable 
 }
 
 
