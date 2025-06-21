@@ -210,10 +210,7 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
   switch(currentSelection)
   {
    case 0:
-    for(i=0;i<StrLen(t5);i++)
-    {     
-      GrChar(dc,t5[i],10+i*18,40,2);
-    }
+    PrintLine(dc,t5,10,40,2);
     for(i=0;i<StrLen(t10);i++)
     {
      if(t10[i]!='\n')
@@ -226,31 +223,16 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
       xInc=-7;
      }
     }
-    for(i=0;i<StrLen(t17);i++)
-    {
-     GrChar(dc,t17[i],390+i*18,20,2);
-    }
-    for(i=0;i<StrLen(t17);i++)
-    {
-     GrChar(dc,t17[i],390+i*18,70,2);
-    }
-    for(i=0;i<StrLen(t17);i++)
-    {
-     GrChar(dc,t17[i],390+i*18,120,2);
-    }
-    for(i=0;i<StrLen(t17);i++)
-    {
-     GrChar(dc,t17[i],390+i*18,170,2);
-    }
+    PrintLine(dc,t17,390,20,2);
+    PrintLine(dc,t17,390,70,2);
+    PrintLine(dc,t17,390,120,2);
+    PrintLine(dc,t17,390,170,2);
 
     GrBlot3(dc,270,280,10,r1);
 
    break;
    case 1:
-    for(i=0;i<StrLen(t4);i++)
-    {     
-      GrChar(dc,t4[i],10+i*18,40,2);
-    }
+    PrintLine(dc,t4,10,40,2);
     for(i=0;i<StrLen(t8);i++)
     {
      if(t8[i]!='\n')
@@ -263,32 +245,16 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
       xInc=-7;
      }
     }
-
-    for(i=0;i<StrLen(t16);i++)
-    {
-     GrChar(dc,t16[i],390+i*18,20,2);
-    }
-    for(i=0;i<StrLen(t16);i++)
-    {
-     GrChar(dc,t16[i],390+i*18,70,2);
-    }
-    for(i=0;i<StrLen(t18);i++)
-    {
-     GrChar(dc,t18[i],390+i*18,120,2);
-    }
-    for(i=0;i<StrLen(t18);i++)
-    {
-     GrChar(dc,t18[i],390+i*18,170,2);
-    }    
+    PrintLine(dc,t16,390,20,2);
+    PrintLine(dc,t16,390,70,2);
+    PrintLine(dc,t18,390,120,2);
+    PrintLine(dc,t18,390,170,2);
 
     GrBlot3(dc,268,280,10,r2);
 
    break;
    case 2:
-    for(i=0;i<StrLen(t6);i++)
-    {     
-      GrChar(dc,t6[i],10+i*18,40,2);
-    }
+    PrintLine(dc,t6,10,40,2);
     for(i=0;i<StrLen(t9);i++)
     {
      if(t9[i]!='\n')
@@ -301,32 +267,16 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
       xInc=-7;
      }
     }
-
-    for(i=0;i<StrLen(t16);i++)
-    {
-     GrChar(dc,t16[i],390+i*18,20,2);
-    }
-    for(i=0;i<StrLen(t18);i++)
-    {
-     GrChar(dc,t18[i],390+i*18,70,2);
-    }
-    for(i=0;i<StrLen(t16);i++)
-    {
-     GrChar(dc,t16[i],390+i*18,120,2);
-    }
-    for(i=0;i<StrLen(t18);i++)
-    {
-     GrChar(dc,t18[i],390+i*18,170,2);
-    }
-    
+    PrintLine(dc,t16,390,20,2);
+    PrintLine(dc,t18,390,70,2);
+    PrintLine(dc,t16,390,120,2);
+    PrintLine(dc,t18,390,170,2);
+  
     GrBlot3(dc,266,280,10,r3);
 
    break;
    case 3:
-    for(i=0;i<StrLen(t7);i++)
-    {     
-      GrChar(dc,t7[i],10+i*18,40,2);
-    }
+    PrintLine(dc,t7,10,40,2);
     for(i=0;i<StrLen(t11);i++)
     {
      if(t11[i]!='\n')
@@ -339,23 +289,10 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
       xInc=-7;
      }
     }
-
-    for(i=0;i<StrLen(t18);i++)
-    {
-     GrChar(dc,t18[i],390+i*18,20,2);
-    }
-    for(i=0;i<StrLen(t18);i++)
-    {
-     GrChar(dc,t18[i],390+i*18,70,2);
-    }
-    for(i=0;i<StrLen(t16);i++)
-    {
-     GrChar(dc,t16[i],390+i*18,120,2);
-    }
-    for(i=0;i<StrLen(t16);i++)
-    {
-     GrChar(dc,t16[i],390+i*18,170,2);
-    }
+    PrintLine(dc,t18,390,20,2);
+    PrintLine(dc,t18,390,70,2);
+    PrintLine(dc,t16,390,120,2);
+    PrintLine(dc,t16,390,170,2);
     
     GrBlot3(dc,264,280,10,r4);
 
@@ -364,22 +301,10 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
   yInc=0;
   xInc=-7;
   //ABILITYPOINTS
-  for(i=0;i<StrLen(t12);i++)
-  {
-   GrChar(dc,t12[i],390+i*7,10,1);
-  }
-  for(i=0;i<StrLen(t13);i++)
-  {
-   GrChar(dc,t13[i],390+i*7,60,1);
-  }
-  for(i=0;i<StrLen(t14);i++)
-  {
-   GrChar(dc,t14[i],390+i*7,110,1);
-  }
-  for(i=0;i<StrLen(t15);i++)
-  {
-   GrChar(dc,t15[i],390+i*7,160,1);
-  }
+  PrintLine(dc,t12,390,10,1);
+  PrintLine(dc,t13,390,60,1);
+  PrintLine(dc,t14,390,110,1);
+  PrintLine(dc,t15,390,160,1);
   
 
   switch(currentEyes)
@@ -418,18 +343,9 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
   Sprite3B(dc,375,300,10,GetLilArrow());
   Sprite3B(dc,375,350,10,GetLilArrow());
   Sprite3B(dc,375,400,10,GetLilArrow());
-  for(i=0;i<StrLen(t1);i++)
-  {
-   GrChar(dc,t1[i],380+i*7,310,1);
-  }
-  for(i=0;i<StrLen(t2);i++)
-  {
-   GrChar(dc,t2[i],380+i*7,360,1);
-  }
-  for(i=0;i<StrLen(t3);i++)
-  {
-   GrChar(dc,t3[i],380+i*7,410,1);
-  }
+  PrintLine(dc,t1,380,310,1); 
+  PrintLine(dc,t2,380,360,1);
+  PrintLine(dc,t3,380,410,1);
 
 
   //Sprite3B(dc,220,300,10,GetButton(1));
@@ -631,7 +547,6 @@ U0 RPGSideBar(CDC *dc)
 
 CDC *RenderStats(Actor *player)
 {
-  I64 i;
   U8 *t0a = "Tribe of Judah";
   U8 *t0b = "Tribe of Levi";
   U8 *t0c = "Tribe of Ephraim";
@@ -664,92 +579,33 @@ CDC *RenderStats(Actor *player)
 
   switch(player->race)
   {
-    case T_JUDA:  
-     for(i=0;i<StrLen(t0a);i++)
-     {
-      GrChar(completeMenu,t0a[i],i*7,20,1);
-     }
+    case T_JUDA:
+     PrintLine(completeMenu,t0a,0,20);
     break;
     case T_LEVI:
-     for(i=0;i<StrLen(t0b);i++)
-     {
-      GrChar(completeMenu,t0b[i],i*7,20,1);
-     }
+     PrintLine(completeMenu,t0b,0,20);
     break;
-    case T_EPHR:  
-     for(i=0;i<StrLen(t0c);i++)
-     {
-      GrChar(completeMenu,t0c[i],i*7,20,1);
-     }
+    case T_EPHR:
+     PrintLine(completeMenu,t0c,0,20);
     break;
     case T_BENJ:
-     for(i=0;i<StrLen(t0d);i++)
-     {
-      GrChar(completeMenu,t0d[i],i*7,20,1);
-     }
+     PrintLine(completeMenu,t0d,0,20);
     break;
   }
-
-  for(i=0;i<StrLen(t1);i++)
-  {
-   GrChar(completeMenu,t1[i],i*7,40,1);
-  }
-  for(i=0;i<StrLen(v1);i++)
-  {
-   GrChar(completeMenu,v1[i],(4*7)+i*7,40,1);
-  }
-
-  for(i=0;i<StrLen(t2);i++)
-  {
-   GrChar(completeMenu,t2[i],i*7,60,1);
-  }
-  for(i=0;i<StrLen(v2);i++)
-  {
-   GrChar(completeMenu,v2[i],(4*7)+i*7,60,1);
-  }
-
-  for(i=0;i<StrLen(t3);i++)
-  {
-   GrChar(completeMenu,t3[i],i*7,80,1);
-  }
-  for(i=0;i<StrLen(v3);i++)
-  {
-   GrChar(completeMenu,v3[i],(4*7)+i*7,80,1);
-  }
-
-  for(i=0;i<StrLen(t4);i++)
-  {
-   GrChar(completeMenu,t4[i],i*7,100,1);
-  }
-  for(i=0;i<StrLen(v4);i++)
-  {
-   GrChar(completeMenu,v4[i],(4*7)+i*7,100,1);
-  }
-
-  for(i=0;i<StrLen(t5);i++)
-  {
-   GrChar(completeMenu,t5[i],i*7,120,1);
-  }
-  for(i=0;i<StrLen(v5a);i++)
-  {
-   GrChar(completeMenu,v5a[(StrLen(v5a)-i)-1],(5*7)-(i*7),140,1);
-  }
-
-  GrChar(completeMenu,v5c[0],(5*7)+i*7,140,1);
-
-  for(i=0;i<StrLen(v5b);i++)
-  {
-   GrChar(completeMenu,v5b[i],(7*7)+(i*7),140,1);
-  }
-
-  for(i=0;i<StrLen(t6);i++)
-  {
-   GrChar(completeMenu,t6[i],i*7,160,1);
-  }
-  for(i=0;i<StrLen(v6);i++)
-  {
-   GrChar(completeMenu,v6[i],(5*7)+i*7,180,1);
-  }
+  PrintLine(completeMenu,t1,0,40);
+  PrintLine(completeMenu,v1,4*7,40);
+  PrintLine(completeMenu,t2,0,60);
+  PrintLine(completeMenu,v2,4*7,60);
+  PrintLine(completeMenu,t3,0,80);
+  PrintLine(completeMenu,v3,4*7,80);
+  PrintLine(completeMenu,t4,0,100);  
+  PrintLine(completeMenu,v4,4*70,100);
+  PrintLine(completeMenu,t5,0,120);  
+  PrintLine(completeMenu,v5a,4*7,140);
+  GrChar(completeMenu,v5c[0],5*7,140,1);
+  PrintLine(completeMenu,v5b,7*7,140);  
+  PrintLine(completeMenu,t6,0,160);
+  PrintLine(completeMenu,v6,5*7,180);
 
 
  Sprite3B(completeMenu,120,0,1,GetMenuSprite(3));//xbutton    
@@ -845,11 +701,7 @@ CDC *RenderEquipment(Actor *player){
   U8 *b = "WEPN";
   U8 *c = "BODY";
   U8 *d = "RING";
-
-  for(i=0;i<StrLen(title);i++)
-  {
-   GrChar(completeMenu,title[i],7+i*7,7,1);
-  }
+  PrintLine(completeMenu,title,7,7);
  
 
   //helm
@@ -857,20 +709,14 @@ CDC *RenderEquipment(Actor *player){
   Sprite3B(completeMenu,8+camera->dividX,25,10,GetMenuSprite(2));
   Sprite3B(completeMenu,8,25+camera->dividY,10,GetMenuSprite(2));
   Sprite3B(completeMenu,8+camera->dividX,25+camera->dividY,10,GetMenuSprite(2));
-  for(i=0;i<StrLen(a);i++)
-  {
-   GrChar(completeMenu,a[i],26+i*7,60,1);
-  }
+  PrintLine(completeMenu,a,26,60);
  
   //wepn bkgrd
   Sprite3B(completeMenu,8,116,10,GetMenuSprite(2));
   Sprite3B(completeMenu,8,116+camera->dividY,10,GetMenuSprite(2));
   Sprite3B(completeMenu,8,116+2*camera->dividY,10,GetMenuSprite(2));
   Sprite3B(completeMenu,8,116+3*camera->dividY,10,GetMenuSprite(2));
-  for(i=0;i<StrLen(b);i++)
-  {
-   GrChar(completeMenu,b[i],14+i*7,180,1);
-  }
+  PrintLine(completeMenu,b,14,180);
   //wepn
   I64 wepn = GetNPC(0)->sword;
   if(wepn>0)
@@ -895,17 +741,11 @@ CDC *RenderEquipment(Actor *player){
   Sprite3B(completeMenu,60,140+2*camera->dividY,10,GetMenuSprite(2));
   Sprite3B(completeMenu,60+camera->dividX,140+2*camera->dividY,10,GetMenuSprite(2));
  
-  for(i=0;i<StrLen(c);i++)
-  {
-   GrChar(completeMenu,c[i],75+i*7,190,1);
-  }
+  PrintLine(completeMenu,c,75,190);
    
   //ring
   Sprite3B(completeMenu,106,35,10,GetMenuSprite(2));
-  for(i=0;i<StrLen(d);i++)
-  {
-   GrChar(completeMenu,d[i],112+i*7,48,1);
-  }
+  PrintLine(completeMenu,d,112,48);
     
 
  Sprite3B(completeMenu,140,0,1,GetMenuSprite(3));//xbutton

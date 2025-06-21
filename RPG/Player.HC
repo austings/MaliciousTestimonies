@@ -46,9 +46,7 @@ U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
     indicator= MStrPrint("%s%d%s",indicator,magnitude,currency);
   
   I64 i  =0 ;
-  for(i=0;i<StrLen(indicator);i++){
-  // GrChar(dc,indicator[i],realX+i*8,realY,10);
-  }
+//  PrintLine(dc,indicator,realX,realY);
 
 }
 
@@ -301,7 +299,7 @@ Actor *GetNPC(I64 id)
    if(loaded1->id==id)
    {
      return loaded1;
-   } else if(loaded2->id==id)
+   } else if(loaded2->id==id)
    {
      return loaded2;
    } else if(loaded3->id==id)

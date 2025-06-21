@@ -196,14 +196,14 @@ U0 ShowToolTips(CDC *dc = gr.dc)
      dc->color = YELLOW;
      PrintLine(dc,MStrPrint("%d%s",item->value," Gold"),
                             camera->cursorX+2,camera->cursorY+12+2);
-     dc->color = RED;
+     dc->color = WHITE;
    
      if(item->v1!=NULL)
       PrintLine(dc,item->v1,camera->cursorX+2,camera->cursorY+24+2);
      if(item->v2!=NULL)
       PrintLine(dc,item->v2,camera->cursorX+2,camera->cursorY+36+2);
      if(item->v3!=NULL)
-      PrintLine(dc,item->v3,camera->cursorX+2,camera->cursorY+48+2);
+      PrintLine(dc,item->v3,camera->cursorX+2,camera->cursorY+48+2);
     
     }//end inventory if
    }//end inventory height

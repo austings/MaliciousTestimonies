@@ -22,7 +22,7 @@ U0 PrintLine(CDC*dc=gr.dc,U8 *line,I64 startx,I64 starty,F64 scale=1)
  I64 i;
  for(i=0;i<StrLen(line);i++)
  {
-  GrChar(dc,line[i],startx+(i*factor),
+  GrChar(dc,line[i],startx+(i*factor),
                     starty,scale);
  }
 
@@ -166,13 +166,8 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID,U8 *mctext="")
 
   }
  }
+ PrintLine(dc,name,26,360,2);
  
- for(i=0;i<15;i++)
- {
-  c = name[i];
-  GrChar(dc,c,i*14+12,360,2);
-
- }
    
 
 }

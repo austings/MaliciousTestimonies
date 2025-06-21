@@ -312,10 +312,7 @@ U0 DrawHealthMana(CDC *dc,Actor *p,I64 i, I64 j){
    }
 
    U8 *t1 = MStrPrint("%d/%d",p->currentMana,p->mana);
-   for(i=0;i<StrLen(t1);i++)
-   {
-     GrChar(dc,t1[i],500+i*7,347,1);
-   }
+   PrintLine(dc,t1,500,347,1);
    dc->color=RED;
    GrCircle(dc,597,344,36);   
    fillValue= ToI64((ToF64(p->currentHealth)/ToF64(p->health))*100);
@@ -423,9 +420,6 @@ U0 DrawHealthMana(CDC *dc,Actor *p,I64 i, I64 j){
    }
    
    t1 = MStrPrint("%d/%d",p->currentHealth,p->health);
-   for(i=0;i<StrLen(t1);i++)
-   {
-     GrChar(dc,t1[i],580+i*7,347,1);
-   }
+   PrintLine(dc,t1,580,347,1);
 }
 
