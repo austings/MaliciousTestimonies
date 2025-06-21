@@ -45,7 +45,7 @@ U0 ReleaseSword()
  //switch from inv to sword, del from inv
  I64 equip =  GetNPC(0)->sword;
  if(equip!=0){
-  AddItemToInventory(0,GetNPC(0)->sword);
+  AddItemToInventory(0,GetNPC(0)->sword);
  }
  GetNPC(0)->sword =mc->draggingID;
 

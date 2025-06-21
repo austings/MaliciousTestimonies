@@ -204,7 +204,7 @@ CDC* DCFlippedX_MemCpy(CDC* src)
     }
     return dst;
 }
-
+
 CDC* DCFlippedY_BuiltIn(CDC* src)
 {
     CDC* dst = DCNew(src->width, src->height);

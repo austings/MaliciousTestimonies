@@ -15,6 +15,19 @@ U0 GrChar(CDC *dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale)
     }
   }
 }
+
+U0 PrintLine(CDC*dc=gr.dc,U8 *line,I64 startx,I64 starty,F64 scale=1)
+{
+ I64 factor = ToI64(scale*7);
+ I64 i;
+ for(i=0;i<StrLen(line);i++)
+ {
+  GrChar(dc,line[i],startx+(i*factor),
+                    starty,scale);
+ }
+
+}
+
 U8 *ReadATextLine(U8 **fbuf) {
   U8 *en,*st=*fbuf,*buf;
   if(!*st) return NULL;

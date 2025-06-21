@@ -148,10 +148,8 @@ U0 LoadMenu(CDC*dc, CTask *task,CDirEntry *root)
   Sprite3B(dc,10,10,10,GetButton(3));
 
   dc->color = PURPLE;
-  for(i=0;i<StrLen(loadT);i++)
-  {     
-    GrChar(dc,loadT[i],240+i*15,10,2);
-  }
+  PrintLine(dc,loadT,240,10,1.25);
+  
   for(cur=root;cur!=NULL;cur=cur->next)
   {
     dc->color=LTGRAY;
@@ -160,10 +158,11 @@ U0 LoadMenu(CDC*dc, CTask *task,CDirEntry *root)
     
     U8* edit = cur->name;
     edit =MStrPrint("%s%s","Saves/",edit);
-    for(i=0;i<StrLen(edit);i++)
-    {
-      GrChar(dc,edit[i],200+(i)*7,10+yInc,1);
-    }
+    PrintLine(dc,edit,200,10+yInc,.583);
+    //for(i=0;i<StrLen(edit);i++)
+    //{
+    //  GrChar(dc,edit[i],200+(i)*7,10+yInc,1);
+    //}
     yInc+=40;
   }
   

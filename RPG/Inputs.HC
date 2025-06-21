@@ -132,17 +132,17 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
    if(M_X>=8 &&
       M_X< 60  &&
       M_Y>=116  &&
-      M_Y< 116+(3*camera->dividY)){
+      M_Y< 116+(3*camera->dividY)){
     ReleaseSword;
    }
   }
   //check inventory region
   for(i=0;i<INVWIDTH;i++){
    for(j=0;j<INVHEIGHT;j++){
-    if(M_X>=(i*45)+2    &&
-      M_X< (i+1)*45+2&&
-      M_Y>=(j*42)+310  &&
-      M_Y< (j+1)*42+310){
+    if(M_X>=(i*45)+2   &&
+       M_X< (i+1)*45+2 &&
+       M_Y>=(j*42)+310 &&
+       M_Y< (j+1)*42+310){
      InvDrag(i,j);
 
     }//end inventory if
@@ -160,3 +160,55 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
  }
 }
 
+//possibily make global to prevent refetch
+//U8 *tooltip
+U0 ShowToolTips(CDC *dc = gr.dc)
+{
+ I64 i,j;
+ if(mc->displayInventory){
+ //check inventory region
+  for(i=0;i<INVWIDTH;i++){
+   for(j=0;j<INVHEIGHT;j++){
+    if(camera->cursorX>=(i*45)+2    &&
+       camera->cursorX< (i+1)*45+2&&
+       camera->cursorY>=(j*42)+310  &&
+       camera->cursorY< (j+1)*42+310){
+     Item *item= RetrieveItem(0,GetNPC(0)->myInv->mtrx[j][i].occupied);
+     if(StrCmp(item->name,"Bag")==0){break;}                 
+     dc->color = DKGRAY;
+     I8 yinc = 0;
+     if(item->v1!=NULL)
+     {
+      yinc =yinc+12;
+      if(item->v2!=NULL)
+      {
+       yinc = yinc+12;
+       if(item->v3!=NULL)
+       {
+         yinc = yinc+12;
+       }
+      }
+     }
+     dc->color = DKGRAY;
+     GrRect3(dc,camera->cursorX+1,camera->cursorY+1,900,100,24+yinc);
+     dc->color = LTBLUE;
+     PrintLine(dc,item->name,camera->cursorX+2,camera->cursorY+2);
+     dc->color = YELLOW;
+     PrintLine(dc,MStrPrint("%d%s",item->value," Gold"),
+                            camera->cursorX+2,camera->cursorY+12+2);
+     dc->color = RED;
+   
+     if(item->v1!=NULL)
+      PrintLine(dc,item->v1,camera->cursorX+2,camera->cursorY+24+2);
+     if(item->v2!=NULL)
+      PrintLine(dc,item->v2,camera->cursorX+2,camera->cursorY+36+2);
+     if(item->v3!=NULL)
+      PrintLine(dc,item->v3,camera->cursorX+2,camera->cursorY+48+2);
+    
+    }//end inventory if
+   }//end inventory height
+  }//end inventory width
+ }
+      
+  
+}

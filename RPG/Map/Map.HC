@@ -53,9 +53,10 @@ static CDC*		SPECIAL2;
 class Item:CQue
 {
   U8* name;
-  I16 equip_slot, id, invID;
+  I16 equip_slot, id, invID,value;
   Bool usable, visible;
   U8 w, h, wOff,hOff;
+  U8* v1,*v2,*v3;
 };
 
 class ItemNode

@@ -22,7 +22,7 @@ Matrix *CreateMatrix(I64 row,I64 col)
 {
 
  I64 i,j, size;
- Matrix *m = MAlloc(sizeof(Matrix));
+ Matrix *m = MAlloc(sizeof(Matrix));
  Matrix *first = m;
 
  size = sizeof(Vector); 

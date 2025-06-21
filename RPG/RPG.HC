@@ -38,10 +38,11 @@ U0 DrawIt(CTask *task, CDC *dc){
    else if(mc->combatON){
      HandleCombatLoop(task, dc);
    }
+   ShowToolTips(dc);
   /*
    if(keys.esc==TRUE){
     dc->color=WHITE;      
-    GrRect(gr.dc,0,0,480,100);//dev console
+    GrRect(gr.dc,0,0,480,100);//dev console
     GetChar;
    }
   */   
@@ -80,7 +81,7 @@ U0 RPGMain()
 //Set Device context, iterables, peripheral arguments
 CDC *dc=DCAlias; I64 arg1,arg2,msg_code,i,j;
 //Default Window settings
-SettingsPush;WinMax;WinBorder;
+SettingsPush;WinMax;WinBorder;
 DocCursor;DocClear;MenuPush("");Init;
 //Set Current Task Threads  
 Fs->draw_it=&DrawIt;Fs->song_task=Spawn(&SongTask,mc,"Song",,Fs);

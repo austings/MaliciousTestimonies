@@ -9,7 +9,10 @@ Item *MakeItem(I64 id){
  build->visible = TRUE;
  build->wOff=0;
  build->hOff=0;
-  
+ build->v1=NULL;
+ build->v2=NULL;
+ build->v3=NULL;
+ build->value=0;  
  switch(id){
   case 0://not used
   build->name = "Bag";
@@ -24,6 +27,8 @@ Item *MakeItem(I64 id){
   build->hOff=50;
   build->equip_slot=1;
   build->usable=FALSE;
+  build->v1="STR+2";
+  build->value = 5;
   break;
   case IT_HARPOON:
   build->name = "Harpoon";
@@ -32,12 +37,17 @@ Item *MakeItem(I64 id){
   build->hOff=25;
   build->equip_slot=1;
   build->usable=FALSE;
+  build->v1="STR+1";
+  build->v2="CON+1";
+  build->v3="Fishing Tool";
+  build->value = 7;
   break;
   case IT_TOOTH:
   build->name = "Wolf fang";
   build->w=1,build->h=1;
   build->equip_slot=0;
   build->usable=FALSE;
+  build->value = 2;
   break;
   case IT_FISH1:
   build->name = "Trout";
@@ -45,6 +55,9 @@ Item *MakeItem(I64 id){
   build->hOff=32;
   build->equip_slot=0;
   build->usable=TRUE;
+  build->v1="HP+10";
+  build->v2="MP+10";
+  build->value = 3;
   break;
   case 999:
   build->name = "FISHINGSPOT";
@@ -79,4 +92,3 @@ Inventory *MakeInventory()
 
  return newInv;
 }
-

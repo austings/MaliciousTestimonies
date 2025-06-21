@@ -89,7 +89,7 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
   for(j=0;j<4;j++)
   {
     if(p->myInv->mtrx[j][i].occupied==item->invID)
-    {  p->myInv->mtrx[j][i].occupied=-1; }
+    {  p->myInv->mtrx[j][i].occupied=-1; }
    
       
   }
