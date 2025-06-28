@@ -111,9 +111,7 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
     }
 
   }
- }
-
-
+ }
 }
 
 I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE)

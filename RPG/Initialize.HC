@@ -20,7 +20,7 @@
 #include "Inventory.HC";
 #include "Player.HC";
 #include "Equipment.HC";
-
+
 // Loading Narrative
 #include "Dialog.HC";
 #include "Save.HC";
@@ -32,6 +32,7 @@
 
 // Loading Combat Scenarios
 #include "Attacks.HC";
+#include "Prayers.HC";
 #include "Combat.HC";
 #include "Render.HC";
 
@@ -58,6 +59,7 @@ U0 Init(){ //world
  mc->displayInventory=FALSE;
  mc->displayStats=FALSE;
  mc->displayEquipment=FALSE;
+ mc->displayPrayers=FALSE;
  mc->reRenderInv=TRUE;
  mc->draggingInv=FALSE;
  mc->draggingItem=MakeItem(0);
@@ -66,10 +68,15 @@ U0 Init(){ //world
  mc->inventoryRender = DCNew(640,480);
  DCFill(mc->inventoryRender, TRANSPARENT);
 
+ //prayers
+ prayers->list = MAlloc(sizeof(Prayer)*MAX_PRAYERS);
+ prayers->points = 0;
+ prayers->filter = TYPE_M;
+ prayers->unlocked = 0;
  //camera;    
  camera->dividX = SCREENX/(11);
  camera->dividY = SCREENY/(11);
- camera->topLR=0; camera->topUD=0;
+ camera->topLR=0; camera->topUD=0;
  camera->cameraOffSetX = 0,  
  camera->cameraOffSetY = 0; 
        

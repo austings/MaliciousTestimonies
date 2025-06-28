@@ -29,7 +29,16 @@ U0 MusicButton()
  if(mc->musicMuted==FALSE)
   mc->musicMuted=TRUE;
  else
-  mc->musicMuted=FALSE; 
+  mc->musicMuted=FALSE; 
+}
+
+U0 PrayerButton()
+{
+ if(mc->displayPrayers==FALSE)
+  mc->displayPrayers=TRUE;
+ else
+  mc->displayPrayers=FALSE; 
+
 }
 
 U0 FxButton()

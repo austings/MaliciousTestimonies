@@ -46,6 +46,9 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     mc->combatMenuSelection=CMS_STRIKE_DONE;
     PlayStrikeAnim(p);
     break;
+   case CS_PRAYER:
+    mc->combatMenuSelection=CMS_PRAYER_DONE;
+    break;
   }//end switch
  }else
  {
@@ -125,6 +128,10 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
           M_Y>=100&&M_Y<=160&&
           mc->displayStats==FALSE){
    InvButton;
+ }else if(M_X>=550&&M_X<=610&& //pray button
+          M_Y>=100&&M_Y<=160&&
+          mc->displayPrayers==FALSE){
+   PrayerButton;
  }else if(mc->displayInventory==TRUE||
            mc->displayEquipment==TRUE){
   //if release on equip wep slot
@@ -196,7 +203,7 @@ U0 ShowToolTips(CDC *dc = gr.dc)
      dc->color = YELLOW;
      PrintLine(dc,MStrPrint("%d%s",item->value," Gold"),
                             camera->cursorX+2,camera->cursorY+12+2);
-     dc->color = WHITE;
+     dc->color = WHITE;
    
      if(item->v1!=NULL)
       PrintLine(dc,item->v1,camera->cursorX+2,camera->cursorY+24+2);

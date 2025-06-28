@@ -42,7 +42,7 @@ U0 DrawIt(CTask *task, CDC *dc){
   /*
    if(keys.esc==TRUE){
     dc->color=WHITE;      
-    GrRect(gr.dc,0,0,480,100);//dev console
+    GrRect(gr.dc,0,0,480,100);//dev console
     GetChar;
    }
   */   
@@ -249,47 +249,41 @@ while(TRUE){
 	        break;
 	    }
 
-	    break;
-	  case 4://load menu
-          
-	    CDirEntry *cur;
-	    I64 yInc=0;
-	    switch (msg_code=GetMsg(&arg1,&arg2,
-		  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
-	      {
-	      case MSG_MS_L_DOWN:
-	        if(camera->cursorX>=19&&camera->cursorX<=187&&camera->cursorY>=18&&camera->cursorY<=58)
-		  {
-		  mc->currentMenu=0;
-	        }
-	        for(cur=loadRoot;cur!=NULL;cur=cur->next)
-		  {
-		  if(camera->cursorX>=190&&camera->cursorX<=590)
-		  {
-		    if(camera->cursorY>=yInc&&camera->cursorY<=yInc+25)
-		    {
-                      U8* edit = cur->name;
-                      edit =MStrPrint("%s%s","Saves/",edit);
-                                                               
-		      LoadGame(edit);
-
-		    }
-		  }
-		  yInc+=40;
-	        }
-
-	        break;
-	    }//switch
-	    break;
-
-        }//switch
-        Refresh;
-
-    }
+  break;
+  case 4://load menu
+   CDirEntry *cur;
+   I64 yInc=0;
+   switch (msg_code=GetMsg(&arg1,&arg2,
+	  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
+   {
+    case MSG_MS_L_DOWN:
+     if(camera->cursorX>=19&&camera->cursorX<=187&&camera->cursorY>=18&&
+        camera->cursorY<=58)
+     {
+      mc->currentMenu=0;
+     }
+     for(cur=loadRoot;cur!=NULL;cur=cur->next)
+     {
+      if(camera->cursorX>=190&&camera->cursorX<=590&&
+        camera->cursorY>=yInc&&camera->cursorY<=yInc+25)
+      {
+       U8* edit = cur->name;
+       edit =MStrPrint("%s%s","Saves/",edit);                                                                         
+       LoadGame(edit);
+      }
+      yInc+=40; 
+      
+     }
+    break;
+   }//switch
+  break;  
+ }//switch
+ Refresh;
+}  
 fs_end:
-    //DCFill;
-    DCDel(dc);
-    CleanUp;
+ //DCFill;
+ DCDel(dc);
+ CleanUp;
 
 }
   RPGMain;

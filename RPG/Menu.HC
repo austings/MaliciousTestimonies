@@ -509,39 +509,78 @@ U0 RPGSideBar(CDC *dc)
    Sprite3B(dc,494,420,0,GetButton(4));//save button 
 
    //equipment button
-   Sprite3B(dc,494,40,0,GetMenuSprite(0));    
-   Sprite3B(dc,510,52,0,GetMenuSprite(8));
+   Sprite3B(dc,494,40,0,GetMenuSprite(MENU_MENUBOX));    
+   Sprite3B(dc,510,52,0,GetMenuSprite(MENU_EQUIPMENT));
 
    //stats button
-   Sprite3B(dc,554,40,0,GetMenuSprite(0));    
-   Sprite3B(dc,562,48,0,GetMenuSprite(4));
+   Sprite3B(dc,554,40,0,GetMenuSprite(MENU_MENUBOX));    
+   Sprite3B(dc,562,48,0,GetMenuSprite(MENU_STATS));
 
    //inventory button
-   Sprite3B(dc,494,100,0,GetMenuSprite(0));    
-   Sprite3B(dc,510,112,0,GetMenuSprite(1));    
+   Sprite3B(dc,494,100,0,GetMenuSprite(MENU_MENUBOX));    
+   Sprite3B(dc,510,112,0,GetMenuSprite(MENU_BAG));    
 
+   //prayer button
+   Sprite3B(dc,554,100,0,GetMenuSprite(MENU_MENUBOX));    
+   Sprite3B(dc,562,112,0,GetMenuSprite(MENU_PRAYER)); 
 
-   Sprite3B(dc,554,100,0,GetMenuSprite(0));    
+   Sprite3B(dc,494,160,0,GetMenuSprite(MENU_MENUBOX));   
 
-   Sprite3B(dc,494,160,0,GetMenuSprite(0));    
-
-   Sprite3B(dc,554,160,0,GetMenuSprite(0));    
+   Sprite3B(dc,554,160,0,GetMenuSprite(MENU_MENUBOX));    
 
 
    //music button
-   Sprite3B(dc,494,220,0,GetMenuSprite(0));    
-   Sprite3B(dc,493,222,0,GetMenuSprite(7));
+   Sprite3B(dc,494,220,0,GetMenuSprite(MENU_MENUBOX));    
+   Sprite3B(dc,493,222,0,GetMenuSprite(MENU_MUSIC));
    if(mc->musicMuted)   
-    Sprite3B(dc,500,230,0,GetMenuSprite(6));
+    Sprite3B(dc,500,230,0,GetMenuSprite(MENU_MUTE));
 
    //fx button
-   Sprite3B(dc,554,220,0,GetMenuSprite(0));    
-   Sprite3B(dc,546,230,0,GetMenuSprite(5));
+   Sprite3B(dc,554,220,0,GetMenuSprite(MENU_MENUBOX));    
+   Sprite3B(dc,546,230,0,GetMenuSprite(MENU_FX));
    if(mc->fxMuted)
-    Sprite3B(dc,558,230,0,GetMenuSprite(6));
+    Sprite3B(dc,558,230,0,GetMenuSprite(MENU_MUTE));
 
 }
 
+
+CDC *RenderPrayers(Actor *player)
+{
+ U8 *t0a = "Available Points: %d",prayers->points;
+ U8 *t0b = "Unlocked Prayers:";
+ U8 *t0c = MStrPrint("%d/10",prayers->unlocked);
+ U8 *t0d = MStrPrint("Miracles | Wrath | Psalms | Arts");
+ CDC *pm = DCNew(140,300);
+ DCFill(pm, BLACK);
+ if(prayers->points>0){
+  pm->color=RED;
+  PrintLine(pm,t0a,0,10);
+ }
+
+ pm->color=WHITE;
+ PrintLine(pm,t0b,0,22);
+ PrintLine(pm,t0c,4*7,22);
+ PrintLine(pm,t0d,0,36);
+
+ Sprite3B(pm,40,40,0,GetMenuSprite(MENU_MENUBOX));    
+
+ I64 i,x,y,row;
+ for(i=0;i<MAX_PRAYERS;i++)
+ {
+  if(prayers->list[i]->type==prayers->filter)
+  {
+   switch(prayers->list[i]->id)
+   {
+    
+   }
+  }
+ }
+
+ Sprite3B(completeMenu,120,0,1,
+          GetMenuSprite(3));//xbutton    
+
+
+}
 
 //stats menu bar
 
@@ -608,7 +647,8 @@ CDC *RenderStats(Actor *player)
   PrintLine(completeMenu,v6,5*7,180);
 
 
- Sprite3B(completeMenu,120,0,1,GetMenuSprite(3));//xbutton    
+ Sprite3B(completeMenu,120,0,1,
+          GetMenuSprite(3));//xbutton    
  return completeMenu;
 
 }

@@ -24,6 +24,24 @@ class CombatTurn:CQue
   Actor *ready;
 } combatCQue;
 
+class Prayer
+{
+  U8 *name;
+  I64 id, type,cost;
+};
+
+class Prayers
+{
+  Prayer *list;
+  I64 points,filter,unlocked; 
+};
+
+#define MAX_PRAYERS	42
+#define TYPE_M		0
+#define TYPE_W		1
+#define TYPE_P		2
+#define TYPE_A		3
+
 #define AGGRO_DIS	2
 
 //looting contants for looting previous corpse check
@@ -60,6 +78,7 @@ class CombatTurn:CQue
 
 #define CMS_PRAYER		2
 #define CS_PRAYER		12
+#define CMS_PRAYER_DONE		112
 
 #define CMS_FLEE		3
 #define CS_FLEE			13
@@ -84,15 +103,19 @@ class MenuControl{
   U16 combatMenuStage;
   U8 combatMenuSelection;
   U8 turnIndex;
-  Actor *target;I64 tarposx,tarposy;
+  Actor *target;I64 tarposx,tarposy;
+  I64 prayer;
 
   //menus render
   I64 draggingID;//inventory mouse item
   Item *draggingItem;
   Bool displayInventory,reRenderInv,draggingInv, 
        displayStats,
+       displayPrayers,
+       displayShop,
        displayEquipment;
   CDC *inventoryRender;
+  I64 inventoryPointer;
 
 };
 
@@ -107,6 +130,7 @@ class Camera{
 
 MenuControl *mc;
 CombatTurn *ctp;
+Prayers *prayers;
 Camera *camera;
 World *world;//world
 Vector *worldSz;//world size, with values wX,wY,wZ

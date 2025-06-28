@@ -22,17 +22,17 @@ U0 Death()
 
 U0 HandleCombatLoop(CTask *task, CDC *dc){
  mc->displayInventory=FALSE;   
+ mc->displayEquipment=FALSE;
  switch(mc->combatMenuStage){
   case 0:  
-   CombatDialog1(dc,task, mc->combatMenuSelection);
-     
+   CombatDialog1(dc,task, mc->combatMenuSelection);     
      break;
   case 1:
-      //Actor *attacker = ct->ready;    
+     //Actor *attacker = ct->ready;    
      break;
   case 2:
-      //mc->combatMenuStage=1;
-      //mc->combatMenuStage=0;
+     // mc->combatMenuStage=1;
+     // mc->combatMenuStage=0;
      break;
   case 3:
      break;
@@ -52,7 +52,7 @@ U0 CombatTurnArrows(Actor *p)
       if(keys.pressed==DIR_DOWN){
        mc->combatMenuSelection++;
       }
-      if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+      if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
      break;
      case 3:
      if(keys.pressed==DIR_DOWN){
@@ -70,7 +70,7 @@ U0 CombatTurnArrows(Actor *p)
       } 
       else{mc->combatMenuStage=CS_MOVE;}
      break;
-     case CS_STRIKE:
+     case CS_STRIKE://select target
       ctp = ctp->next;
       mc->turnIndex++;
       //return to player from head
@@ -78,6 +78,9 @@ U0 CombatTurnArrows(Actor *p)
        ctp = combatCQue.next;
        mc->turnIndex = 1;
       } 
+     break;
+     case CS_PRAYER://select item
+      CycleInv();
      break;
  }//switch end
 }

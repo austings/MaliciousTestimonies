@@ -166,7 +166,7 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID,U8 *mctext="")
 
   }
  }
- PrintLine(dc,name,26,360,2);
+ PrintLine(dc,name,26,360,2);
  
    
 
@@ -204,22 +204,11 @@ U0 CombatDialog1(CDC *dc, CTask *task, U8 selection)
    Sprite3B(dc,12+5*13,445,0,GetCross);
    break;
   end:
-   for(i=0;i<6;i++)
-   {
-    c=cOption2[i];
-    GrChar(dc,c,12+i*13,405,2);
-  
-    c=cOption3[i];
-    GrChar(dc,c,12+i*13,425,2);
-
-    if(i<=3){
-     c=cOption1[i];
-     GrChar(dc,c,12+i*13,385,2);
-
-     c=cOption4[i];
-     GrChar(dc,c,12+i*13,445,2);
-    }
-   } 
+   PrintLine(dc,cOption1,12,385,2);
+   PrintLine(dc,cOption2,12,405,2);
+   PrintLine(dc,cOption3,12,425,2);
+   PrintLine(dc,cOption4,12,445,2);
+
   break;  
 
  }
