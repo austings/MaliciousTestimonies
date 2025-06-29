@@ -69,14 +69,11 @@ U0 Init(){ //world
  DCFill(mc->inventoryRender, TRANSPARENT);
 
  //prayers
- prayers->list = MAlloc(sizeof(Prayer)*MAX_PRAYERS);
- prayers->points = 0;
- prayers->filter = TYPE_M;
- prayers->unlocked = 0;
+ InitializePrayers;
  //camera;    
  camera->dividX = SCREENX/(11);
  camera->dividY = SCREENY/(11);
- camera->topLR=0; camera->topUD=0;
+ camera->topLR=0; camera->topUD=0;
  camera->cameraOffSetX = 0,  
  camera->cameraOffSetY = 0; 
        

@@ -27,16 +27,18 @@ class CombatTurn:CQue
 class Prayer
 {
   U8 *name;
-  I64 id, type,cost;
-};
-
-class Prayers
-{
-  Prayer *list;
-  I64 points,filter,unlocked; 
+  I64 id, type,cost;
+  Bool unlocked;
 };
 
 #define MAX_PRAYERS	42
+
+class Prayers
+{
+  Prayer **list;
+  I64 points,filter,unlocked; 
+};
+
 #define TYPE_M		0
 #define TYPE_W		1
 #define TYPE_P		2

@@ -29,7 +29,7 @@ U0 MusicButton()
  if(mc->musicMuted==FALSE)
   mc->musicMuted=TRUE;
  else
-  mc->musicMuted=FALSE; 
+  mc->musicMuted=FALSE; 
 }
 
 U0 PrayerButton()
@@ -81,7 +81,7 @@ U0 InvDrag(I64 i, I64 j)
    mc->draggingInv=TRUE;
   }
  }else{//release
-  //if there is an item underneath
+  //if there is an item underneath
   if(occupied!=-1&&occupied!=mc->draggingItem->invID){
    //continue drag
    marked = TRUE;

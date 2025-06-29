@@ -22,7 +22,7 @@ Vector *CreateVector(I32 size)
  
  for(i=0;i<size;i++)
  {
-  v->data[i] = CAlloc(sizeof(MapNode));
+  v->data[i] = CAlloc(sizeof(MapNode));
   v->data[i]->bg = 0;
   v->data[i]->len = 0;
   v->data[i]->hasNPC = FALSE;

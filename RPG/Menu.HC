@@ -546,7 +546,7 @@ U0 RPGSideBar(CDC *dc)
 
 CDC *RenderPrayers(Actor *player)
 {
- U8 *t0a = "Available Points: %d",prayers->points;
+ U8 *t0a = MStrPrint("%s%d","Available Points: ",prayers->points);
  U8 *t0b = "Unlocked Prayers:";
  U8 *t0c = MStrPrint("%d/10",prayers->unlocked);
  U8 *t0d = MStrPrint("Miracles | Wrath | Psalms | Arts");
@@ -571,12 +571,15 @@ CDC *RenderPrayers(Actor *player)
   {
    switch(prayers->list[i]->id)
    {
-    
+    case 0:
+    break;
+    default:
+    break;
    }
   }
  }
 
- Sprite3B(completeMenu,120,0,1,
+ Sprite3B(pm,120,0,1,
           GetMenuSprite(3));//xbutton    
 
 
