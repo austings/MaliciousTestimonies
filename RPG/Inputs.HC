@@ -101,14 +101,46 @@ U0 HandleKeyboard(Actor *p, MapNode *puin)
 
 U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 {
+
  if(M_X>=496&&M_X<=619&& //save button
     M_Y>=421&&M_Y<=458){
    SaveButton;
- }else if(M_X>=496&&M_X<=549&& //equip button
+ }
+
+ Bool subMenu = mc->displayPrayers || mc->displayStats;
+ if(!subMenu)
+ { if(M_X>=496&&M_X<=549&& //equip button
           M_Y>=40&&M_Y<100
           &&mc->displayStats==FALSE){
    EquipButton; 
- }else if(M_X>=140&&M_X<=180&&//equip x
+  }else if(M_X>=550&&M_X<=610&&//stats on
+          M_Y>=40&&M_Y<100&&
+          mc->displayStats==FALSE){
+   mc->displayStats=TRUE;
+  }else if(M_X>=496&&M_X<=549&& //inv button
+          M_Y>=100&&M_Y<=160&&
+          mc->displayStats==FALSE){
+   InvButton;
+  }else if(M_X>=550&&M_X<=603&& //pray button
+          M_Y>=100&&M_Y<=160&&
+          mc->displayPrayers==FALSE){
+   PrayerButton;
+  }else if(M_X>=494&&M_X<=549&&//music button
+          M_Y>=220&&M_Y<=280&&
+          mc->displayStats==FALSE){
+   MusicButton;
+  }else if(M_X>=550&&M_X<=610&&//fx button
+          M_Y>=220&&M_Y<=280&&
+          mc->displayStats==FALSE){
+   FxButton;   
+  }
+ }else if(mc->displayPrayers) {
+  PrayerFilters(M_X,M_Y,i,j); //prayer submenu
+  
+ }
+ 
+ //pop up menu Xs
+ if(M_X>=140&&M_X<=180&&//equip x
           M_Y>=10&&M_Y<=40
           &&mc->displayEquipment==TRUE){
    mc->displayEquipment=FALSE;
@@ -116,25 +148,18 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
           M_Y>=290&&M_Y<=310
           &&mc->displayInventory==TRUE){
    mc->displayInventory=FALSE;          
- }else if(M_X>=550&&M_X<=610&&//stats on
-          M_Y>=40&&M_Y<100&&
-          mc->displayStats==FALSE){
-   mc->displayStats=TRUE;
- }else if(M_X>=580&&M_X<=641&&//stats x
-          M_Y>=0&&M_Y<=40&&
-          mc->displayStats==TRUE){
-   mc->displayStats=FALSE;
- }else if(M_X>=496&&M_X<=549&& //inv button
-          M_Y>=100&&M_Y<=160&&
-          mc->displayStats==FALSE){
-   InvButton;
- }else if(M_X>=550&&M_X<=610&& //pray button
-          M_Y>=100&&M_Y<=160&&
-          mc->displayPrayers==FALSE){
-   PrayerButton;
- }else if(mc->displayInventory==TRUE||
+ }
+
+ //x button for submenus
+ if(M_X>=580&&M_X<=641&&
+          M_Y>=0&&M_Y<=40&&(mc->displayPrayers==TRUE||
+          mc->displayStats==TRUE)){
+   mc->displayStats=FALSE;  mc->displayPrayers=FALSE;
+ }
+
+ //if release on equip wep slot
+ if(mc->displayInventory==TRUE||
            mc->displayEquipment==TRUE){
-  //if release on equip wep slot
   if(mc->displayEquipment==TRUE&&mc->draggingInv){
    if(M_X>=8 &&
       M_X< 60  &&
@@ -149,22 +174,14 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
     if(M_X>=(i*45)+2   &&
        M_X< (i+1)*45+2 &&
        M_Y>=(j*42)+310 &&
-       M_Y< (j+1)*42+310){
+       M_Y< (j+1)*42+310&&!mc->prayerDragging){
      InvDrag(i,j);
 
     }//end inventory if
    }//end inventory height
-  }//end inventory width
-      
- }else if(M_X>=494&&M_X<=549&&//music 
-          M_Y>=220&&M_Y<=280&&
-          mc->displayStats==FALSE){
-  MusicButton;
- }else if(M_X>=550&&M_X<=610&&//fx
-          M_Y>=220&&M_Y<=280&&
-          mc->displayStats==FALSE){
-  FxButton;   
+  }//end inventory width    
  }
+
 }
 
 //possibily make global to prevent refetch
@@ -216,6 +233,30 @@ U0 ShowToolTips(CDC *dc = gr.dc)
    }//end inventory height
   }//end inventory width
  }
-      
-  
+
+ if(mc->displayPrayers&&!mc->prayerDragging&&!mc->draggingInv)
+ {//mc->prayer is set in FindPrayer
+  if(FindPrayer()){
+   i = mc->prayer;
+
+   U8* name = prayers->list[i]->name;  
+   U8* cost = MStrPrint("%s%d%s","Cost:",prayers->list[i]->cost," Spirit"); 
+   //U8* desc = StrSplit(prayers->list[i]->desc,'#');  
+   
+   dc->color = DKGRAY;
+   GrRect3(dc,camera->cursorX+1,camera->cursorY+1,900,100,32);
+   switch(prayers->list[i]->type)
+   {
+    case TYPE_A:   dc->color = GREEN;break;
+    case TYPE_M:   dc->color = YELLOW;break;
+    case TYPE_W:   dc->color = RED;break;
+    case TYPE_P:   dc->color = LTBLUE;break;
+   }
+   PrintLine(dc,name,camera->cursorX+2,camera->cursorY+2);
+   dc->color = LTCYAN;
+   PrintLine(dc,cost,camera->cursorX+2,camera->cursorY+12+2);
+   //dc->color = WHITE;
+   //PrintLine(dc,desc,camera->cursorX+2,camera->cursorY+24+2);
+  }
+ }
 }

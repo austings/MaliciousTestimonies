@@ -192,7 +192,7 @@ U0 InitializeAnimator(){
   CreateAnimation(T2PUNCH);
   CreateAnimation(T3PUNCH);
   CreateAnimation(T4PUNCH);
-  //load all animations into the hashtable 
+  //load all animations into the hashtable 
 }
 
 

@@ -11,6 +11,7 @@ class Keys
  I64 pressed;
 } keys;
 
+I64 hotkeys[9] ;
 
 #define DIR_LEFT	1
 #define DIR_RIGHT	2
@@ -26,8 +27,8 @@ class CombatTurn:CQue
 
 class Prayer
 {
-  U8 *name;
-  I64 id, type,cost;
+  U8 *name,*desc;
+  I64 id, type, cost, wOff, hOff;
   Bool unlocked;
 };
 
@@ -36,7 +37,7 @@ class Prayer
 class Prayers
 {
   Prayer **list;
-  I64 points,filter,unlocked; 
+  I64 points,filter,unlocked; 
 };
 
 #define TYPE_M		0
@@ -105,7 +106,7 @@ class MenuControl{
   U16 combatMenuStage;
   U8 combatMenuSelection;
   U8 turnIndex;
-  Actor *target;I64 tarposx,tarposy;
+  Actor *target;I64 tarposx,tarposy;
   I64 prayer;
 
   //menus render
@@ -113,7 +114,7 @@ class MenuControl{
   Item *draggingItem;
   Bool displayInventory,reRenderInv,draggingInv, 
        displayStats,
-       displayPrayers,
+       displayPrayers,prayerPage,prayerDragging,
        displayShop,
        displayEquipment;
   CDC *inventoryRender;

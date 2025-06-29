@@ -522,7 +522,7 @@ U0 RPGSideBar(CDC *dc)
 
    //prayer button
    Sprite3B(dc,554,100,0,GetMenuSprite(MENU_MENUBOX));    
-   Sprite3B(dc,562,112,0,GetMenuSprite(MENU_PRAYER)); 
+   Sprite3B(dc,564,112,0,GetMenuSprite(MENU_PRAYER)); 
 
    Sprite3B(dc,494,160,0,GetMenuSprite(MENU_MENUBOX));   
 
@@ -543,46 +543,83 @@ U0 RPGSideBar(CDC *dc)
 
 }
 
-
+U0 BlotPrayer(CDC *pm, I64 x, I64 y, I64 index)
+{
+ switch(prayers->list[index]->id)
+   {
+    case LAY_ON_HANDS:
+     GrBlot3(pm,x,y,0,ITEM050);
+    break;
+    default:
+     Sprite3B(pm,x,y,0,GetQ());//unknown
+    break;
+   }
+}
 CDC *RenderPrayers(Actor *player)
 {
  U8 *t0a = MStrPrint("%s%d","Available Points: ",prayers->points);
- U8 *t0b = "Unlocked Prayers:";
- U8 *t0c = MStrPrint("%d/10",prayers->unlocked);
- U8 *t0d = MStrPrint("Miracles | Wrath | Psalms | Arts");
- CDC *pm = DCNew(140,300);
+ U8 *t0b = "Total Unlocks:";
+ U8 *t0c = MStrPrint("%d/%d",prayers->unlocked,MAX_PRAYERS);
+ U8 *t0d = "Miracles |"; 
+ U8 *t0e = "Wrath | ";
+ U8 *t0f = "  Arts   | ";
+ U8 *t0g = " Psalms|";
+
+ CDC *pm = DCNew(150,300);
  DCFill(pm, BLACK);
  if(prayers->points>0){
   pm->color=RED;
-  PrintLine(pm,t0a,0,10);
+  PrintLine(pm,t0a,0,22);
  }
 
  pm->color=WHITE;
- PrintLine(pm,t0b,0,22);
- PrintLine(pm,t0c,4*7,22);
- PrintLine(pm,t0d,0,36);
+ PrintLine(pm,t0b,0,36);
+ PrintLine(pm,t0c,100,36);
+ pm->color=YELLOW;
+ PrintLine(pm,t0d,0,48);
+ pm->color=RED;
+ PrintLine(pm,t0e,75,48);
+ pm->color=GREEN;
+ PrintLine(pm,t0f,0,62);
+ pm->color=LTBLUE;
+ PrintLine(pm,t0g,68,62);
+ 
+ Sprite3B(pm,0,80,10,GetLillestArrow(TRUE));
+ Sprite3B(pm,94,80,10,GetLillestArrow(FALSE));
 
- Sprite3B(pm,40,40,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(pm,0,100,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(pm,50,100,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(pm,100,100,0,GetMenuSprite(MENU_MENUBOX));    
 
- I64 i,x,y,row;
- for(i=0;i<MAX_PRAYERS;i++)
+ Sprite3B(pm,0,150,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(pm,50,150,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(pm,100,150,0,GetMenuSprite(MENU_MENUBOX));    
+
+ Sprite3B(pm,0,200,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(pm,50,200,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(pm,100,200,0,GetMenuSprite(MENU_MENUBOX));    
+
+
+ //list all prayers on this page
+ I64 i,x=0,y=100;
+ for(i=mc->prayerPage;i<MAX_PRAYERS;i++)
  {
   if(prayers->list[i]->type==prayers->filter)
   {
-   switch(prayers->list[i]->id)
-   {
-    case 0:
-    break;
-    default:
-    break;
-   }
+   BlotPrayer(pm,x,y,i);
+  }
+  x = x+50;
+  if(x>101)
+  { x= 0; y=y+50;
+    if(y>201)
+    { break; }
   }
  }
 
- Sprite3B(pm,120,0,1,
+ Sprite3B(pm,120,0,1,
           GetMenuSprite(3));//xbutton    
 
-
+ return pm;
 }
 
 //stats menu bar
@@ -832,6 +869,55 @@ U0 DeserializeOpts()
 }
 
 
+//check if user click or release for each 'button' of prayers
+U0 DragPrayer(CDC *pm)
+{
+//avoid conflict with inventory
+ if(mc->draggingInv==FALSE&&mc->prayerDragging) 
+ {
+  if(mc->prayer!=-1)//if we have a prayer
+  {
+   I64 x = camera->cursorX+3-(prayers->list[mc->prayer]->wOff);
+   I64 y = camera->cursorY-(prayers->list[mc->prayer]->hOff);
+
+    BlotPrayer(pm,x,y,mc->prayer);
+  }
+
+
+  U8* _1 = "1";  U8* _2 = "2";  U8* _3 = "3";  U8* _4 = "4";  U8* _5 = "5";
+  U8* _6 = "6";  U8* _7 = "7";  U8* _8 = "8";  U8* _9 = "9";  
+
+  pm->color = WHITE;  
+  Sprite3B(pm,10,0,10,GetMenuSprite(MENU_INVBOX));
+  PrintLine(pm,_1,35,2,2);
+  Sprite3B(pm,60,0,10,GetMenuSprite(MENU_INVBOX));
+  PrintLine(pm,_2,85,2,2);
+  Sprite3B(pm,110,0,10,GetMenuSprite(MENU_INVBOX));
+  PrintLine(pm,_3,135,2,2);
+  Sprite3B(pm,160,0,10,GetMenuSprite(MENU_INVBOX));
+  PrintLine(pm,_4,185,2,2);
+  Sprite3B(pm,210,0,10,GetMenuSprite(MENU_INVBOX));
+  PrintLine(pm,_5,235,2,2);
+  Sprite3B(pm,260,0,10,GetMenuSprite(MENU_INVBOX));
+  PrintLine(pm,_6,285,2,2);
+  Sprite3B(pm,310,0,10,GetMenuSprite(MENU_INVBOX));
+  PrintLine(pm,_7,335,2,2);
+  Sprite3B(pm,360,0,10,GetMenuSprite(MENU_INVBOX));
+  PrintLine(pm,_8,385,2,2);
+  Sprite3B(pm,410,0,10,GetMenuSprite(MENU_INVBOX));
+  PrintLine(pm,_9,435,2,2);
+  
+  I64 i;
+  for(i=0;i<9;i++)
+  {
+   if(hotkeys[i]!=-1){
+    BlotPrayer(pm,10+(50*(i)),0,hotkeys[i]);
+
+   }
+  
+  }   
+ }
+}
 
 
 U0 RPGInvLogic(CDC *dc, Actor *p)

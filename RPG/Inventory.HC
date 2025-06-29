@@ -75,7 +75,7 @@ Inventory *MakeInventory()
   I64 i,j;
   Inventory *newInv = MAlloc(sizeof(Inventory));
   //newInv->maxWeight = weight;
-  Item *item_que = MAlloc(sizeof(Item));
+  Item *item_que = MAlloc(sizeof(Item));
   QueInit(item_que);
   QueIns(MakeItem(0),item_que->last);
   newInv->collection = item_que;

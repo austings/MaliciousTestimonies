@@ -1,4 +1,79 @@
+/* StrSplit
+  Date Created: 2025-06-20
+  Author Name: M.A. Reyes
+  Description: Adding Missing String Features from Latest Version of C
+  
+  God Bless to you all including Mr.Terry, TempleOS, HolyC and Jesus Christ
+*/
+U64 *StrSplit(U8 *str, U8 ch) { //Splitting using Delimiter from Single String
+    I64 a=0,b=0,DLen;
+        for(a=0;a<StrLen(str);a++) if(str[a]==ch) DLen++;
 
+        U64 *p=MAlloc(DLen*sizeof(U8)), str1="";
+        for(a=0;a<StrLen(str);a++) {
+                if(str[a]==ch){
+                        p[b]=str1;
+                        str1="";
+                        b++;
+                }
+                else str1=MStrPrint("%s%c",str1,str[a]);
+        }
+
+    return p;
+}
+
+U64 *OldStrSplit(U64 *str, U8 ch){ // Splitting using Delimiter from Single String into Array of String 
+	U8 *p1=MAlloc(StrLen(str)*sizeof(U8));
+	StrCpy(p1,str);
+	//Find ch from CharArr through Loop
+	I64 a,b=0,c=0,d=0;
+	while(a<StrLen(p1)) {
+		//If CharrArr is equal to ch
+		if(p1[a]==ch) 
+		          c++;
+		
+		a++;
+	}
+	c++;
+
+	U64 *p2=MAlloc(c*sizeof(U64));
+	U64 s="";
+	
+	a=0;
+	while(a<StrLen(p1)){
+		U8 *p3=CAlloc(2);
+		p3[0]=p1[a];
+		
+		s=MStrPrint("%s%s",s,p3);
+			
+		if(p1[a]==ch){
+			if(StrLen(s)!=0){
+				b++;
+				s="";
+			}
+		}
+		p2[b]=s;
+		
+		a++;
+	}
+	//Checking for Empty String
+	U64 *p4=MAlloc(b*sizeof(U64));
+	a=0;
+	while(a<b+1){
+		if(StrLen(p2[a])!=0){
+			p4[d]=p2[a];
+			d++;
+		}
+		
+		a++;
+	}
+
+	Free(p1);
+	Free(p2);
+	return p4;
+}
+
+//author austin
 //key frame fetch pressed
 
 I64 *DumpKey(U8 *_d,U8 *class_name=lastclass)
@@ -21,7 +96,7 @@ I64 GatherInputMsg(I64 arg1, I64 arg2)
 {
  I64 msg_code=GetMsg(&arg1,&arg2,
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
-      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE);
+      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE);
 
  return msg_code;
 }
@@ -47,7 +122,7 @@ Bool *DumpBoolIndex(I64 i,U8 *_d,U8 *class_name=lastclass)
 
 
 //data files fetch
-//Original code by nrootconauto (Clayton Rhodes)
+//Rest of Original code by nrootconauto (Clayton Rhodes)
 
 
 public I64 GrYoloFloodFill(CDC *dc=gr.dc,I64 x,I64 y,

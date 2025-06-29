@@ -49,6 +49,69 @@ U0 FxButton()
   mc->fxMuted=FALSE; 
 }
 
+U0 IncPrayerPage(I64 i)
+{
+ mc->prayerPage = mc->prayerPage + i;
+ if(mc->prayerPage<1)
+ {
+  mc->prayerPage = MAX_PRAYERS-(MAX_PRAYERS%9);
+ }
+ if(mc->prayerPage>MAX_PRAYERS)
+ {
+  mc->prayerPage=0;
+ }
+}
+
+U0 PrayerCycleButton(Bool left)
+{
+ if(left)
+  IncPrayerPage(-9);
+ else
+  IncPrayerPage(9);
+}
+
+U0 SetHotKey(I64 i , I64 v)
+{
+  hotkeys[i] = v;               
+
+}
+
+U0 PrayerFilters(I64 M_X, I64 M_Y,I64 i, I64 j)
+{
+ if(M_X>=490&&M_X<415&&
+    M_Y>=81&&M_Y<102){
+   PrayerCycleButton(TRUE);
+ }else if(M_X>590&&M_X<615&&
+          M_Y>=81&&M_Y<102){
+   PrayerCycleButton(FALSE);
+ }else if(mc->prayerDragging==TRUE){
+  I64 index=0;
+  for(i=10;i<490;i=i+50)
+  {
+   if(M_X>=i&&M_X<=i+50&&
+      M_Y>=0&&M_Y<=50)
+   {
+    SetHotKey(index,mc->prayer);
+    mc->prayerDragging=FALSE;
+    mc->prayer = -1;
+    break;
+   }
+   index++;
+  }
+ }else{
+  for(i=490;i<640;i=i+50)
+  {
+   for(j=102;j<252;j=j+50)
+   {
+    if(M_X>=i&&M_X<=i+50&&M_Y>j&&M_Y<j+50&&mc->prayerDragging==FALSE)
+    {
+     mc->prayerDragging=TRUE;
+    }
+   }
+  }
+ }
+
+}
 U0 ReleaseSword()
 {
  //switch from inv to sword, del from inv
@@ -81,7 +144,7 @@ U0 InvDrag(I64 i, I64 j)
    mc->draggingInv=TRUE;
   }
  }else{//release
-  //if there is an item underneath
+  //if there is an item underneath
   if(occupied!=-1&&occupied!=mc->draggingItem->invID){
    //continue drag
    marked = TRUE;

@@ -46,7 +46,7 @@ U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
     indicator= MStrPrint("%s%d%s",indicator,magnitude,currency);
   
   I64 i  =0 ;
-//  PrintLine(dc,indicator,realX,realY);
+//  PrintLine(dc,indicator,realX,realY);
 
 }
 
@@ -166,7 +166,7 @@ Actor *DeserializeNPC(I64 npcid)
    &intptr,&conptr,&wisptr,&aiptr,&inv1ptr,
    &inv2ptr,&inv3ptr,&inv4ptr,&inv5ptr);
   
-
+
   for(i=0;i<15;i++)
    p->name[i] = nameptr[i];
   p->id = Str2I64(id);

@@ -23,11 +23,15 @@ U0 DrawIt(CTask *task, CDC *dc){
    RPGSideBar(dc);
    if(mc->displayStats){
     GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));
+   } else if(mc->displayPrayers){
+    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderPrayers(p));
    }
+
    if(mc->displayEquipment){
     GrBlot3(dc,10,10,0,RenderEquipment(p));
    }
    RPGInvLogic(dc,p);
+   DragPrayer(dc);
    DrawHealthMana(dc,p,i,j);
    //Dialog   
    if(mc->talkieScene!=-1){

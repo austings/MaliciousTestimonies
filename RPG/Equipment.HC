@@ -29,7 +29,7 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
 
    if(area==(item->h)*(item->w))
    {
-    QueIns(item,p->myInv->collection->last);
+    QueIns(item,p->myInv->collection->last);
     //PopUpPrint( "item added");
     I64 cnt = ++p->myInv->count;
     
@@ -111,7 +111,7 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
     }
 
   }
- }
+ }
 }
 
 I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE)

@@ -22,24 +22,35 @@ class MapNode
 //items
 #define IT_NULL		-1
 #define IT_DAGGER 	1
-static CDC*		ITEM1; //dagger
-static CDC*		ITEM1I;
+static CDC*		ITEM1= FramePtr("ITEM008"); //dagger
+static CDC*		ITEM1I = FramePtr("WINV001");
+
 
 #define IT_HARPOON	2
-static CDC*		ITEM2; //harpoon
-static CDC*		ITEM2I;
+static CDC*	        ITEM2 = FramePtr("ITEM004");// harpoon
+static CDC*		ITEM2I = FramePtr("WINV015");
+
 
 #define IT_TOOTH 	3
 static CDC*		ITEM3; //wolf tooth
 static CDC*		ITEM3I;
 
 #define IT_FISH1        4
-static CDC*		ITEM4I;
+static CDC*		ITEM4I = FramePtr("ITEM164");//fish
+
 
 //special
 #define SP_FISHING_SPOT 999
-static CDC*		SPECIAL1;
-static CDC*		SPECIAL2;
+static CDC*		SPECIAL1 = FramePtr("EFF075");//special point
+static CDC*		SPECIAL2 = FramePtr("EFF076");
+
+
+//prayers
+#define LAY_ON_HANDS	0
+static CDC* ITEM050= FramePtr("ITEM050");
+
+//Sprite3B(ITEM3I,0,0,10,GetFang);
+//ITEM4 = FramePtr("");
 
 //Tile Codes
 #define BG_GREEN	0
@@ -56,7 +67,7 @@ class Item:CQue
   I16 equip_slot, id, invID,value;
   Bool usable, visible;
   U8 w, h, wOff,hOff;
-  U8* v1,*v2,*v3;
+  U8* v1,*v2,*v3;
 };
 
 class ItemNode

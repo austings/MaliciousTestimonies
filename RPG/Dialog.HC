@@ -178,7 +178,7 @@ U0 CombatDialog1(CDC *dc, CTask *task, U8 selection)
  U8 *cOption1 = "Move";
  U8 *cOption2 = "Strike";
  U8 *cOption3 = "Prayer";
- U8 *cOption4 = "Item";
+ U8 *cOption4 = "Flee";
 
  U8 c,i;
  dc->color=BLACK;
@@ -208,7 +208,7 @@ U0 CombatDialog1(CDC *dc, CTask *task, U8 selection)
    PrintLine(dc,cOption2,12,405,2);
    PrintLine(dc,cOption3,12,425,2);
    PrintLine(dc,cOption4,12,445,2);
-
+
   break;  
 
  }
