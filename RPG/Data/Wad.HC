@@ -28,7 +28,7 @@ U64 *OldStrSplit(U64 *str, U8 ch){ // Splitting using Delimiter from Single Stri
 	//Find ch from CharArr through Loop
 	I64 a,b=0,c=0,d=0;
 	while(a<StrLen(p1)) {
-		//If CharrArr is equal to ch
+		//If CharrArr is equal to ch
 		if(p1[a]==ch) 
 		          c++;
 		
@@ -546,3 +546,4 @@ found_pstart:
 LoadWadGr(wad);
 
 
+

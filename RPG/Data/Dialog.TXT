@@ -13,13 +13,13 @@ ID	TEXT
 12	You scavenge the %s#as a memento of the moment 	                                                                                  |
 13	There is nothing left #on the corpse.                                                                                             |
 14	You loot the %s's #%s.                                                                                                            |
-15	You must first equip fishing#equipment to fish here.                                                                                                                                 |
-16	 
-17	 
-18	 
-19	 
-20	 
-21	 
+15	You must first equip fishing#equipment to fish here.                                                                              |                                                   |
+16	Please browse me goods,#me children be starvin.                                                                                   |
+17	Moo!                                                                                                                              |
+18	bwak bwak                                                                                                                         |
+19	                                 
+20	                                      
+21	                                    
 22	 
 23	 
 24	 

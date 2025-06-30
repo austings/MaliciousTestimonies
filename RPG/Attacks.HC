@@ -175,7 +175,7 @@ U0 PlayStrikeAnim(Actor *p)
     }   break;
    case T_EPHR:
     switch(p->sword){
-     case 0: //fist
+     case 0: //fist
       direct.cQueDirective = T3PUNCH;
      break;
     }   break;

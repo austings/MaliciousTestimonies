@@ -210,20 +210,26 @@ U0 CheckAnimQueue(CDC *dc)
 
 CDC *GetActorAnimationJob(Actor *a)
 {
- CDC *completeActor = DCNew(100,100);
+ CDC *completeActor = DCNew(500,500);
  DCFill(completeActor, TRANSPARENT);
 
-  if(a->race<=T_BENJ)
-  {
-   completeActor = GetWalkAnimation(a,completeActor);
-  }
+ if(a->race<=T_BENJ){
+  completeActor = GetWalkAnimation(a,completeActor);
+ }
 
-  if(a->race==4)
-  {
+ if(a->race==4){
    Sprite3B(completeActor,0,32,10,GetDog);
+ }
 
-  }
-  return completeActor;
+ if(a->race==5){
+   Sprite3B(completeActor,0,32,10,GetFowl);
+
+ }
+ if(a->race==6){
+   Sprite3B(completeActor,0,32,10,GetOx);
+ }
+
+ return completeActor;
 
 }
 

@@ -5,6 +5,7 @@
 
 // Load built-in Graphics
 #include "Sprites/SS1.HC"; 
+#include "Sprites/SpriteSheet1.HC";
 #include "Sprites/SpriteSheet2.HC";
 #include "Sprites/SpriteSheet3.HC";
 #include "Sprites/SpriteSheet4.HC";
@@ -60,7 +61,7 @@ U0 InitMenuControl()
  mc->draggingItem=MakeItem(0);
  mc->draggingID=0;
  mc->lootedSwitch=LOOTABLE;
- mc->inventoryRender = DCNew(640,480);
+ mc->inventoryRender = DCNew(640,480);
  DCFill(mc->inventoryRender, TRANSPARENT);
 
  //combat

@@ -4,5 +4,7 @@
 #define SV_GUARD1   		4
 #define SV_GUARD2   		5
 #define SV_WOLF1    		6
-#define SV_MISS_FISH_EQUIP	7
-  
+#define SV_MISS_FISH_EQUIP	7001
+#define SV_COW			7
+#define SV_FOWL			8
+#define SV_MAKABEE		10  

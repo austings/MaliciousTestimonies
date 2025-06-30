@@ -314,6 +314,17 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
     return completeActor;
 
    break;
+   case 5:
+    Sprite3B(completeActor,0,32,10,GetFowl);
+    return completeActor;
+
+   break;
+   case 6:
+    Sprite3B(completeActor,0,32,10,GetOx);
+    return completeActor;
+
+   break;
+
   }
 
  GrBlot3(completeActor,0,0,10,GetHair(a->hair));

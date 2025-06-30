@@ -166,7 +166,7 @@ Actor *DeserializeNPC(I64 npcid)
    &intptr,&conptr,&wisptr,&aiptr,&inv1ptr,
    &inv2ptr,&inv3ptr,&inv4ptr,&inv5ptr);
   
-
+
   for(i=0;i<15;i++)
    p->name[i] = nameptr[i];
   p->id = Str2I64(id);
@@ -281,6 +281,11 @@ U0 ReadNPC(I64 id)
    loaded++;
  //  return loaded10;
   break;
+  case 10://max 10
+  loaded =1;
+  loaded2 = DeserializeNPC(id);
+  loaded++;
+  break;
  }
 
 // return toR;
@@ -289,17 +294,15 @@ U0 ReadNPC(I64 id)
 
 Actor *GetNPC(I64 id)
 {
-  Actor *NPC; //= GREEN;
+  I64 i = 0;
   if(id==0)
   {
-    NPC = player;
+    return player;
   }
-  else
+  
+  for(i=0;i<2;i++)
   {
-   if(loaded1->id==id)
-   {
-     return loaded1;
-   } else if(loaded2->id==id)
+   if(loaded2->id==id)
    {
      return loaded2;
    } else if(loaded3->id==id)
@@ -327,8 +330,10 @@ Actor *GetNPC(I64 id)
    {
      return loaded10;
    }
+   ReadNPC(id);
+
   }
-  return NPC;
+ return loaded2;
 }
 
 U0 UpdateActorCoords(I64 id, U64 x, U64 y)
@@ -446,3 +451,4 @@ I64 InvNPCCount(Actor *a)
   return 0;
 }
 
+

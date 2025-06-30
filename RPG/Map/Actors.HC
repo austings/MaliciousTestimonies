@@ -23,12 +23,15 @@ class Actor
 #define T_BENJ  3
 
 #define PLAYER  00
-#define A_KING_ 01
+#define A_KING  01
 #define A_JEZEBEL 02
 #define A_ELIJAH 03
 #define A_CAPTAIN 04
 #define A_GUARD 05
 #define A_WILD_DOG 06
+#define A_OX_CART 07
+#define A_FOWL 08
+#define A_MAKABEE 10
 
 
 static CDC*		A1L1;//light

@@ -103,6 +103,16 @@ I64 GetTalkie(I64 id)
    case SV_MISS_FISH_EQUIP://missing fish equip
    talkie = 15;
    break;
+   case SV_COW://ox
+   talkie = 17;
+   break;
+   case SV_FOWL://fowl
+   talkie = 18;
+   break;
+   case 10://SV_MAKABEE://shop
+   talkie = 16;
+   break;
+
   }
   return talkie;
 }

@@ -39,17 +39,16 @@ Matrix *MakeCastle(Matrix *toAdd)
   //Other buildings
 
   //NPCS
-  SetMatrixNPC(toAdd,2,19,3);//jezebel
-  SetMatrixNPC(toAdd,1,18,3);//king
-  SetMatrixNPC(toAdd,3,23,25);//elijah
-  SetMatrixNPC(toAdd,4,20,15);//guard
-  SetMatrixNPC(toAdd,5,17,15);//captain
-  SetMatrixNPC(toAdd,6,8,8);//wild dog
-  SetMatrixNPC(toAdd,7,31,3);//wild dog
-  SetMatrixNPC(toAdd,8,29,10);//wild dog
-  SetMatrixNPC(toAdd,9,30,15);//wild dog
-  SetMatrixNPC(toAdd,10,27,17);//wild dog
-   
+  SetMatrixNPC(toAdd,A_JEZEBEL,19,3);//jezebel
+  SetMatrixNPC(toAdd,A_KING,18,3);//king
+  SetMatrixNPC(toAdd,A_ELIJAH,23,25);//elijah
+  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard
+  SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
+  SetMatrixNPC(toAdd,A_WILD_DOG,8,8);//wild dog
+  SetMatrixNPC(toAdd,A_OX_CART,1,21);
+  SetMatrixNPC(toAdd,A_MAKABEE,6,19);
+  SetMatrixNPC(toAdd,A_FOWL,22,22);
+
   //Items
   SetMatrixItem(toAdd,IT_DAGGER,1,1);
   SetMatrixItem(toAdd,IT_DAGGER,2,1);

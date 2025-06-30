@@ -73,121 +73,149 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j)
 
 }
 
+//i - x coordinate of node
+//j - y coordinate of node
+//l - size of item array on layer (multidraw)
+U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
+{
+
+ MapNode *mn = GetTensorItem(world->level,
+                    camera->topLR+i,camera->topUD+j, 
+                    world->currentZ);
+ for(l=0;l<mn->len;l++){
+  I64 item = (GetItem(mn,l))->id;
+  switch(item){
+   case IT_DAGGER:
+    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
+              j*camera->dividY+camera->cameraOffSetY,10,
+              ITEM1);
+    break;
+   case IT_HARPOON:
+         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
+              j*camera->dividY+camera->cameraOffSetY,10,
+              ITEM2);
+    break;
+   case SP_FISHING_SPOT: 
+         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-2,
+              j*camera->dividY+camera->cameraOffSetY-16,10,
+              SPECIAL1);
+    break;
+   default:
+    break;
+  }
+ } 
+}
+
+Bool ConfigureCombatPose(Actor *toRender, Actor *p)
+{
+
+ //COMBAT start initializations
+ //move enemy during combat turn 
+ if(toRender->ai_script==1){ 
+  if(mc->combatON==FALSE   && toRender->ai_script==1&&
+          toRender->dead==FALSE && //(enemy)
+          Abs((p->x)-(toRender->x))<=AGGRO_DIS&& //(aggro distance)
+          Abs((p->y)-(toRender->y))<=AGGRO_DIS)
+  {
+   CombatQueInit(toRender);
+  }
+  RenderCombatVersion(toRender);
+ }
+ //optionally highlight targets for strikes
+ Bool highlight= FALSE;
+ if(mc->combatMenuSelection==CS_STRIKE&&toRender->id==ctp->ready->id)
+ {
+  highlight = TRUE;
+  mc->target = toRender;
+  mc->tarposx = toRender->screenX;
+  mc->tarposy = toRender->screenY;//change default target
+ }
+ return highlight;
+}
+
+
+U0 RenderPlayer(CDC *dc, Actor *p,
+                    I64 npcox,I64 npcoy,I64 i,I64 j)
+{
+ if(camera->topLR==0||camera->topLR==wX-11)
+  npcox =GetWalkOffsetX(p->walking);
+ if(camera->topUD==0||camera->topUD==wY-11)
+  npcoy =GetWalkOffsetY(p->walking);
+
+ I64 convertedToScreenX = i*camera->dividX-13+
+                          npcox+camera->cameraOffSetX;
+ I64 convertedToScreenY = j*camera->dividY-42+
+                          npcoy+camera->cameraOffSetY;
+ p->screenX = convertedToScreenX;
+ p->screenY = convertedToScreenY;
+
+ //render attack from player
+   if(mc->combatMenuSelection==CMS_STRIKE_DONE){
+    switch(p->sword)
+    {
+     case 0: //fist
+      PunchMove(dc,p, mc->tarposx,
+                mc->tarposy-mc->turnIndex,
+                CalculateAngle(mc->tarposx,mc->tarposy,
+                convertedToScreenX,convertedToScreenY));
+      mc->turnIndex++;
+      if(mc->turnIndex>50){
+       RemoveHealth(mc->target,p->str);
+       mc->turnIndex=1;
+       mc->combatMenuStage=1;
+      }//mc turnindex
+     break;
+    }//switch p sword
+   }//combat render phase
+
+}
+U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
+{
+ //Actors start by converting matrix x,y position to screen X,Y
+ I64 convertedToScreenX,convertedToScreenY;
+ Actor *toRender;
+ I64 npcOffsetX=-camera->cameraOffSetX; 
+ I64 npcOffsetY=-camera->cameraOffSetY;
+ Bool highlight =FALSE;    
+ if(npc!=PLAYER){
+   toRender = GetNPC(npc);
+   npcOffsetX=GetWalkOffsetX(toRender->walking), 
+   npcOffsetY=GetWalkOffsetY(toRender->walking);
+   convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;
+   convertedToScreenY = j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY;
+   toRender->screenX = convertedToScreenX;
+   toRender->screenY = convertedToScreenY;     
+   highlight = ConfigureCombatPose(toRender,p);
+ }else { 
+  toRender = p;
+  RenderPlayer(dc,p,npcOffsetX,npcOffsetY,i,j);
+  convertedToScreenX = p->screenX;
+  convertedToScreenY = p->screenY;
+ }//if player or not, visible
+  
+      
+ RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
+ 10, GetActorAnimationJob(toRender), highlight);
+}   
+
 U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
 {//draw npcs and items
  for(j=-1;j<12;j++){
   if(camera->topUD+j<wX&&camera->topUD+j>=0){
-    for(i=-1;i<12;i++){
-     if(camera->topLR+i<wY&&camera->topLR+i>=0){//ITEMS
-      MapNode *mn = GetTensorItem(world->level,
-                    camera->topLR+i,camera->topUD+j, 
-                    world->currentZ);
-      for(l=0;l<mn->len;l++){
-       I64 item = (GetItem(mn,l))->id;
-       switch(item){
-         case 1:
-         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
-              j*camera->dividY+camera->cameraOffSetY,10,
-              ITEM1);
-         break;
-         case 2:
-         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
-              j*camera->dividY+camera->cameraOffSetY,10,
-              ITEM2);
-         break;
-         case 999: 
-         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-2,
-              j*camera->dividY+camera->cameraOffSetY-16,10,
-              SPECIAL1);
-         break;
-         default:
-         break;
-       }
-      } 
-                
+   for(i=-1;i<12;i++){
+    if(camera->topLR+i<wY&&camera->topLR+i>=0){
+
+     DrawItemsOnLayer(dc,i,j,l);
      I64 npc= GetTensorNPC(world->level,
-              camera->topLR+i,camera->topUD+j,world->currentZ);     
-     //Actors start by converting matrix x,y position to screen X,Y
-     I64 convertedToScreenX,convertedToScreenY;
-     if(npc!=-1){
-      Actor *toRender;
-      I64 npcOffsetX=-camera->cameraOffSetX, npcOffsetY=-camera->cameraOffSetY;
-      
-      if(npc!=0){
-       toRender = GetNPC(npc);
-
-       npcOffsetX=GetWalkOffsetX(toRender->walking), 
-       npcOffsetY=GetWalkOffsetY(toRender->walking);
-       convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;
-       convertedToScreenY = j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY;
-       toRender->screenX = convertedToScreenX;
-       toRender->screenY = convertedToScreenY;     
-      }
-      else {
-       toRender = p;
-
-       if(camera->topLR==0||camera->topLR==wX-11)
-         npcOffsetX=GetWalkOffsetX(toRender->walking);
-       if(camera->topUD==0||camera->topUD==wY-11)
-         npcOffsetY=GetWalkOffsetY(toRender->walking);
-
-       convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;
-       convertedToScreenY = j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY;
-       p->screenX  = convertedToScreenX;
-       p->screenY = convertedToScreenY;
-       //render attack from player
-       if(mc->combatMenuSelection==CMS_STRIKE_DONE)
-       {
-        switch(p->sword)
-        {
-         case 0: //fist
-          PunchMove(dc,toRender, mc->tarposx,
-                    mc->tarposy-mc->turnIndex,
-                    CalculateAngle(mc->tarposx,mc->tarposy,
-                    convertedToScreenX,convertedToScreenY));
-          mc->turnIndex++;
-          if(mc->turnIndex>50)
-          {
-           RemoveHealth(mc->target,p->str);
-           mc->turnIndex=1;
-           mc->combatMenuStage=1;
-          }//mc turnindex
-         break;
-        }//switch p sword
-       }//combat render phase
-      }//if player or not, visible
-      
-      //COMBAT start initializations
-      //move enemy during combat turn 
-      if(toRender->ai_script==1)
-      { 
-       if(mc->combatON==FALSE   && toRender->ai_script==1&&
-          toRender->dead==FALSE && //(enemy)
-          Abs((p->x)-(toRender->x))<=AGGRO_DIS&& //(aggro distance)
-          Abs((p->y)-(toRender->y))<=AGGRO_DIS)
-       {
-         CombatQueInit(toRender);
-       }
-       RenderCombatVersion(toRender);
-      }
-      //optionally highlight targets for strikes
-      Bool highlight= FALSE;
-      if(mc->combatMenuSelection==CS_STRIKE&&toRender->id==ctp->ready->id)
-      {
-        highlight = TRUE;
-        mc->target = toRender;
-        mc->tarposx = convertedToScreenX;
-        mc->tarposy = convertedToScreenY;//change default target
-      }
-      
-       RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
-       10, GetActorAnimationJob(toRender), highlight);
+         camera->topLR+i,camera->topUD+j,world->currentZ);     
+     if(npc!=IT_NULL)
+      DrawActorsOnLayer(dc,npc,i,j,p);
            
-     }//if npc
-     }//if too large y
-    }//for y
-    }//if too large
-   }//for x
+           
+    }//if too large y
+   }//for y
+  }//if too large
+ }//for x
 
 
 }
