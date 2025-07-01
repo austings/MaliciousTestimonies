@@ -47,7 +47,7 @@ U0 InitMenuControl()
  mc->currentMenu=0;
  mc->cutsceneTarget=0;//switch cutscene frames
  mc->talkieScene = -1;//dialogID
- mc->dialogName = "???";//dialog actor name
+ mc->dialogName = "???";//dialog actor name
 
  mc->displayInventory=FALSE;
  mc->displayStats=FALSE;

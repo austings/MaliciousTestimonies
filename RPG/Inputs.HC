@@ -58,7 +58,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
 
 U0 KeyArrow(Actor *p)
 { //corresponds to DIR left, right, up, down
- if(!mc->combatON){
+ if(!mc->combatON&&p->walking==W_NOTWALKING){
   MoveActor(p,keys.pressed);
  }
  else{ 
@@ -176,7 +176,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
    if(M_X>=8 &&
       M_X< 60  &&
       M_Y>=116  &&
-      M_Y< 116+(3*camera->dividY)){
+      M_Y< 116+(3*camera->dividY)){
     ReleaseBody;
    }*/
 

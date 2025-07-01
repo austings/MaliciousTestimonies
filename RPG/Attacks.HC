@@ -59,31 +59,9 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file?
   ctp = combatCQue.next;
   mc->turnIndex = 1;
 
-
- if(!StrCmp(direct.cQueDirective,NoDirective)&&toInsert->race<=T_BENJ){
-  direct.x = toInsert->screenX;//(p->x)*camera->dividX;
-  direct.y = toInsert->screenY;//(p->y)*camera->dividY;
-  direct.a = toInsert;
+ if(toInsert->race<=T_BENJ)
+  AddDirective(T1READY, toInsert);
  
-  switch(toInsert->race){
-   case T_JUDA:
-    direct.cQueDirective = T1READY;  
-   break;
-   case T_LEVI:
-      direct.cQueDirective = T2READY;
-    break;
-   case T_EPHR:
-      direct.cQueDirective = T3READY;
-   break;
-   case T_BENJ:
-      direct.cQueDirective = T4READY;
-   break;
-  }
-  toInsert->visible=FALSE;
-  
-
- }
-
 }
 
 U0 RenderCombatVersion(Actor *toRender){
@@ -149,44 +127,5 @@ U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
 
 U0 PlayStrikeAnim(Actor *p)
 {
- if(!StrCmp(direct.cQueDirective,NoDirective))
- {
-  direct.x = p->screenX;//(p->x)*camera->dividX;
-  direct.y = p->screenY;//(p->y)*camera->dividY;
-  direct.a = p;
-  if(p->x<=mc->target->x){
-   direct.flip = TRUE;
-   SetActorHairRight(p);
-  }else {SetActorHairLeft(p);}
-
-  switch(p->race){
-   case T_JUDA:
-    switch(p->sword){
-     case 0: //fist
-      direct.cQueDirective = T1PUNCH;
-     break;
-    }  
-   break;
-   case T_LEVI:
-    switch(p->sword){
-     case 0: //fist
-      direct.cQueDirective = T2PUNCH;
-     break;
-    }   break;
-   case T_EPHR:
-    switch(p->sword){
-     case 0: //fist
-      direct.cQueDirective = T3PUNCH;
-     break;
-    }   break;
-   case T_BENJ:
-    switch(p->sword){
-     case 0: //fist
-      direct.cQueDirective = T4PUNCH;
-     break;
-    }   break;
-  }
-  p->visible=FALSE;
- }
- 
+ AddDirective(T1PUNCH,p); 
 }

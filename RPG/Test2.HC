@@ -237,7 +237,7 @@ U0 PlayAnimation(CDC *dc){
   ajc->frameDurationIndex=0;
   Animation *tmp = ajc->next;
   direct.animIndex = direct.animIndex+1;
-  if(StrCmp(direct.cQueDirective,tmp->name)!=0)
+  if(StrCmp(direct.cQueDirective,tmp->key)!=0)
   {
      ResetDirective;
      

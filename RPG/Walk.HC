@@ -1,25 +1,24 @@
-#define NoDirective "None"
+#define NoDirective -1
 
 class Animation:CQue{
   CDC *frame;
   I8 frameDuration,
      frameDurationIndex,
      xOffset, yOffset;
-  U8 *name;
+  I64 key;
   I8 frameIndex;
 } allAnimations;
 
 
 
-class Director{
-  U8 *cQueDirective;
+class Director:CQue{
+  I64 cQueDirective;
   I32 animIndex;
   I64 x; I64 y; I64 z;
   Bool flip;
   Actor *a;
 
 } direct;
-
 
 
 U0 SetActorHairLeft(Actor *a)
@@ -155,25 +154,25 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
         case W_IDLEDOWN://down
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,D2);
-          if(StrCmp(direct.cQueDirective,NoDirective)==0)
+          if(QueCnt(direct)==0)
            SetActorHairDown(a);
         break;
         case W_IDLEUP://up
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,U2);
-          if(StrCmp(direct.cQueDirective,NoDirective)==0)
+          if(QueCnt(direct)==0)
            SetActorHairUp(a);
         break;
         case W_IDLERIGHT://right
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,R2);
-          if(StrCmp(direct.cQueDirective,NoDirective)==0)
+          if(QueCnt(direct)==0)
            SetActorHairRight(a);
         break;
         case W_IDLELEFT://left
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,L2);
-          if(StrCmp(direct.cQueDirective,NoDirective)==0)
+          if(QueCnt(direct)==0)
            SetActorHairLeft(a);
         break;
        }
@@ -309,7 +308,7 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
                         A4D1, A4D2, A4D3, -6);
 
    break;
-
+
   }
 
  GrBlot3(completeActor,0,0,10,GetHair(a->hair));
@@ -317,5 +316,106 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
  
  return completeActor; 
        
+
+}
+
+
+U0 AddDirective(I64 directive, Actor *p)
+{
+ //TODO:this sucks
+ Director *task = direct.next;
+ I64 i =0; Bool free=FALSE;
+ for(i=0;i!=QueCnt(direct);i++){
+  if(task->cQueDirective==NoDirective)
+  {
+   free = TRUE;
+   break;
+  }
+  task = task->next;
+ }
+ if(!free){
+  task = MAlloc(sizeof(Director));
+  task->a = MAlloc(sizeof(Actor));
+ }
+ //while(StrCmp(direct.cQueDirective,NoDirective))
+// {
+ // direct = direct.next;
+ //}
+ task->x = p->screenX;//(p->x)*camera->dividX;
+ task->y = p->screenY;//(p->y)*camera->dividY;
+ task->a = p;
+ switch(directive)
+ {
+  case T1FISH...T4FISH:
+   switch(p->race){
+    case T_JUDA:
+     task->cQueDirective = T1FISH;
+    break;
+    case T_LEVI:
+     task->cQueDirective = T2FISH;
+    break;
+    case T_EPHR:
+     task->cQueDirective = T3FISH;
+    break;
+    case T_BENJ:
+     task->cQueDirective = T4FISH;
+    break;
+   }
+  break;
+  case T1READY...T4READY:
+   switch(p->race){
+    case T_JUDA:
+     task->cQueDirective = T1READY;  
+    break;
+    case T_LEVI:
+     task->cQueDirective = T2READY;
+    break;
+    case T_EPHR:
+     task->cQueDirective = T3READY;
+    break;
+    case T_BENJ:
+     task->cQueDirective = T4READY;
+    break;
+   }
+  break;
+  case T1PUNCH...T4PUNCH:
+  if(p->x<=mc->target->x){
+   task->flip = TRUE;
+   SetActorHairRight(p);
+  }else {SetActorHairLeft(p);}
+  switch(p->race){
+   case T_JUDA:
+    switch(p->sword){
+     case 0: //fist
+      task->cQueDirective = T1PUNCH;
+     break;
+    }  
+   break;
+   case T_LEVI:
+    switch(p->sword){
+     case 0: //fist
+      task->cQueDirective = T2PUNCH;
+     break;
+    }   break;
+   case T_EPHR:
+    switch(p->sword){
+     case 0: //fist
+      task->cQueDirective = T3PUNCH;
+     break;
+    }
+   break;
+   case T_BENJ:
+    switch(p->sword){
+     case 0: //fist
+      task->cQueDirective = T4PUNCH;
+     break;
+    }
+   break;
+  }
+  break;
+ }
+ if(!free)
+  QueIns(task,direct.last); 
+ p->visible=FALSE;
 
 }
