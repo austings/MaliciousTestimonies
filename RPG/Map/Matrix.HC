@@ -255,6 +255,19 @@ Bool GetMatrixSolid(Matrix *m, I64 row, I64 col)
 
 }
 
+U0 FlipMatrixSolid(Matrix *m,I64 row, I64 col)
+{
+  I64 i=0;
+  while(i<row)
+  { 
+   m = m->next;
+   i++;
+
+  }
+
+ FlipVectorSolid(m->data,col);
+}
+
 //returns the Vector at row x.
 Vector *GetMatrixVector(Matrix *m, I64 row)
 {

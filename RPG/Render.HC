@@ -178,7 +178,7 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
  I64 npcOffsetY=-camera->cameraOffSetY;
  Bool highlight =FALSE;    
  if(npc!=PLAYER){
-   toRender = GetNPC(npc);
+   toRender = GetNPC(npc);
    npcOffsetX=GetWalkOffsetX(toRender->walking), 
    npcOffsetY=GetWalkOffsetY(toRender->walking);
    convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;

@@ -22,7 +22,7 @@ Vector *CreateVector(I32 size)
  
  for(i=0;i<size;i++)
  {
-  v->data[i] = CAlloc(sizeof(MapNode));
+  v->data[i] = CAlloc(sizeof(MapNode));
   v->data[i]->bg = 0;
   v->data[i]->len = 0;
   v->data[i]->hasNPC = FALSE;
@@ -116,10 +116,20 @@ U0 SetVector(Vector *v,F64 d,I32 i)
 {
 
  v->data[i]->bg = d; 
- if(d==17||d==1||d==2)
+ if(d==BG_DK_GRAY||d==BG_BLUE||d==BG_CYAN||d==SOLID_BG_GREEN)
   v->data[i]->isSolid=TRUE;
  else
   v->data[i]->isSolid=FALSE;
+
+}
+
+//flip Vector v solidity at data position i 
+U0 FlipVectorSolid(Vector *v,I32 i)
+{
+ //if(v->data[i]->isSolid)
+ // v->data[i]->isSolid=FALSE;
+// else
+  v->data[i]->isSolid=TRUE;
 
 }
 

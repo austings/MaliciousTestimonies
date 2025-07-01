@@ -52,7 +52,7 @@ U0 CombatTurnArrows(Actor *p)
       if(keys.pressed==DIR_DOWN){
        mc->combatMenuSelection++;
       }
-      if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+      if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
      break;
      case 3:
      if(keys.pressed==DIR_DOWN){

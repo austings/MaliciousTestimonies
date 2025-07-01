@@ -5,7 +5,7 @@
 
 // Load built-in Graphics
 #include "Sprites/SS1.HC"; 
-#include "Sprites/SpriteSheet1.HC";
+#include "Sprites/SpriteSheet1.HC";
 #include "Sprites/SpriteSheet2.HC";
 #include "Sprites/SpriteSheet3.HC";
 #include "Sprites/SpriteSheet4.HC";

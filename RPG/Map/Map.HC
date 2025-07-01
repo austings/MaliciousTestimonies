@@ -32,7 +32,7 @@ static CDC*		ITEM2I = FramePtr("WINV015");
 
 
 #define IT_TOOTH 	3
-static CDC*		ITEM3; //wolf tooth
+static CDC*		ITEM3; //wolf tooth
 static CDC*		ITEM3I;
 
 #define IT_FISH1        4
@@ -54,6 +54,7 @@ static CDC* ITEM050= FramePtr("ITEM050");
 
 //Tile Codes
 #define BG_GREEN	0
+#define SOLID_BG_GREEN	110
 #define BG_BLUE		1
 #define BG_CYAN		2
 #define BG_BROWN	3
@@ -96,6 +97,7 @@ U8 *GetBG(I64 id)
   U8 *color = BLUE; 
   switch(id)
   {
+   case SOLID_BG_GREEN:
    case BG_GREEN:
     color = GREEN;
     break;

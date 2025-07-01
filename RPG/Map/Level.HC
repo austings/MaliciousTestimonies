@@ -46,7 +46,8 @@ Matrix *MakeCastle(Matrix *toAdd)
   SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
   SetMatrixNPC(toAdd,A_WILD_DOG,8,8);//wild dog
   SetMatrixNPC(toAdd,A_OX_CART,1,21);
-  SetMatrixNPC(toAdd,A_MAKABEE,6,19);
+ // FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
+  SetMatrixNPC(toAdd,A_MAKABEE,6,19);
   SetMatrixNPC(toAdd,A_FOWL,22,22);
 
   //Items
@@ -54,7 +55,7 @@ Matrix *MakeCastle(Matrix *toAdd)
   SetMatrixItem(toAdd,IT_DAGGER,2,1);
   SetMatrixItem(toAdd,IT_DAGGER,3,1);
   SetMatrixItem(toAdd,IT_DAGGER,4,1);
-  SetMatrixItem(toAdd,IT_HARPOON,5,20);
+  SetMatrixItem(toAdd,IT_HARPOON,5,23);
   //water and sand
   for(i=0;i<50;i++)
   {
@@ -85,7 +86,16 @@ Matrix *MakeCastle(Matrix *toAdd)
   SetMatrix(toAdd,BG_BROWN,6,25);
   SetMatrix(toAdd,BG_BROWN,6,26);
   SetMatrixItem(toAdd,SP_FISHING_SPOT,6,26);
- 
+
+  //FlipMatrixSolid(toAdd,2,21);  FlipMatrixSolid(toAdd,3,21);
+  //FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);
+  //TODO fix flip matrix doesnt work for some reason so i made this
+ //alternative grass. 
+   SetMatrix(toAdd,SOLID_BG_GREEN,5,21);
+   SetMatrix(toAdd,SOLID_BG_GREEN,2,21);
+   SetMatrix(toAdd,SOLID_BG_GREEN,3,21);
+   SetMatrix(toAdd,SOLID_BG_GREEN,4,21);
+
 
 
   return toAdd;

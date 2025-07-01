@@ -227,7 +227,7 @@ CDC *GetActorAnimationJob(Actor *a)
  }
  if(a->race==6){
    Sprite3B(completeActor,0,32,10,GetOx);
- }
+ }
 
  return completeActor;
 
