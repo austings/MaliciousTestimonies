@@ -735,17 +735,36 @@ CDC *RenderInventory(Actor *p)
         //not visible
        break;
        case IT_DAGGER://dagger   
-        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM1I);
+        GrBlot3(newInventoryRender,
+                i*camera->dividX-2,j*camera->dividY+270,
+                0,ITEM1I);
        break;
        case IT_HARPOON://harpoon   
-        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+302,0,ITEM2I);
+        GrBlot3(newInventoryRender,
+                i*camera->dividX-2,j*camera->dividY+302,
+                0,ITEM2I);
        break;
        case IT_TOOTH://wolfteeth
-        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+270,0,ITEM3I);
+        GrBlot3(newInventoryRender,
+                i*camera->dividX-2,j*camera->dividY+270,
+                0,ITEM3I);
        break;
        case IT_FISH1://fish
-        GrBlot3(newInventoryRender,i*camera->dividX-2,j*camera->dividY+312,0,ITEM4I);
+        GrBlot3(newInventoryRender,
+                i*camera->dividX-2,j*camera->dividY+312,
+                0,ITEM4I);
        break;
+       case IT_HELM://iron helm
+        GrBlot3(newInventoryRender,
+                i*camera->dividX-2,j*camera->dividY+312,
+                0,ITEM5I);
+       break;
+       case IT_SHIRT://regular shirt
+        GrBlot3(newInventoryRender,
+                i*camera->dividX-2,j*camera->dividY+312,
+                0,ITEM6I);
+       break;
+
       }
       //Free(&retrieved);
      }

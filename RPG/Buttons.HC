@@ -112,6 +112,7 @@ U0 PrayerFilters(I64 M_X, I64 M_Y,I64 i, I64 j)
  }
 
 }
+
 U0 ReleaseSword()
 {
  //switch from inv to sword, del from inv
@@ -126,6 +127,38 @@ U0 ReleaseSword()
  RemoveItemLoc(mc->draggingItem);                 
 
 }
+
+U0 ReleaseBody()
+{
+ //switch from inv to body, del from inv
+ I64 equip =  GetNPC(0)->armor;
+ if(equip!=0){
+  AddItemToInventory(0,GetNPC(0)->armor);
+ }
+ GetNPC(0)->armor =mc->draggingID;
+
+ mc->reRenderInv=TRUE;
+ mc->draggingInv=FALSE; 
+ RemoveItemLoc(mc->draggingItem);                 
+
+}
+
+U0 ReleaseHelm()
+{
+ //switch from inv to helm, del from inv
+ I64 equip =  GetNPC(0)->hat;
+ if(equip!=0){
+  AddItemToInventory(0,GetNPC(0)->hat);
+ }
+ GetNPC(0)->hat =mc->draggingID;
+
+ mc->reRenderInv=TRUE;
+ mc->draggingInv=FALSE; 
+ RemoveItemLoc(mc->draggingItem);                 
+
+}
+
+
 
 //check if user click or release for each 'button' of inventory
 //i: inv width

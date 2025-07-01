@@ -166,7 +166,20 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
       M_Y>=116  &&
       M_Y< 116+(3*camera->dividY)){
     ReleaseSword;
+   }/*TODO: measure
+   if(M_X>=8 &&
+      M_X< 60  &&
+      M_Y>=116  &&
+      M_Y< 116+(3*camera->dividY)){
+    ReleaseHelm;
    }
+   if(M_X>=8 &&
+      M_X< 60  &&
+      M_Y>=116  &&
+      M_Y< 116+(3*camera->dividY)){
+    ReleaseBody;
+   }*/
+
   }
   //check inventory region
   for(i=0;i<INVWIDTH;i++){

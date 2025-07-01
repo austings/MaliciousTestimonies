@@ -91,15 +91,26 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
               ITEM1);
     break;
    case IT_HARPOON:
-         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
+    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
               j*camera->dividY+camera->cameraOffSetY,10,
               ITEM2);
     break;
+   case IT_HELM:
+    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
+              j*camera->dividY+camera->cameraOffSetY,10,
+              ITEM5);
+   break;
+   case IT_SHIRT:
+    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
+              j*camera->dividY+camera->cameraOffSetY,10,
+              ITEM6);
+    break;
    case SP_FISHING_SPOT: 
-         GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-2,
+    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-2,
               j*camera->dividY+camera->cameraOffSetY-16,10,
               SPECIAL1);
     break;
+
    default:
     break;
   }

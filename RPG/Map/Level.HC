@@ -23,6 +23,8 @@ Matrix *MakeCastle(Matrix *toAdd)
   {
    if(i!=18&&i!=19&&i)
     SetMatrix(toAdd,BG_DK_GRAY,i,14);
+   else
+    SetMatrix(toAdd,BG_LT_RED,i,14);
   }
   //floor
   for(i=13;i<25;i++)
@@ -35,6 +37,24 @@ Matrix *MakeCastle(Matrix *toAdd)
      SetMatrix(toAdd,BG_LT_RED,i,j);
    }
   }
+  //street
+  for(i=0;i<51;i++){
+   for(j=15;j<19;j++){
+    SetMatrix(toAdd,BG_LT_GRAY,i,j);
+   }
+  }
+ //path
+ Bool alt = TRUE;
+  for(i=6;i<=8;i++){
+   for(j=0;j<15;j++){
+    if(alt)
+     SetMatrix(toAdd,BG_BROWN,i,j);
+    else
+     SetMatrix(toAdd,BG_YELLOW,i,j);
+    alt = !alt;
+   }
+  }
+
   
   //Other buildings
 
@@ -45,16 +65,32 @@ Matrix *MakeCastle(Matrix *toAdd)
   SetMatrixNPC(toAdd,A_GUARD,20,15);//guard
   SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
   SetMatrixNPC(toAdd,A_WILD_DOG,8,8);//wild dog
+  //SetMatrixNPC(toAdd,11,8,8);//wild dogs
+  //SetMatrixNPC(toAdd,12,9,12);
+  //SetMatrixNPC(toAdd,13,25,50);
+  //SetMatrixNPC(toAdd,14,27,8);
+  //SetMatrixNPC(toAdd,15,29,10);
+ // SetMatrixNPC(toAdd,16,30,6);
+ // SetMatrixNPC(toAdd,17,34,9);
+ // SetMatrixNPC(toAdd,18,32,3);
+
   SetMatrixNPC(toAdd,A_OX_CART,1,21);
- // FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
+ // FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
   SetMatrixNPC(toAdd,A_MAKABEE,6,19);
   SetMatrixNPC(toAdd,A_FOWL,22,22);
+  //SetMatrixNPC(toAdd,21,20,24);
+  //SetMatrixNPC(toAdd,22,21,25);
+  //SetMatrixNPC(toAdd,23,19,19);
+  //SetMatrixNPC(toAdd,24,19,25);
 
   //Items
   SetMatrixItem(toAdd,IT_DAGGER,1,1);
   SetMatrixItem(toAdd,IT_DAGGER,2,1);
   SetMatrixItem(toAdd,IT_DAGGER,3,1);
   SetMatrixItem(toAdd,IT_DAGGER,4,1);
+  SetMatrixItem(toAdd,IT_HELM,5,1);
+  SetMatrixItem(toAdd,IT_SHIRT,6,1);
+
   SetMatrixItem(toAdd,IT_HARPOON,5,23);
   //water and sand
   for(i=0;i<50;i++)
@@ -91,7 +127,7 @@ Matrix *MakeCastle(Matrix *toAdd)
   //FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);
   //TODO fix flip matrix doesnt work for some reason so i made this
  //alternative grass. 
-   SetMatrix(toAdd,SOLID_BG_GREEN,5,21);
+   SetMatrix(toAdd,SOLID_BG_GREEN,5,21);
    SetMatrix(toAdd,SOLID_BG_GREEN,2,21);
    SetMatrix(toAdd,SOLID_BG_GREEN,3,21);
    SetMatrix(toAdd,SOLID_BG_GREEN,4,21);

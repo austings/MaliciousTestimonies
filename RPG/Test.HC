@@ -332,7 +332,7 @@ Actor *GetNPC(I64 id)
    if(loaded2->id==id)
    {
      return loaded2;
-   } else if(loaded3->id==id)
+   } else if(loaded3->id==id)
    {
      return loaded3;
    } else if(loaded4->id==id)
@@ -479,7 +479,7 @@ I64 InvNPCCount(Actor *a)
 }
 
 InitActors(0);
-
-"\nname:%s\n",loaded7->name;
-"\nid:%d\n",loaded7->id;
-"\nrace:%d\n",loaded7->race;
+loaded2 = GetNPC(1);
+"\nname:%s\n",loaded2->name;
+"\nid:%d\n",loaded2->id;
+"\nrace:%d\n",loaded2->race;

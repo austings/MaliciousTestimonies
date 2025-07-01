@@ -252,7 +252,7 @@ U0 ReadNPC(I64 id)
 //   return loaded4;
   break;
   case 4:
-   loaded5 = DeserializeNPC(id);
+   loaded5 = DeserializeNPC(id);
    loaded++;
  //  return loaded5;
   break;
@@ -282,9 +282,8 @@ U0 ReadNPC(I64 id)
  //  return loaded10;
   break;
   case 10://max 10
-  loaded =1;
-  loaded2 = DeserializeNPC(id);
-  loaded++;
+  loaded1 = DeserializeNPC(id);
+  loaded=1;
   break;
  }
 
@@ -301,8 +300,11 @@ Actor *GetNPC(I64 id)
   }
   
   for(i=0;i<2;i++)
-  {
-   if(loaded2->id==id)
+  {   
+   if(loaded1->id==id)
+   {
+     return loaded1;
+   }else if(loaded2->id==id)
    {
      return loaded2;
    } else if(loaded3->id==id)
@@ -451,4 +453,3 @@ I64 InvNPCCount(Actor *a)
   return 0;
 }
 
-

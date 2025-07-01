@@ -29,7 +29,7 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
 
    if(area==(item->h)*(item->w))
    {
-    QueIns(item,p->myInv->collection->last);
+    QueIns(item,p->myInv->collection->last);
     //PopUpPrint( "item added");
     I64 cnt = ++p->myInv->count;
     
