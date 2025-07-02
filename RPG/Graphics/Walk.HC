@@ -192,6 +192,43 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
 
 }
 
+Bool HasDirective(I64 directive,Actor *a)
+{
+ Director *task = direct.next;
+ I64 i =0; Bool free=FALSE;
+ for(i=0;i!=QueCnt(direct);i++){
+  if(task->cQueDirective==directive)
+  {
+   if(task->a->id==a->id)
+    free = TRUE;
+   break;
+  }
+  task = task->next;
+ }
+ return free;
+}
+
+//update directive id by actor and directive
+//inherently checks Has
+Bool UpdateDirective(I64 directive,Actor *p,I64 x, I64 y, I64 z)
+{
+ Director *task = direct.next;
+ I64 i =0; Bool free=FALSE;
+ for(i=0;i!=QueCnt(direct);i++){
+  if(task->cQueDirective==directive)
+  {
+   if(task->a->id==p->id)
+   {
+    task->x = x; task->y = y; task->z = z;
+    free = TRUE;
+   }
+   break;
+  }
+  task = task->next;
+ }
+ return free;
+ 
+}
 
 U0 AddDirective(I64 directive, Actor *p)
 {

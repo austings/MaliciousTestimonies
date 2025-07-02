@@ -155,7 +155,7 @@ I64 GetActorScreenX(Actor *a, I64 npcox, I64 i, Bool Player=TRUE)
  }else
  {
    npcox=GetWalkOffsetX(a->walking), 
-   a->screenX = i*camera->dividX-13+npcox+(2*camera->cameraOffSetX);
+   a->screenX = i*camera->dividX-13+npcox+(2*camera->cameraOffSetX);
   return a->screenX;
  }
 }
@@ -179,8 +179,11 @@ I64 GetActorScreenY(Actor *a, I64 npcoy, I64 j,Bool Player=TRUE)
 Actor *RenderPlayer(CDC *dc, Actor *p,
                     I64 npcox,I64 npcoy,I64 i,I64 j)
 {
+ if(!HasDirective(BOUNCE,p))
+ {
   GetActorScreenX(p,npcox,i);
   GetActorScreenY(p,npcoy,j);
+ }
  //render attack from player
    if(mc->combatMenuSelection==CMS_STRIKE_DONE){
     switch(p->sword)
@@ -212,8 +215,16 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
  Bool highlight =FALSE;    
  if(npc!=PLAYER){
    toRender = GetNPC(npc);
-   GetActorScreenX(toRender,npcOffsetX,i,FALSE);
-   GetActorScreenY(toRender,npcOffsetY,j,FALSE);
+   Bool animated = HasDirective(BOUNCE,toRender);
+   if(!animated)
+   { GetActorScreenX(toRender,npcOffsetX,i,FALSE),
+     GetActorScreenY(toRender,npcOffsetY,j,FALSE);
+   }
+   if(animated&&GetNPC(PLAYER)->walking!=DIR_IDLE){
+    UpdateDirective(BOUNCE,toRender,    
+     GetActorScreenX(toRender,npcOffsetX,i,FALSE),
+     GetActorScreenY(toRender,npcOffsetY,j,FALSE),0);
+   }
    highlight = ConfigureCombatPose(toRender,p);
  }else { 
   toRender = RenderPlayer(dc,p,npcOffsetX,npcOffsetY,i,j);
