@@ -65,7 +65,7 @@ I64 GetDir(Actor *a)
       return DIR_RIGHT;
      break;
      case W_IDLELEFT:
-      return DIR_LEFT;
+      return DIR_LEFT;
      break;
     }
    break;
@@ -324,15 +324,17 @@ U0 SetActorHairDown(Actor *a)
 
 
 
-U0 ShowBody(CDC *dc=gr.dc,I64 armor,I64 dir )
+CDC *ShowBody(I64 armor,I64 dir )
 {
+ CDC *armorPiece = DCNew(100,100);
+ DCFill(armorPiece,TRANSPARENT);
  switch(armor)
  { 
   case IT_SHIRT:
-   Sprite3B(dc,12,14,10,GetClothArmor(dir));
+   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
   break;
  }
-
+ return armorPiece;
 }
 U0 OverlayArmor(CDC *dc, Actor *toRender)
 {
@@ -344,7 +346,7 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
  }
 */
  I64 dir = GetDir(toRender);
- ShowBody(dc,toRender->armor,dir);
+ GrBlot3(dc,0,0,0,ShowBody(toRender->armor,dir));
  
 
 

@@ -1,10 +1,10 @@
 // Construct Graphics from WAD
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
-#include "Data/Ids.HC";
+#include "Data/Ids.HC";
 
 // Load built-in Graphics
-#include "Sprites/SS1.HC"; 
+#include "Sprites/SS1.HC"; 
 #include "Sprites/SpriteSheet1.HC";
 #include "Sprites/SpriteSheet2.HC";
 #include "Sprites/SpriteSheet3.HC";
