@@ -185,7 +185,6 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
 
   }
 
- GrBlot3(completeActor,0,0,10,GetHair(a->hair));
 
  
  return completeActor; 

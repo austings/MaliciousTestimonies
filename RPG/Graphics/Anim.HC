@@ -306,6 +306,7 @@ CDC *GetActorAnimationJob(Actor *a)
  }
 
  OverlayArmor(completeActor,a);
+ GrBlot3(completeActor,0,0,10,GetHair(a->hair));
  return completeActor;
 
 }
@@ -533,7 +534,7 @@ U8 GetWalkOffsetY(U8 walkdir){
   case 3://up straight start
    YOffset=40;
   break;
-  case 4://down straight start
+  case 4://down straight start
    YOffset=-40;
   break;
   case 5://left left leg
