@@ -252,7 +252,7 @@ U0 ReadNPC(I64 id)
 //   return loaded4;
   break;
   case 4:
-   loaded5 = DeserializeNPC(id);
+   loaded5 = DeserializeNPC(id);
    loaded++;
  //  return loaded5;
   break;

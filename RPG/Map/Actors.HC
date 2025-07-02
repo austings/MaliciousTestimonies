@@ -25,7 +25,7 @@ class Actor
 #define PLAYER  00
 #define A_KING  01
 #define A_JEZEBEL 02
-#define A_ELIJAH 03
+#define A_ELIJAH 03
 #define A_CAPTAIN 04
 #define A_GUARD 05
 #define A_WILD_DOG 06

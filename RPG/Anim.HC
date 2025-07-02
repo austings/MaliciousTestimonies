@@ -82,7 +82,6 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(AAE124,T2PUNCH,9),allAnimations.last);
    QueIns(AddFrame(AAE125,T2PUNCH,10),allAnimations.last);
    QueIns(AddFrame(AAE126,T2PUNCH,11),allAnimations.last);
-
   break;
   case T3PUNCH:
    QueIns(AddFrame(AAE169,T3PUNCH,0),allAnimations.last);
@@ -112,6 +111,30 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(AAE17,T4PUNCH,10),allAnimations.last);
    QueIns(AddFrame(AAE18,T4PUNCH,11),allAnimations.last);     
   break;
+  case T1DAGGER:
+   QueIns(AddFrame(AAE7,T1DAGGER,0),allAnimations.last);
+  break;
+  case T2DAGGER:
+   QueIns(AddFrame(AAE7,T2DAGGER,0),allAnimations.last);
+  break;
+  case T3DAGGER:
+   QueIns(AddFrame(AAE7,T3DAGGER,0),allAnimations.last);
+  break;
+  case T4DAGGER:
+   QueIns(AddFrame(AAE7,T4DAGGER,0),allAnimations.last);
+  break;
+  case T1SPEAR:
+   QueIns(AddFrame(AAE7,T1SPEAR,0),allAnimations.last);
+  break;
+  case T2SPEAR:
+   QueIns(AddFrame(AAE7,T2SPEAR,0),allAnimations.last);
+  break;
+  case T3SPEAR:
+   QueIns(AddFrame(AAE7,T3SPEAR,0),allAnimations.last);
+  break;
+  case T4SPEAR:
+   QueIns(AddFrame(AAE7,T4SPEAR,0),allAnimations.last);
+  break;
  }
 }
 
@@ -126,20 +149,6 @@ U0 ResetDirective(Director *task)
   
 }
 
-CDC* DCFlippedX(CDC* src, Director *task){
- if(task->flip){
-  I64 x, y;
-  CDC* dst = DCNew(src->width, src->height);
-  for (y = 0; y < src->height; y++) {
-   for (x = 0; x < src->width; x++) {
-    dst->body[y * src->width_internal + x] =
-    src->body[y * src->width_internal + (src->width - 1 - x)];
-   }
-  }
-  return dst;
- }
- return src;
-}
 
 U0 FreeTask(Director *task)
 {
@@ -172,11 +181,20 @@ U0 PlayAnimation(CDC *dc,Director *task){
      goto taskend; 
    }
   }
-
-  GrBlot3(dc,task->x+ajc->xOffset,
+  if(task->flip){
+   GrBlot3(dc,task->x+ajc->xOffset,
              task->y+ajc->yOffset,
              task->z+100,
-             DCFlippedX(ajc->frame,task));
+             DCFlippedX(ajc->frame));
+    
+  }else{
+  
+   GrBlot3(dc,task->x+ajc->xOffset,
+             task->y+ajc->yOffset,
+             task->z+100,
+             ajc->frame);
+  }
+
   taskend:
   //task = task->next;
   
@@ -202,7 +220,17 @@ U0 InitializeAnimator(){
   CreateAnimation(T2PUNCH);
   CreateAnimation(T3PUNCH);
   CreateAnimation(T4PUNCH);
-  //load all animations into the hashtable 
+
+  CreateAnimation(T1DAGGER);
+  CreateAnimation(T2DAGGER);
+  CreateAnimation(T3DAGGER);
+  CreateAnimation(T4DAGGER);
+ 
+  CreateAnimation(T1SPEAR);
+  CreateAnimation(T2SPEAR);
+  CreateAnimation(T3SPEAR);
+  CreateAnimation(T4SPEAR);
+ //load all animations into the hashtable 
 }
 
 

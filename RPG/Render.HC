@@ -446,7 +446,7 @@ U0 DrawHealthMana(CDC *dc,Actor *p,I64 i, I64 j){
      GrLine(dc,575,315,618,315);
      GrFloodFill(dc,610,332,TRUE);
      dc->color=WHITE;                
-     break;
+     break;
     case 91...95:
      GrLine(dc,585,310,606,310);
      GrFloodFill(dc,610,332,TRUE); 

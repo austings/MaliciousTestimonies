@@ -54,7 +54,7 @@ Tensor3D *CreateTensor(Vector *tensorShape)
     t->next = t;
     break;
 
-   case 2:
+   case 2:
     x = GetVector(t->shape,0);
     y = GetVector(t->shape,1);
     t->data = CreateMatrix(x,y); 

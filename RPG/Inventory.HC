@@ -3,6 +3,7 @@
 #define EQ_SLOT_WEP	1
 #define EQ_SLOT_BDY	2
 #define EQ_SLOT_HLM	3
+#define EQ_SLOT_RNG	4
 
 #define INVWIDTH 11
 #define INVHEIGHT 4
@@ -70,7 +71,7 @@ Item *MakeItem(I64 id){
   build->v3="WIS-1";
   build->value = 25;
   break;
-  case IT_SHIRT:
+  case IT_SHIRT:
   build->name = "Common Shirt";
   build->w=2,build->h=3;
   build->hOff=32;

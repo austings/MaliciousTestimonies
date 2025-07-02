@@ -75,7 +75,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  // SetMatrixNPC(toAdd,18,32,3);
 
   SetMatrixNPC(toAdd,A_OX_CART,1,21);
- // FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
+ // FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
   SetMatrixNPC(toAdd,A_MAKABEE,6,19);
   SetMatrixNPC(toAdd,A_FOWL,22,22);
   //SetMatrixNPC(toAdd,21,20,24);
@@ -136,4 +136,4 @@ Matrix *MakeCastle(Matrix *toAdd)
 
   return toAdd;
  
-}
+}

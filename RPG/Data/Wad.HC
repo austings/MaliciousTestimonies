@@ -1,3 +1,45 @@
+
+
+//by austin inspired by Alec Murphy
+CDC* DCFlippedX(CDC* src){
+  I64 x, y;
+  CDC* dst = DCNew(src->width, src->height);
+  for (y = 0; y < src->height; y++) {
+   for (x = 0; x < src->width; x++) {
+    dst->body[y * src->width_internal + x] =
+    src->body[y * src->width_internal + (src->width - 1 - x)];
+   }
+  }
+  return dst;
+}
+
+CDC *DCScaled(CDC* src, F64 scale_x, F64 scale_y) {
+    if (scale_x <= 0 || scale_y <= 0) return NULL;
+
+    I64 new_width = (I64)(src->width * scale_x);
+    I64 new_height = (I64)(src->height * scale_y);
+    CDC* dst = DCNew(new_width, new_height);
+
+    I64 x, y;
+    for (y = 0; y < new_height; y++) {
+        for (x = 0; x < new_width; x++) {
+            // Nearest-neighbor scaling
+            I64 src_x = (I64)(x / scale_x);
+            I64 src_y = (I64)(y / scale_y);
+
+            // Clamp to source bounds
+            if (src_x >= src->width) src_x = src->width - 1;
+            if (src_y >= src->height) src_y = src->height - 1;
+
+            dst->body[y * dst->width_internal + x] =
+                src->body[src_y * src->width_internal + src_x];
+        }
+    }
+
+    return dst;
+}
+
+
 /* StrSplit
   Date Created: 2025-06-20
   Author Name: M.A. Reyes
@@ -546,4 +588,3 @@ found_pstart:
 LoadWadGr(wad);
 
 
-

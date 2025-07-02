@@ -344,12 +344,14 @@ U0 AddDirective(I64 directive, Actor *p)
  task->x = p->screenX;//(p->x)*camera->dividX;
  task->y = p->screenY;//(p->y)*camera->dividY;
  task->a = p;
+ task->flip = FALSE;
+
  switch(directive)
  {
-  case T1FISH...T4FISH:
+  case T1FISH...T4FISH:
    switch(p->race){
-    case T_JUDA:
-     task->cQueDirective = T1FISH;
+    case T_JUDA:// T1FISH;
+     task->cQueDirective =T1FISH;
     break;
     case T_LEVI:
      task->cQueDirective = T2FISH;
@@ -386,28 +388,53 @@ U0 AddDirective(I64 directive, Actor *p)
   switch(p->race){
    case T_JUDA:
     switch(p->sword){
-     case 0: //fist
+     case IT_FIST: //fist
       task->cQueDirective = T1PUNCH;
+     break;
+     case IT_DAGGER: 
+      task->cQueDirective = T1DAGGER;
+     break;
+     case IT_HARPOON: 
+      task->cQueDirective = T1SPEAR;
      break;
     }  
    break;
    case T_LEVI:
     switch(p->sword){
-     case 0: //fist
+     case IT_FIST: //fist
       task->cQueDirective = T2PUNCH;
      break;
-    }   break;
+     case IT_DAGGER: 
+      task->cQueDirective = T2DAGGER;
+     break;
+     case IT_HARPOON: 
+      task->cQueDirective = T2SPEAR;
+     break;
+    }  
+   break;
    case T_EPHR:
     switch(p->sword){
-     case 0: //fist
+     case IT_FIST: //fist
       task->cQueDirective = T3PUNCH;
+     break;
+     case IT_DAGGER: 
+      task->cQueDirective = T3DAGGER;
+     break;
+     case IT_HARPOON: 
+      task->cQueDirective = T3SPEAR;
      break;
     }
    break;
    case T_BENJ:
     switch(p->sword){
-     case 0: //fist
+     case IT_FIST: //fist
       task->cQueDirective = T4PUNCH;
+     break;
+     case IT_DAGGER: 
+      task->cQueDirective = T4DAGGER;
+     break;
+     case IT_HARPOON: 
+      task->cQueDirective = T4SPEAR;
      break;
     }
    break;

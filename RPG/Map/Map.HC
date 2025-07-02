@@ -21,6 +21,7 @@ class MapNode
 #define INVHEIGHT	4
 //items
 #define IT_NULL		-1
+#define IT_FIST		0 //nothing
 #define IT_DAGGER 	1
 static CDC*		ITEM1= FramePtr("ITEM008"); //dagger
 static CDC*		ITEM1I = FramePtr("WINV001");
@@ -60,7 +61,7 @@ static CDC* ITEM050= FramePtr("ITEM050");
 
 //Tile Codes
 #define BG_GREEN	0
-#define SOLID_BG_GREEN	110
+#define SOLID_BG_GREEN	110
 #define BG_BLUE		1
 #define BG_CYAN		2
 #define BG_BROWN	3

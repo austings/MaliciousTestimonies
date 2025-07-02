@@ -115,6 +115,13 @@ U0 PrayerFilters(I64 M_X, I64 M_Y,I64 i, I64 j)
 
 U0 ReleaseSword()
 {
+ if(mc->draggingItem->equip_slot!=EQ_SLOT_WEP){
+  //this should just cancel the drag but its a bit more complicated than that
+  //AddItemToInventory(0,mc->draggingID);        
+  //mc->reRenderInv=TRUE;
+  //mc->draggingInv=FALSE; 
+
+ }
  //switch from inv to sword, del from inv
  I64 equip =  GetNPC(0)->sword;
  if(equip!=0){
@@ -130,6 +137,13 @@ U0 ReleaseSword()
 
 U0 ReleaseBody()
 {
+ if(mc->draggingItem->equip_slot!=EQ_SLOT_BDY){
+  //AddItemToInventory(0,mc->draggingID);        
+  //mc->reRenderInv=TRUE;
+  //mc->draggingInv=FALSE; 
+  return;
+ }
+
  //switch from inv to body, del from inv
  I64 equip =  GetNPC(0)->armor;
  if(equip!=0){
@@ -145,12 +159,40 @@ U0 ReleaseBody()
 
 U0 ReleaseHelm()
 {
+ if(mc->draggingItem->equip_slot!=EQ_SLOT_HLM){
+  //AddItemToInventory(0,mc->draggingID);
+  //mc->reRenderInv=TRUE;
+  //mc->draggingInv=FALSE; 
+  return;
+ }
+
  //switch from inv to helm, del from inv
  I64 equip =  GetNPC(0)->hat;
  if(equip!=0){
   AddItemToInventory(0,GetNPC(0)->hat);
  }
  GetNPC(0)->hat =mc->draggingID;
+
+ mc->reRenderInv=TRUE;
+ mc->draggingInv=FALSE; 
+ RemoveItemLoc(mc->draggingItem);                 
+
+}
+U0 ReleaseRing()
+{
+ if(mc->draggingItem->equip_slot!=EQ_SLOT_RNG){
+  //AddItemToInventory(0,mc->draggingID);       
+  //mc->reRenderInv=TRUE;
+  //mc->draggingInv=FALSE; 
+  return;
+ }         
+
+ //switch from inv to helm, del from inv
+ I64 equip =  GetNPC(0)->ring1;
+ if(equip!=0){
+  AddItemToInventory(0,GetNPC(0)->ring1);
+ }
+ GetNPC(0)->ring1 =mc->draggingID;
 
  mc->reRenderInv=TRUE;
  mc->draggingInv=FALSE; 

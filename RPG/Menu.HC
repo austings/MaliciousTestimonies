@@ -756,13 +756,13 @@ CDC *RenderInventory(Actor *p)
        break;
        case IT_HELM://iron helm
         GrBlot3(newInventoryRender,
-                i*camera->dividX-2,j*camera->dividY+312,
-                0,ITEM5I);
+                i*camera->dividX-2+10,j*camera->dividY+312,
+                0,DCScaled(ITEM5I,.5,.5));
        break;
        case IT_SHIRT://regular shirt
         GrBlot3(newInventoryRender,
                 i*camera->dividX-2,j*camera->dividY+312,
-                0,ITEM6I);
+                0,DCScaled(ITEM6I,.9,.9));
        break;
 
       }
@@ -809,6 +809,17 @@ CDC *RenderEquipment(Actor *player){
   Sprite3B(completeMenu,8,25+camera->dividY,10,GetMenuSprite(2));
   Sprite3B(completeMenu,8+camera->dividX,25+camera->dividY,10,GetMenuSprite(2));
   PrintLine(completeMenu,a,26,60);
+  //hat
+  I64 wepn = GetNPC(0)->hat;
+  if(wepn>IT_FIST)
+  {
+   switch(wepn){
+    case IT_HELM://iron helm  
+     GrBlot3(completeMenu,18,
+             44,0,DCScaled(ITEM5I,.5,.5));
+     break;
+   }
+  }
  
   //wepn bkgrd
   Sprite3B(completeMenu,8,116,10,GetMenuSprite(2));
@@ -817,15 +828,15 @@ CDC *RenderEquipment(Actor *player){
   Sprite3B(completeMenu,8,116+3*camera->dividY,10,GetMenuSprite(2));
   PrintLine(completeMenu,b,14,180);
   //wepn
-  I64 wepn = GetNPC(0)->sword;
-  if(wepn>0)
+  wepn = GetNPC(0)->sword;
+  if(wepn>IT_FIST)
   {
    switch(wepn){
-    case 1://dagger   
+    case IT_DAGGER://dagger   
      GrBlot3(completeMenu,8,
              116+(camera->dividY),0,ITEM1I);
      break;
-    case 2://harpoon   
+    case IT_HARPOON://harpoon   
      GrBlot3(completeMenu,8,
              116,0,ITEM2I);
      break;
@@ -841,10 +852,32 @@ CDC *RenderEquipment(Actor *player){
   Sprite3B(completeMenu,60+camera->dividX,140+2*camera->dividY,10,GetMenuSprite(2));
  
   PrintLine(completeMenu,c,75,190);
+  //armr
+  wepn = GetNPC(0)->armor;
+  if(wepn>IT_FIST)
+  {
+   switch(wepn){
+    case IT_SHIRT://Cloth   
+     GrBlot3(completeMenu,68,
+             159,0,DCScaled(ITEM6I,.9,.9));
+     break;
+   }
+  }
    
   //ring
   Sprite3B(completeMenu,106,35,10,GetMenuSprite(2));
   PrintLine(completeMenu,d,112,48);
+  //offhand
+ wepn = GetNPC(0)->offhand;
+ if(wepn>IT_FIST)
+ {
+   switch(wepn){
+    case IT_TOOTH://placeholder  
+     GrBlot3(completeMenu,8,
+             116+(camera->dividY),0,ITEM6I);
+     break;
+   }
+ }
     
 
  Sprite3B(completeMenu,140,0,1,GetMenuSprite(3));//xbutton
@@ -960,7 +993,7 @@ U0 RPGInvLogic(CDC *dc, Actor *p)
    if(mc->draggingInv){
     switch(mc->draggingID)
     {
-      case 0:
+      case IT_FIST:
        //not visible
       break;
       case IT_DAGGER://dagger   
@@ -979,6 +1012,13 @@ U0 RPGInvLogic(CDC *dc, Actor *p)
       case IT_FISH1: //fish
        GrBlot3(dc,camera->cursorX,camera->cursorY,0,ITEM4I);
       break;
+      case IT_HELM: 
+       GrBlot3(dc,camera->cursorX,camera->cursorY,0,DCScaled(ITEM5I,.5,.5));
+      break;
+      case IT_SHIRT: 
+       GrBlot3(dc,camera->cursorX,camera->cursorY,0,DCScaled(ITEM6I,.9,.9));
+      break;
+
     }
    }  //Free(&retrieved);
  
