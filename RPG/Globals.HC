@@ -13,12 +13,6 @@ class Keys
 
 I64 hotkeys[9] ;
 
-#define DIR_LEFT	1
-#define DIR_RIGHT	2
-#define DIR_UP		3
-#define DIR_DOWN	4
-#define DIR_ENTER       5
-#define DIR_ESC         6
 
 class CombatTurn:CQue
 {
@@ -106,7 +100,7 @@ class MenuControl{
   U16 combatMenuStage;
   U8 combatMenuSelection;
   U8 turnIndex;
-  Actor *target;I64 tarposx,tarposy;
+  Actor *target;I64 tarposx,tarposy;
   I64 prayer;
 
   //menus render

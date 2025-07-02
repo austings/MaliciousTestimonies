@@ -4,7 +4,7 @@
 #include "Data/Ids.HC";
 
 // Load built-in Graphics
-#include "Sprites/SS1.HC"; 
+#include "Sprites/SS1.HC"; 
 #include "Sprites/SpriteSheet1.HC";
 #include "Sprites/SpriteSheet2.HC";
 #include "Sprites/SpriteSheet3.HC";
@@ -21,25 +21,25 @@
 #include "Inventory.HC";
 #include "Player.HC";
 #include "Equipment.HC";
+#include "Save.HC";
 
 // Loading Narrative
-#include "Dialog.HC";
-#include "Save.HC";
-#include "Buttons.HC";
-#include "Menu.HC";
-#include "Walk.HC";
-#include "Anim.HC";
+#include "Graphics/Dialog.HC";
+#include "Graphics/Buttons.HC";
+#include "Graphics/Menu.HC";
+#include "Graphics/Walk.HC";
+#include "Graphics/Anim.HC";
 #include "Music.HC";
 
 // Loading Combat Scenarios
-#include "Attacks.HC";
-#include "Prayers.HC";
-#include "Combat.HC";
+#include "Graphics/Attacks.HC";
+#include "Graphics/Prayers.HC";
+#include "Gameplay/Combat.HC";
 #include "Render.HC";
 
 // Loading Skills
-#include "Fishing.HC";
-#include "Inputs.HC";
+#include "Gameplay/Fishing.HC";
+#include "Gameplay/Inputs.HC";
 
 U0 InitMenuControl()
 {
@@ -47,7 +47,7 @@ U0 InitMenuControl()
  mc->currentMenu=0;
  mc->cutsceneTarget=0;//switch cutscene frames
  mc->talkieScene = -1;//dialogID
- mc->dialogName = "???";//dialog actor name
+ mc->dialogName = "???";//dialog actor name
 
  mc->displayInventory=FALSE;
  mc->displayStats=FALSE;

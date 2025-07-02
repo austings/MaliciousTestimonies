@@ -1,4 +1,101 @@
-//test
+
+#define NoDirective -1
+
+class Animation:CQue{
+  CDC *frame;
+  I8 frameDuration,
+     frameDurationIndex,
+     xOffset, yOffset;
+  I64 key;
+  I8 frameIndex;
+} allAnimations;
+
+
+
+class Director:CQue{
+  I64 cQueDirective;
+  I32 animIndex;
+  I64 x; I64 y; I64 z;
+  Bool flip;
+  Actor *a;
+
+} direct;
+
+
+#define W_IDLEDOWN      0
+#define W_IDLEUP        1
+#define W_IDLERIGHT     2
+#define W_IDLELEFT      3
+
+#define W_NOTWALKING       00
+#define W_LEFTSTRAIGHT     01
+#define W_RIGHTSTRAIGHT    02
+#define W_UPSTRAIGHT       03
+#define W_DOWNSTRAIGHT     04
+#define W_LEFTLEFT         05
+#define W_RIGHTLEFT        06
+#define W_UPLEFT           07
+#define W_DOWNLEFT         08
+#define W_LEFTMID          09
+#define W_RIGHTMID         10
+#define W_UPMID            11
+#define W_DOWNMID          12
+#define W_LEFTRIGHT        13
+#define W_RIGHTRIGHT       14
+#define W_UPRIGHT          15
+#define W_DOWNRIGHT        16
+
+
+//convert walk animation frame to cardinal direction
+I64 GetDir(Actor *a)
+{
+  U8 walkDir = a->walking;
+  U8 subWalk = a->walkingSubFrame;
+  switch(walkDir){
+   case W_NOTWALKING:
+    switch(subWalk)
+    {
+     case W_IDLEDOWN:
+      return DIR_DOWN;
+     break; 
+     case W_IDLEUP:
+      return DIR_UP;
+     break;
+     case W_IDLERIGHT:
+      return DIR_RIGHT;
+     break;
+     case W_IDLELEFT:
+      return DIR_LEFT;
+     break;
+    }
+   break;
+   case W_UPSTRAIGHT   :
+   case W_UPMID        :    
+   case W_UPLEFT       :
+   case W_UPRIGHT      :
+    return DIR_UP;
+   break;    
+   case W_DOWNSTRAIGHT :
+   case W_DOWNLEFT     :
+   case W_DOWNRIGHT    :    
+   case W_DOWNMID      : 
+    return DIR_DOWN;   
+   break;
+   case W_LEFTLEFT     :
+   case W_LEFTSTRAIGHT : 
+   case W_LEFTMID      :
+   case W_LEFTRIGHT    :
+    return DIR_LEFT;    
+   break;
+   case W_RIGHTSTRAIGHT:
+   case W_RIGHTLEFT    :
+   case W_RIGHTMID     :   
+   case W_RIGHTRIGHT   :
+    return DIR_RIGHT;    
+   break;
+  }
+ return DIR_DOWN;
+}
 
 
 Bool AddItemToInventory(I64 actorID, I64 itemID)
@@ -145,4 +242,111 @@ Item *RetrieveItem(I64 aID, I64 index, Bool select=FALSE)
 }
 
 
-
+U0 SetActorHairLeft(Actor *a)
+{
+ switch(a->hair)
+ {
+  case HAIR0D...HAIR0U:
+   a->hair=HAIR0L;
+  break;
+  case HAIR1D...HAIR1U:
+   a->hair=HAIR1L;
+  break;
+  case HAIR2D...HAIR2U:
+   a->hair=HAIR2L;
+  break;
+  case HAIR3D...HAIR3U:
+   a->hair=HAIR3L;
+  break;
+ }
+
+}
+
+U0 SetActorHairUp(Actor *a)
+{
+ switch(a->hair)
+ {
+  case HAIR0D...HAIR0U:
+   a->hair=HAIR0U;
+  break;
+  case HAIR1D...HAIR1U:
+   a->hair=HAIR1U;
+  break;
+  case HAIR2D...HAIR2U:
+   a->hair=HAIR2U;
+  break;
+  case HAIR3D...HAIR3U:
+   a->hair=HAIR3U;
+  break;
+ }
+
+}
+
+U0 SetActorHairRight(Actor *a)
+{
+ switch(a->hair)
+ {
+  case HAIR0D...HAIR0U:
+   a->hair=HAIR0R;
+  break;
+  case HAIR1D...HAIR1U:
+   a->hair=HAIR1R;
+  break;
+  case HAIR2D...HAIR2U:
+   a->hair=HAIR2R;
+  break;
+  case HAIR3D...HAIR3U:
+   a->hair=HAIR3R;
+  break;
+ }
+
+}
+
+U0 SetActorHairDown(Actor *a)
+{
+ switch(a->hair)
+ {
+  case HAIR0D...HAIR0U:
+   a->hair=HAIR0D;
+  break;
+  case HAIR1D...HAIR1U:
+   a->hair=HAIR1D;
+  break;
+  case HAIR2D...HAIR2U:
+   a->hair=HAIR2D;
+  break;
+  case HAIR3D...HAIR3U:
+   a->hair=HAIR3D;
+  break;
+ }
+
+}
+
+
+
+U0 ShowBody(CDC *dc=gr.dc,I64 armor,I64 dir )
+{
+ switch(armor)
+ { 
+  case IT_SHIRT:
+   Sprite3B(dc,12,14,10,GetClothArmor(dir));
+  break;
+ }
+
+}
+U0 OverlayArmor(CDC *dc, Actor *toRender)
+{
+/*
+ switch(toRender->hat)
+ {
+  case IT_HELM:
+  break;
+ }
+*/
+ I64 dir = GetDir(toRender);
+ ShowBody(dc,toRender->armor,dir);
+ 
+
+
+
+}

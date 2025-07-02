@@ -190,7 +190,7 @@ Actor *DeserializeNPC(I64 npcid)
   p->wis = Str2I64(wis);
   p->ai_script = Str2I64(ai);
   p->dead = FALSE;
-  p->walking = 0; p->walkingSubFrame=0;
+  p->walking = DIR_IDLE; p->walkingSubFrame=DIR_IDLE;
   p->health= Str2I64(con)*5;
   p->currentHealth = p->health;
   p->mana=Str2I64(wis)*5;
@@ -394,7 +394,7 @@ U64 x, U64 y, U64 str=1, U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  me->visible = TRUE;
  Inventory *newInv = MakeInventory();
  me->myInv = newInv;
- me->walking = 0,me->walkingSubFrame=0;
+ me->walking = DIR_IDLE,me->walkingSubFrame=DIR_IDLE;
  return me;
 
 }

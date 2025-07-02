@@ -247,7 +247,7 @@ U0 LoadGame(U8 *file)
       newSave->player->int,
       newSave->player->con,
       newSave->player->wis,
-      newSave->player->ai_script));
+      newSave->player->ai_script));
       ptr-=bytesRead; bytesRead=0;
       i++;
       step++;

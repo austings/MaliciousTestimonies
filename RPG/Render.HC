@@ -203,7 +203,6 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
   convertedToScreenX = p->screenX;
   convertedToScreenY = p->screenY;
  }//if player or not, visible
-  
       
  RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
  10, GetActorAnimationJob(toRender), highlight);
@@ -446,7 +445,7 @@ U0 DrawHealthMana(CDC *dc,Actor *p,I64 i, I64 j){
      GrLine(dc,575,315,618,315);
      GrFloodFill(dc,610,332,TRUE);
      dc->color=WHITE;                
-     break;
+     break;
     case 91...95:
      GrLine(dc,585,310,606,310);
      GrFloodFill(dc,610,332,TRUE); 

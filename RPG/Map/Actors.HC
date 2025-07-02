@@ -12,7 +12,7 @@ class Actor
   Bool dead,visible;
   U8 ai_script,walking, exp, lvl;
   U16 walkingSubFrame;
-  Inventory *myInv;
+  Inventory *myInv;
   U8 name[15];
 };
 

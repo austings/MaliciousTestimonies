@@ -258,6 +258,7 @@ CDC *GetActorAnimationJob(Actor *a)
 
  if(a->race<=T_BENJ){
   completeActor = GetWalkAnimation(a,completeActor);
+
  }
 
  if(a->race==4){
@@ -271,6 +272,8 @@ CDC *GetActorAnimationJob(Actor *a)
  if(a->race==6){
    Sprite3B(completeActor,0,32,10,GetOx);
  }
+
+ OverlayArmor(completeActor,a);
 
  return completeActor;
 
@@ -312,15 +315,18 @@ U0 InteractActor(I64 npc)
   }
  }
 }
-
+//actors with anim
+//use move actor on the new dir to move
 U0 MoveActor(Actor *p, U8 dir){
- //actors with anim
  I64 npc;
- if(p->walking==0){
+
+ //begin walk from idle
+ if(p->walking==DIR_IDLE){
+  
   switch(dir){
   case DIR_LEFT://left
     p->walkingSubFrame=3;
-   if(p->x-1>=0&&!
+   if(p->x-1>=WEST_MAX&&!
       CheckSolid(world->level,p->x-1,p->y,world->currentZ)){
     npc = GetTensorNPC(world->level,p->x-1,p->y,world->currentZ);
     if(npc!=-1){
@@ -371,7 +377,8 @@ U0 MoveActor(Actor *p, U8 dir){
   case DIR_UP://up
    p->walkingSubFrame=1;
 
-   if(p->y-1>=0&&!CheckSolid(world->level,p->x,p->y-1,world->currentZ))
+   if(p->y-1>=NORTH_MAX&&
+      !CheckSolid(world->level,p->x,p->y-1,world->currentZ))
    {
     npc =GetTensorNPC(world->level,p->x,p->y-1,world->currentZ); 
     if(npc!=-1)

@@ -1,3 +1,13 @@
+#define WEST_MAX	0
+#define NORTH_MAX	0
+
+#define DIR_IDLE	0
+#define DIR_LEFT	1
+#define DIR_RIGHT	2
+#define DIR_UP		3
+#define DIR_DOWN	4
+#define DIR_ENTER       5
+#define DIR_ESC         6
 
 
 //by austin inspired by Alec Murphy
@@ -10,7 +20,7 @@ CDC* DCFlippedX(CDC* src){
     src->body[y * src->width_internal + (src->width - 1 - x)];
    }
   }
-  return dst;
+  return dst;
 }
 
 CDC *DCScaled(CDC* src, F64 scale_x, F64 scale_y) {

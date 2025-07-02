@@ -1,106 +1,3 @@
-#define NoDirective -1
-
-class Animation:CQue{
-  CDC *frame;
-  I8 frameDuration,
-     frameDurationIndex,
-     xOffset, yOffset;
-  I64 key;
-  I8 frameIndex;
-} allAnimations;
-
-
-
-class Director:CQue{
-  I64 cQueDirective;
-  I32 animIndex;
-  I64 x; I64 y; I64 z;
-  Bool flip;
-  Actor *a;
-
-} direct;
-
-
-U0 SetActorHairLeft(Actor *a)
-{
- switch(a->hair)
- {
-  case HAIR0D...HAIR0U:
-   a->hair=HAIR0L;
-  break;
-  case HAIR1D...HAIR1U:
-   a->hair=HAIR1L;
-  break;
-  case HAIR2D...HAIR2U:
-   a->hair=HAIR2L;
-  break;
-  case HAIR3D...HAIR3U:
-   a->hair=HAIR3L;
-  break;
- }
-
-}
-
-U0 SetActorHairUp(Actor *a)
-{
- switch(a->hair)
- {
-  case HAIR0D...HAIR0U:
-   a->hair=HAIR0U;
-  break;
-  case HAIR1D...HAIR1U:
-   a->hair=HAIR1U;
-  break;
-  case HAIR2D...HAIR2U:
-   a->hair=HAIR2U;
-  break;
-  case HAIR3D...HAIR3U:
-   a->hair=HAIR3U;
-  break;
- }
-
-}
-
-U0 SetActorHairRight(Actor *a)
-{
- switch(a->hair)
- {
-  case HAIR0D...HAIR0U:
-   a->hair=HAIR0R;
-  break;
-  case HAIR1D...HAIR1U:
-   a->hair=HAIR1R;
-  break;
-  case HAIR2D...HAIR2U:
-   a->hair=HAIR2R;
-  break;
-  case HAIR3D...HAIR3U:
-   a->hair=HAIR3R;
-  break;
- }
-
-}
-
-U0 SetActorHairDown(Actor *a)
-{
- switch(a->hair)
- {
-  case HAIR0D...HAIR0U:
-   a->hair=HAIR0D;
-  break;
-  case HAIR1D...HAIR1U:
-   a->hair=HAIR1D;
-  break;
-  case HAIR2D...HAIR2U:
-   a->hair=HAIR2D;
-  break;
-  case HAIR3D...HAIR3U:
-   a->hair=HAIR3D;
-  break;
- }
-
-}
-
 U0 SetActorSubFrameRule(Actor *a,I64 wsf,I64 w )
 {
  a->walkingSubFrame++;
@@ -113,29 +10,6 @@ U0 SetActorSubFrameRule(Actor *a,I64 wsf,I64 w )
 
 }
 
-#define W_IDLEDOWN      0
-#define W_IDLEUP        1
-#define W_IDLERIGHT     2
-#define W_IDLELEFT      3
-
-#define W_NOTWALKING       00
-#define W_LEFTSTRAIGHT     01
-#define W_RIGHTSTRAIGHT    02
-#define W_UPSTRAIGHT       03
-#define W_DOWNSTRAIGHT     04
-#define W_LEFTLEFT         05
-#define W_RIGHTLEFT        06
-#define W_UPLEFT           07
-#define W_DOWNLEFT         08
-#define W_LEFTMID          09
-#define W_RIGHTMID         10
-#define W_UPMID            11
-#define W_DOWNMID          12
-#define W_LEFTRIGHT        13
-#define W_RIGHTRIGHT       14
-#define W_UPRIGHT          15
-#define W_DOWNRIGHT        16
-
 CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
                         CDC *L1,CDC *L2,CDC *L3,
                         CDC *R1,CDC *R2,CDC *R3,
@@ -145,7 +19,7 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
 //xOffset to correct for .WAD graphics being slightly off origin 
 {
   U8 walkDir = a->walking;
-  U8 subWalk = a->walkingSubFrame;
+  U8 subWalk = a->walkingSubFrame;
  
  switch(walkDir){
      case W_NOTWALKING:
