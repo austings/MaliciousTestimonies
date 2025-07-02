@@ -12,7 +12,7 @@ class Actor
   Bool dead,visible;
   U8 ai_script,walking, exp, lvl;
   U16 walkingSubFrame;
-  Inventory *myInv;
+  Inventory *myInv;
   U8 name[15];
 };
 
@@ -21,6 +21,9 @@ class Actor
 #define T_LEVI  1
 #define T_EPHR  2
 #define T_BENJ  3
+#define T_DOG   4
+#define T_FOWL  5
+#define T_OX    6
 
 #define PLAYER  00
 #define A_KING  01

@@ -135,6 +135,9 @@ Animation *CreateAnimation(I64 wadFrameName){
   case T4SPEAR:
    QueIns(AddFrame(AAE7,T4SPEAR,0),allAnimations.last);
   break;
+  case BOUNCE:
+   QueIns(AddFrame(AAE7,BOUNCE,0),allAnimations.last);
+  break;
  }
 }
 
@@ -156,12 +159,40 @@ U0 FreeTask(Director *task)
 // Free(task);
 }
 
+U0 ProceduralAnimate(CDC *dc,Director *task)
+{
+    task->a->visible =TRUE;  
+    // Animate: back and forth horizontally and sinusoidal bounce vertically
+    task->z++;
+
+    F64 time = task->z / 10.0; // adjust speed
+    F64 amplitudeX = 10;       // horizontal distance
+    F64 amplitudeY = 4;       // vertical arc height
+
+    task->a->screenX = task->x + (amplitudeX * Sin(time));
+    task->a->screenY = task->y - (amplitudeY * Abs(Sin(time))); // bounce upward only
+
+    // Optional: reset loop every full cycle (approx 2π)
+    if (time > 2 * pi) {
+      task->z = 0;
+    }
+
+}
+
 U0 PlayAnimation(CDC *dc,Director *task){ 
- Animation *ajc = allAnimations.next;
+ 
+  if(task->cQueDirective==BOUNCE)
+  {
+   ProceduralAnimate(dc,task);
+   goto taskend;
+  } 
+
+  Animation *ajc = allAnimations.next;
 
   while(task->cQueDirective!=ajc->key){
    ajc = ajc->next;
-  } 
+  }
+  
   while(task->animIndex!=ajc->frameIndex){
    ajc = ajc->next;
   }
@@ -230,6 +261,8 @@ U0 InitializeAnimator(){
   CreateAnimation(T2SPEAR);
   CreateAnimation(T3SPEAR);
   CreateAnimation(T4SPEAR);
+  
+  CreateAnimation(BOUNCE);
  //load all animations into the hashtable 
 }
 
@@ -258,23 +291,21 @@ CDC *GetActorAnimationJob(Actor *a)
 
  if(a->race<=T_BENJ){
   completeActor = GetWalkAnimation(a,completeActor);
-
  }
 
- if(a->race==4){
+ if(a->race==T_DOG){
    Sprite3B(completeActor,0,32,10,GetDog);
  }
 
- if(a->race==5){
+ if(a->race==T_FOWL){
    Sprite3B(completeActor,0,32,10,GetFowl);
-
  }
- if(a->race==6){
+
+ if(a->race==T_OX){
    Sprite3B(completeActor,0,32,10,GetOx);
  }
 
  OverlayArmor(completeActor,a);
-
  return completeActor;
 
 }
@@ -502,7 +533,7 @@ U8 GetWalkOffsetY(U8 walkdir){
   case 3://up straight start
    YOffset=40;
   break;
-  case 4://down straight start
+  case 4://down straight start
    YOffset=-40;
   break;
   case 5://left left leg

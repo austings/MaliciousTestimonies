@@ -346,7 +346,7 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
  }
 */
  I64 dir = GetDir(toRender);
- GrBlot3(dc,0,0,0,ShowBody(toRender->armor,dir));
+ GrBlot3(dc,0,0,0,ShowBody(toRender->armor,dir));
  
 
 

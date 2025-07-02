@@ -23,6 +23,8 @@
 #define T3SPEAR 18
 #define T4SPEAR 19
 
+#define BOUNCE 20//"Ready"
+
 static CDC* AAE1= FramePtr("AAE1");
 static CDC* AAE2= FramePtr("AAE2");
 static CDC* AAE3= FramePtr("AAE3");
@@ -241,4 +243,3 @@ static CDC* AAE215= FramePtr("AAE215");
 static CDC* AAE216= FramePtr("AAE216");
 
 
-

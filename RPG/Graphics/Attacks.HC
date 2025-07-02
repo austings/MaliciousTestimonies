@@ -49,6 +49,7 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file?
   // Limit for one
   ctn = CAlloc(sizeof(CombatTurn));
   ctn->ready = GetNPC(PLAYER); //GetNPC(maxChars);
+  //AddDirective(T1READY,ctn->ready);
   QueIns(ctn,combatCQue.last);
 
   ctn = CAlloc(sizeof(CombatTurn));
@@ -59,8 +60,10 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file?
   ctp = combatCQue.next;
   mc->turnIndex = 1;
 
- if(toInsert->race<=T_BENJ)
-  AddDirective(T1READY, toInsert);
+// if(toInsert->race<=T_BENJ)
+//  AddDirective(T1READY, toInsert);
+// else
+  AddDirective(BOUNCE,toInsert);
  
 }
 

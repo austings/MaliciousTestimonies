@@ -858,7 +858,7 @@ CDC *RenderEquipment(Actor *player){
   {
    switch(wepn){
     case IT_SHIRT://Cloth   
-     GrBlot3(completeMenu,68,
+     GrBlot3(completeMenu,60,
              159,0,DCScaled(ITEM6I,.9,.9));
      break;
    }

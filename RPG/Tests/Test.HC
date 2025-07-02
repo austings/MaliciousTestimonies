@@ -332,7 +332,7 @@ Actor *GetNPC(I64 id)
    if(loaded2->id==id)
    {
      return loaded2;
-   } else if(loaded3->id==id)
+   } else if(loaded3->id==id)
    {
      return loaded3;
    } else if(loaded4->id==id)

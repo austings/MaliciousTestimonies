@@ -19,7 +19,7 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
 //xOffset to correct for .WAD graphics being slightly off origin 
 {
   U8 walkDir = a->walking;
-  U8 subWalk = a->walkingSubFrame;
+  U8 subWalk = a->walkingSubFrame;
  
  switch(walkDir){
      case W_NOTWALKING:
@@ -266,23 +266,23 @@ U0 AddDirective(I64 directive, Actor *p)
       task->cQueDirective = T1PUNCH;
      break;
      case IT_DAGGER: 
-      task->cQueDirective = T1DAGGER;
+      task->cQueDirective = T1PUNCH;//T1DAGGER;
      break;
      case IT_HARPOON: 
-      task->cQueDirective = T1SPEAR;
+      task->cQueDirective = T1PUNCH;//T1SPEAR;
      break;
     }  
    break;
    case T_LEVI:
     switch(p->sword){
      case IT_FIST: //fist
-      task->cQueDirective = T2PUNCH;
+      task->cQueDirective = T2PUNCH;//T2PUNCH;
      break;
      case IT_DAGGER: 
-      task->cQueDirective = T2DAGGER;
+      task->cQueDirective = T2PUNCH;//T2DAGGER;
      break;
      case IT_HARPOON: 
-      task->cQueDirective = T2SPEAR;
+      task->cQueDirective = T2PUNCH;//T2SPEAR;
      break;
     }  
    break;
@@ -292,27 +292,30 @@ U0 AddDirective(I64 directive, Actor *p)
       task->cQueDirective = T3PUNCH;
      break;
      case IT_DAGGER: 
-      task->cQueDirective = T3DAGGER;
+      task->cQueDirective = T3PUNCH;//T3DAGGER;
      break;
      case IT_HARPOON: 
-      task->cQueDirective = T3SPEAR;
+      task->cQueDirective = T3PUNCH;//T3SPEAR;
      break;
     }
    break;
    case T_BENJ:
     switch(p->sword){
      case IT_FIST: //fist
-      task->cQueDirective = T4PUNCH;
+      task->cQueDirective = T4PUNCH;//T4PUNCH;
      break;
      case IT_DAGGER: 
-      task->cQueDirective = T4DAGGER;
+      task->cQueDirective = T4PUNCH;//T4DAGGER;
      break;
      case IT_HARPOON: 
-      task->cQueDirective = T4SPEAR;
+      task->cQueDirective = T4PUNCH;//T4SPEAR;
      break;
     }
    break;
   }
+  break;
+  case BOUNCE:
+   task->cQueDirective = BOUNCE;
   break;
  }
  if(!free)

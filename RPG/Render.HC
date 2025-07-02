@@ -144,22 +144,43 @@ Bool ConfigureCombatPose(Actor *toRender, Actor *p)
  return highlight;
 }
 
+I64 GetActorScreenX(Actor *a, I64 npcox, I64 i, Bool Player=TRUE)
+{
+ if(Player){
+  if(camera->topLR==0||camera->topLR==wX-11)
+   npcox =GetWalkOffsetX(a->walking);
+  a->screenX = i*camera->dividX-13+
+                          npcox+camera->cameraOffSetX;
+  return a->screenX;
+ }else
+ {
+   npcox=GetWalkOffsetX(a->walking), 
+   a->screenX = i*camera->dividX-13+npcox+(2*camera->cameraOffSetX);
+  return a->screenX;
+ }
+}
 
-U0 RenderPlayer(CDC *dc, Actor *p,
+I64 GetActorScreenY(Actor *a, I64 npcoy, I64 j,Bool Player=TRUE)
+{
+ if(Player){
+  if(camera->topUD==0||camera->topUD==wY-11)
+   npcoy =GetWalkOffsetY(a->walking);
+  a->screenY = j*camera->dividY-42+
+                          npcoy+camera->cameraOffSetY;
+  return a->screenY;
+ }else
+ {
+  npcoy=GetWalkOffsetY(a->walking);
+  a->screenY = j*camera->dividY-42+npcoy+camera->cameraOffSetY;
+  return a->screenY;
+ }
+}
+
+Actor *RenderPlayer(CDC *dc, Actor *p,
                     I64 npcox,I64 npcoy,I64 i,I64 j)
 {
- if(camera->topLR==0||camera->topLR==wX-11)
-  npcox =GetWalkOffsetX(p->walking);
- if(camera->topUD==0||camera->topUD==wY-11)
-  npcoy =GetWalkOffsetY(p->walking);
-
- I64 convertedToScreenX = i*camera->dividX-13+
-                          npcox+camera->cameraOffSetX;
- I64 convertedToScreenY = j*camera->dividY-42+
-                          npcoy+camera->cameraOffSetY;
- p->screenX = convertedToScreenX;
- p->screenY = convertedToScreenY;
-
+  GetActorScreenX(p,npcox,i);
+  GetActorScreenY(p,npcoy,j);
  //render attack from player
    if(mc->combatMenuSelection==CMS_STRIKE_DONE){
     switch(p->sword)
@@ -168,7 +189,7 @@ U0 RenderPlayer(CDC *dc, Actor *p,
       PunchMove(dc,p, mc->tarposx,
                 mc->tarposy-mc->turnIndex,
                 CalculateAngle(mc->tarposx,mc->tarposy,
-                convertedToScreenX,convertedToScreenY));
+                p->screenX,p->screenY));
       mc->turnIndex++;
       if(mc->turnIndex>50){
        RemoveHealth(mc->target,p->str);
@@ -179,6 +200,7 @@ U0 RenderPlayer(CDC *dc, Actor *p,
     }//switch p sword
    }//combat render phase
 
+ return p;
 }
 U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
 {
@@ -190,21 +212,14 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
  Bool highlight =FALSE;    
  if(npc!=PLAYER){
    toRender = GetNPC(npc);
-   npcOffsetX=GetWalkOffsetX(toRender->walking), 
-   npcOffsetY=GetWalkOffsetY(toRender->walking);
-   convertedToScreenX = i*camera->dividX-13+npcOffsetX+camera->cameraOffSetX;
-   convertedToScreenY = j*camera->dividY-42+npcOffsetY+camera->cameraOffSetY;
-   toRender->screenX = convertedToScreenX;
-   toRender->screenY = convertedToScreenY;     
+   GetActorScreenX(toRender,npcOffsetX,i,FALSE);
+   GetActorScreenY(toRender,npcOffsetY,j,FALSE);
    highlight = ConfigureCombatPose(toRender,p);
  }else { 
-  toRender = p;
-  RenderPlayer(dc,p,npcOffsetX,npcOffsetY,i,j);
-  convertedToScreenX = p->screenX;
-  convertedToScreenY = p->screenY;
+  toRender = RenderPlayer(dc,p,npcOffsetX,npcOffsetY,i,j);
  }//if player or not, visible
       
- RenderCharacter(dc,convertedToScreenX,convertedToScreenY,
+ RenderCharacter(dc,toRender->screenX,toRender->screenY,
  10, GetActorAnimationJob(toRender), highlight);
 }   
 
