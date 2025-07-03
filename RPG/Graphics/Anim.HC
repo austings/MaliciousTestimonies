@@ -138,6 +138,48 @@ Animation *CreateAnimation(I64 wadFrameName){
   case BOUNCE:
    QueIns(AddFrame(AAE7,BOUNCE,0),allAnimations.last);
   break;
+  case T1DIE:
+   QueIns(AddFrame(AAE74,T$ER$1DIE,0),allAnimations.last);
+   QueIns(AddFrame(AAE75,T$ER$1DIE,1),allAnimations.last);
+   QueIns(AddFrame(AAE85,T$ER$1DIE,2),allAnimations.last);
+   QueIns(AddFrame(AAE86,T$ER$1DIE,3),allAnimations.last);
+   QueIns(AddFrame(AAE87,T$ER$1DIE,4),allAnimations.last);
+   QueIns(AddFrame(AAE112,T$ER$1DIE,5),allAnimations.last);
+   QueIns(AddFrame(AAE113,T$ER$1DIE,6),allAnimations.last);
+   QueIns(AddFrame(AAE114,T$ER$1DIE,7),allAnimations.last);
+  break;
+  case T2DIE:
+   QueIns(AddFrame(AAE115,T$ER$2DIE,0),allAnimations.last);
+   QueIns(AddFrame(AAE121,T$ER$2DIE,1),allAnimations.last);
+   QueIns(AddFrame(AAE146,T$ER$2DIE,2),allAnimations.last);
+   QueIns(AddFrame(AAE148,T$ER$2DIE,3),allAnimations.last);
+   QueIns(AddFrame(AAE149,T$ER$2DIE,4),allAnimations.last);
+   QueIns(AddFrame(AAE158,T$ER$2DIE,5),allAnimations.last);
+   QueIns(AddFrame(AAE166,T$ER$2DIE,6),allAnimations.last);
+   QueIns(AddFrame(AAE167,T$ER$2DIE,7),allAnimations.last);
+  break;
+  case T3DIE:
+   QueIns(AddFrame(AAE181,T$ER$3DIE,0),allAnimations.last);
+   QueIns(AddFrame(AAE182,T$ER$3DIE,1),allAnimations.last);
+   QueIns(AddFrame(AAE184,T$ER$3DIE,2),allAnimations.last);
+   QueIns(AddFrame(AAE189,T$ER$3DIE,3),allAnimations.last);
+   QueIns(AddFrame(AAE194,T$ER$3DIE,4),allAnimations.last);
+   QueIns(AddFrame(AAE204,T$ER$3DIE,5),allAnimations.last);
+   QueIns(AddFrame(AAE4,T$ER$3DIE,6),allAnimations.last);
+   QueIns(AddFrame(AAE6,T$ER$3DIE,7),allAnimations.last);
+  break;
+  case T4DIE:
+   QueIns(AddFrame(AAE29,T$ER$4DIE,0),allAnimations.last);
+   QueIns(AddFrame(AAE30,T$ER$4DIE,1),allAnimations.last);
+   QueIns(AddFrame(AAE31,T$ER$4DIE,2),allAnimations.last);
+   QueIns(AddFrame(AAE32,T$ER$4DIE,3),allAnimations.last);
+   QueIns(AddFrame(AAE33,T$ER$4DIE,4),allAnimations.last);
+   QueIns(AddFrame(AAE58,T$ER$4DIE,5),allAnimations.last);
+   QueIns(AddFrame(AAE59,T$ER$4DIE,6),allAnimations.last);
+   QueIns(AddFrame(AAE60,T$ER$4DIE,7),allAnimations.last);
+
+  break;
+
  }
 }
 
@@ -159,7 +201,7 @@ U0 FreeTask(Director *task)
 // Free(task);
 }
 
-U0 ProceduralAnimate(CDC *dc,Director *task)
+U0 ProceduralAnimate1(CDC *dc,Director *task)
 {
     task->a->visible =TRUE;  
     // Animate: back and forth horizontally and sinusoidal bounce vertically
@@ -183,7 +225,7 @@ U0 PlayAnimation(CDC *dc,Director *task){
  
   if(task->cQueDirective==BOUNCE)
   {
-   ProceduralAnimate(dc,task);
+   ProceduralAnimate1(dc,task);
    goto taskend;
   } 
 
@@ -206,10 +248,18 @@ U0 PlayAnimation(CDC *dc,Director *task){
    task->animIndex = task->animIndex+1;
    if(tmp->frameIndex<=ajc->frameIndex)
    {
-     ResetDirective(task);
-     task->a->visible = TRUE; 
-     //FreeTask(task);
-     goto taskend; 
+     if(task->cQueDirective>=T1DIE&&task->cQueDirective<=T4DIE)
+     {
+      task->animIndex=task->animIndex-1;
+      tmp = ajc->last;
+      //repeat last frame forever
+     }
+     else{
+      ResetDirective(task);
+      task->a->visible = TRUE; 
+      //task is now over
+     goto taskend;
+     } 
    }
   }
   if(task->flip){
@@ -263,6 +313,12 @@ U0 InitializeAnimator(){
   CreateAnimation(T4SPEAR);
   
   CreateAnimation(BOUNCE);
+
+  CreateAnimation(T1DIE);
+  CreateAnimation(T2DIE);
+  CreateAnimation(T3DIE);
+  CreateAnimation(T4DIE);
+
  //load all animations into the hashtable 
 }
 
@@ -282,12 +338,29 @@ U0 CheckAnimQueue(CDC *dc)
 }
 
 
-
+U0 DrawDead(CDC * dc, Actor *a)
+{
+ switch(a->race)
+ {
+  case 0...T_BENJ:
+   AddDirective(T1DIE,a);
+  break;
+  case T_DOG:
+   Sprite3B(dc,0,32,10,GetDog(TRUE));
+  break;
+ } 
+}
 
 CDC *GetActorAnimationJob(Actor *a)
 {
  CDC *completeActor = DCNew(500,500);
  DCFill(completeActor, TRANSPARENT);
+
+ if(a->dead)
+ {
+  DrawDead(completeActor,a);
+  return completeActor;
+ }
 
  if(a->race<=T_BENJ){
   completeActor = GetWalkAnimation(a,completeActor);
@@ -529,7 +602,7 @@ U8 GetWalkOffsetY(U8 walkdir){
   break;
   case 1://left straight start
   break;
-  case 2://right straight start
+  case 2://right straight start
   break;
   case 3://up straight start
    YOffset=40;

@@ -217,8 +217,14 @@ Bool UpdateDirective(I64 directive,Actor *p,I64 x, I64 y, I64 z)
  for(i=0;i!=QueCnt(direct);i++){
   if(task->cQueDirective==directive)
   {
-   if(task->a->id==p->id)
+   if(task->a->id==p->id)
    {
+    if(p->dead)//update if actor dies mid animate
+    {
+     QueRem(task);
+     return FALSE;
+    }
+
     task->x = x; task->y = y; task->z = z;
     free = TRUE;
    }
@@ -353,6 +359,23 @@ U0 AddDirective(I64 directive, Actor *p)
   case BOUNCE:
    task->cQueDirective = BOUNCE;
   break;
+  case T1DIE...T4DIE:
+   switch(p->race){
+    case T_JUDA:
+     task->cQueDirective = T1DIE;  
+    break;
+    case T_LEVI:
+     task->cQueDirective = T2DIE;
+    break;
+    case T_EPHR:
+     task->cQueDirective = T3DIE;
+    break;
+    case T_BENJ:
+     task->cQueDirective = T4DIE;
+    break;
+   }
+  break;
+
  }
  if(!free)
   QueIns(task,direct.last); 

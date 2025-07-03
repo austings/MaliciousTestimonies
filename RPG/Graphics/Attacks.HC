@@ -27,8 +27,6 @@ U0 PunchMove(CDC *screen,Actor *tar,I64 sX,I64 sY, I64 theta)
  Mat4x4RotX(loadedAttackFrame->r,theta+180);
  GrBlot3(screen,sX,sY,10, loadedAttackFrame);
 
-
-
  //hp bar
  //CDC *newFill = DCNew(100,100);
  //GrRect(newFill,0,0,((tar->currentHealth)/tar->health)*100,20);
@@ -117,15 +115,29 @@ U0 RenderCombatVersion(Actor *toRender){
 
 }
 
+Bool CheckTarget(Actor *toRender){
+ //optionally highlight targets for strikes
+ Bool highlight= FALSE;
+ if(mc->combatMenuSelection==CS_STRIKE&&toRender->id==ctp->ready->id)
+ {
+  highlight = TRUE;
+  mc->target = toRender;
+  mc->tarposx = toRender->screenX;
+  mc->tarposy = toRender->screenY;//change default target
+ }
+
+ return highlight;
+}
 
 //called after combatMenuSelection==11
 U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
 {
     dc->color=RED;
-    dc->thick=5;
-    GrCircle(dc,hX+25,hY+45,15);
+    dc->thick=3;
+    //GrRect3(dc,hX+25,hY+45,0,50,50);
+    GrCircle3(dc,hX+25,hY+45,0,15);
     //GrFloodFill(dc,hX+13,hY+13,TRUE);   
-   
+    dc->thick = 1;   
 }
 
 U0 PlayStrikeAnim(Actor *p)

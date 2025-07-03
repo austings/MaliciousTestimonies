@@ -3,18 +3,18 @@
 U0 RenderCharacter(CDC *dc,I64 iFinalX, I64 iFinalY,I64 iFinalZ,
            CDC *character,Bool highlight=FALSE)
 {
-    GrBlot3(dc,iFinalX,iFinalY,iFinalZ,character);
 
     if(highlight){
        HighlightTarget(dc, iFinalX, iFinalY+24,iFinalZ+10);
     }
+    GrBlot3(dc,iFinalX,iFinalY,iFinalZ,character);
+
 }
 
 
 
 U0 StartCameraPan(CDC *dc,Actor *p)
 {
- dc->thick=1;
  // background world x pan
  if(camera->topLR==0||camera->topLR==wX-11){
   if(camera->cameraOffSetX!=0){
@@ -117,7 +117,7 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
  } 
 }
 
-Bool ConfigureCombatPose(Actor *toRender, Actor *p)
+U0 ConfigureCombatPose(Actor *toRender, Actor *p)
 {
 
  //COMBAT start initializations
@@ -132,16 +132,6 @@ Bool ConfigureCombatPose(Actor *toRender, Actor *p)
   }
   RenderCombatVersion(toRender);
  }
- //optionally highlight targets for strikes
- Bool highlight= FALSE;
- if(mc->combatMenuSelection==CS_STRIKE&&toRender->id==ctp->ready->id)
- {
-  highlight = TRUE;
-  mc->target = toRender;
-  mc->tarposx = toRender->screenX;
-  mc->tarposy = toRender->screenY;//change default target
- }
- return highlight;
 }
 
 I64 GetActorScreenX(Actor *a, I64 npcox, I64 i, Bool Player=TRUE)
@@ -185,7 +175,7 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
   GetActorScreenY(p,npcoy,j);
  }
  //render attack from player
-   if(mc->combatMenuSelection==CMS_STRIKE_DONE){
+ if(mc->combatMenuSelection==CMS_STRIKE_DONE){
     switch(p->sword)
     {
      case 0: //fist
@@ -201,18 +191,19 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
       }//mc turnindex
      break;
     }//switch p sword
-   }//combat render phase
+ }//combat render phase
 
  return p;
 }
+
+
 U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
 {
  //Actors start by converting matrix x,y position to screen X,Y
- I64 convertedToScreenX,convertedToScreenY;
  Actor *toRender;
  I64 npcOffsetX=-camera->cameraOffSetX; 
  I64 npcOffsetY=-camera->cameraOffSetY;
- Bool highlight =FALSE;    
+ Bool highlight =FALSE; 
  if(npc!=PLAYER){
    toRender = GetNPC(npc);
    Bool animated = HasDirective(BOUNCE,toRender);
@@ -223,12 +214,14 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
    if(animated&&GetNPC(PLAYER)->walking!=DIR_IDLE){
     UpdateDirective(BOUNCE,toRender,    
      GetActorScreenX(toRender,npcOffsetX,i,FALSE),
-     GetActorScreenY(toRender,npcOffsetY,j,FALSE),0);
+     GetActorScreenY(toRender,npcOffsetY,j,FALSE),0);
    }
-   highlight = ConfigureCombatPose(toRender,p);
+   ConfigureCombatPose(toRender,p);
  }else { 
   toRender = RenderPlayer(dc,p,npcOffsetX,npcOffsetY,i,j);
  }//if player or not, visible
+ 
+ highlight = CheckTarget(toRender);
       
  RenderCharacter(dc,toRender->screenX,toRender->screenY,
  10, GetActorAnimationJob(toRender), highlight);

@@ -25,6 +25,11 @@
 
 #define BOUNCE 20//"Ready"
 
+#define T1DIE 21
+#define T2DIE 22
+#define T3DIE 23
+#define T4DIE 24
+
 static CDC* AAE1= FramePtr("AAE1");
 static CDC* AAE2= FramePtr("AAE2");
 static CDC* AAE3= FramePtr("AAE3");

@@ -4,10 +4,10 @@
 #define DIR_IDLE	0
 #define DIR_LEFT	1
 #define DIR_RIGHT	2
-#define DIR_UP		3
-#define DIR_DOWN	4
-#define DIR_ENTER       5
-#define DIR_ESC         6
+#define DIR_UP		4
+#define DIR_DOWN	8
+#define DIR_ENTER       16
+#define DIR_ESC         32
 
 
 //by austin inspired by Alec Murphy
