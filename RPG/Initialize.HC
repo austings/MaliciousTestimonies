@@ -1,7 +1,7 @@
 // Construct Graphics from WAD
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
-#include "Data/Ids.HC";
+#include "Data/Ids.HC";
 
 // Load built-in Graphics
 #include "Sprites/SS1.HC"; 
@@ -51,10 +51,13 @@ U0 InitMenuControl()
 
  mc->displayInventory=FALSE;
  mc->displayStats=FALSE;
+ mc->displayShop=FALSE;
  mc->displayEquipment=FALSE;
  mc->displayPrayers=FALSE;
  mc->prayerPage=0;
  mc->prayer=-1;
+ mc->prayerListSize =0;
+ mc->prayerListIndex =0;
  mc->prayerDragging=FALSE;
  mc->reRenderInv=TRUE;
  mc->draggingInv=FALSE;
@@ -66,8 +69,8 @@ U0 InitMenuControl()
 
  //combat
  mc->combatON = FALSE;
- mc->combatMenuStage =0;
- mc->combatMenuSelection=0;
+ mc->combatMenuStage =STAGE_0;
+ mc->combatMenuSelection=CMS_MOVE;
  mc->target = GetNPC(0);
  mc->tarposx = 0;
  mc->tarposy = 0;

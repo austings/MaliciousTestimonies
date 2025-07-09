@@ -11,7 +11,8 @@ class Keys
  I64 pressed;
 } keys;
 
-I64 hotkeys[9] ;
+#define NUM_HOTKEYS 9
+I64 hotkeys[NUM_HOTKEYS] ;
 
 
 class CombatTurn:CQue
@@ -62,12 +63,18 @@ class Prayers
 #define AI_FISHING	10
 
 //combat menu stage
-#define CMS_MOVE		0
-#define CS_MOVE			1
-#define CMS_MOVE_DONE		10
-#define MOVEMENT_COST		5
+#define STAGE_0                 0
+#define STAGE_1                 1
+#define STAGE_2                 2
+#define STAGE_3                 3
 
 //combat Menu Selection
+
+#define MOVEMENT_COST		5
+
+#define CMS_MOVE		0
+#define CS_MOVE			10
+#define CMS_MOVE_DONE		100
 
 #define CMS_STRIKE		1
 #define CS_STRIKE		11
@@ -76,16 +83,17 @@ class Prayers
 #define CMS_PRAYER		2
 #define CS_PRAYER		12
 #define CMS_PRAYER_DONE		112
+#define DELIMITER -9348934
 
 #define CMS_FLEE		3
 #define CS_FLEE			13
-
+#define CMS_FLEE_DONE		113
 
 
 class MenuControl{
   //Narrative Control
   Bool fxMuted,musicMuted;
-  I32 currentSong,//for draw and song threads
+  I32 currentSong,//for draw and song threads
       currentMenu,
       cutsceneTarget;//switch cutscene frames
 
@@ -101,7 +109,10 @@ class MenuControl{
   U8 combatMenuSelection;
   U8 turnIndex;
   Actor *target;I64 tarposx,tarposy;
-  I64 prayer;
+
+  //prayerSelection
+  I64 prayer, prayerListIndex, prayerListSize;
+  I64 *prayerList;
 
   //menus render
   I64 draggingID;//inventory mouse item

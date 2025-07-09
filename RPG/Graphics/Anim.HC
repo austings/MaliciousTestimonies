@@ -602,7 +602,7 @@ U8 GetWalkOffsetY(U8 walkdir){
   break;
   case 1://left straight start
   break;
-  case 2://right straight start
+  case 2://right straight start
   break;
   case 3://up straight start
    YOffset=40;

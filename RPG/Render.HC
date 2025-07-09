@@ -174,25 +174,32 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
   GetActorScreenX(p,npcox,i);
   GetActorScreenY(p,npcoy,j);
  }
+ if(mc->combatMenuSelection==CMS_MOVE_DONE)
+ {
+  mc->combatMenuStage=STAGE_1;
+ }
+ if(mc->combatMenuSelection==CS_PRAYER)
+ {
+  DrawPrayerHotbar(dc);
+ }
  //render attack from player
  if(mc->combatMenuSelection==CMS_STRIKE_DONE){
-    switch(p->sword)
-    {
-     case 0: //fist
-      PunchMove(dc,p, mc->tarposx,
-                mc->tarposy-mc->turnIndex,
-                CalculateAngle(mc->tarposx,mc->tarposy,
-                p->screenX,p->screenY));
-      mc->turnIndex++;
-      if(mc->turnIndex>50){
-       RemoveHealth(mc->target,p->str);
-       mc->turnIndex=1;
-       mc->combatMenuStage=1;
-      }//mc turnindex
-     break;
-    }//switch p sword
+  switch(p->sword){
+   case IT_FIST: //fist
+    PunchMove(dc,p, mc->tarposx,
+              mc->tarposy-mc->turnIndex,
+              CalculateAngle(mc->tarposx,mc->tarposy,
+              p->screenX,p->screenY));
+    mc->turnIndex++;
+    if(mc->turnIndex>50){
+     RemoveHealth(mc->target,p->str);
+     mc->turnIndex=1;
+     mc->combatMenuStage=STAGE_1;
+    }//mc turnindex
+   break;
+  }//switch p sword
  }//combat render phase
-
+ 
  return p;
 }
 

@@ -72,7 +72,13 @@ U0 PrayerCycleButton(Bool left)
 
 U0 SetHotKey(I64 i , I64 v)
 {
-  hotkeys[i] = v;               
+ I64 iter;
+ for(iter = 0;iter<NUM_HOTKEYS;iter++)
+ {
+  if(hotkeys[iter] ==v)//only one prayer of each kind on the hotbar
+   hotkeys[iter] =-1;
+ }
+ hotkeys[i] = v;               
 
 }
 

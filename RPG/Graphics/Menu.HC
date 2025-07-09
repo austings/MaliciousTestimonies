@@ -920,21 +920,8 @@ U0 DeserializeOpts()
 
 }
 
-
-//check if user click or release for each 'button' of prayers
-U0 DragPrayer(CDC *pm)
+U0 DrawPrayerHotbar(CDC *pm)
 {
-//avoid conflict with inventory
- if(mc->draggingInv==FALSE&&mc->prayerDragging) 
- {
-  if(mc->prayer!=-1)//if we have a prayer
-  {
-   I64 x = camera->cursorX+3-(prayers->list[mc->prayer]->wOff);
-   I64 y = camera->cursorY-(prayers->list[mc->prayer]->hOff);
-
-    BlotPrayer(pm,x,y,mc->prayer);
-  }
-
 
   U8* _1 = "1";  U8* _2 = "2";  U8* _3 = "3";  U8* _4 = "4";  U8* _5 = "5";
   U8* _6 = "6";  U8* _7 = "7";  U8* _8 = "8";  U8* _9 = "9";  
@@ -958,9 +945,9 @@ U0 DragPrayer(CDC *pm)
   PrintLine(pm,_8,385,2,2);
   Sprite3B(pm,410,0,10,GetMenuSprite(MENU_INVBOX));
   PrintLine(pm,_9,435,2,2);
-  
+
   I64 i;
-  for(i=0;i<9;i++)
+  for(i=0;i<NUM_HOTKEYS;i++)
   {
    if(hotkeys[i]!=-1){
     BlotPrayer(pm,10+(50*(i)),0,hotkeys[i]);
@@ -968,6 +955,24 @@ U0 DragPrayer(CDC *pm)
    }
   
   }   
+
+}
+
+//check if user click or release for each 'button' of prayers
+U0 DragPrayer(CDC *pm)
+{
+//avoid conflict with inventory
+ if(mc->draggingInv==FALSE&&mc->prayerDragging) 
+ {
+  if(mc->prayer!=-1)//if we have a prayer
+  {
+   I64 x = camera->cursorX+3-(prayers->list[mc->prayer]->wOff);
+   I64 y = camera->cursorY-(prayers->list[mc->prayer]->hOff);
+
+    BlotPrayer(pm,x,y,mc->prayer);
+  }
+ 
+  DrawPrayerHotbar(pm);
  }
 }
 

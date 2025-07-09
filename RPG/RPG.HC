@@ -34,7 +34,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    DragPrayer(dc);
    DrawHealthMana(dc,p,i,j);
    //Dialog   
-   if(mc->talkieScene!=-1){
+   if(mc->talkieScene!=-1&&mc->combatMenuSelection!=CS_PRAYER){
     mc->displayInventory=FALSE;
     Chatbox(mc->dialogName,dc,task,mc->talkieScene,mc->loot);
    }
@@ -120,10 +120,7 @@ while(TRUE){
       switch(arg1){
         case 'I':
         case 'i':
-         if(mc->displayInventory){
-          mc->displayInventory=FALSE;} 
-         else{
-          mc->displayInventory=TRUE;} 
+         InvButton();
          break;
         case 'W':
         case 'w': keys.pressed=DIR_UP;
@@ -290,4 +287,4 @@ fs_end:
  CleanUp;
 
 }
-  RPGMain;
+  RPGMain;

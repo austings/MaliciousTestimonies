@@ -73,10 +73,20 @@ static CDC* ITEM050= FramePtr("ITEM050");
 class Item:CQue
 {
   U8* name;
+  //name appears in tooltip
   I16 equip_slot, id, invID,value;
+  //equip slot determines equippable helm, body, ring, wep (or none)
+  //id is the item id (generic)
+  //invID is for differentiating the same item in players inv
+  //value refers to gold cost
   Bool usable, visible;
+  //usable determines selection option from prayer menu 
+  //visible is used to toggle item when dragging
   U8 w, h, wOff,hOff;
+  //w and h are in inventory boxes width and height
+  //wOff and hOff refer to screen location offset relative to inventory position
   U8* v1,*v2,*v3;
+  //these variables optionally appear in tooltip description
 };
 
 class ItemNode

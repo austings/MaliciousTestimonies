@@ -28,27 +28,34 @@ U0 KeyEnter(Actor *p, MapNode *puin)
  if(mc->combatON){
   switch(mc->combatMenuSelection){
    case CMS_MOVE://move
-    mc->combatMenuSelection =CMS_MOVE_DONE; 
+    mc->combatMenuSelection =CS_MOVE; 
     break;
    case CMS_STRIKE://strike
     mc->combatMenuSelection =CS_STRIKE; 
     break;
    case CMS_PRAYER://prayer
-    mc->combatMenuSelection =CS_PRAYER; 
+    GatherSelections(); 
+    mc->combatMenuSelection =CS_PRAYER;
     break;
    case CMS_FLEE://flee
     mc->combatMenuSelection =CS_FLEE; 
     break;
-   case CMS_MOVE_DONE://move completion
-    mc->combatMenuStage=CS_MOVE;
+   case CS_MOVE://move completion
+    mc->combatMenuSelection =CMS_MOVE_DONE;
+    mc->combatMenuStage =STAGE_1;
     break;
    case CS_STRIKE://strike completion
     mc->combatMenuSelection=CMS_STRIKE_DONE;
     PlayStrikeAnim(p);
     break;
    case CS_PRAYER:
+    switch(mc->prayer)
+    {
+     case SP_HEAL:
+     break;
+    }
     mc->combatMenuSelection=CMS_PRAYER_DONE;
-    break;
+   break;
   }//end switch
  }else
  {
@@ -58,15 +65,13 @@ U0 KeyEnter(Actor *p, MapNode *puin)
 
 U0 KeyArrow(Actor *p)
 { //corresponds to DIR left, right, up, down
- if(!mc->combatON&&p->walking==W_NOTWALKING){
-  MoveActor(p,keys.pressed);
+ if(!mc->combatON){
+  if(p->walking==W_NOTWALKING){
+   MoveActor(p,keys.pressed);
+  }
  }
  else{ 
-  switch(mc->combatMenuStage){
-   case CMS_MOVE:
-    CombatTurnArrows(p);     
-   break; 
- }
+  CombatTurnArrows(p);     
  } 
 }
 

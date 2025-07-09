@@ -1,4 +1,8 @@
 //test
+#define SP_HEAL    0
+#define SP_LIGHT   1
+#define SP_SWARM   2
+#define SP_SONG    3
 
 U0 InitializePrayers()
 {
@@ -37,9 +41,26 @@ U0 InitializePrayers()
  prayers->unlocked = 0;
 }
 
-U0 CycleInv()
+U0 CycleInv(Bool backward = FALSE)
 {
- mc->displayInventory=TRUE;
+ //mc->displayInventory=TRUE;
+ I64 i;
+ if(backward)
+ {
+  mc->prayerListIndex--;
+  if(mc->prayerListIndex==-1)
+   mc->prayerListIndex = mc->prayerListSize-1;
+  
+ }
+ else
+ {
+  mc->prayerListIndex++;
+  if(mc->prayerListIndex==mc->prayerListSize)
+   mc->prayerListIndex = 0;
+
+ }
+ mc->prayer = mc->prayerList[mc->prayerListIndex];
+
 }
 
 
@@ -67,6 +88,49 @@ Bool FindPrayer()
  return FALSE;
 
 }
+
+I64 *GatherSelections()
+{
+ I64 i,selectI; 
+ I64 totalItems = NUM_HOTKEYS+(INVWIDTH*INVHEIGHT);
+ I64 *selections = MAlloc(sizeof(I64)*totalItems);
+
+ for(i=0;i++;i<NUM_HOTKEYS)
+ {
+  I64 prayer = hotkeys[i];
+  if(prayer!=-1)
+  {
+   selections[selectI] = prayer;
+   selectI++;
+
+  } 
+ }
+ selections[selectI] = DELIMITER;
+ selectI++;
+ Item *candidate = (GetNPC(0))->myInv->collection->next;
+ for(i=0;i<INVWIDTH*INVHEIGHT;i++)
+ {
+  if(candidate->usable)
+  {
+   selections[selectI] = candidate->invID;
+   selectI++;
+  }
+  candidate= candidate->next;
+ }
+ // Resize array to exact used size
+ I64 *trimmed = MAlloc(sizeof(I64) * selectI);
+ for (i = 0; i < selectI; i++)
+ {
+  trimmed[i] = selections[i];
+ }
+
+ mc->prayerListSize = selectI;
+ mc->prayerList = trimmed;
+ Free(selections); 
+
+}
+
+
 U0 MakeOffering()
 {
 
