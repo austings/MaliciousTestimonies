@@ -49,7 +49,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     PlayStrikeAnim(p);
     break;
    case CS_PRAYER:
-    switch(mc->prayer)
+    switch(mc->prayerToCast)
     {
      case SP_HEAL:
      break;
@@ -259,9 +259,9 @@ U0 ShowToolTips(CDC *dc = gr.dc)
  }
 
  if(mc->displayPrayers&&!mc->prayerDragging&&!mc->draggingInv)
- {//mc->prayer is set in FindPrayer
+ {//mc->dragPrayer is set in FindPrayer
   if(FindPrayer()){
-   i = mc->prayer;
+   i = mc->dragPrayer;
 
    U8* name = prayers->list[i]->name;  
    U8* cost = MStrPrint("%s%d%s","Cost:",prayers->list[i]->cost," Spirit"); 

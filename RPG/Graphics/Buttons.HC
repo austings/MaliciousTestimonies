@@ -97,9 +97,9 @@ U0 PrayerFilters(I64 M_X, I64 M_Y,I64 i, I64 j)
    if(M_X>=i&&M_X<=i+50&&
       M_Y>=0&&M_Y<=50)
    {
-    SetHotKey(index,mc->prayer);
+    SetHotKey(index,mc->dragPrayer);
     mc->prayerDragging=FALSE;
-    mc->prayer = -1;
+    mc->dragPrayer = -1;
     break;
    }
    index++;

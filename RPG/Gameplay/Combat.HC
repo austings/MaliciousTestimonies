@@ -28,7 +28,7 @@ U0 HandleCombatLoop(CTask *task, CDC *dc){
    {
     case CS_PRAYER:
      mc->displayInventory=TRUE;   
-     CombatDialog2(dc,task);     
+     CombatDialog2(dc,task);     
 
     break;
     default:

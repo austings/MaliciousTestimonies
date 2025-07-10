@@ -93,7 +93,7 @@ class Prayers
 class MenuControl{
   //Narrative Control
   Bool fxMuted,musicMuted;
-  I32 currentSong,//for draw and song threads
+  I32 currentSong,//for draw and song threads
       currentMenu,
       cutsceneTarget;//switch cutscene frames
 
@@ -111,7 +111,7 @@ class MenuControl{
   Actor *target;I64 tarposx,tarposy;
 
   //prayerSelection
-  I64 prayer, prayerListIndex, prayerListSize;
+  I64 prayerToCast, dragPrayer, prayerListIndex, prayerListSize;
   I64 *prayerList;
 
   //menus render

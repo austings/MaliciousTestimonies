@@ -1,5 +1,4 @@
 //test
-#define SP_HEAL    0
 #define SP_LIGHT   1
 #define SP_SWARM   2
 #define SP_SONG    3
@@ -16,7 +15,7 @@ U0 InitializePrayers()
   prayers->list[i]->unlocked = FALSE;
   switch(i)
   {
-   case 0:
+   case SP_HEAL:
     prayers->list[i]->name ="Lay On Hands";
     prayers->list[i]->cost = 10;
     prayers->list[i]->type = TYPE_M;
@@ -45,21 +44,18 @@ U0 CycleInv(Bool backward = FALSE)
 {
  //mc->displayInventory=TRUE;
  I64 i;
- if(backward)
- {
+ if(backward){
   mc->prayerListIndex--;
   if(mc->prayerListIndex==-1)
    mc->prayerListIndex = mc->prayerListSize-1;
   
  }
- else
- {
+ else{
   mc->prayerListIndex++;
   if(mc->prayerListIndex==mc->prayerListSize)
    mc->prayerListIndex = 0;
 
  }
- mc->prayer = mc->prayerList[mc->prayerListIndex];
 
 }
 
@@ -72,7 +68,7 @@ Bool FindPrayer()
   for(j=102;j<201;j=j+50){
    if(camera->cursorX>=i&&camera->cursorX<=i+50
      &&camera->cursorY>j&&camera->cursorY<j+50){
-    mc->prayer = localIndex+mc->prayerPage;
+    mc->dragPrayer = localIndex+mc->prayerPage;
     found=TRUE;
     goto quit;
    }
@@ -80,22 +76,24 @@ Bool FindPrayer()
   }
   localIndex++;
  }
+
  quit:
  if(found){
   return TRUE;
  }
- mc->prayer=-1;
+ mc->dragPrayer=-1;
  return FALSE;
 
 }
 
-I64 *GatherSelections()
+U0 GatherSelections()
 {
- I64 i,selectI; 
+ I64 i,selectI=0; 
  I64 totalItems = NUM_HOTKEYS+(INVWIDTH*INVHEIGHT);
  I64 *selections = MAlloc(sizeof(I64)*totalItems);
 
- for(i=0;i++;i<NUM_HOTKEYS)
+ //scower hotkeys
+ for(i=0;i<NUM_HOTKEYS;i++)
  {
   I64 prayer = hotkeys[i];
   if(prayer!=-1)
@@ -105,8 +103,11 @@ I64 *GatherSelections()
 
   } 
  }
+ //add delimiter
  selections[selectI] = DELIMITER;
  selectI++;
+ 
+ //add any usables
  Item *candidate = (GetNPC(0))->myInv->collection->next;
  for(i=0;i<INVWIDTH*INVHEIGHT;i++)
  {
@@ -118,7 +119,7 @@ I64 *GatherSelections()
   candidate= candidate->next;
  }
  // Resize array to exact used size
- I64 *trimmed = MAlloc(sizeof(I64) * selectI);
+ I64 *trimmed = MAlloc(sizeof(I64) * selectI);
  for (i = 0; i < selectI; i++)
  {
   trimmed[i] = selections[i];

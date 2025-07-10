@@ -1,3 +1,8 @@
+// U8 *d = MStrPrint("%d",mc->prayer);
+// dc->color = BLACK;
+// PrintLine(dc,d,10,10,3);
+
+//
 // Construct Graphics from WAD
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";

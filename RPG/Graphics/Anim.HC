@@ -214,7 +214,6 @@ U0 ProceduralAnimate1(CDC *dc,Director *task)
     task->a->screenX = task->x + (amplitudeX * Sin(time));
     task->a->screenY = task->y - (amplitudeY * Abs(Sin(time))); // bounce upward only
 
-    // Optional: reset loop every full cycle (approx 2π)
     if (time > 2 * pi) {
       task->z = 0;
     }

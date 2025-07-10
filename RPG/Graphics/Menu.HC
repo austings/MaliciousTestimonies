@@ -547,7 +547,7 @@ U0 BlotPrayer(CDC *pm, I64 x, I64 y, I64 index)
 {
  switch(prayers->list[index]->id)
    {
-    case LAY_ON_HANDS:
+    case SP_HEAL:
      GrBlot3(pm,x,y,0,ITEM050);
     break;
     default:
@@ -964,12 +964,12 @@ U0 DragPrayer(CDC *pm)
 //avoid conflict with inventory
  if(mc->draggingInv==FALSE&&mc->prayerDragging) 
  {
-  if(mc->prayer!=-1)//if we have a prayer
+  if(mc->dragPrayer!=-1)//if we have a prayer
   {
-   I64 x = camera->cursorX+3-(prayers->list[mc->prayer]->wOff);
-   I64 y = camera->cursorY-(prayers->list[mc->prayer]->hOff);
+   I64 x = camera->cursorX+3-(prayers->list[mc->dragPrayer]->wOff);
+   I64 y = camera->cursorY-(prayers->list[mc->dragPrayer]->hOff);
 
-    BlotPrayer(pm,x,y,mc->prayer);
+    BlotPrayer(pm,x,y,mc->dragPrayer);
   }
  
   DrawPrayerHotbar(pm);

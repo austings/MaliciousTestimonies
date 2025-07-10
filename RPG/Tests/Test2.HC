@@ -34,7 +34,7 @@ class Director{
 } direct;
 
 Animation *AddFrame(CDC *frame,U8* key,I8 fIndex; 
-                    I8 xO=0,I8 yO=0,I8 sfd=3)
+                    I8 xO=0,I8 yO=0,I8 sfd=3)
 {
   Animation *createdFrame = CAlloc(sizeof(Animation));
   createdFrame->frame = frame;

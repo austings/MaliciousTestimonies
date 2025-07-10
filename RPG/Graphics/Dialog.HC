@@ -228,46 +228,42 @@ U0 CombatDialog1(CDC *dc, CTask *task, U8 selection)
 U0 CombatDialog2(CDC *dc, CTask *task)
 {
  Sprite3B(dc,300,250,0,GetButton(5));
-
  I64 i,j,x=280,y=250;
-
  Bool isItem = FALSE;
- for(i=0;i<mc->prayerListSize;i++)
- {
-  if(mc->prayerListIndex==i)
-  {
-   //delimiter indicates player selected back button
-   if(mc->prayer==DELIMITER){
-    Sprite3B(dc,x,y,0,GetCross);
-    break;
-   }
+ mc->prayerToCast = mc->prayerList[mc->prayerListIndex];
 
-   if(isItem)
-   {
-     GetItemScreenLoc(mc->prayer,&x,&y);
+ for(i=0;i<mc->prayerListSize;i++){
+  if(mc->prayerList[i]==mc->prayerToCast){
+   //delimiter indicates player selected back button
+   if(mc->prayerToCast==DELIMITER){
+    Sprite3B(dc,x,y,0,GetCross);
+    goto found;
+   }
+   if(isItem){
+     GetItemScreenLoc(mc->prayerToCast,&x,&y);
      Sprite3B(dc,x,y,0,GetCross);
+     goto found;
    }
    else
    {//player selecting prayer from hotbar
-    for(i=0;i<NUM_HOTKEYS;i++)
-    {
-     if(hotkeys[i]==mc->prayer){
-      x = 10+(50*i);
-      y = 12;
-      break;
-     }
-    }      
-    Sprite3B(dc,x,y,0,GetCross);
-
+    if(!isItem){
+     for(j=0;j<NUM_HOTKEYS;j++)
+     {
+      if(hotkeys[j]==mc->prayerToCast){
+       x = 10+(50*j);
+       y = 26;
+       Sprite3B(dc,x,y,0,GetCross);
+       goto found;
+      }
+     }      
+    }
    }
-
   }
   else
   {//if we have passed delimiter, then we enter the inventory space
    if(mc->prayerList[i]==DELIMITER)
     isItem=TRUE;
-
-  }
-  
+  }  
  }
+ found:
 }

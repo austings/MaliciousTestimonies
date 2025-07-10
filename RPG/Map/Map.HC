@@ -53,7 +53,7 @@ static CDC*		SPECIAL2 = FramePtr("EFF076");
 
 
 //prayers
-#define LAY_ON_HANDS	0
+#define SP_HEAL	0
 static CDC* ITEM050= FramePtr("ITEM050");
 
 //Sprite3B(ITEM3I,0,0,10,GetFang);

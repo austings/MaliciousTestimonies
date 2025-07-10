@@ -55,7 +55,8 @@ U0 InitMenuControl()
  mc->displayEquipment=FALSE;
  mc->displayPrayers=FALSE;
  mc->prayerPage=0;
- mc->prayer=-1;
+ mc->dragPrayer=-1;
+ mc->prayerToCast=-1;
  mc->prayerListSize =0;
  mc->prayerListIndex =0;
  mc->prayerDragging=FALSE;
