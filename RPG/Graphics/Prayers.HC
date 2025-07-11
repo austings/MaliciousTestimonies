@@ -24,7 +24,7 @@ U0 InitializePrayers()
 
    break;
    default:
-    prayers->list[i]->name = "Unknown";
+    prayers->list[i]->name = "Unknown";
     prayers->list[i]->cost = 0;
     prayers->list[i]->type = TYPE_M;
     prayers->list[i]->wOff = 0;

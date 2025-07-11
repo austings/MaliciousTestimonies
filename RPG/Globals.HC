@@ -56,7 +56,7 @@ class Prayers
 #define SCREENX 480
 #define SCREENY 480
 #define FRAMERULE 3
-
+#define DIALOG_BOX_Y	375
 
 //ai scripts
 #define AI_DEFAULT	1
@@ -82,6 +82,7 @@ class Prayers
 
 #define CMS_PRAYER		2
 #define CS_PRAYER		12
+#define CS_PRAYER2		122
 #define CMS_PRAYER_DONE		112
 #define DELIMITER -9348934
 
@@ -111,7 +112,7 @@ class MenuControl{
   Actor *target;I64 tarposx,tarposy;
 
   //prayerSelection
-  I64 prayerToCast, dragPrayer, prayerListIndex, prayerListSize;
+  I64 prayerToCast, dragPrayer, prayerListIndex, prayerListSize;
   I64 *prayerList;
 
   //menus render

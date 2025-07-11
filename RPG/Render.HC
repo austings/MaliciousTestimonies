@@ -117,22 +117,6 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
  } 
 }
 
-U0 ConfigureCombatPose(Actor *toRender, Actor *p)
-{
-
- //COMBAT start initializations
- //move enemy during combat turn 
- if(toRender->ai_script==1){ 
-  if(mc->combatON==FALSE   && toRender->ai_script==1&&
-          toRender->dead==FALSE && //(enemy)
-          Abs((p->x)-(toRender->x))<=AGGRO_DIS&& //(aggro distance)
-          Abs((p->y)-(toRender->y))<=AGGRO_DIS)
-  {
-   CombatQueInit(toRender);
-  }
-  RenderCombatVersion(toRender);
- }
-}
 
 I64 GetActorScreenX(Actor *a, I64 npcox, I64 i, Bool Player=TRUE)
 {
@@ -166,6 +150,35 @@ I64 GetActorScreenY(Actor *a, I64 npcoy, I64 j,Bool Player=TRUE)
  }
 }
 
+U0 ConfigureCombatPose(Actor *toRender, Actor *p)
+{
+ I64 i,j;
+ //COMBAT start initializations
+ //move enemy during combat turn 
+ if(toRender->ai_script==1){ 
+  if(mc->combatON==FALSE   && 
+     toRender->ai_script==1&&
+     toRender->dead==FALSE && //(enemy)
+     Abs((p->x)-(toRender->x))<=AGGRO_DIS&& //(aggro distance)
+     Abs((p->y)-(toRender->y))<=AGGRO_DIS  )
+  {
+   CombatQueInit(toRender);
+  } else if(mc->combatON==FALSE &&
+            HasDirective(BOUNCE,toRender))
+  {
+   I64 npcOffsetX=-camera->cameraOffSetX; 
+   I64 npcOffsetY=-camera->cameraOffSetY;
+
+    UpdateDirective(BOUNCE,toRender,    
+     GetActorScreenX(toRender,npcOffsetX,toRender->x,FALSE),
+     GetActorScreenY(toRender,npcOffsetY,toRender->y,FALSE),0,TRUE);
+
+  }
+  RenderCombatVersion(toRender);
+ }
+
+}
+
 Actor *RenderPlayer(CDC *dc, Actor *p,
                     I64 npcox,I64 npcoy,I64 i,I64 j)
 {
@@ -174,32 +187,68 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
   GetActorScreenX(p,npcox,i);
   GetActorScreenY(p,npcoy,j);
  }
- if(mc->combatMenuSelection==CMS_MOVE_DONE)
- {
-  mc->combatMenuStage=STAGE_1;
- }
- if(mc->combatMenuSelection==CS_PRAYER)
- {
-  DrawPrayerHotbar(dc);
- }
- //render attack from player
- if(mc->combatMenuSelection==CMS_STRIKE_DONE){
-  switch(p->sword){
-   case IT_FIST: //fist
-    PunchMove(dc,p, mc->tarposx,
+
+ if(mc->combatMenuStage==STAGE_0){
+  switch(mc->combatMenuSelection)
+  {
+  case CMS_MOVE_DONE:
+   mc->combatMenuStage=STAGE_1;
+  break;
+  case CMS_STRIKE_DONE:
+   switch(p->sword){
+    case IT_FIST: //fist
+     PunchMove(dc,p, mc->tarposx,
               mc->tarposy-mc->turnIndex,
               CalculateAngle(mc->tarposx,mc->tarposy,
               p->screenX,p->screenY));
-    mc->turnIndex++;
-    if(mc->turnIndex>50){
-     RemoveHealth(mc->target,p->str);
+     mc->turnIndex++;
+     if(mc->turnIndex>50){
+      RemoveHealth(mc->target,p->str);
+      mc->turnIndex=1;
+      mc->combatMenuStage=STAGE_1;
+     }//mc turnindex
+    break;
+   }//switch p sword
+  break;
+  case CS_PRAYER:
+   DrawPrayerHotbar(dc);
+  break;
+  case CMS_PRAYER_DONE:
+   switch(mc->prayerToCast)
+   {
+    case SP_HEAL: //lay on hands
+     CastPrayer();
+     mc->turnIndex++;
+     if(mc->turnIndex>50){
+      RemoveHealth(mc->target,-p->int);
+      mc->turnIndex=1;
+      mc->combatMenuStage=STAGE_1;
+     }
+    break;
+   }//switch prayer
+
+  break;
+  case CS_FLEE:
+   mc->turnIndex++;
+   if(mc->turnIndex>50){
+    U16 r = RandU16();
+    // 80% chance-returns a number from 0 to 65535 (inclusive).
+    // 80% of 65536 = 52428.8, so comparing like this
+    if (r < 0.8 * 65536){
+     mc->combatON = FALSE;
+     mc->combatMenuStage =STAGE_0;
+     mc->combatMenuSelection=CMS_MOVE;
+
+    } 
+    else{
      mc->turnIndex=1;
      mc->combatMenuStage=STAGE_1;
-    }//mc turnindex
-   break;
-  }//switch p sword
- }//combat render phase
- 
+    }
+
+   }
+  break;
+  }
+ }
  return p;
 }
 

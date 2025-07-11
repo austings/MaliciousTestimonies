@@ -34,7 +34,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    DragPrayer(dc);
    DrawHealthMana(dc,p,i,j);
    //Dialog   
-   if(mc->talkieScene!=-1&&mc->combatMenuSelection!=CS_PRAYER){
+   if(mc->talkieScene!=-1){
     mc->displayInventory=FALSE;
     Chatbox(mc->dialogName,dc,task,mc->talkieScene,mc->loot);
    }
@@ -185,71 +185,66 @@ while(TRUE){
    break;
   case 2://character creation
    switch (msg_code=GetMsg(&arg1,&arg2,
-    1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
-	      case MSG_MS_L_DOWN:
-	        if(camera->cursorX>=386&&camera->cursorX<=429)
-		  {
-		  if(camera->cursorY>300&&camera->cursorY<336)
-		    { //tribe
-		    IncSelect(0);
-		  } else if(camera->cursorY>348&&camera->cursorY<382)
-		    {//hair
-		    IncSelect(1);
-		  } else if(camera->cursorY>400&&camera->cursorY<432)
-		    {//face
-		    IncSelect(2);
-		  }
-	        }
-	        if(camera->cursorX>=476&&camera->cursorX<=603)
-		  {
-		  if(camera->cursorY>=370&&camera->cursorY<=434)
-		    {//next scene
-		    U8 tribe = GetSelectedStats(0);
-		    U8 str,con,int,wis;
-		    switch(tribe)
-		      {
-		      case 0:
-		        str=10;con=10;int=10;wis=10;
-		        break;
-		      case 1:
-		        str=5;con=5;int=15;wis=15;
-		        break;
-		      case 2:
-		        str=5;con=15;int=5;wis=15;
-		        break;
-		      case 3:
-		        str=15;con=15;int=5;wis=5;
-		        break;
-		    }
-		    ResetCurrLetter;
-		    mc->cutsceneTarget=0;
-		    SetNPC(MakeActor(0,tribe,GetSelectedStats(1),GetSelectedStats(2), 
-			  0,0,0,0,0,
-			  0,0,0,0,
-			  5,5,str,int,con,wis,0));
-		    mc->currentMenu=1;
-                    mc->currentSong=0;
-		  }
-	        }
-	        break;
-	    }
-	    break;
-	  case 3://cutscene
-           
-	    switch (msg_code=GetMsg(&arg1,&arg2,
-		  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
-	      {
-	      case MSG_MS_L_DOWN:
-	        mc->cutsceneTarget++;
-	        ResetCurrLetter;
-	        if(mc->cutsceneTarget>2)
-		  {
-		  mc->currentMenu=2;
-                  mc->currentSong=2;
-	        }
-	        break;
-	    }
-
+           1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
+    case MSG_MS_L_DOWN:
+     if(camera->cursorX>=386&&
+        camera->cursorX<=429) {
+      if(camera->cursorY>300
+         &&camera->cursorY<336){ //tribe
+       IncSelect(0);
+      } else if(camera->cursorY>348&&
+                camera->cursorY<382) {//hair
+       IncSelect(1);
+      } else if(camera->cursorY>400&&
+                camera->cursorY<432){//face
+	IncSelect(2);
+      }
+     }
+     if(camera->cursorX>=476&&
+        camera->cursorX<=603&&
+        camera->cursorY>=370&&
+        camera->cursorY<=434){//next scene
+      U8 tribe = GetSelectedStats(0);
+      U8 str,con,int,wis;
+      switch(tribe){
+       case T_JUDA:
+        str=10;con=10;int=10;wis=10;
+       break;
+       case T_LEVI:
+        str=5;con=5;int=15;wis=15;
+       break;
+       case T_EPHR:
+        str=5;con=15;int=5;wis=15;
+       break;
+       case T_BENJ:
+        str=15;con=15;int=5;wis=5;
+       break;
+      }
+      ResetCurrLetter;
+      mc->cutsceneTarget=0;
+      SetNPC(MakeActor(0,tribe,GetSelectedStats(1),GetSelectedStats(2), 
+                       0,0,0,0,0,0,0,0,0,
+		       5,5,str,int,con,wis,0));
+      mc->currentMenu=1;
+      mc->currentSong=0;
+     }
+    break;
+   }
+  break;
+  case 3://cutscene        
+   switch (msg_code=GetMsg(&arg1,&arg2,
+          1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
+   {
+    case MSG_MS_L_DOWN:
+     mc->cutsceneTarget++;
+     ResetCurrLetter;
+     if(mc->cutsceneTarget>2)
+      {
+       mc->currentMenu=2;
+       mc->currentSong=2;
+      }
+     break;
+   }
   break;
   case 4://load menu
    CDirEntry *cur;

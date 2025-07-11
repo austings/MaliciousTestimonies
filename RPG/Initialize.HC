@@ -32,7 +32,7 @@
 #include "Music.HC";
 
 // Loading Combat Scenarios
-#include "Graphics/Attacks.HC";
+#include "Graphics/Attacks.HC";
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
 #include "Render.HC";

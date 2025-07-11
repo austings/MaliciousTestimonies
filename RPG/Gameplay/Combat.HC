@@ -29,7 +29,9 @@ U0 HandleCombatLoop(CTask *task, CDC *dc){
     case CS_PRAYER:
      mc->displayInventory=TRUE;   
      CombatDialog2(dc,task);     
-
+    break;
+    case CS_FLEE:
+     CombatDialog3(dc,task);
     break;
     default:
      mc->displayInventory=FALSE;
@@ -86,12 +88,20 @@ U0 CombatTurnArrows(Actor *p)
     mc->turnIndex = 1;
    } 
   break;
-  case CS_PRAYER://select item
+  case CS_PRAYER://select prayer/item
    if(keys.pressed==DIR_DOWN||keys.pressed==DIR_RIGHT)
     CycleInv();
    if(keys.pressed==DIR_LEFT||keys.pressed==DIR_UP)
-    CycleInv(TRUE);
-   
+    CycleInv(TRUE);   
   break;
+  case CS_PRAYER2://select target
+   ctp = ctp->next;
+   mc->turnIndex++;//return to player from head
+   if(mc->turnIndex>QueCnt(combatCQue)){
+    ctp = combatCQue.next;
+    mc->turnIndex = 1;
+   } 
+  break;
+
  }//switch end
 }

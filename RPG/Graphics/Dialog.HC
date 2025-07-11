@@ -200,7 +200,7 @@ U0 CombatDialog1(CDC *dc, CTask *task, U8 selection)
   case 12: break;
   case 13: break;
   start:
-   Sprite3B(dc,0,375,0,GetDialogBox);
+   Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
    case CMS_MOVE:
    Sprite3B(dc,12+5*13,385,0,GetCross);
    break;
@@ -266,4 +266,14 @@ U0 CombatDialog2(CDC *dc, CTask *task)
   }  
  }
  found:
+}
+
+U0 CombatDialog3(CDC *dc, CTask *task)
+{
+ U8 *fleeText = "Attempting to run away!";
+ dc->color = BLACK;
+ Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
+ PrintLine(dc,fleeText,12,385,2);
+
+
 }

@@ -48,14 +48,17 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     mc->combatMenuSelection=CMS_STRIKE_DONE;
     PlayStrikeAnim(p);
     break;
-   case CS_PRAYER:
-    switch(mc->prayerToCast)
-    {
-     case SP_HEAL:
-     break;
-    }
-    mc->combatMenuSelection=CMS_PRAYER_DONE;
+   case CS_PRAYER://select which prayer
+    if(mc->prayerToCast!=DELIMITER)
+     mc->combatMenuSelection=CS_PRAYER2;
+    else
+     mc->combatMenuSelection=CMS_PRAYER;//go back
    break;
+   case CS_PRAYER2://select target (prayer completion)
+    mc->combatMenuSelection=CMS_PRAYER_DONE;
+    PlayStrikeAnim(p);
+    break;
+
   }//end switch
  }else
  {

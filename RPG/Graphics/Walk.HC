@@ -210,7 +210,8 @@ Bool HasDirective(I64 directive,Actor *a)
 
 //update directive id by actor and directive
 //inherently checks Has
-Bool UpdateDirective(I64 directive,Actor *p,I64 x, I64 y, I64 z)
+Bool UpdateDirective(I64 directive,Actor *p,
+                     I64 x, I64 y, I64 z,Bool explicitRemoval=FALSE)
 {
  Director *task = direct.next;
  I64 i =0; Bool free=FALSE;
@@ -219,7 +220,8 @@ Bool UpdateDirective(I64 directive,Actor *p,I64 x, I64 y, I64 z)
   {
    if(task->a->id==p->id)
    {
-    if(p->dead)//update if actor dies mid animate
+    if(p->dead||explicitRemoval)
+    //update if actor dies mid animate
     {
      QueRem(task);
      return FALSE;
