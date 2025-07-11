@@ -92,10 +92,17 @@ U0 RemoveHealth(Actor *a, I64 magnitude)
      a->currentHealth = a->health;
     }
 
-  }
- 
+  } 
 }
 
+U0 AddHealth(Actor *a,I64 magnitude)
+{
+ IndicatorText(a->x,a->y,magnitude,"Health");
+ a->currentHealth = a->currentHealth + magnitude;
+ if(a->currentHealth>a->health){
+    a->currentHealth = a->health;
+ }
+}
 
 
 U8 *ReadALine(U8 **fbuf) {

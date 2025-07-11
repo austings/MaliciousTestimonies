@@ -177,13 +177,60 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(AAE58,T$ER$4DIE,5),allAnimations.last);
    QueIns(AddFrame(AAE59,T$ER$4DIE,6),allAnimations.last);
    QueIns(AddFrame(AAE60,T$ER$4DIE,7),allAnimations.last);
+  break;
+  case T1CAST:
+   QueIns(AddFrame(AAE75,T$ER$1CAST,0),allAnimations.last);
+   QueIns(AddFrame(AAE76,T$ER$1CAST,1),allAnimations.last);
+   QueIns(AddFrame(AAE80,T$ER$1CAST,2),allAnimations.last);
+   QueIns(AddFrame(AAE77,T$ER$1CAST,3),allAnimations.last);
+   QueIns(AddFrame(AAE78,T$ER$1CAST,4),allAnimations.last);
+   QueIns(AddFrame(AAE78,T$ER$1CAST,5),allAnimations.last);
+   QueIns(AddFrame(AAE78,T$ER$1CAST,6),allAnimations.last);
+  break;
+  case T2CAST:
+   QueIns(AddFrame(AAE128,T$ER$2CAST,0),allAnimations.last);
+   QueIns(AddFrame(AAE129,T$ER$2CAST,1),allAnimations.last);
+   QueIns(AddFrame(AAE133,T$ER$2CAST,2),allAnimations.last);
+   QueIns(AddFrame(AAE130,T$ER$2CAST,3),allAnimations.last);
+   QueIns(AddFrame(AAE131,T$ER$2CAST,4),allAnimations.last);
+   QueIns(AddFrame(AAE132,T$ER$2CAST,5),allAnimations.last);
+   QueIns(AddFrame(AAE132,T$ER$2CAST,6),allAnimations.last);
+
+  break;
+  case T3CAST:
+   QueIns(AddFrame(AAE210,T$ER$3CAST,0),allAnimations.last);
+   QueIns(AddFrame(AAE183,T$ER$3CAST,1),allAnimations.last);
+   QueIns(AddFrame(AAE187,T$ER$3CAST,2),allAnimations.last);
+   QueIns(AddFrame(AAE185,T$ER$3CAST,3),allAnimations.last);
+   QueIns(AddFrame(AAE186,T$ER$3CAST,4),allAnimations.last);
+   QueIns(AddFrame(AAE186,T$ER$3CAST,5),allAnimations.last);
+   QueIns(AddFrame(AAE186,T$ER$3CAST,6),allAnimations.last);
+
+  break;
+  case T4CAST:
+   QueIns(AddFrame(AAE20,T$ER$4CAST,0),allAnimations.last);
+   QueIns(AddFrame(AAE21,T$ER$4CAST,1),allAnimations.last);
+   QueIns(AddFrame(AAE25,T$ER$4CAST,2),allAnimations.last);
+   QueIns(AddFrame(AAE22,T$ER$4CAST,3),allAnimations.last);
+   QueIns(AddFrame(AAE23,T$ER$4CAST,4),allAnimations.last);
+   QueIns(AddFrame(AAE24,T$ER$4CAST,5),allAnimations.last);
+   QueIns(AddFrame(AAE24,T$ER$4CAST,6),allAnimations.last);
+  break;
+  case T1EFFHEAL:
+   QueIns(AddFrame(EFF075,T1EFFHEAL,0),allAnimations.last);
+   QueIns(AddFrame(EFF076,T1EFFHEAL,1),allAnimations.last);
+   QueIns(AddFrame(EFF036,T1EFFHEAL,2),allAnimations.last);
+   QueIns(AddFrame(EFF037,T1EFFHEAL,3),allAnimations.last);
+   QueIns(AddFrame(EFF034,T1EFFHEAL,4),allAnimations.last);
+   QueIns(AddFrame(EFF033,T1EFFHEAL,5),allAnimations.last);
+   QueIns(AddFrame(EFF031,T1EFFHEAL,6),allAnimations.last);
 
   break;
 
  }
 }
 
-U0 ResetDirective(Director *task)
+U0 ResetDirective(Director *task)
 {
   task->cQueDirective = NoDirective;
   task->animIndex = 0;
@@ -317,6 +364,13 @@ U0 InitializeAnimator(){
   CreateAnimation(T2DIE);
   CreateAnimation(T3DIE);
   CreateAnimation(T4DIE);
+
+  CreateAnimation(T1CAST);
+  CreateAnimation(T2CAST);
+  CreateAnimation(T3CAST);
+  CreateAnimation(T4CAST);
+
+  CreateAnimation(T1EFFHEAL);
 
  //load all animations into the hashtable 
 }

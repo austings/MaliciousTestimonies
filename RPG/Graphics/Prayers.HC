@@ -24,7 +24,7 @@ U0 InitializePrayers()
 
    break;
    default:
-    prayers->list[i]->name = "Unknown";
+    prayers->list[i]->name = "Unknown";
     prayers->list[i]->cost = 0;
     prayers->list[i]->type = TYPE_M;
     prayers->list[i]->wOff = 0;
@@ -137,6 +137,17 @@ U0 MakeOffering()
 
 }
 
-U0 CastPrayer()
+U0 CastPrayer(Actor *a)
 {
+ switch(mc->prayerToCast)
+ {
+  case SP_HEAL:
+   AddDirective(T1CAST,a);
+   AddDirective(T1EFFHEAL,mc->target);
+  break;
+  default:
+   AddDirective(T1CAST,a);
+  break;
+ }
 }
+

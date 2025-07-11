@@ -242,7 +242,7 @@ U0 AddDirective(I64 directive, Actor *p)
 {
  //TODO:this sucks
  Director *task = direct.next;
- I64 i =0; Bool free=FALSE;
+ I64 i =0; Bool free=FALSE; Bool isEffect = FALSE;
  for(i=0;i!=QueCnt(direct);i++){
   if(task->cQueDirective==NoDirective)
   {
@@ -255,10 +255,6 @@ U0 AddDirective(I64 directive, Actor *p)
   task = MAlloc(sizeof(Director));
   task->a = MAlloc(sizeof(Actor));
  }
- //while(StrCmp(direct.cQueDirective,NoDirective))
-// {
- // direct = direct.next;
- //}
  task->x = p->screenX;//(p->x)*camera->dividX;
  task->y = p->screenY;//(p->y)*camera->dividY;
  task->a = p;
@@ -377,10 +373,31 @@ U0 AddDirective(I64 directive, Actor *p)
     break;
    }
   break;
-
+  case T1CAST...T4CAST:
+   switch(p->race){
+    case T_JUDA:
+     task->cQueDirective = T1CAST;  
+    break;
+    case T_LEVI:
+     task->cQueDirective = T2CAST;
+    break;
+    case T_EPHR:
+     task->cQueDirective = T3CAST;
+    break;
+    case T_BENJ:
+     task->cQueDirective = T4CAST;
+    break;
+   }
+  break;
+  case T1EFFHEAL:
+   task->cQueDirective = T1EFFHEAL;
+   isEffect = TRUE;
+   break;
  }
  if(!free)
-  QueIns(task,direct.last); 
- p->visible=FALSE;
+  QueIns(task,direct.last);
+ if(!isEffect) 
+  p->visible=FALSE;
 
 }
+

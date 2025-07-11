@@ -56,7 +56,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
    break;
    case CS_PRAYER2://select target (prayer completion)
     mc->combatMenuSelection=CMS_PRAYER_DONE;
-    PlayStrikeAnim(p);
+    CastPrayer(p);
     break;
 
   }//end switch
