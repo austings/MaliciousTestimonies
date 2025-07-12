@@ -105,6 +105,29 @@ class Inventory
   ItemNode mtrx[4][11]; 
 };
 
+//
+//Prayer Globals
+//
+class Prayer
+{
+  U8 *name,*desc;
+  I64 id, type, cost, wOff, hOff;
+  Bool unlocked;
+};
+
+#define MAX_PRAYERS	42
+
+class Prayers
+{
+  Prayer **list;
+  I64 points,filter,unlocked; 
+};
+
+#define TYPE_M		0
+#define TYPE_W		1
+#define TYPE_P		2
+#define TYPE_A		3
+
 
 
 //		  //

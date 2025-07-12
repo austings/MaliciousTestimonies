@@ -10,6 +10,12 @@ U0 DrawIt(CTask *task, CDC *dc){
    break;
   //Main Game
   case 1:
+   world->timer = world->timer + FRAMERULE;
+   if(world->timer>=FRAMERULE_CAP)
+   {
+    world->timer = 0;
+   }
+
    Actor *p = GetNPC(0);
    MapNode *puin = GetTensorItem(world->level,p->x,p->y,world->currentZ);
    //Keyboard
@@ -181,6 +187,10 @@ while(TRUE){
       case MSG_MS_L_DOWN:
        HandleMouse(camera->cursorX,camera->cursorY,i,j);
       break;
+      case MSG_MS_R_DOWN:
+       HandleRMouse(camera->cursorX,camera->cursorY,i,j);
+      break;
+
      }
    break;
   case 2://character creation

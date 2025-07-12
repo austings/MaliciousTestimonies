@@ -457,7 +457,7 @@ U0 InteractActor(I64 npc)
       switch(npc){
         case 6://wolf fang
         mc->loot = "wolf fang";
-        AddItemToInventory(0,3);
+        AddItemToInventory(PLAYER,3);
         break;
       }
       mc->lootedSwitch=LOOTING;

@@ -400,4 +400,3 @@ U0 AddDirective(I64 directive, Actor *p)
   p->visible=FALSE;
 
 }
-

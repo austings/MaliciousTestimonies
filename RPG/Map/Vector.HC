@@ -42,11 +42,12 @@ Vector *CreateVector(I32 size)
 //add furniture item data d to vector index i.
 U0 SetVectorObj(Vector *v,I64 d,I32 i,Bool solid = TRUE)
 {
-
  v->data[i]->idObj = d;
- v->data[i]->hasObj = TRUE;
+ v->data[i]->hasObj= TRUE;
  if(solid) 
   v->data[i]->isSolid =TRUE;
+ else 
+  v->data[i]->isSolid =FALSE;
 
 }
 
@@ -78,10 +79,8 @@ NodeStuff *PickUpItem(MapNode *n,I64 index)
   for(i=0;i<index;i++){
     toBeRemoved = toBeRemoved->next;
   } 
-  if(toBeRemoved->id<SP_FISHING_SPOT){
-   QueRem(toBeRemoved);
-   n->len = n->len-1;
-  } 
+  QueRem(toBeRemoved);
+  n->len = n->len-1;
 
   return toBeRemoved;
 }
@@ -128,7 +127,8 @@ U0 SetVector(Vector *v,F64 d,I32 i)
 {
 
  v->data[i]->bg = d; 
- if(d==BG_DK_GRAY||d==BG_BLUE||d==BG_CYAN||d==SOLID_BG_GREEN)
+ if(d==BG_ROCK_WALL||d==BG_DK_GRAY||d==BG_BLUE||
+    d==BG_CYAN||d==SOLID_BG_GREEN)
   v->data[i]->isSolid=TRUE;
 
 }

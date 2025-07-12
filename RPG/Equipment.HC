@@ -140,10 +140,7 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
     item->invID = cnt;
     return TRUE;
 
-
    }
-
-
 
   }
   skip_num:

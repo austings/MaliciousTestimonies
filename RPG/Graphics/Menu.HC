@@ -923,7 +923,7 @@ U0 DeserializeOpts()
 U0 DrawPrayerHotbar(CDC *pm)
 {
   pm->color = BLACK;
-  GrRect3(pm,0,0,0,450,50);
+  GrRect3(pm,0,0,0,450,50);
   U8* _1 = "1";  U8* _2 = "2";  U8* _3 = "3";  U8* _4 = "4";  U8* _5 = "5";
   U8* _6 = "6";  U8* _7 = "7";  U8* _8 = "8";  U8* _9 = "9";  
 

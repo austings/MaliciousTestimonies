@@ -81,12 +81,6 @@ Item *MakeItem(I64 id){
   build->value = 5;
   break;
 
-  case SP_FISHING_SPOT:
-  build->name = "FISHINGSPOT";
-  build->w=0,build->h=0;
-  build->equip_slot=EQ_SLOT_NON;
-  break;
-
  }
  return build;
 }

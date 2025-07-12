@@ -106,7 +106,7 @@ U0 RenderCombatVersion(Actor *toRender){
 Bool CheckTarget(Actor *toRender){
  //optionally highlight targets for strikes
  Bool highlight= FALSE;
- if((mc->combatMenuSelection==CS_STRIKE||
+ if((mc->combatMenuSelection==CS_STRIKE||
      mc->combatMenuSelection==CS_PRAYER2)&&
     toRender->id==ctp->ready->id)
  {

@@ -109,12 +109,6 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
               j*camera->dividY+camera->cameraOffSetY,10,
               ITEM6);
     break;
-   case SP_FISHING_SPOT: 
-    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-2,
-              j*camera->dividY+camera->cameraOffSetY-16,10,
-              SPECIAL1);
-    break;
-
    default:
     break;
   }
@@ -261,9 +255,26 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
 
 U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 i, I64 j)
 {
- Sprite3(dc,i*camera->dividX-13+camera->cameraOffSetX,
+ switch(obj)
+ {
+  case SP_FISHING_SPOT:
+   if(world->timer<FRAMERULE_CAP/2){ 
+    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-6,
+            j*camera->dividY+camera->cameraOffSetY-16,10,
+            SPECIAL1);
+   }else{
+    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-6,
+            j*camera->dividY+camera->cameraOffSetY-16,10,
+            SPECIAL2);
+  
+   } 
+  break;
+  default:
+  Sprite3(dc,i*camera->dividX-13+camera->cameraOffSetX,
             j*camera->dividY+camera->cameraOffSetY,10,
             GetFurniture(obj));
+  break;
+ }
 }
 
 U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)

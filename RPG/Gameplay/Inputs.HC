@@ -4,23 +4,29 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
  {
   I64 pui = (PickUpItem(puin,0))->id;
   mc->reRenderInv=TRUE;
-  if(pui==SP_FISHING_SPOT)
+  if(!AddItemToInventory(PLAYER,pui)){
+   Play("ArE"); 
+  } 
+ }
+
+}
+
+U0 ObjectTrigger(Actor *p, MapNode *puin)
+{
+ I64 pui = puin->idObj;
+ if(pui==SP_FISHING_SPOT)
+ {
+  if(p->sword==IT_HARPOON)
   {
-   if(p->sword==IT_HARPOON)
-   {
     FishingHoleTrigger(p); Play("ArE");
-   }
-   else
-   {
+  }
+  else
+  {
     mc->dialogName = "Missing Proper Weapon";
     mc->talkieScene = GetTalkie(SV_MISS_FISH_EQUIP);
 
-   }
-  }else if(!AddItemToInventory(PLAYER,pui)){
-   Play("ArE"); 
   }
- }
-
+ } 
 }
 
 U0 KeyEnter(Actor *p, MapNode *puin)
@@ -62,6 +68,8 @@ U0 KeyEnter(Actor *p, MapNode *puin)
   }//end switch
  }else
  {
+  if(puin->hasObj)
+   ObjectTrigger(p,puin);
   PickUpItemTrigger(p,puin);
  }
 }
@@ -115,6 +123,14 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
    SaveButton;
  }
 
+ //GameArea
+ if(M_X>=0&&M_X<480&&
+    M_Y>=0&&M_Y<480)
+ {
+  
+ }
+
+ //SideBar
  Bool subMenu = mc->displayPrayers || mc->displayStats;
  if(!subMenu)
  { if(M_X>=496&&M_X<=549&& //equip button
@@ -210,7 +226,9 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
  }
 
 }
-
+U0 HandleRMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
+{
+}
 //possibily make global to prevent refetch
 //U8 *tooltip
 U0 ShowToolTips(CDC *dc = gr.dc)

@@ -1,51 +1,8 @@
+//
+//Current Directory
+//
+
 CDirEntry *loadRoot;
-
-class World
-{
- I64 currentZ;
- Tensor3D *level;
-};
-
-class Keys
-{
- I64 pressed;
-} keys;
-
-#define NUM_HOTKEYS 9
-I64 hotkeys[NUM_HOTKEYS] ;
-
-
-class CombatTurn:CQue
-{
-  Actor *ready;
-} combatCQue;
-
-class Prayer
-{
-  U8 *name,*desc;
-  I64 id, type, cost, wOff, hOff;
-  Bool unlocked;
-};
-
-#define MAX_PRAYERS	42
-
-class Prayers
-{
-  Prayer **list;
-  I64 points,filter,unlocked; 
-};
-
-#define TYPE_M		0
-#define TYPE_W		1
-#define TYPE_P		2
-#define TYPE_A		3
-
-#define AGGRO_DIS	2
-
-//looting contants for looting previous corpse check
-#define LOOTED		0
-#define LOOTING		1
-#define LOOTABLE	2
 
 //serialize options
 #define OPT_MC_FX_OFF   0
@@ -55,12 +12,41 @@ class Prayers
 
 #define SCREENX 480
 #define SCREENY 480
-#define FRAMERULE 3
-#define DIALOG_BOX_Y	375
 
-//ai scripts
-#define AI_DEFAULT	1
-#define AI_FISHING	10
+//Loaded Map
+class World
+{
+ I64 currentZ;
+ Tensor3D *level;
+ I64 timer;
+};
+
+//Keyboard configuration
+class Keys
+{
+ I64 pressed;
+} keys;
+
+#define NUM_HOTKEYS 9
+I64 hotkeys[NUM_HOTKEYS] ;
+
+//
+// Cached Combat queue
+//
+class CombatTurn:CQue
+{
+  Actor *ready;
+} combatCQue;
+
+#define AGGRO_DIS	2
+#define MOVEMENT_COST		5
+
+//looting constants for 
+//looting previous corpse check
+#define LOOTED		0
+#define LOOTING		1
+#define LOOTABLE	2
+
 
 //combat menu stage
 #define STAGE_0                 0
@@ -68,9 +54,8 @@ class Prayers
 #define STAGE_2                 2
 #define STAGE_3                 3
 
-//combat Menu Selection
 
-#define MOVEMENT_COST		5
+//combat Menu Selection
 
 #define CMS_MOVE		0
 #define CS_MOVE			10
@@ -91,6 +76,8 @@ class Prayers
 #define CMS_FLEE_DONE		113
 
 
+
+//global settings class for game session
 class MenuControl{
   //Narrative Control
   Bool fxMuted,musicMuted;
@@ -105,26 +92,27 @@ class MenuControl{
   //Combat preferences
   Bool lootedSwitch;
   U8* loot;
-  Bool combatON;
-  U16 combatMenuStage;
-  U8 combatMenuSelection;
-  U8 turnIndex;
-  Actor *target;I64 tarposx,tarposy;
+  Bool combatON;//determines if combat is initiated
+  U16 combatMenuStage; //switches between characters in a combat queue
+  U8 combatMenuSelection; //affects combat dialog options
+  U8 turnIndex;//used for specific combat timings
+  Actor *target;I64 tarposx,tarposy;//players current target
 
   //prayerSelection
   I64 prayerToCast, dragPrayer, prayerListIndex, prayerListSize;
   I64 *prayerList;
 
-  //menus render
+  //inventory menus render
   I64 draggingID;//inventory mouse item
   Item *draggingItem;
+  CDC *inventoryRender;
+
+  //submenu display toggles
   Bool displayInventory,reRenderInv,draggingInv, 
        displayStats,
        displayPrayers,prayerPage,prayerDragging,
        displayShop,
        displayEquipment;
-  CDC *inventoryRender;
-  I64 inventoryPointer;
 
 };
 
@@ -149,3 +137,4 @@ Vector *worldSz;//world size, with values wX,wY,wZ
 
 I64 wX,wY,wZ;
 
+

@@ -16,6 +16,8 @@
 #include "Map/Actors.HC";
 #include "Map/Level.HC";
 
+//Pathfinding
+#include "Gameplay/AI.HC";
 // Loading Player
 #include "Globals.HC";
 #include "Inventory.HC";
@@ -32,7 +34,7 @@
 #include "Music.HC";
 
 // Loading Combat Scenarios
-#include "Graphics/Attacks.HC";
+#include "Graphics/Attacks.HC";
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
 #include "Render.HC";
@@ -108,7 +110,7 @@ U0 Init(){ //world
  SetVector(worldSz,wY,1);
  SetVector(worldSz,wZ,2);
  world->level = CreateTensor(worldSz);
- 
+ world->timer = 0; 
  InitMenuControl;
  InitCamera;       
  InitHotKeys;

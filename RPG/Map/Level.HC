@@ -121,7 +121,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  //SetMatrixNPC(toAdd,23,19,19);
  //SetMatrixNPC(toAdd,24,19,25);
   
- 
+
 
  SetMatrixItem(toAdd,IT_HARPOON,5,23);
  //water and sand
@@ -152,7 +152,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  //add dock
  SetMatrix(toAdd,BG_BROWN,6,25);
  SetMatrix(toAdd,BG_BROWN,6,26);
- SetMatrixItem(toAdd,SP_FISHING_SPOT,6,26);
+ SetMatrixObj(toAdd,SP_FISHING_SPOT,6,26,FALSE);
 
  //FlipMatrixSolid(toAdd,2,21);  FlipMatrixSolid(toAdd,3,21);
  //FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);

@@ -175,7 +175,7 @@ U0 ReleaseHelm()
  //switch from inv to helm, del from inv
  I64 equip =  GetNPC(0)->hat;
  if(equip!=0){
-  AddItemToInventory(0,GetNPC(0)->hat);
+  AddItemToInventory(PLAYER,GetNPC(PLAYER)->hat);
  }
  GetNPC(0)->hat =mc->draggingID;
 
