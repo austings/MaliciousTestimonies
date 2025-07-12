@@ -230,7 +230,7 @@ Animation *CreateAnimation(I64 wadFrameName){
  }
 }
 
-U0 ResetDirective(Director *task)
+U0 ResetDirective(Director *task)
 {
   task->cQueDirective = NoDirective;
   task->animIndex = 0;
@@ -484,8 +484,8 @@ U0 MoveActor(Actor *p, U8 dir){
   switch(dir){
   case DIR_LEFT://left
     p->walkingSubFrame=3;
-   if(p->x-1>=WEST_MAX&&!
-      CheckSolid(world->level,p->x-1,p->y,world->currentZ)){
+   if(p->x-1!=WEST_MAX&&
+      !CheckSolid(world->level,p->x-1,p->y,world->currentZ)){
     npc = GetTensorNPC(world->level,p->x-1,p->y,world->currentZ);
     if(npc!=-1){
       if(p->id==0){
@@ -535,7 +535,7 @@ U0 MoveActor(Actor *p, U8 dir){
   case DIR_UP://up
    p->walkingSubFrame=1;
 
-   if(p->y-1>=NORTH_MAX&&
+   if(p->y-1!=NORTH_MAX&&
       !CheckSolid(world->level,p->x,p->y-1,world->currentZ))
    {
     npc =GetTensorNPC(world->level,p->x,p->y-1,world->currentZ); 

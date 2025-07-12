@@ -29,6 +29,8 @@ Vector *CreateVector(I32 size)
   v->data[i]->idNPC = -1;
   v->data[i]->isSolid = FALSE;
   v->data[i]->items = CAlloc(sizeof(NodeStuff));
+  v->data[i]->hasObj = FALSE;
+  v->data[i]->idObj = -1;
   QueInit(v->data[i]->items);
   //Quev->data[i]->items[0]=0;
  }
@@ -37,11 +39,21 @@ Vector *CreateVector(I32 size)
 
 }
 
+//add furniture item data d to vector index i.
+U0 SetVectorObj(Vector *v,I64 d,I32 i,Bool solid = TRUE)
+{
+
+ v->data[i]->idObj = d;
+ v->data[i]->hasObj = TRUE;
+ if(solid) 
+  v->data[i]->isSolid =TRUE;
+
+}
+
 U0 AddItem(MapNode *n, I64 id)
 {
   NodeStuff *newObj = CAlloc(sizeof(NodeStuff));
   newObj->id = id;
-  //newObj->isSolid = isSolid;
   
   QueIns(newObj,n->items->last);
   n->len = n->len+1; 
@@ -118,17 +130,12 @@ U0 SetVector(Vector *v,F64 d,I32 i)
  v->data[i]->bg = d; 
  if(d==BG_DK_GRAY||d==BG_BLUE||d==BG_CYAN||d==SOLID_BG_GREEN)
   v->data[i]->isSolid=TRUE;
- else
-  v->data[i]->isSolid=FALSE;
 
 }
 
 //flip Vector v solidity at data position i 
 U0 FlipVectorSolid(Vector *v,I32 i)
 {
- //if(v->data[i]->isSolid)
- // v->data[i]->isSolid=FALSE;
-// else
   v->data[i]->isSolid=TRUE;
 
 }
@@ -181,6 +188,15 @@ F64 GetVector(Vector *v, I32 i)
 {
  return v->data[i]->bg;
 }
+
+I64 GetVectorObj(Vector *v, I32 i)
+{
+ if(v->data[i]->hasObj)
+   return v->data[i]->idObj;
+ else
+   return -1;
+}
+
 
 I64 GetVectorNPC(Vector *v, I32 i)
 {

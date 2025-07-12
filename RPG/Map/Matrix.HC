@@ -115,6 +115,28 @@ U0 SetMatrix(Matrix *m,F64 d, I64 row,I64 col)
 
 }
 //Set Matrix m at data position row col to value d
+U0 SetMatrixObj(Matrix *m,I64 d, I64 row,I64 col,Bool solid=TRUE)
+{
+ try{ 
+  I64 i=0;
+  while(i<row)
+  { 
+   m = m->next;
+   i++;    
+
+  }
+   SetVectorObj(m->data,d,col,solid);
+ }
+ catch{
+   "Matrix Location Out of Range";
+   PutExcept;
+
+ };
+
+}
+
+
+//Set Matrix m at data position row col to value d
 U0 SetMatrixNPC(Matrix *m,I64 d, I64 row,I64 col)
 {
  try{ 
@@ -212,6 +234,21 @@ F64 GetMatrix(Matrix *m, I64 row, I64 col)
 
   return GetVector(m->data,col);
 }
+
+//returns the data value at position x,y in Matrix m
+I64 GetMatrixObj(Matrix *m, I64 row, I64 col)
+{
+  I64 i=0;
+  while(i<row)
+  { 
+   m = m->next;
+   i++;
+
+  }
+
+  return GetVectorObj(m->data,col);
+}
+
 
 //returns the data value at position x,y in Matrix m
 I64 GetMatrixNPC(Matrix *m, I64 row, I64 col)

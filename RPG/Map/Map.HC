@@ -12,6 +12,8 @@ class MapNode
  Bool hasNPC;
  I64 idNPC;
  I64 len;
+ Bool hasObj;
+ I64 idObj;
  NodeStuff *items;
   
 };
@@ -69,7 +71,7 @@ static CDC* ITEM050= FramePtr("ITEM050");
 #define BG_LT_GRAY	16
 #define BG_DK_GRAY	17
 #define BG_LT_RED	18
-
+#define BG_ROCK_WALL    19
 class Item:CQue
 {
   U8* name;
@@ -118,28 +120,31 @@ U8 *GetBG(I64 id)
    case SOLID_BG_GREEN:
    case BG_GREEN:
     color = GREEN;
-    break;
+   break;
    case BG_BLUE:
     color = BLUE;
-    break;
+   break;
    case BG_CYAN:
     color = CYAN;
-    break;
+   break;
    case BG_BROWN:
     color = BROWN;
-    break;
+   break;
    case BG_YELLOW:
     color = YELLOW;
-    break;
+   break;
    case BG_LT_GRAY:
     color = LTGRAY;
-    break;
+   break;
    case BG_DK_GRAY:
     color = DKGRAY;
-    break;
+   break;
    case BG_LT_RED:
     color = LTRED;
-    break;
+   break;
+   default:
+    color = BLACK;
+   break;
 
 
   }

@@ -54,15 +54,19 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j)
        GrRect3(dc,i*camera->dividX+camera->cameraOffSetX, 
                 j*camera->dividY+camera->cameraOffSetY, -1,
                 camera->dividX, camera->dividY);
-       if(c>16){
+       if(c>BG_LT_GRAY){
         switch(c){
-        case 17:
+        case BG_DK_GRAY:
          Sprite3B(dc,i*camera->dividX+camera->cameraOffSetX,
                   j*camera->dividY+camera->cameraOffSetY,0,GetWall1());
         break;
-        case 18:
+        case BG_LT_RED:
          Sprite3B(dc,i*camera->dividX+camera->cameraOffSetX,
                   j*camera->dividY+camera->cameraOffSetY,0,GetCarpet());
+        break;
+        case BG_ROCK_WALL:
+         Sprite3B(dc,i*camera->dividX+camera->cameraOffSetX,
+                  j*camera->dividY+camera->cameraOffSetY,0,GetRockWall());
         break;
         } 
        }
@@ -255,6 +259,12 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
  return p;
 }
 
+U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 i, I64 j)
+{
+ Sprite3(dc,i*camera->dividX-13+camera->cameraOffSetX,
+            j*camera->dividY+camera->cameraOffSetY,10,
+            GetFurniture(obj));
+}
 
 U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
 {
@@ -292,10 +302,13 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
   if(camera->topUD+j<wX&&camera->topUD+j>=0){
    for(i=-1;i<12;i++){
     if(camera->topLR+i<wY&&camera->topLR+i>=0){
-
-     DrawItemsOnLayer(dc,i,j,l);
+     I64 obj= GetTensorObj(world->level,
+              camera->topLR+i,camera->topUD+j,world->currentZ);     
      I64 npc= GetTensorNPC(world->level,
-         camera->topLR+i,camera->topUD+j,world->currentZ);     
+              camera->topLR+i,camera->topUD+j,world->currentZ);     
+     if(obj!=IT_NULL)
+      DrawObjsOnLayer(dc,obj,i,j);
+     DrawItemsOnLayer(dc,i,j,l);
      if(npc!=IT_NULL)
       DrawActorsOnLayer(dc,npc,i,j,p);
            
@@ -304,8 +317,6 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
    }//for y
   }//if too large
  }//for x
-
-
 }
 
 

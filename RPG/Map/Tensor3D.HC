@@ -54,7 +54,7 @@ Tensor3D *CreateTensor(Vector *tensorShape)
     t->next = t;
     break;
 
-   case 2:
+   case 2:
     x = GetVector(t->shape,0);
     y = GetVector(t->shape,1);
     t->data = CreateMatrix(x,y); 
@@ -334,7 +334,6 @@ F64 GetTensor(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
  }
 
 } 
-
 I64 GetTensorNPC(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
 {
  Vector *v = t->shape;
@@ -347,6 +346,27 @@ I64 GetTensorNPC(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
   if(tot==z)
   {
    val= GetMatrixNPC(t->data,x,y);
+  }
+  t = t->next;
+
+  tot++;
+ }
+ return val; 
+}
+
+
+I64 GetTensorObj(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
+{
+ Vector *v = t->shape;
+ I64 sz = v->size;
+ sz= GetVector(v,2); 
+ I64 tot = 0;
+ I64 val = 0;
+ while(tot<sz)
+ {
+  if(tot==z)
+  {
+   val= GetMatrixObj(t->data,x,y);
   }
   t = t->next;
 
