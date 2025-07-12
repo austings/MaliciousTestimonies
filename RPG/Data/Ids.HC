@@ -47,4 +47,7 @@
 #define T4CAST 28
 
 #define T1EFFHEAL 29
- 
+#define EFFFISH 30
+#define EFFFIRE 31
+#define EFFSCRATCH 32
+

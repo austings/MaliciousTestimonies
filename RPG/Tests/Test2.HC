@@ -1,9 +1,13 @@
+Cd(__DIR__);;
+Cd("../..");$SY,3$
 // Construct Graphics from WAD
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
+#include "Data/Ids.HC";
 
 // Load built-in Graphics
 #include "Sprites/SS1.HC"; 
+#include "Sprites/SpriteSheet1.HC";
 #include "Sprites/SpriteSheet2.HC";
 #include "Sprites/SpriteSheet3.HC";
 #include "Sprites/SpriteSheet4.HC";
@@ -13,313 +17,117 @@
 // Loading Data Into Map
 #include "Map/Actors.HC";
 #include "Map/Level.HC";
-#define NoDirective "None"
-//static CDC* AAE110 = FramePtr("AAE110");
-//static CDC* AAE111 = FramePtr("AAE111");
 
-class Animation:CQue{
-  CDC *frame;
-  I8 frameDuration,
-     frameDurationIndex,
-     xOffset, yOffset;
-  U8 *name;
-  I8 frameIndex;
-} allAnimations;
+//Pathfinding
+#include "Gameplay/AI.HC";
+// Loading Player
+#include "Globals.HC";
+#include "Inventory.HC";
+#include "Player.HC";
+#include "Equipment.HC";
+#include "Save.HC";
 
-class Director{
-  U8 *cQueDirective;
-  I32 animIndex;
-  I64 x; I64 y; I64 z;
+// Loading Narrative
+#include "Graphics/Dialog.HC";
+#include "Graphics/Buttons.HC";
+#include "Graphics/Menu.HC";
+#include "Graphics/Walk.HC";
+#include "Graphics/Anim.HC";
+#include "Music.HC";
 
-} direct;
+// Loading Combat Scenarios
+#include "Graphics/Attacks.HC";
+#include "Graphics/Prayers.HC";
+#include "Gameplay/Combat.HC";
+#include "Render.HC";
 
-Animation *AddFrame(CDC *frame,U8* key,I8 fIndex; 
-                    I8 xO=0,I8 yO=0,I8 sfd=3)
+// Loading Skills
+#include "Gameplay/Fishing.HC";
+#include "Gameplay/Inputs.HC";
+
+U0 InitMenuControl()
 {
-  Animation *createdFrame = CAlloc(sizeof(Animation));
-  createdFrame->frame = frame;
-  createdFrame->frameDuration = sfd;
-  createdFrame->frameDurationIndex = 0;
-  createdFrame->frameIndex = fIndex;
-  createdFrame->xOffset=xO;
-  createdFrame->yOffset=yO;
-  createdFrame->name = key;  
-  return createdFrame;
+ mc->currentSong=1;
+ mc->currentMenu=0;
+ mc->cutsceneTarget=0;//switch cutscene frames
+ mc->talkieScene = -1;//dialogID
+ mc->dialogName = "???";//dialog actor name
+
+ mc->displayInventory=FALSE;
+ mc->displayStats=FALSE;
+ mc->displayShop=FALSE;
+ mc->displayEquipment=FALSE;
+ mc->displayPrayers=FALSE;
+ mc->prayerPage=0;
+ mc->dragPrayer=-1;
+ mc->prayerToCast=-1;
+ mc->prayerListSize =0;
+ mc->prayerListIndex =0;
+ mc->prayerDragging=FALSE;
+ mc->reRenderInv=TRUE;
+ mc->draggingInv=FALSE;
+ mc->draggingItem=MakeItem(0);
+ mc->draggingID=0;
+ mc->lootedSwitch=LOOTABLE;
+ mc->inventoryRender = DCNew(640,480);
+ DCFill(mc->inventoryRender, TRANSPARENT);
+
+ //combat
+ mc->combatON = FALSE;
+ mc->combatMenuStage =STAGE_0;
+ mc->combatMenuSelection=CMS_MOVE;
+ mc->target = GetNPC(0);
+ mc->tarposx = 0;
+ mc->tarposy = 0;
+
+
 }
 
-
-
-Animation *CreateAnimation(U8* wadFrameName){
- if(StrCmp(wadFrameName,T1FISH)==0){
-   QueIns(AddFrame(AAE110,T1FISH,0,5,2),allAnimations.last);  
-   QueIns(AddFrame(AAE111,T1FISH,1,5,2),allAnimations.last);
-
- } else if(StrCmp(wadFrameName,T2FISH)==0){
-   QueIns(AddFrame(AAE164,T2FISH,0,5,2),allAnimations.last);   
-   QueIns(AddFrame(AAE165,T2FISH,1,5,2),allAnimations.last);
-
- } else if(StrCmp(wadFrameName,T3FISH)==0){
-   QueIns(AddFrame(AAE2,T3FISH,0,5,2),allAnimations.last);  
-   QueIns(AddFrame(AAE3,T3FISH,1,5,2),allAnimations.last);
-
- } else if(StrCmp(wadFrameName,T4FISH)==0){
-   QueIns(AddFrame(AAE56,T4FISH,0,5,2),allAnimations.last); 
-   QueIns(AddFrame(AAE57,T4FISH,1,5,2),allAnimations.last);
-
- } else if(StrCmp(wadFrameName,T1READY)==0){
-   QueIns(AddFrame(AAE60,T1READY,0),allAnimations.last);
-   QueIns(AddFrame(AAE61,T1READY,1),allAnimations.last);
-   QueIns(AddFrame(AAE62,T1READY,2),allAnimations.last);    
-  
- } else if(StrCmp(wadFrameName,T2READY)==0){
-   QueIns(AddFrame(AAE115,T2READY,0),allAnimations.last);
-   QueIns(AddFrame(AAE116,T2READY,1),allAnimations.last);
-   QueIns(AddFrame(AAE117,T2READY,2),allAnimations.last);    
-  
- } else if(StrCmp(wadFrameName,T3READY)==0){
-   QueIns(AddFrame(AAE169,T3READY,0),allAnimations.last);
-   QueIns(AddFrame(AAE170,T3READY,1),allAnimations.last);
-   QueIns(AddFrame(AAE171,T3READY,2),allAnimations.last);    
-  
- } else if(StrCmp(wadFrameName,T4READY)==0){
-   QueIns(AddFrame(AAE7,T4READY,0),allAnimations.last);
-   QueIns(AddFrame(AAE8,T4READY,1),allAnimations.last);
-   QueIns(AddFrame(AAE9,T4READY,2),allAnimations.last);    
-  
- } else if(StrCmp(wadFrameName,T1PUNCH)==0){
-   QueIns(AddFrame(AAE61,T1PUNCH,0),allAnimations.last);
-   QueIns(AddFrame(AAE62,T1PUNCH,1),allAnimations.last);
-   QueIns(AddFrame(AAE63,T1PUNCH,2),allAnimations.last);    
-   QueIns(AddFrame(AAE64,T1PUNCH,3),allAnimations.last);
-   QueIns(AddFrame(AAE65,T1PUNCH,4),allAnimations.last);
-   QueIns(AddFrame(AAE66,T1PUNCH,5),allAnimations.last);    
-   QueIns(AddFrame(AAE67,T1PUNCH,6),allAnimations.last);
-   QueIns(AddFrame(AAE68,T1PUNCH,7),allAnimations.last);
-   QueIns(AddFrame(AAE69,T1PUNCH,8),allAnimations.last);    
-   QueIns(AddFrame(AAE70,T1PUNCH,9),allAnimations.last);
-   QueIns(AddFrame(AAE71,T1PUNCH,10),allAnimations.last);
-   QueIns(AddFrame(AAE72,T1PUNCH,11),allAnimations.last);    
-  
- } else if(StrCmp(wadFrameName,T2PUNCH)==0){
-   QueIns(AddFrame(AAE115,T2PUNCH,0),allAnimations.last);
-   QueIns(AddFrame(AAE116,T2PUNCH,1),allAnimations.last);
-   QueIns(AddFrame(AAE117,T2PUNCH,2),allAnimations.last);    
-   QueIns(AddFrame(AAE118,T2PUNCH,3),allAnimations.last);
-   QueIns(AddFrame(AAE119,T2PUNCH,4),allAnimations.last);
-   QueIns(AddFrame(AAE120,T2PUNCH,5),allAnimations.last);    
-   QueIns(AddFrame(AAE121,T2PUNCH,6),allAnimations.last);
-   QueIns(AddFrame(AAE122,T2PUNCH,7),allAnimations.last);
-   QueIns(AddFrame(AAE123,T2PUNCH,8),allAnimations.last);    
-   QueIns(AddFrame(AAE124,T2PUNCH,9),allAnimations.last);
-   QueIns(AddFrame(AAE125,T2PUNCH,10),allAnimations.last);
-   QueIns(AddFrame(AAE126,T2PUNCH,11),allAnimations.last);
-    
- } else if(StrCmp(wadFrameName,T3PUNCH)==0){
-   QueIns(AddFrame(AAE169,T3PUNCH,0),allAnimations.last);
-   QueIns(AddFrame(AAE170,T3PUNCH,1),allAnimations.last);
-   QueIns(AddFrame(AAE171,T3PUNCH,2),allAnimations.last);    
-   QueIns(AddFrame(AAE172,T3PUNCH,3),allAnimations.last);
-   QueIns(AddFrame(AAE173,T3PUNCH,4),allAnimations.last);
-   QueIns(AddFrame(AAE174,T3PUNCH,5),allAnimations.last);    
-   QueIns(AddFrame(AAE175,T3PUNCH,6),allAnimations.last);
-   QueIns(AddFrame(AAE176,T3PUNCH,7),allAnimations.last);
-   QueIns(AddFrame(AAE177,T3PUNCH,8),allAnimations.last);    
-   QueIns(AddFrame(AAE178,T3PUNCH,9),allAnimations.last);
-   QueIns(AddFrame(AAE179,T3PUNCH,10),allAnimations.last);
-   QueIns(AddFrame(AAE180,T3PUNCH,11),allAnimations.last);
-    
- } else if(StrCmp(wadFrameName,T4PUNCH)==0){
-   QueIns(AddFrame(AAE7,T4PUNCH,0),allAnimations.last);
-   QueIns(AddFrame(AAE8,T4PUNCH,1),allAnimations.last);
-   QueIns(AddFrame(AAE9,T4PUNCH,2),allAnimations.last);    
-   QueIns(AddFrame(AAE10,T4PUNCH,3),allAnimations.last);
-   QueIns(AddFrame(AAE11,T4PUNCH,4),allAnimations.last);
-   QueIns(AddFrame(AAE12,T4PUNCH,5),allAnimations.last);    
-   QueIns(AddFrame(AAE13,T4PUNCH,6),allAnimations.last);
-   QueIns(AddFrame(AAE14,T4PUNCH,7),allAnimations.last);
-   QueIns(AddFrame(AAE15,T4PUNCH,8),allAnimations.last);    
-   QueIns(AddFrame(AAE16,T4PUNCH,9),allAnimations.last);
-   QueIns(AddFrame(AAE17,T4PUNCH,10),allAnimations.last);
-   QueIns(AddFrame(AAE18,T4PUNCH,11),allAnimations.last);     
+U0 InitHotKeys()
+{
+ I64 a;
+ for(a=0;a<9;a++) {
+  hotkeys[a] = -1;               
  }
- 
 }
 
-U0 ResetDirective()
+U0 InitCamera()
 {
-  direct.cQueDirective = NoDirective;
-  direct.animIndex = 0;
-  direct.x = 0;
-  direct.y = 0;
+ //camera;    
+ camera->dividX = SCREENX/(11);
+ camera->dividY = SCREENY/(11);
+ camera->topLR=0; camera->topUD=0;
+ camera->cameraOffSetX = 0,  
+ camera->cameraOffSetY = 0; 
+
 }
 
-public I64 *Mat4x4MirrorY(I64 *r)
-{
-  // Reflect across Y-axis (negate X axis)
-  r[0*4+0] = -r[0*4+0]; // Negate X scale component
-  return r;
+U0 Init(){ //world
+ world = CAlloc(sizeof(World));
+ mc = CAlloc(sizeof(MenuControl));
+ camera= CAlloc(sizeof(Camera));
+ worldSz = CreateVector(3);
+ wX = 100; wY = 100; wZ = 1;
+ SetVector(worldSz,wX,0);
+ SetVector(worldSz,wY,1);
+ SetVector(worldSz,wZ,2);
+ world->level = CreateTensor(worldSz);
+ world->timer = 0; 
+ InitMenuControl;
+ InitCamera;       
+ InitHotKeys;
+ //prayers
+ InitializePrayers;
+
+ //keys
+ keys.pressed=0;
+ //Level and NPCS
+
+ SetTensorNPC(world->level,0,5,5,0);//player
+ SMFT(world->level,MakeCastle(GetMatrixFromTensor(world->level,0)),0);//castle
+ InitActors(0);
+
+
+
+ InitializeAnimator;
 }
-
-$SP,"<1>",BI=1$
-
-
-
-
-
-
-
-
-
-CDC* DCFlippedY_MemCpy(CDC* src)
-{
-    I64 scanline, y;
-    CDC* dst = DCNew(src->width, src->height);
-    for (y = 0; y < src->height; y++) {
-        scanline = y * src->width_internal;
-        MemCpy(dst->body + ((src->height - 1) * src->width_internal) - 
-               scanline, src->body + scanline, src->width_internal);
-    }
-    return dst;
-}
-CDC* DCFlippedXold_MemCpy(CDC* src)
-{
-    I64 scanline, y;
-    CDC* dst = DCNew(src->width, src->height);
-    for (y = 0; y < src->height; y++) {
-        scanline = y * src->width_internal;
-        MemCpy(dst->body + ((src->height - 1) * src->width_internal) - 
-               scanline, src->body + scanline, src->width_internal);
-    }
-    return dst;
-}
-CDC* DCFlippedX_MemCpy(CDC* src)
-{
-    I64 x, y;
-    CDC* dst = DCNew(src->width, src->height);
-    for (y = 0; y < src->height; y++) {
-        for (x = 0; x < src->width; x++) {
-            dst->body[y * src->width_internal + x] =
-                src->body[y * src->width_internal + (src->width - 1 - x)];
-        }
-    }
-    return dst;
-}
-
-CDC* DCFlippedY_BuiltIn(CDC* src)
-{
-    CDC* dst = DCNew(src->width, src->height);
-    CSprite* s = DC2Sprite(src);
-    Sprite3XB(dst, 0, src->height - 1, 0, s, 179);
-    Free(s);
-    return dst;
-}
-
-
-U0 PlayAnimation(CDC *dc){ 
- Animation *ajc = allAnimations.next;
- I64 glbl_r[4][4];
-
- while(StrCmp(direct.cQueDirective,ajc->name)!=0)
- {
-  ajc = ajc->next;
- } 
- while(direct.animIndex!=ajc->frameIndex)
- {
-  ajc = ajc->next;
- }
- 
- 
-
- if(ajc->frameDurationIndex<ajc->frameDuration){
-  ajc->frameDurationIndex++;
- }
- else{
-  ajc->frameDurationIndex=0;
-  Animation *tmp = ajc->next;
-  direct.animIndex = direct.animIndex+1;
-  if(StrCmp(direct.cQueDirective,tmp->key)!=0)
-  {
-     ResetDirective;
-     
-  }
- }
- CDC *dcflip = DCFlippedX_MemCpy(DCCopy(ajc->frame));
-// dc->flags |= DCF_SYMMETRY | DCF_JUST_MIRROR;
-// DCSymmetrySet(dc, 0, -1, 0, 1);
- GrBlot(dc,direct.x+ajc->xOffset,
-            direct.y+ajc->yOffset,
-            //direct.z+100,
-            dcflip);
-
-// DC2Sprite
- //Sprite3(dc, x, y, z, elems);
-
- //Sprite3(dc,-100,0,0,elems);  
-}
-
-
-U0 InitializeAnimator(){
-  //initialize empty job queue
-  QueInit(&allAnimations);
-  ResetDirective;
-  CreateAnimation(T1FISH);
-  CreateAnimation(T2FISH);
-  CreateAnimation(T3FISH);
-  CreateAnimation(T4FISH);
-
-  CreateAnimation(T1READY);
-  CreateAnimation(T2READY);
-  CreateAnimation(T3READY);
-  CreateAnimation(T4READY);
-
-  CreateAnimation(T1PUNCH);
-  CreateAnimation(T2PUNCH);
-  CreateAnimation(T3PUNCH);
-  CreateAnimation(T4PUNCH);
-  //load all animations into the hashtable 
-}
-
-
-U0 CheckAnimQueue(CDC *dc)
-{
-  if(StrCmp(direct.cQueDirective,NoDirective)!=0)
-  {
-   PlayAnimation(dc);
-  }
- 
-}
-
-
-
-
-U0 DrawIt(CTask *task, CDC *dc)
-{
- CheckAnimQueue(dc); //Sleep(30);
- 
-}
-
-InitializeAnimator;
-
-//direct.cQueDirective = T4FISH;
-direct.cQueDirective = T1PUNCH;
-//direct.cQueDirective = T4PUNCH;
-
-
-Fs->draw_it=&DrawIt;
-Sleep(10000);
-Sleep(1000);
-
-Sleep(1000);
-
-Sleep(1);
-
-Sleep(1);
-
-Sleep(1);
-
-Sleep(1);
-
-Sleep(10000);
-
-
-        %            K   F   9      E   (    

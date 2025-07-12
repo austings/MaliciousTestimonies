@@ -224,9 +224,37 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF034,T1EFFHEAL,4),allAnimations.last);
    QueIns(AddFrame(EFF033,T1EFFHEAL,5),allAnimations.last);
    QueIns(AddFrame(EFF031,T1EFFHEAL,6),allAnimations.last);
-
   break;
-
+  case EFFFISH:
+   QueIns(AddFrame(EFF121,EFFFISH,0),allAnimations.last);
+   QueIns(AddFrame(EFF122,EFFFISH,1),allAnimations.last);
+   QueIns(AddFrame(EFF123,EFFFISH,2),allAnimations.last);
+   QueIns(AddFrame(EFF169,EFFFISH,3),allAnimations.last);
+   QueIns(AddFrame(EFF170,EFFFISH,4),allAnimations.last);
+   QueIns(AddFrame(EFF171,EFFFISH,5),allAnimations.last);
+   QueIns(AddFrame(EFF172,EFFFISH,6),allAnimations.last);
+   QueIns(AddFrame(EFF173,EFFFISH,7),allAnimations.last);
+   QueIns(AddFrame(EFF174,EFFFISH,8),allAnimations.last);
+  break;
+  case EFFFIRE:
+   QueIns(AddFrame(EFF288,EFFFIRE,0),allAnimations.last);
+   QueIns(AddFrame(EFF289,EFFFIRE,1),allAnimations.last);
+   QueIns(AddFrame(EFF321,EFFFIRE,2),allAnimations.last);
+   QueIns(AddFrame(EFF322,EFFFIRE,3),allAnimations.last);
+   QueIns(AddFrame(EFF323,EFFFIRE,4),allAnimations.last);
+   QueIns(AddFrame(EFF324,EFFFIRE,5),allAnimations.last);
+   QueIns(AddFrame(EFF360,EFFFIRE,6),allAnimations.last);
+   QueIns(AddFrame(EFF361,EFFFIRE,7),allAnimations.last);
+   QueIns(AddFrame(EFF362,EFFFIRE,8),allAnimations.last);
+   QueIns(AddFrame(EFF363,EFFFIRE,9),allAnimations.last);
+   QueIns(AddFrame(EFF364,EFFFIRE,10),allAnimations.last);
+  break;
+  case EFFSCRATCH:
+   QueIns(AddFrame(EFF059,EFFSCRATCH,0),allAnimations.last);
+   QueIns(AddFrame(EFF060,EFFSCRATCH,0),allAnimations.last);
+   QueIns(AddFrame(EFF061,EFFSCRATCH,0),allAnimations.last);
+   QueIns(AddFrame(EFF060,EFFSCRATCH,0),allAnimations.last);
+  break; 
  }
 }
 
@@ -294,37 +322,42 @@ U0 PlayAnimation(CDC *dc,Director *task){
    task->animIndex = task->animIndex+1;
    if(tmp->frameIndex<=ajc->frameIndex)
    {
-     if(task->cQueDirective>=T1DIE&&task->cQueDirective<=T4DIE)
-     {
+    switch(task->cQueDirective)
+    {
+     case T1DIE...T4DIE:
       task->animIndex=task->animIndex-1;
       tmp = ajc->last;
       //repeat last frame forever
-     }
-     else{
+     break;
+     case EFFFIRE:
+      task->animIndex=0;//this might leak memory after awhile
+     break;
+     default:
       ResetDirective(task);
-      task->a->visible = TRUE; 
+      task->a->visible = TRUE;  
       //task is now over
-     goto taskend;
-     } 
+      goto taskend;
+     break;
+    
+    }
    }
   }
   if(task->flip){
    GrBlot3(dc,task->x+ajc->xOffset,
              task->y+ajc->yOffset,
-             task->z+100,
+             task->z,
              DCFlippedX(ajc->frame));
     
   }else{
   
    GrBlot3(dc,task->x+ajc->xOffset,
              task->y+ajc->yOffset,
-             task->z+100,
+             task->z,
              ajc->frame);
   }
 
   taskend:
-  //task = task->next;
-  
+ 
 }
 
 
@@ -353,6 +386,7 @@ U0 InitializeAnimator(){
   CreateAnimation(T3DAGGER);
   CreateAnimation(T4DAGGER);
  
+
   CreateAnimation(T1SPEAR);
   CreateAnimation(T2SPEAR);
   CreateAnimation(T3SPEAR);
@@ -371,7 +405,9 @@ U0 InitializeAnimator(){
   CreateAnimation(T4CAST);
 
   CreateAnimation(T1EFFHEAL);
-
+  CreateAnimation(EFFFISH);
+  CreateAnimation(EFFFIRE);
+  CreateAnimation(EFFSCRATCH);
  //load all animations into the hashtable 
 }
 

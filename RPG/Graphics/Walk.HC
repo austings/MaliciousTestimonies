@@ -238,7 +238,10 @@ Bool UpdateDirective(I64 directive,Actor *p,
  
 }
 
-U0 AddDirective(I64 directive, Actor *p)
+
+//sX,sY optional; use p for x and y by default
+U0 AddDirective(I64 directive, Actor *p,//npc must own animation
+                I64 sX=DELIMITER,I64 sY=DELIMITER)
 {
  //TODO:this sucks
  Director *task = direct.next;
@@ -255,11 +258,15 @@ U0 AddDirective(I64 directive, Actor *p)
   task = MAlloc(sizeof(Director));
   task->a = MAlloc(sizeof(Actor));
  }
- task->x = p->screenX;//(p->x)*camera->dividX;
- task->y = p->screenY;//(p->y)*camera->dividY;
+
+ if(sX!=DELIMITER&&sY!=DELIMITER){
+  task->x = p->screenX;task->y = p->screenY;
+ }else {task->x = sX; task->y = sY;}
+
  task->a = p;
  task->flip = FALSE;
 
+ //sometimes we call t1fish directive without checking race
  switch(directive)
  {
   case T1FISH...T4FISH:
@@ -390,9 +397,15 @@ U0 AddDirective(I64 directive, Actor *p)
    }
   break;
   case T1EFFHEAL:
-   task->cQueDirective = T1EFFHEAL;
+  case EFFFISH:
+  case EFFFIRE:
+  //case EFFSCRATCH:
+   task->cQueDirective = directive;
    isEffect = TRUE;
+  default:
+   task->cQueDirective = directive;
    break;
+
  }
  if(!free)
   QueIns(task,direct.last);

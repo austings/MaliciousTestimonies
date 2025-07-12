@@ -253,26 +253,33 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
  return p;
 }
 
-U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 i, I64 j)
+U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 i, I64 j, Actor *p)
 {
+ I64 screenX = i*camera->dividX+camera->cameraOffSetX;
+ I64 screenY = j*camera->dividY+camera->cameraOffSetY; 
  switch(obj)
  {
+  case OBJ_WOOD:
+   Sprite3(dc,screenX, screenY,20,GetFurniture(obj));
+   if(!HasDirective(EFFFIRE,p))
+   {
+    AddDirective(EFFFIRE,p,screenX-32,screenY-25);
+   }
+   else
+   {
+    UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,10);
+   }
+  break;
   case SP_FISHING_SPOT:
    if(world->timer<FRAMERULE_CAP/2){ 
-    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-6,
-            j*camera->dividY+camera->cameraOffSetY-16,10,
-            SPECIAL1);
+    GrBlot3(dc,screenX-6-13,screenY-16,10,SPECIAL1);
    }else{
-    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX-6,
-            j*camera->dividY+camera->cameraOffSetY-16,10,
-            SPECIAL2);
+    GrBlot3(dc,screenX-6-13, screenY-16,10, SPECIAL2);
   
    } 
   break;
   default:
-  Sprite3(dc,i*camera->dividX-13+camera->cameraOffSetX,
-            j*camera->dividY+camera->cameraOffSetY,10,
-            GetFurniture(obj));
+  Sprite3(dc,screenX, screenY,10,GetFurniture(obj));
   break;
  }
 }
@@ -318,12 +325,10 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
      I64 npc= GetTensorNPC(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
      if(obj!=IT_NULL)
-      DrawObjsOnLayer(dc,obj,i,j);
+      DrawObjsOnLayer(dc,obj,i,j,p);
      DrawItemsOnLayer(dc,i,j,l);
      if(npc!=IT_NULL)
-      DrawActorsOnLayer(dc,npc,i,j,p);
-           
-           
+      DrawActorsOnLayer(dc,npc,i,j,p);           
     }//if too large y
    }//for y
   }//if too large

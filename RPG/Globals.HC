@@ -137,4 +137,3 @@ Vector *worldSz;//world size, with values wX,wY,wZ
 
 I64 wX,wY,wZ;
 
-
