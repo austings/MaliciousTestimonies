@@ -106,8 +106,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard
  SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
  SetMatrixNPC(toAdd,6,8,8);//wild dog
- //SetMatrixNPC(toAdd,9,90,90);//wild dog
-/*
+ SetMatrixNPC(toAdd,9,90,90);//wild dog
  SetMatrixNPC(toAdd,11,10,19);//wild dog
  SetMatrixNPC(toAdd,12,12,18);//wild dog
  SetMatrixNPC(toAdd,13,50,13);//wild dog
@@ -118,7 +117,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,18,35,7);//wild dog
  SetMatrixNPC(toAdd,19,45,7);//wild dog
  SetMatrixNPC(toAdd,20,47,9);//wild dog
-*/
+
  
  SetMatrixNPC(toAdd,A_OX_CART,1,21);
  FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);

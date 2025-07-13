@@ -1,5 +1,6 @@
 #define MAXACTORCOUNT	11
-#define ACTOR_FILE "/Data/Actor.TXT"
+U8 *ACTOR_FILE = MStrPrint("%s%s",DirCur,"/Data/Actor.TXT"); 
+
 
 Actor *player;
 Actor *loaded1,*loaded2,*loaded3,
@@ -128,8 +129,8 @@ Actor *DeserializeNPC(I64 npcid)
  p->myInv = MakeInventory();
  if(npcid==-1)
   return p;
- U8 *fptr = FileRead(MStrPrint("%s%s",DirCur,ACTOR_FILE)),
-    *lnptr,*ln,*temp;
+ U8 *fptr =FileRead(ACTOR_FILE);
+ U8 *lnptr,*ln,*temp;
  StrUtil(fptr,SUF_REM_CTRL_CHARS);
  U8 name[15],*nameptr=name;
  U8 id[8],*idptr=id;

@@ -62,11 +62,19 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file?
  
 }
 
+U0 CombatQueFree() {
+ QueDel(&combatCQue);
+ Free(&combatCQue);
+}
+
+
 U0 RenderCombatVersion(Actor *toRender){
  //COMBATCYCLEENEMIES
  if(mc->combatON==TRUE){
+  //
+  //STAGE 1 is the end of player's turn
+  //
   if(mc->combatMenuStage==STAGE_1)
-    //stage 1 is the end of player's turn
   {
    mc->combatMenuStage=STAGE_2;//go to stage 2, creature's turn 
    mc->turnIndex= 2;   
@@ -82,11 +90,15 @@ U0 RenderCombatVersion(Actor *toRender){
      Play("3wC#D#E#F#G#");
      LvlUp(player);
     }
+    CombatQueFree();
     mc->combatON=FALSE;
     mc->currentSong=0;
+    goto combatOver;
    }
   }
-  //attack
+  //
+  //STAGE 2 is the end of the round
+  //
   if(mc->combatMenuStage==STAGE_2) {
    //reset back to stage 0, start of player's turn
    mc->combatMenuStage=STAGE_0;
@@ -100,7 +112,9 @@ U0 RenderCombatVersion(Actor *toRender){
     mc->turnIndex = 1;
    }
   }
+
  }
+ combatOver:
 }
 
 Bool CheckTarget(Actor *toRender){

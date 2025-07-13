@@ -259,9 +259,8 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   task->a = MAlloc(sizeof(Actor));
  }
 
- //if(sX!=DELIMITER&&sY!=DELIMITER){
-  task->x = p->screenX;task->y = p->screenY;
- //}else {task->x = sX; task->y = sY;}
+ task->x = p->screenX;task->y = p->screenY;
+ if(sX!=DELIMITER){task->x = sX; task->y = sY;}
 
  task->a = p;
  task->flip = FALSE;
