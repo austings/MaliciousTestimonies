@@ -1,4 +1,7 @@
 
+U0 SerializeMatrix()
+{
+}
 
 Matrix *MakeCastle(Matrix *toAdd)
 {
@@ -25,8 +28,8 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixObj(toAdd,OBJ_WOOD,2,2);
   //Items
   SetMatrixItem(toAdd,IT_DAGGER,3,2);
-  SetMatrixItem(toAdd,IT_HELM,5,4);
-  SetMatrixItem(toAdd,IT_SHIRT,4,4);
+  SetMatrixItem(toAdd,IT_HELM,5,8);
+  SetMatrixItem(toAdd,IT_SHIRT,4,8);
 
 
  //rock walls
@@ -42,7 +45,6 @@ Matrix *MakeCastle(Matrix *toAdd)
   SetMatrix(toAdd,BG_ROCK_WALL,i,12);
 
  }  
- SetMatrixNPC(toAdd,A_WILD_DOG,8,8);//wild dog
 
  //begin castle
  //four walls 
@@ -103,17 +105,23 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,A_ELIJAH,23,25);//elijah
  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard
  SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
-  //SetMatrixNPC(toAdd,11,8,8);//wild dogs
-  //SetMatrixNPC(toAdd,12,9,12);
-  //SetMatrixNPC(toAdd,13,25,50);
-  //SetMatrixNPC(toAdd,14,27,8);
-  //SetMatrixNPC(toAdd,15,29,10);
- // SetMatrixNPC(toAdd,16,30,6);
- // SetMatrixNPC(toAdd,17,34,9);
- // SetMatrixNPC(toAdd,18,32,3);
-
+ SetMatrixNPC(toAdd,6,8,8);//wild dog
+ //SetMatrixNPC(toAdd,9,90,90);//wild dog
+/*
+ SetMatrixNPC(toAdd,11,10,19);//wild dog
+ SetMatrixNPC(toAdd,12,12,18);//wild dog
+ SetMatrixNPC(toAdd,13,50,13);//wild dog
+ SetMatrixNPC(toAdd,14,50,15);//wild dog
+ SetMatrixNPC(toAdd,15,49,14);//wild dog
+ SetMatrixNPC(toAdd,16,30,8);//wild dog
+ SetMatrixNPC(toAdd,17,40,8);//wild dog
+ SetMatrixNPC(toAdd,18,35,7);//wild dog
+ SetMatrixNPC(toAdd,19,45,7);//wild dog
+ SetMatrixNPC(toAdd,20,47,9);//wild dog
+*/
+ 
  SetMatrixNPC(toAdd,A_OX_CART,1,21);
- // FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
+ FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
  SetMatrixNPC(toAdd,A_MAKABEE,6,19);
  SetMatrixNPC(toAdd,A_FOWL,22,22);
  //SetMatrixNPC(toAdd,21,20,24);

@@ -371,7 +371,7 @@ U0 InitializeAnimator(){
   CreateAnimation(T3FISH);
   CreateAnimation(T4FISH);
 
-  CreateAnimation(T1READY);
+  CreateAnimation(T1READY);
   CreateAnimation(T2READY);
   CreateAnimation(T3READY);
   CreateAnimation(T4READY);

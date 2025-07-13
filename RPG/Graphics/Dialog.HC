@@ -98,6 +98,8 @@ I64 GetTalkie(I64 id)
    talkie = 3;
    break;
    case SV_WOLF1://wolf
+   case 9:
+   case 11...20:
    talkie = 12;
    break;
    case SV_MISS_FISH_EQUIP://missing fish equip

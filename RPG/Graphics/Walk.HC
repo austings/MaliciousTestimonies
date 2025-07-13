@@ -259,9 +259,9 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   task->a = MAlloc(sizeof(Actor));
  }
 
- if(sX!=DELIMITER&&sY!=DELIMITER){
+ //if(sX!=DELIMITER&&sY!=DELIMITER){
   task->x = p->screenX;task->y = p->screenY;
- }else {task->x = sX; task->y = sY;}
+ //}else {task->x = sX; task->y = sY;}
 
  task->a = p;
  task->flip = FALSE;
@@ -402,8 +402,9 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   //case EFFSCRATCH:
    task->cQueDirective = directive;
    isEffect = TRUE;
-  default:
-   task->cQueDirective = directive;
+  break;
+  //default:
+  // task->cQueDirective = directive;
    break;
 
  }
