@@ -63,8 +63,8 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file?
 }
 
 U0 CombatQueFree() {
- QueDel(&combatCQue);
- Free(&combatCQue);
+// QueDel(&combatCQue);
+// Free(&combatCQue);
 }
 
 
