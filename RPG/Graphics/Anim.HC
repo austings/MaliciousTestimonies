@@ -412,14 +412,17 @@ U0 InitializeAnimator(){
 }
 
 
-U0 CheckAnimQueue(CDC *dc)
+U0 CheckAnimQueue(CDC *dc,I64 y)
 {
  Director *task = direct.next;
  I64 i =0;
  for(i=0;i!=QueCnt(direct);i++){
   if(task->cQueDirective!=NoDirective)
   {
-   PlayAnimation(dc,task);
+   //estimate this task row to account for drawing offsets
+   //this is necessary to ensure foreground draws properly
+   if(task->y<=y&&task->y >= y-40)
+    PlayAnimation(dc,task);
   }
   task = task->next;
  }
@@ -495,7 +498,7 @@ U0 InteractActor(I64 npc)
         mc->loot = "wolf fang";
         AddItemToInventory(PLAYER,3);
         break;
-        default:
+        default:
         break;
       }
       mc->lootedSwitch=LOOTING;

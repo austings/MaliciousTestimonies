@@ -63,7 +63,6 @@ static CDC* ITEM050= FramePtr("ITEM050");
 
 //Tile Codes
 #define BG_GREEN	0
-#define SOLID_BG_GREEN	110
 #define BG_BLUE		1
 #define BG_CYAN		2
 #define BG_BROWN	3
@@ -72,6 +71,8 @@ static CDC* ITEM050= FramePtr("ITEM050");
 #define BG_DK_GRAY	17
 #define BG_LT_RED	18
 #define BG_ROCK_WALL    19
+#define BG_BUSH_WALL    20
+#define SOLID_BG_GREEN	110
 class Item:CQue
 {
   U8* name;
@@ -140,6 +141,7 @@ U8 *GetBG(I64 id)
   U8 *color = BLUE; 
   switch(id)
   {
+   case BG_BUSH_WALL:
    case SOLID_BG_GREEN:
    case BG_GREEN:
     color = GREEN;

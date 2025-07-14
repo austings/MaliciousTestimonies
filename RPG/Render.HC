@@ -68,6 +68,11 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j)
          Sprite3B(dc,i*camera->dividX+camera->cameraOffSetX,
                   j*camera->dividY+camera->cameraOffSetY,0,GetRockWall());
         break;
+        case BG_BUSH_WALL:
+        Sprite3B(dc,i*camera->dividX+camera->cameraOffSetX,
+                  j*camera->dividY+camera->cameraOffSetY,0,GetBushWall());
+ 
+        break;
         } 
        }
       }
@@ -253,10 +258,8 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
  return p;
 }
 
-U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 i, I64 j, Actor *p)
+U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 screenX, I64 screenY, Actor *p)
 {
- I64 screenX = i*camera->dividX+camera->cameraOffSetX;
- I64 screenY = j*camera->dividY+camera->cameraOffSetY; 
  switch(obj)
  {
   case OBJ_WOOD:
@@ -267,7 +270,7 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 i, I64 j, Actor *p)
    }
    else
    {
-    UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,10);
+    UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30);
    }
   break;
   case SP_FISHING_SPOT:
@@ -278,6 +281,10 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 i, I64 j, Actor *p)
   
    } 
   break;
+  case OBJ_CHEST:
+  Sprite3(dc, screenX-16, screenY-12, 10, GetFurniture(obj));
+  break;
+ 
   default:
   Sprite3(dc,screenX, screenY,10,GetFurniture(obj));
   break;
@@ -318,21 +325,26 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
 {//draw npcs and items
  for(j=-1;j<12;j++){
   if(camera->topUD+j<wX&&camera->topUD+j>=0){
+   I64 screenY = j*camera->dividY+camera->cameraOffSetY; 
    for(i=-1;i<12;i++){
     if(camera->topLR+i<wY&&camera->topLR+i>=0){
+     I64 screenX = i*camera->dividX+camera->cameraOffSetX;
+
      I64 obj= GetTensorObj(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
      I64 npc= GetTensorNPC(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
      if(obj!=IT_NULL)
-      DrawObjsOnLayer(dc,obj,i,j,p);
+      DrawObjsOnLayer(dc,obj,screenX,screenY,p);
      DrawItemsOnLayer(dc,i,j,l);
      if(npc!=IT_NULL)
-      DrawActorsOnLayer(dc,npc,i,j,p);           
-    }//if too large y
-   }//for y
-  }//if too large
- }//for x
+      DrawActorsOnLayer(dc,npc,i,j,p); 
+          
+    }//if too large x
+   }//for x
+   CheckAnimQueue(dc,screenY);//compute animations by row 
+  }//if too large y
+ }//for y
 }
 
 

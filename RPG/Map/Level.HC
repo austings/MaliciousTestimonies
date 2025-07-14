@@ -8,8 +8,12 @@ Matrix *MakeCastle(Matrix *toAdd)
 
   I64 i,j;
 
-
-
+  
+ for(j=0;j<100;j++)
+ {    
+  SetMatrix(toAdd,BG_BUSH_WALL,100,j);
+  SetMatrix(toAdd,BG_BUSH_WALL,0,j);
+ }
   //left hand start
 
  //path
@@ -29,7 +33,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixObj(toAdd,OBJ_CHEST,1,4);
 
   //Items
-  SetMatrixItem(toAdd,IT_DAGGER,3,2);
+  SetMatrixItem(toAdd,IT_DAGGER,3,2);
   SetMatrixItem(toAdd,IT_HELM,5,8);
   SetMatrixItem(toAdd,IT_SHIRT,4,8);
 
@@ -88,7 +92,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixObj(toAdd,OBJ_THRONE,18,2);
  SetMatrixObj(toAdd,OBJ_THRONE,19,2);
 
-
+
   //street
  for(i=0;i<51;i++){
    for(j=15;j<19;j++){

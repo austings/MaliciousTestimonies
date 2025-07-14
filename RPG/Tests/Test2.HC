@@ -1,5 +1,5 @@
 Cd(__DIR__);;
-Cd("../..");$SY,3$
+Cd("../..");$SY,3$
 // Construct Graphics from WAD
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";

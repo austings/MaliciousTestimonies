@@ -128,7 +128,7 @@ U0 SetVector(Vector *v,F64 d,I32 i)
 
  v->data[i]->bg = d; 
  if(d==BG_ROCK_WALL||d==BG_DK_GRAY||d==BG_BLUE||
-    d==BG_CYAN||d==SOLID_BG_GREEN)
+    d==BG_CYAN||d==SOLID_BG_GREEN||d==BG_BUSH_WALL)
   v->data[i]->isSolid=TRUE;
 
 }
