@@ -371,7 +371,7 @@ U0 InitializeAnimator(){
   CreateAnimation(T3FISH);
   CreateAnimation(T4FISH);
 
-  CreateAnimation(T1READY);
+  CreateAnimation(T1READY);
   CreateAnimation(T2READY);
   CreateAnimation(T3READY);
   CreateAnimation(T4READY);
@@ -509,124 +509,94 @@ U0 InteractActor(I64 npc)
   }
  }
 }
+
+U0 InteractTile(Actor *p, U8 dir,
+                I64 xOff=0, I64 yOff=0, 
+                I64 walkingSubFrameKey,
+                I64 walkingFrameKey)
+{
+ p->walkingSubFrame=walkingSubFrameKey;
+ if(p->x+xOff!=WEST_MAX&& p->x+xOff!=wX&&
+    p->y+yOff!=NORTH_MAX&&p->y+yOff!=wY&&
+    !CheckSolid(world->level,p->x+xOff,p->y+yOff,world->currentZ)){
+  I64 npc = GetTensorNPC(world->level,p->x+xOff,p->y+yOff,world->currentZ);
+  I64 obj = GetTensorObj(world->level,p->x+xOff,p->y+yOff,world->currentZ);
+
+  if(npc!=IT_NULL){
+   if(p->id==PLAYER){
+    InteractActor(npc);
+   }    
+  } else if (obj!=IT_NULL){
+  
+  }else{
+   //clear any dialog 
+   mc->talkieScene = IT_NULL;
+   ClearDialog;
+   //check for loot
+   if(mc->lootedSwitch==LOOTING){
+    mc->lootedSwitch=LOOTED;}
+
+   //camera bounding
+   if(camera->topLR!=0&&p->x<wX-5&&dir==DIR_LEFT)
+    camera->topLR--;
+   if(camera->topLR!=wX-11&&p->x>=5&&dir==DIR_RIGHT)
+    camera->topLR++;
+   if(camera->topUD!=0&&p->y<wY-5&&dir==DIR_UP)
+    camera->topUD--;
+   if(camera->topUD!=wY-11&&p->y>=5&&dir==DIR_DOWN)
+    camera->topUD++;
+ 
+
+   //reset subframes   
+   p->walking=walkingFrameKey;
+   p->walkingSubFrame=0;
+
+   //update model
+   RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
+   SetTensorNPC(world->level,0,p->x+xOff,p->y+yOff,world->currentZ);
+   UpdateActorCoords(0,p->x+xOff,p->y+yOff); 
+  }
+ }
+}
+
+#define leftXOff -1
+#define leftSubFrame 3
+#define leftFrame    1
+
+#define rightXOff 1
+#define rightSubFrame 2
+#define rightFrame    2
+
+#define upYOff   -1
+#define upSubFrame 1
+#define upFrame    3
+
+#define downYOff 1
+#define downSubFrame 0
+#define downFrame    4
+
 //actors with anim
 //use move actor on the new dir to move
 U0 MoveActor(Actor *p, U8 dir){
- I64 npc;
-
  //begin walk from idle
  if(p->walking==DIR_IDLE){
   
   switch(dir){
   case DIR_LEFT://left
-    p->walkingSubFrame=3;
-   if(p->x-1!=WEST_MAX&&
-      !CheckSolid(world->level,p->x-1,p->y,world->currentZ)){
-    npc = GetTensorNPC(world->level,p->x-1,p->y,world->currentZ);
-    if(npc!=-1){
-      if(p->id==0){
-       InteractActor(npc);
-      }    
-    }
-    else{
-     mc->talkieScene = -1;
-     ClearDialog;
-     if(mc->lootedSwitch==LOOTING){
-       mc->lootedSwitch=LOOTED;}
-     if(camera->topLR!=0&&p->x<wX-5)
-      camera->topLR--;
-     p->walking=1;
-     p->walkingSubFrame=0;
-     RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
-     SetTensorNPC(world->level,0,(p->x)-1,p->y,world->currentZ);
-     UpdateActorCoords(0,(p->x)-1,p->y); 
-    }
-   }
+   InteractTile(p,dir,leftXOff,0,
+                leftSubFrame,leftFrame);
   break;
   case DIR_RIGHT://right
-   p->walkingSubFrame=2;
-   if(p->x+1!=wX&&!CheckSolid(world->level,p->x+1,p->y,world->currentZ)){
-    npc =GetTensorNPC(world->level,p->x+1,p->y,world->currentZ); 
-    if(npc!=-1){  
-      if(p->id==0){
-       InteractActor(npc);
-      }
-    }
-    else{
-     mc->talkieScene = -1;
-     ClearDialog;
-     if(mc->lootedSwitch==LOOTING){
-       mc->lootedSwitch=LOOTED;}
-
-     if(camera->topLR!=wX-11&&p->x>=5)
-       camera->topLR++;
-     p->walking=2;
-     p->walkingSubFrame=0;
-     RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
-     SetTensorNPC(world->level,0,(p->x)+1,p->y,world->currentZ);
-     UpdateActorCoords(0,(p->x)+1,p->y); 
-    }
-   }
+   InteractTile(p,dir,rightXOff,0,
+                rightSubFrame,rightFrame);
   break;
   case DIR_UP://up
-   p->walkingSubFrame=1;
-
-   if(p->y-1!=NORTH_MAX&&
-      !CheckSolid(world->level,p->x,p->y-1,world->currentZ))
-   {
-    npc =GetTensorNPC(world->level,p->x,p->y-1,world->currentZ); 
-    if(npc!=-1)
-    {
-
-      if(p->id==0){
-       InteractActor(npc);
-      }
-    
-    }
-    else
-    {
-     mc->talkieScene = -1;
-     ClearDialog;
-     if(mc->lootedSwitch==LOOTING){
-       mc->lootedSwitch=LOOTED;}
-
-     if(camera->topUD!=0&&p->y<wY-5){
-      camera->topUD--;
-     }
-     p->walking=3;
-     p->walkingSubFrame=0;
-     RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
-     SetTensorNPC(world->level,0,p->x,(p->y)-1,world->currentZ);
-     UpdateActorCoords(0,p->x,(p->y)-1); 
-    }
-   }
+   InteractTile(p,dir,0,upYOff,
+                upSubFrame,upFrame);
   break;
   case DIR_DOWN://down
-   p->walkingSubFrame=0;
-
-   if(p->y+1!=wY&&!CheckSolid(world->level,p->x,p->y+1,world->currentZ)){
-    npc = GetTensorNPC(world->level,p->x,p->y+1,world->currentZ);
-    if(npc!=-1){
-      if(p->id==0){
-       InteractActor(npc);
-      }    
-    }
-    else{
-     mc->talkieScene = -1;
-     ClearDialog;
-     if(mc->lootedSwitch==LOOTING){
-       mc->lootedSwitch=LOOTED;}
-
-     if(camera->topUD!=wY-11&&p->y>=5){
-      camera->topUD++;
-     }
-     RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
-     p->walking=4;
-     p->walkingSubFrame=0;
-     SetTensorNPC(world->level,0,p->x,(p->y)+1,world->currentZ);
-     UpdateActorCoords(0,p->x,(p->y)+1); 
-    }
-   }
+   InteractTile(p,dir,0,downYOff,
+                downSubFrame,downFrame);
   break;
   }
  }//if not walking

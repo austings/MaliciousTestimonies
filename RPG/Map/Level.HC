@@ -26,6 +26,8 @@ Matrix *MakeCastle(Matrix *toAdd)
  //campsite
  SetMatrixObj(toAdd,OBJ_TENT,2,1);
  SetMatrixObj(toAdd,OBJ_WOOD,2,2);
+ SetMatrixObj(toAdd,OBJ_CHEST,1,4);
+
   //Items
   SetMatrixItem(toAdd,IT_DAGGER,3,2);
   SetMatrixItem(toAdd,IT_HELM,5,8);
@@ -86,9 +88,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixObj(toAdd,OBJ_THRONE,18,2);
  SetMatrixObj(toAdd,OBJ_THRONE,19,2);
 
- SetMatrixObj(toAdd,OBJ_THRONE,17,1);
- SetMatrixObj(toAdd,OBJ_THRONE,20,1);
-
+
   //street
  for(i=0;i<51;i++){
    for(j=15;j<19;j++){
@@ -107,8 +107,8 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
  SetMatrixNPC(toAdd,6,8,8);//wild dog
  SetMatrixNPC(toAdd,9,90,90);//wild dog
- SetMatrixNPC(toAdd,11,10,19);//wild dog
- SetMatrixNPC(toAdd,12,12,18);//wild dog
+ SetMatrixNPC(toAdd,11,6,13);//wild dog
+ SetMatrixNPC(toAdd,12,9,12);//wild dog
  SetMatrixNPC(toAdd,13,50,13);//wild dog
  SetMatrixNPC(toAdd,14,50,15);//wild dog
  SetMatrixNPC(toAdd,15,49,14);//wild dog
@@ -117,7 +117,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,18,35,7);//wild dog
  SetMatrixNPC(toAdd,19,45,7);//wild dog
  SetMatrixNPC(toAdd,20,47,9);//wild dog
-
+
  
  SetMatrixNPC(toAdd,A_OX_CART,1,21);
  FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
