@@ -495,13 +495,13 @@ U0 InteractActor(I64 npc)
         mc->loot = "wolf fang";
         AddItemToInventory(PLAYER,3);
         break;
+        default:
+        break;
       }
       mc->lootedSwitch=LOOTING;
      }
-
      //mc->talkieScene = 12;  
     }
-
   }
   else
   {

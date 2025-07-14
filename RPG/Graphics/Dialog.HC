@@ -114,6 +114,9 @@ I64 GetTalkie(I64 id)
    case 10://SV_MAKABEE://shop
    talkie = 16;
    break;
+   default:
+   talkie=12;
+   break;
 
   }
   return talkie;
