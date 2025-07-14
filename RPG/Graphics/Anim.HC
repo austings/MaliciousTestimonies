@@ -421,7 +421,7 @@ U0 CheckAnimQueue(CDC *dc,I64 y)
   {
    //estimate this task row to account for drawing offsets
    //this is necessary to ensure foreground draws properly
-   if(task->y<=y&&task->y >= y-40)
+   if(task->y<=y+10&&task->y >= y-35)
     PlayAnimation(dc,task);
   }
   task = task->next;
