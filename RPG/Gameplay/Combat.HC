@@ -43,8 +43,10 @@ U0 HandleCombatLoop(CTask *task, CDC *dc){
   case STAGE_1:
   break;
   case STAGE_2:
+   mc->combatMenuStage = STAGE_0;
   break;
   case STAGE_3:
+   mc->combatMenuStage = STAGE_0;
   break;
  }
 

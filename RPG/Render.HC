@@ -199,7 +199,8 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
   break;
   case CMS_STRIKE_DONE:
    switch(p->sword){
-    case IT_FIST: //fist
+    case IT_FIST:
+    default: //fist
      if(mc->turnIndex==1){
       PunchMove(dc,p, mc->tarposx,
               mc->tarposy-mc->turnIndex,
