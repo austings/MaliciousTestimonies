@@ -364,8 +364,24 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
   break;
  }
 */
+
+ //this is a switch statement to animate the armor based on
+//the world timer status
  I64 dir = GetDir(toRender);
- GrBlot3(dc,0,0,0,ShowBody(toRender->armor,dir));
+ I64 yOff = 0;
+ I64 xOff = 0;
+ if(toRender->walking!=W_NOTWALKING){
+  // Create a value based on timer (cycle every 30 ticks)
+  F64 t = (world->timer % 30) / 30.0 * 2.0 * pi;
+  I64 groffset = ToI64(Sin(t) * 3.0); // values from -3 to +3
+  if(dir == DIR_RIGHT || dir == DIR_LEFT){
+   xOff += groffset;
+  } else {
+   yOff += groffset;
+  }
+ }
+ GrBlot3(dc,0+xOff,0+yOff,0,ShowBody(toRender->armor,dir));
+ GrBlot3(dc,0+xOff,0+yOff,10,GetHair(toRender->hair));
  
 
 }

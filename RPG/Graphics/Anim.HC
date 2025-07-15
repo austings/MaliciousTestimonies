@@ -471,7 +471,6 @@ CDC *GetActorAnimationJob(Actor *a)
  }
 
  OverlayArmor(completeActor,a);
- GrBlot3(completeActor,0,0,10,GetHair(a->hair));
  return completeActor;
 
 }
