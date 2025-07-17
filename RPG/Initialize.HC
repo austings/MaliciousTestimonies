@@ -1,3 +1,4 @@
+Cd(__DIR__);;
 // Construct Graphics from WAD
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
@@ -129,5 +130,5 @@ U0 Init(){ //world
 
  InitializeAnimator;
 }
-
+
 #include "RPG";
