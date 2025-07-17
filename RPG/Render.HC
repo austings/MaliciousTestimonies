@@ -201,12 +201,6 @@ Actor *RenderPlayer(CDC *dc, Actor *p,
    switch(p->sword){
     case IT_FIST:
     default: //fist
-     if(mc->turnIndex==1){
-      PunchMove(dc,p, mc->tarposx,
-              mc->tarposy-mc->turnIndex,
-              CalculateAngle(mc->tarposx,mc->tarposy,
-              p->screenX,p->screenY));
-     }
      mc->turnIndex++;
      if(mc->turnIndex==50){
       RemoveHealth(mc->target,p->str);

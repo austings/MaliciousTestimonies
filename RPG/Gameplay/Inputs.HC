@@ -48,7 +48,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     break;
    case CS_MOVE://move completion
     mc->combatMenuSelection =CMS_MOVE_DONE;
-    mc->combatMenuStage =STAGE_1;
+    mc->combatMenuStage=STAGE_1;
     break;
    case CS_STRIKE://strike completion
     mc->combatMenuSelection=CMS_STRIKE_DONE;

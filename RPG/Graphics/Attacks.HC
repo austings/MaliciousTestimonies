@@ -18,21 +18,6 @@ I64 CalculateAngle(I64 x1 , I64 y1 , I64 x2 ,I64 y2)
   return 90;}
 }
 
-U0 PunchMove(CDC *screen,Actor *tar,I64 sX,I64 sY, I64 theta)
-{
-
- DCDepthBufRst(loadedAttackFrame);
- loadedAttackFrame->z=GR_Z_ALL;
- Mat4x4IdentEqu(loadedAttackFrame->r);
- Mat4x4RotX(loadedAttackFrame->r,theta+180);
- GrBlot3(screen,sX,sY,10, loadedAttackFrame);
-
- //hp bar
- //CDC *newFill = DCNew(100,100);
- //GrRect(newFill,0,0,((tar->currentHealth)/tar->health)*100,20);
- //GrBlot3(screen,sX,sY,10,newFill);
- 
-}
 
 
 U0 CombatQueInit(Actor *toInsert){ //parameter encounter file?
