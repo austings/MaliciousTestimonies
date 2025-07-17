@@ -44,10 +44,8 @@ U0 SetVectorObj(Vector *v,I64 d,I32 i,Bool solid = TRUE)
 {
  v->data[i]->idObj = d;
  v->data[i]->hasObj= TRUE;
- if(solid) 
-  v->data[i]->isSolid =TRUE;
- else 
-  v->data[i]->isSolid =FALSE;
+ v->data[i]->isSolid =solid;
+ 
 
 }
 

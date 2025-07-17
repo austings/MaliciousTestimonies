@@ -33,7 +33,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixObj(toAdd,OBJ_CHEST,1,4);
 
   //Items
-  SetMatrixItem(toAdd,IT_DAGGER,3,2);
+  SetMatrixItem(toAdd,IT_DAGGER,3,2);
   SetMatrixItem(toAdd,IT_HELM,5,8);
   SetMatrixItem(toAdd,IT_SHIRT,4,8);
 
@@ -164,8 +164,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrix(toAdd,BG_BROWN,6,25);
  SetMatrix(toAdd,BG_BROWN,6,26);
  SetMatrixObj(toAdd,SP_FISHING_SPOT,6,26,FALSE);
-
- //FlipMatrixSolid(toAdd,2,21);  FlipMatrixSolid(toAdd,3,21);
+ //FlipMatrixSolid(toAdd,3,21);
  //FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);
  //TODO fix flip matrix doesnt work for some reason so i made this
  //alternative grass. 

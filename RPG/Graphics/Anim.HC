@@ -521,6 +521,7 @@ U0 InteractTile(Actor *p, U8 dir,
  if(p->x+xOff!=WEST_MAX&& p->x+xOff!=wX&&
     p->y+yOff!=NORTH_MAX&&p->y+yOff!=wY&&
     !CheckSolid(world->level,p->x+xOff,p->y+yOff,world->currentZ)){
+
   I64 npc = GetTensorNPC(world->level,p->x+xOff,p->y+yOff,world->currentZ);
   I64 obj = GetTensorObj(world->level,p->x+xOff,p->y+yOff,world->currentZ);
 
@@ -528,8 +529,6 @@ U0 InteractTile(Actor *p, U8 dir,
    if(p->id==PLAYER){
     InteractActor(npc);
    }    
-  } else if (obj!=IT_NULL){
-  
   }else{
    //clear any dialog 
    mc->talkieScene = IT_NULL;
