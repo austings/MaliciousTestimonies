@@ -153,7 +153,7 @@ U0 SetVector(Vector *v,F64 d,I32 i)
   v->data[i]->waterLvl=3;
 
  if(d==BG_BLUE)
-  v->data[i]->waterLvl=7;
+  v->data[i]->waterLvl=3;
 
 }
 

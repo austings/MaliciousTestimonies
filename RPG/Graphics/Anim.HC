@@ -474,15 +474,9 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
 //todo make status effects?
  if(wlvl>0)
  {
-  if(mc->cutsceneTimer<60)
-   mc->cutsceneTimer++;
-  a->screenY+=(wlvl);
+  a->screenY+=(wlvl+a->walking);
   completeActor->color = TRANSPARENT;
-  GrRect3(completeActor,0,70-(mc->cutsceneTimer),0,500,500);
- }
-
- else{
-   mc->cutsceneTimer=0;
+  GrRect3(completeActor,0,60,0,500,500);
  }
 
  return completeActor;

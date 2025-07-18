@@ -264,7 +264,7 @@ I64 GetMatrixNPC(Matrix *m, I64 row, I64 col)
   return GetVectorNPC(m->data,col);
 }
 
-I64 GetMatrixWaterLevel(Matrix *m,I64 row,I64 col)
+I64 GetMatrixWaterLevel(Matrix *m,I64 row,I64 col)
 {
   I64 i=0;
   while(i<row)
@@ -331,96 +331,6 @@ Vector *GetMatrixVector(Matrix *m, I64 row)
 
 }
 
-//Add two matrix of the same size
-Matrix *AddMatrix(Matrix *m1, Matrix *m2)
-{
-  I64 mX, mY;
-  if(m1->x != m2->x || m1->y != m2->y){
-    "Error: attempt to add matrixes of different size.";
-    return m1;
-  }
-  else
-  {
-    Matrix *sum = CreateMatrix(m1->x,m1->y);
-    for(mX=0;mX<m1->x;mX++)
-    {
-      for(mY=0;mY<m1->y;mY++)
-      {
-        SetMatrix(sum,GetMatrix(m1,mX,mY)+GetMatrix(m2,mX,mY),mX,mY);
-
-      }
-    }
-    return sum;
-  }
-}
-
-//Subtract two matrix of the same size
-Matrix *SubMatrix(Matrix *m1, Matrix *m2)
-{
-  I64 mX, mY;
-  if(m1->x != m2->x || m1->y != m2->y){
-    "Error: attempt to subtract matrixes of different size.";
-    return m1;
-  }
-  else
-  {
-   Matrix *dif = CreateMatrix(m1->x,m1->y);
-   for(mX=0;mX<m1->x;mX++)
-   {
-     for(mY=0;mY<m1->y;mY++)
-     {
-       SetMatrix(dif,GetMatrix(m1,mX,mY)-GetMatrix(m2,mX,mY),mX,mY);
-     }
-    }
-    return dif;
-  }
-
-}
-
-
-//Calculate the dot product of two Matrix m1 and m2
-F64 MultiplyMatrix(Matrix *m1, Matrix *m2)
-{
-  if(m1->y != m2->x)
-  {
-    "Error: attempt for matrix multiplication of unknown size.";
-    return m1;
-  }
-  else
-  {
-    Matrix *product = CreateMatrix(m1->x,m2->y);
-    I64 pX,pY,sums; 
-    for(pX=0;pX<product->x;pX++)
-    {
-      for(pY=0;pY<product->y;pY++)
-      {
-         F64 currentProduct = 0;
-         //sums holds the index value of the
-         //current row/column product (that gets added across the integral)
-         for(sums=m1->y;sums!=0;sums--)
-         {
-           currentProduct += GetMatrix(m1,pX,m1->y-sums) *GetMatrix(m2,m2->x-sums,pY);
-         }
-         SetMatrix(product,currentProduct, pX,pY);
-      }      
-    }
-    return product;
-  }
-}
-
-//Multiply a matrix by a scalar
-Matrix *ScaleMatrix(Matrix *m, F64 scalar)
-{
-  Matrix* scaled = CreateMatrix(m->x,m->y);
-  I64 mX,mY;
-  for(mX =0;mX<m->x;mX++){
-    for(mY =0;mY<m->y;mY++){
-      SetMatrix(scaled,GetMatrix(m,mX,mY)*scalar,mX,mY);
-    }
-  }
-  return scaled;
-}
-
 
 //Free a created Matrix m
 U0 DestroyMatrix(Matrix *m)
@@ -435,45 +345,3 @@ U0 DestroyMatrix(Matrix *m)
  }
 
 }
-
-//Main to demo matrix
-U0 MainMatrix()
-{
-  I32 matrixSizeX = 3, matrixSizeY = 2;
-
-  Matrix *m1= CreateMatrix(matrixSizeX,matrixSizeY);
-  Matrix *m2= CreateMatrix(matrixSizeY,matrixSizeX);
-  Matrix *m3= CreateMatrix(matrixSizeY,matrixSizeY);
-  Matrix *m4= CreateMatrix(matrixSizeY,matrixSizeY);
-
- 
-
-  "m1 = \n";
-  SetMatrix(m1,1,0,0);
-  SetMatrix(m1,1,0,1);
-  SetMatrix(m1,2,1,0);    
-  SetMatrix(m1,3,1,1);
-  SetMatrix(m1,5,2,0);
-  SetMatrix(m1,8,2,1);
-  PrintMatrix(m1);
-
-  "\nm2 = \n";
-  SetMatrix(m2,2,0,0);
-  SetMatrix(m2,2,0,1);
-  SetMatrix(m2,4,0,2);    
-  SetMatrix(m2,4,1,0);
-  SetMatrix(m2,8,1,1);
-  SetMatrix(m2,8,1,2);
-
-  PrintMatrix(m2);
-  "\nm2 * 2 =\n";
-  //PrintMatrix(ScaleMatrix(m2,2));
-  "\nm1 * m2 = \n";
-  //PrintMatrix(MultiplyMatrix(m1,m2));
-  DestroyMatrix(m1);
-  DestroyMatrix(m2);
-
-
-
-
-}//MainMatrix;

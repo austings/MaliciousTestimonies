@@ -23,7 +23,7 @@ Matrix *MakeCastle(Matrix *toAdd)
     if(alt)
      SetMatrix(toAdd,BG_BROWN,i,j);
     else
-     SetMatrix(toAdd,BG_YELLOW,i,j);
+     SetMatrix(toAdd,BG_YELLOW,i,j);
     alt = !alt;
    }
   }
@@ -31,7 +31,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixObj(toAdd,OBJ_TENT,2,1);
  SetMatrixObj(toAdd,OBJ_WOOD,2,2);
  SetMatrixObj(toAdd,OBJ_CHEST,1,4);
- 
+ 
   //Items
   SetMatrixItem(toAdd,IT_DAGGER,3,2);
   SetMatrixItem(toAdd,IT_HELM,5,8);
@@ -142,7 +142,7 @@ Matrix *MakeCastle(Matrix *toAdd)
     if((i<4&&j==22)||(i<6&&i>0&&j==23)||(i>2&&i<13&&j==24)||
        (i>4&&i<14&&j==25)||(i>12&&i<16&&j==26)||(i==15&&(j==27||j==28)))
     {
-     SetMatrix(toAdd,4,i,j);//sand
+     SetMatrix(toAdd,BG_YELLOW,i,j);//sand
     }
     else{
      if((j==22)||(i>1&&j==23)||(i>2&&j==24)||(i>4&&j==25)||(i>12&&j==26)||
@@ -152,6 +152,7 @@ Matrix *MakeCastle(Matrix *toAdd)
      {//||((i>7&&i<11)||(i>14&&i<26)||(i>33&&i<46)&&j==31)
       //(i>0&&j==23)||
       //leave as grass
+
      }
      else
      {
