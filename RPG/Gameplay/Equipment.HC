@@ -388,7 +388,8 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
   F64 t = (world->timer % 30) / 30.0 * 2.0 * pi;
   I64 groffset = ToI64(Sin(t) * 3.0); // values from -3 to +3
   if(dir == DIR_RIGHT || dir == DIR_LEFT){
-   xOff += groffset;
+   xOff += (groffset/2);
+   yOff += (groffset/2);
   } else {
    yOff += groffset;
   }
