@@ -4,11 +4,20 @@
 //Subject to Creative Commons BY-NC 4.0
 //
 
+class Path
+{
+ I64 f,g,h,x,y;
+ Path *parent;
+ Bool inOpenList, inClosedList;
+};
+
 //Vector Objection Declaration
 public class Vector
 {
  I32 size;
  MapNode **data;
+ Path **node;
+ 
  
 };//vectors
 
@@ -19,9 +28,11 @@ Vector *CreateVector(I32 size)
  Vector *v = MAlloc(sizeof(Vector));
  v->size = size;
  v->data = CAlloc(sizeof(MapNode)*size);
+ v->node = CAlloc(sizeof(Path)*size);
  
  for(i=0;i<size;i++)
  {
+  //allocate MapNode
   v->data[i] = CAlloc(sizeof(MapNode));
   v->data[i]->bg = 0;
   v->data[i]->len = 0;
@@ -32,7 +43,13 @@ Vector *CreateVector(I32 size)
   v->data[i]->hasObj = FALSE;
   v->data[i]->idObj = -1;
   QueInit(v->data[i]->items);
-  //Quev->data[i]->items[0]=0;
+
+ //heuristic data
+  v->node[i]= CAlloc(sizeof(Path));
+  v->node[i]->parent = NULL;
+  v->node[i]->f=0;  v->node[i]->g=0;  v->node[i]->h=0;  
+  v->node[i]->x=0;  v->node[i]->y=0;
+  v->node[i]->inClosedList=FALSE;  v->node[i]->inOpenList=FALSE;
  }
 
  return v;
