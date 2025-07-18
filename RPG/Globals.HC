@@ -84,7 +84,8 @@ class MenuControl{
   I32 currentSong,//for draw and song threads
       currentMenu,
       cutsceneTarget;//switch cutscene frames
-
+  I64 cutsceneTimer,cutsceneIndex;
+
   //Dialog
   I64 talkieScene;//dialogID
   U8* dialogName;//dialog actor name

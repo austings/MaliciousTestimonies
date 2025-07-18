@@ -264,6 +264,19 @@ I64 GetMatrixNPC(Matrix *m, I64 row, I64 col)
   return GetVectorNPC(m->data,col);
 }
 
+I64 GetMatrixWaterLevel(Matrix *m,I64 row,I64 col)
+{
+  I64 i=0;
+  while(i<row)
+  { 
+   m = m->next;
+   i++;
+
+  }
+
+  return GetVectorWaterLevel(m->data,col);
+
+}
 
 //returns the data value at position x,y in Matrix m
 MapNode *GetMatrixItem(Matrix *m, I64 row, I64 col)

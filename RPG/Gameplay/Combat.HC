@@ -56,7 +56,7 @@ U0 CombatTurnArrows(Actor *p)
 {
  switch(mc->combatMenuSelection){
   case CMS_MOVE:
-   if(keys.pressed==DIR_UP){break;}
+   if(keys.pressed==DIR_UP){mc->combatMenuSelection=CMS_FLEE;}
    if(keys.pressed==DIR_DOWN){mc->combatMenuSelection++;}
   break;
   case CMS_STRIKE:
@@ -68,7 +68,7 @@ U0 CombatTurnArrows(Actor *p)
   break;
   case CMS_FLEE:
    if(keys.pressed==DIR_DOWN){
-    break;
+    mc->combatMenuSelection=CMS_MOVE;
    }
    if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
   break;

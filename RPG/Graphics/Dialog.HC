@@ -164,57 +164,11 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID,U8 *mctext="")
    yInc+=16;
    xInc=0;
   }
-  GrChar(dc,c,6+xInc,386+yInc,2);
+  GrChar(dc,c,6+xInc,386+yInc,2);
   xInc+=14;
    
  }
  PrintLine(dc,name,26,360,2);
-
- /*
- //currLetter=0;
- for(i=0;i<currLetter;i++)
- {
-  c = myDialog[i];
-  if(c=='#')
-  {
-   if(nIndex!=0 && i!=nIndex)
-   {
-    n2Index=i;
-   }
-   else
-   {
-    nIndex= i;
-   }   
-  }
-  else
-  {
-   if(i>nIndex && nIndex!=0)
-   {
-    if(i>n2Index && n2Index!=0)
-    {
-     yInc=30;
-     xInc=n2Index+1;
-    }
-    else
-    {
-     yInc=15;
-     xInc=nIndex+1;
-    }
-    
-   }
-   else
-   {
-    yInc=0;
-    xInc=0;
-   }
-
-   GrChar(dc,c,Max(0,(i-xInc))*13+12,390+yInc,2);
-
-  }
- }
- PrintLine(dc,name,26,360,2);
- 
-*/   
 
 }
 

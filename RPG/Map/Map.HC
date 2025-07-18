@@ -8,12 +8,9 @@ class NodeStuff:CQue
 class MapNode
 {
  F64 bg;
- Bool isSolid;
- Bool hasNPC;
- I64 idNPC;
- I64 len;
- Bool hasObj;
- I64 idObj;
+ Bool isSolid, hasNPC, hasObj;
+ I64 idNPC,idObj;
+ I64 waterLvl, len;
  NodeStuff *items;
   
 };

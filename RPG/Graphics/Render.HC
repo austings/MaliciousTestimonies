@@ -286,7 +286,7 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 screenX, I64 screenY, Actor *p)
  }
 }
 
-U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
+U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p, I64 wlvl)
 {
  //Actors start by converting matrix x,y position to screen X,Y
  Actor *toRender;
@@ -313,7 +313,7 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p)
  highlight = CheckTarget(toRender);
       
  RenderCharacter(dc,toRender->screenX,toRender->screenY,
- 10, GetActorAnimationJob(toRender), highlight);
+ 10, GetActorAnimationJob(toRender,wlvl), highlight);
 }   
 
 U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
@@ -329,11 +329,14 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
               camera->topLR+i,camera->topUD+j,world->currentZ);     
      I64 npc= GetTensorNPC(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
+     I64 wlvl= GetTensorWaterLevel(world->level,
+              camera->topLR+i,camera->topUD+j,world->currentZ);     
+
      if(obj!=IT_NULL)
       DrawObjsOnLayer(dc,obj,screenX,screenY,p);
      DrawItemsOnLayer(dc,i,j,l);
      if(npc!=IT_NULL)
-      DrawActorsOnLayer(dc,npc,i,j,p); 
+      DrawActorsOnLayer(dc,npc,i,j,p,wlvl); 
           
     }//if too large x
    }//for x

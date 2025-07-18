@@ -24,7 +24,7 @@ Cd(__DIR__);;
 #include "Gameplay/Inventory.HC";
 #include "Gameplay/Player.HC";
 #include "Gameplay/Equipment.HC";
-#include "Gameplay/Save.HC";
+#include "Gameplay/Save.HC";
 
 // Loading Narrative
 #include "Graphics/Dialog.HC";
@@ -49,6 +49,9 @@ U0 InitMenuControl()
  mc->currentSong=1;
  mc->currentMenu=0;
  mc->cutsceneTarget=0;//switch cutscene frames
+ mc->cutsceneTimer =0;
+ mc->cutsceneIndex=0;
+
  mc->talkieScene = -1;//dialogID
  mc->dialogName = "???";//dialog actor name
 

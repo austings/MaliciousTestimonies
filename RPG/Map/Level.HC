@@ -31,7 +31,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixObj(toAdd,OBJ_TENT,2,1);
  SetMatrixObj(toAdd,OBJ_WOOD,2,2);
  SetMatrixObj(toAdd,OBJ_CHEST,1,4);
-
+ 
   //Items
   SetMatrixItem(toAdd,IT_DAGGER,3,2);
   SetMatrixItem(toAdd,IT_HELM,5,8);
@@ -155,7 +155,7 @@ Matrix *MakeCastle(Matrix *toAdd)
      }
      else
      {
-      SetMatrix(toAdd,2,i,j);//water
+      SetMatrix(toAdd,BG_CYAN,i,j);//water
      }
     }
    }

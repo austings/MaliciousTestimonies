@@ -28,18 +28,21 @@ Vector *CreateVector(I32 size)
  Vector *v = MAlloc(sizeof(Vector));
  v->size = size;
  v->data = CAlloc(sizeof(MapNode)*size);
- v->node = CAlloc(sizeof(Path)*size);
+ v->node = CAlloc(sizeof(Path)*size);
  
  for(i=0;i<size;i++)
  {
   //allocate MapNode
   v->data[i] = CAlloc(sizeof(MapNode));
   v->data[i]->bg = 0;
-  v->data[i]->len = 0;
   v->data[i]->hasNPC = FALSE;
   v->data[i]->idNPC = -1;
   v->data[i]->isSolid = FALSE;
+
+  v->data[i]->waterLvl = 0;
+  v->data[i]->len = 0;
   v->data[i]->items = CAlloc(sizeof(NodeStuff));
+
   v->data[i]->hasObj = FALSE;
   v->data[i]->idObj = -1;
   QueInit(v->data[i]->items);
@@ -142,9 +145,15 @@ U0 SetVector(Vector *v,F64 d,I32 i)
 {
 
  v->data[i]->bg = d; 
- if(d==BG_ROCK_WALL||d==BG_DK_GRAY||d==BG_BLUE||
-    d==BG_CYAN||d==SOLID_BG_GREEN||d==BG_BUSH_WALL)
+ if(d==BG_ROCK_WALL||d==BG_DK_GRAY||
+    d==SOLID_BG_GREEN||d==BG_BUSH_WALL)
   v->data[i]->isSolid=TRUE;
+
+ if(d==BG_CYAN)
+  v->data[i]->waterLvl=3;
+
+ if(d==BG_BLUE)
+  v->data[i]->waterLvl=7;
 
 }
 
@@ -212,6 +221,10 @@ I64 GetVectorObj(Vector *v, I32 i)
    return -1;
 }
 
+I64 GetVectorWaterLevel(Vector *v,I32 i)
+{
+ return v->data[i]->waterLvl; 
+}
 
 I64 GetVectorNPC(Vector *v, I32 i)
 {
