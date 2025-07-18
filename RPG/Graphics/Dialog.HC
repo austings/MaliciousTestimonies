@@ -112,7 +112,7 @@ I64 GetTalkie(I64 id)
    talkie = 18;
    break;
    case 10://SV_MAKABEE://shop
-   talkie = 16;
+   talkie = SV_MAKABEE_SHOP;
    break;
    default:
    talkie=12;
@@ -128,22 +128,53 @@ U0 ClearDialog()
 }
 
 
+Bool MerchantList(I64 textID)
+{
+ if(textID==SV_MAKABEE_SHOP)
+ {
+  return TRUE;
+ }
+ return FALSE;
+}
+
+U0 MerchantMenu(CDC *dc){
+
+}
+
 U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID,U8 *mctext="")
 {
- I64 i,nL,xInc,yInc;
+ I64 i,xInc=0,yInc=0;
  U8 c;
  dc->color=BLACK;
  Sprite3B(dc,0,375,0,GetDialogBox);
  if(currLetter<MAX_D)
    currLetter++;
 
+ if(MerchantList(textID))
+  MerchantMenu(dc);
+ 
+
  GetDialogMsg(textID,mctext);
+
+ for(i=0;i<currLetter;i++)
+ {
+  c = myDialog[i];
+  if(c=='#'){
+   c = myDialog[++i];
+   yInc+=16;
+   xInc=0;
+  }
+  GrChar(dc,c,6+xInc,386+yInc,2);
+  xInc+=14;
+   
+ }
+ PrintLine(dc,name,26,360,2);
+
+ /*
  //currLetter=0;
  for(i=0;i<currLetter;i++)
  {
   c = myDialog[i];
-  //if(i==0)
-  // AdamLog((&myDialog));
   if(c=='#')
   {
    if(nIndex!=0 && i!=nIndex)
@@ -183,7 +214,7 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID,U8 *mctext="")
  }
  PrintLine(dc,name,26,360,2);
  
-   
+*/   
 
 }
 

@@ -14,10 +14,10 @@ ID	TEXT
 13	There is nothing left #on the corpse.                                                                                             |
 14	You loot the %s's #%s.                                                                                                            |
 15	You must first equip fishing#equipment to fish here.                                                                              |                                                   |
-16	Please browse me goods,#me children be starvin.                                                                                   |
+16	Greetings, traveller.#I bring from my homeland: fine,#silk garments for the royal chatun…#- touch them, see for yourself!         |
 17	Moo!                                                                                                                              |
 18	bwak bwak                                                                                                                         |
-19	                                 
+19	                                 
 20	                                      
 21	                                    
 22	 
