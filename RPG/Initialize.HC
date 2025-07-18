@@ -1,4 +1,4 @@
-Cd(__DIR__);;
+Cd(__DIR__);;
 // Construct Graphics from WAD
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
@@ -21,10 +21,10 @@ Cd(__DIR__);;
 #include "Gameplay/AI.HC";
 // Loading Player
 #include "Globals.HC";
-#include "Inventory.HC";
-#include "Player.HC";
-#include "Equipment.HC";
-#include "Save.HC";
+#include "Gameplay/Inventory.HC";
+#include "Gameplay/Player.HC";
+#include "Gameplay/Equipment.HC";
+#include "Gameplay/Save.HC";
 
 // Loading Narrative
 #include "Graphics/Dialog.HC";
@@ -38,7 +38,7 @@ Cd(__DIR__);;
 #include "Graphics/Attacks.HC";
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
-#include "Render.HC";
+#include "Graphics/Render.HC";
 
 // Loading Skills
 #include "Gameplay/Fishing.HC";
