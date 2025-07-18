@@ -354,6 +354,19 @@ CDC *ShowBody(I64 armor,I64 dir )
  return armorPiece;
 }
 
+CDC *ShowHelm(I64 armor,I64 dir )
+{
+ CDC *armorPiece = DCNew(100,100);
+ DCFill(armorPiece,TRANSPARENT);
+ switch(armor)
+ { 
+  case IT_HELM:
+   Sprite3B(armorPiece,10,20,10,GetHelmArmor(dir));
+  break;
+ }
+ return armorPiece;
+}
+
 
 U0 OverlayArmor(CDC *dc, Actor *toRender)
 {
@@ -373,7 +386,7 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
  if(toRender->walking!=W_NOTWALKING){
   // Create a value based on timer (cycle every 30 ticks)
   F64 t = (world->timer % 30) / 30.0 * 2.0 * pi;
-  I64 groffset = ToI64(Sin(t) * 3.0); // values from -3 to +3
+  I64 groffset = ToI64(Sin(t) * 3.0); // values from -3 to +3
   if(dir == DIR_RIGHT || dir == DIR_LEFT){
    xOff += groffset;
   } else {
@@ -382,6 +395,7 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
  }
  GrBlot3(dc,0+xOff,0+yOff,0,ShowBody(toRender->armor,dir));
  GrBlot3(dc,0+xOff,0+yOff,10,GetHair(toRender->hair));
+ GrBlot3(dc,0+xOff,0+yOff,0,ShowHelm(toRender->hat,dir));
  
 
 }
