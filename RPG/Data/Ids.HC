@@ -1,3 +1,5 @@
+//Story Variables
+
 #define SV_KING_1               1
 #define SV_JEZ_1                2
 #define SV_ELI_1                3
@@ -10,6 +12,12 @@
 #define SV_MAKABEE              10 
 #define SV_MAKABEE_SHOP         16
 
+//Status Effects
+#define NRML_STATUS 0
+#define DEAD_STATUS 1
+#define WADE_STATUS 2
+
+//Animations
 #define T1FISH 0//"T1Fish"
 #define T2FISH 1//"T2Fish"
 #define T3FISH 2//"T3Fish"
@@ -35,8 +43,6 @@
 #define T3SPEAR 18
 #define T4SPEAR 19
 
-#define BOUNCE 20//"Ready"
-
 #define T1DIE 21
 #define T2DIE 22
 #define T3DIE 23
@@ -47,8 +53,11 @@
 #define T3CAST 27
 #define T4CAST 28
 
+//Effects
 #define T1EFFHEAL 29
 #define EFFFISH 30
 #define EFFFIRE 31
 #define EFFSCRATCH 32
 
+//Procedural
+#define BOUNCE 20//"Ready"

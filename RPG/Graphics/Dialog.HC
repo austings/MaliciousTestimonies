@@ -4,8 +4,7 @@ U8 *DIALOG_FILE = MStrPrint("%s%s",DirCur,"/Data/Dialog.TXT");
 I32 currLetter =-1,yInc=0,xInc=0,nIndex=0,n2Index=0;
 U8 myDialog[MAX_D];
 
-U0 GrChar(CDC *dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale)
-{
+U0 GrChar(CDC *dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale){
   I64 i,j,k=0;
   for(i=0;i<FONT_HEIGHT;i++){
     for(j=0;j<FONT_WIDTH;j++){
@@ -16,8 +15,7 @@ U0 GrChar(CDC *dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale)
   }
 }
 
-U0 PrintLine(CDC*dc=gr.dc,U8 *line,I64 startx,I64 starty,F64 scale=1)
-{
+U0 PrintLine(CDC*dc=gr.dc,U8 *line,I64 startx,I64 starty,F64 scale=1){
  I64 factor = ToI64(scale*7);
  I64 i;
  for(i=0;i<StrLen(line);i++)
@@ -31,7 +29,7 @@ U0 PrintLine(CDC*dc=gr.dc,U8 *line,I64 startx,I64 starty,F64 scale=1)
 U8 *ReadATextLine(U8 **fbuf) {
   U8 *en,*st=*fbuf,*buf;
   if(!*st) return NULL;
-  if(en=StrFirstOcc(st,"\n")) {
+  if(en=StrFirstOcc(st,"\n")) {
     buf=MAlloc(en-st+2);
     MemCpy(buf,st,en-st+1);
     buf[en-st+1]=0;
@@ -43,9 +41,7 @@ U8 *ReadATextLine(U8 **fbuf) {
 }
 
 
-U0 DeserializeDialog(I64 textID)
-{
- 
+U0 DeserializeDialog(I64 textID){ 
  U8 *fptr =FileRead(DIALOG_FILE);
  U8 *lnptr,*ln,*temp;
  StrUtil(fptr,SUF_REM_CTRL_CHARS);

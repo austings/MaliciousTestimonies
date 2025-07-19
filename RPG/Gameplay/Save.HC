@@ -94,8 +94,8 @@ U0 SaveForm()
       ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
       MemCpy(ptr,&(newSave->player->wis),sizeof(U64)); 
       ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
-      MemCpy(ptr,&(newSave->player->dead),sizeof(Bool)); 
-      ptr+=sizeof(Bool); bytesWritten+=sizeof(Bool);
+      MemCpy(ptr,&(newSave->player->status1),sizeof(U16)); 
+      ptr+=sizeof(Bool); bytesWritten+=sizeof(U16);
       MemCpy(ptr,&(newSave->player->ai_script),sizeof(U8)); 
       ptr+=sizeof(U8); bytesWritten+=sizeof(U8);
 //      MemCpy(ptr,&(newSave->player->myInv->maxWeight),sizeof(I32)); 
@@ -202,7 +202,7 @@ U0 LoadGame(U8 *file)
       ptr+=sizeof(U64); bytesRead+=sizeof(U64);
       MemCpy(&(newSave->player->wis),ptr,sizeof(U64)); 
       ptr+=sizeof(U64); bytesRead+=sizeof(U64);
-      MemCpy(&(newSave->player->dead),ptr,sizeof(Bool)); 
+      MemCpy(&(newSave->player->status1),ptr,sizeof(U16)); 
       ptr+=sizeof(Bool); bytesRead+=sizeof(Bool);
       MemCpy(&(newSave->player->ai_script),ptr,sizeof(U8)); 
       ptr+=sizeof(U8); bytesRead+=sizeof(U8);

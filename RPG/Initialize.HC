@@ -15,6 +15,7 @@ Cd(__DIR__);;
 #include "Map/Tensor3D.HC";
 // Loading Data Into Map
 #include "Map/Actors.HC";
+#include "Map/Director.HC";
 #include "Map/Level.HC";
 
 //Pathfinding
@@ -23,7 +24,7 @@ Cd(__DIR__);;
 #include "Globals.HC";
 #include "Gameplay/Inventory.HC";
 #include "Gameplay/Player.HC";
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 #include "Gameplay/Save.HC";
 
 // Loading Narrative
@@ -36,9 +37,10 @@ Cd(__DIR__);;
 
 // Loading Combat Scenarios
 #include "Graphics/Attacks.HC";
-#include "Graphics/Prayers.HC";
+#include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
 #include "Graphics/Render.HC";
+#include "Graphics/Draw.HC";
 
 // Loading Skills
 #include "Gameplay/Fishing.HC";

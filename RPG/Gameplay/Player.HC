@@ -1,5 +1,47 @@
-#define MAXACTORCOUNT	11
-U8 *ACTOR_FILE = MStrPrint("%s%s",DirCur,"/Data/Actor.TXT"); 
+
+U8 *ACTOR_FILE = MStrPrint("%s%s",DirCur,"/Data/Actor.TXT");
+ 
+Actor *MakeActor(I64 id,U8 tribe,U8 hair,U8 face, 
+I64 hat,I64 armor, I64 sword, I64 ring1,
+U64 x, U64 y, 
+U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
+{
+ Actor *me = MAlloc(sizeof(Actor));
+ me->id=id;
+ me->tribe = tribe;
+ me->face=face;
+ me->hair=hair;
+ me->hat=hat;
+ me->armor=armor;
+ me->sword=sword;
+ me->ring1=ring1;
+ me->x=x;
+ me->y=y;
+ me->health=con*5;
+ me->currentHealth = me->health;
+ me->mana=wis*5;
+ me->currentMana = me->mana;
+ me->maxExp = 20;
+ me->exp = 0;
+ me->lvl = 1;
+ me->str=str;
+ me->int=int;
+ me->con=con;
+ me->wis=wis;
+ me->ai_script=ai;
+ me->status1=NRML_STATUS;
+ me->status2=NRML_STATUS;
+ me->status3=NRML_STATUS;
+ me->dir=DIR_DOWN;
+ me->screenX = 0;
+ me->screenY = 0;
+ me->visible = TRUE;
+ Inventory *newInv = MakeInventory();
+ me->myInv = newInv;
+ me->walking = DIR_IDLE,me->walkingSubFrame=DIR_IDLE;
+ return me;
+
+}
 
 
 Actor *player;
@@ -33,9 +75,9 @@ U0 SetNPC(Actor *a)
 
 //StatusEffects
 
-U0 Die(Actor *a)
+U0 AddStatus(Actor *a,U16 statusCode)
 {
-  a->dead = TRUE;
+  a->status1 = statusCode;
 }
 
 U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
@@ -83,7 +125,7 @@ U0 RemoveHealth(Actor *a, I64 magnitude)
   if(a->currentHealth<=magnitude)
   {
     a->currentHealth=0;
-    Die(a);
+    AddStatus(a,DEAD_STATUS);
   }
   else
   {
@@ -124,11 +166,8 @@ U8 *ReadALine(U8 **fbuf) {
 Actor *DeserializeNPC(I64 npcid)
 {
  I64 i,j;
- Actor *p = MAlloc(sizeof(Actor));
- //p->myInv = MAlloc(sizeof(Inventory));
- p->myInv = MakeInventory();
  if(npcid==-1)
-  return p;
+  return NULL;
  U8 *fptr =FileRead(ACTOR_FILE);
  U8 *lnptr,*ln,*temp;
  StrUtil(fptr,SUF_REM_CTRL_CHARS);
@@ -168,37 +207,16 @@ Actor *DeserializeNPC(I64 npcid)
    &xptr,&yptr,&strptr,
    &intptr,&conptr,&wisptr,&aiptr,&inv1ptr,
    &inv2ptr,&inv3ptr,&inv4ptr,&inv5ptr);
-  
+
+  Actor *p = 
+   MakeActor(Str2I64(id),Str2I64(tribe),Str2I64(hair),Str2I64(face), 
+             Str2I64(hat),Str2I64(armor), Str2I64(sword), Str2I64(ring1),
+             Str2I64(x),Str2I64(y), 
+             Str2I64(str),Str2I64(int),Str2I64(con),Str2I64(wis),Str2I64(ai)
+            );  
 
   for(i=0;i<15;i++)
-   p->name[i] = nameptr[i];
-  p->id = Str2I64(id);
-  p->tribe = Str2I64(tribe);
-  p->face = Str2I64(face);
-  p->hair = Str2I64(hair);
-  p->hat = Str2I64(hat);
-  p->armor = Str2I64(armor);
-  p->sword = Str2I64(sword);
-  p->ring1 = Str2I64(ring1);
-  p->x = Str2I64(x);
-  p->y = Str2I64(y);
-  p->str = Str2I64(str);
-  p->int = Str2I64(int);
-  p->con = Str2I64(con);
-  p->wis = Str2I64(wis);
-  p->ai_script = Str2I64(ai);
-  p->dead = FALSE;
-  p->health= Str2I64(con)*5;
-  p->currentHealth = p->health;
-  p->mana=Str2I64(wis)*5;
-  p->currentMana = p->mana;
-  p->exp = 0;
-  p->lvl = 1;
-  p->maxExp = 20;
-  p->dir = DIR_DOWN;
-  p->visible=TRUE;
-  p->dead = FALSE;
-  p->walking = DIR_IDLE; p->walkingSubFrame=DIR_IDLE;
+   p->name[i] = nameptr[i];//null term..?
 
   Free(fptr);
   return p;
@@ -345,45 +363,6 @@ U0 UpdateActorCoords(I64 id, U64 x, U64 y)
 }
 
 
-Actor *MakeActor(I64 id,U8 tribe,U8 hair,U8 face, 
-I64 hat,I64 armor, I64 sword, I64 ring1,
-U64 x, U64 y, 
-U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
-{
- Actor *me = MAlloc(sizeof(Actor));
- me->id=id;
- me->tribe = tribe;
- me->face=face;
- me->hair=hair;
- me->hat=hat;
- me->armor=armor;
- me->sword=sword;
- me->ring1=ring1;
- me->x=x;
- me->y=y;
- me->health=con*5;
- me->currentHealth = me->health;
- me->mana=wis*5;
- me->currentMana = me->mana;
- me->maxExp = 20;
- me->exp = 0;
- me->lvl = 1;
- me->str=str;
- me->int=int;
- me->con=con;
- me->wis=wis;
- me->ai_script=ai;
- me->dead=FALSE;
- me->dir=DIR_DOWN;
- me->screenX = 0;
- me->screenY = 0;
- me->visible = TRUE;
- Inventory *newInv = MakeInventory();
- me->myInv = newInv;
- me->walking = DIR_IDLE,me->walkingSubFrame=DIR_IDLE;
- return me;
-
-}
 
 U0 InitActors(I64 currentZ)
 {

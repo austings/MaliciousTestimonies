@@ -278,7 +278,7 @@ U0 ProceduralAnimate1(CDC *dc,Director *task)
 }
 
 U0 PlayAnimation(CDC *dc,Director *task){ 
- 
+
   if(task->cQueDirective==BOUNCE)
   {
    ProceduralAnimate1(dc,task);
@@ -317,8 +317,6 @@ U0 PlayAnimation(CDC *dc,Director *task){
      default:
       ResetDirective(task);
       task->a->visible = TRUE;  
-      //task is now over
-//      FreeTask(task);
       goto taskend;
      break;
     
@@ -431,37 +429,38 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
  CDC *completeActor = DCNew(500,500);
  DCFill(completeActor, TRANSPARENT);
 
- if(a->dead)
+ if(a->status1==DEAD_STATUS)
  {
   DrawDead(completeActor,a);
   return completeActor;
- }
- switch(a->face)
- {
-  case T_JUDA...T_BENJ:
-   completeActor = GetWalkAnimation(a,completeActor);
-  break;
-  case T_DOG:
-   Sprite3B(completeActor,0,32,10,GetDog);
-  break;
-  case T_FOWL:
-   Sprite3B(completeActor,0,32,10,GetFowl);
-  break;
-  case T_OX:
-   Sprite3B(completeActor,0,32,10,GetOx);
-  break;
-  default:
-   completeActor = GetWalkAnimation(a,completeActor);
-  break;
- } 
+ }else{
+  switch(a->face)
+  {
+   case T_JUDA...T_BENJ:
+    completeActor = GetWalkAnimation(a,completeActor);
+   break;
+   case T_DOG:
+    Sprite3B(completeActor,0,32,10,GetDog);
+   break;
+   case T_FOWL:
+    Sprite3B(completeActor,0,32,10,GetFowl);
+   break;
+   case T_OX:
+    Sprite3B(completeActor,0,32,10,GetOx);
+   break;
+   default:
+    completeActor = GetWalkAnimation(a,completeActor);
+   break;
+  } 
 
- OverlayArmor(completeActor,a);
- //todo make status effects?
- if(wlvl>0)
- {
-  a->screenY+=(wlvl+a->walking);
-  completeActor->color = TRANSPARENT;
-  GrRect3(completeActor,0,60,0,100,100);
+  OverlayArmor(completeActor,a);
+  //todo make status effects?
+  if(wlvl>0)
+  {
+   a->screenY+=(wlvl+a->walking);
+   completeActor->color = TRANSPARENT;
+   GrRect3(completeActor,0,60,0,100,100);
+  }
  }
 
  return completeActor;
@@ -472,13 +471,12 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
 U0 InteractActor(I64 npc)
 {
  Actor *aAtLoc= GetNPC(npc);
- if(aAtLoc->ai_script==1&&aAtLoc->dead==FALSE) {//combat
+ if(aAtLoc->ai_script==1&&aAtLoc->status1!=DEAD_STATUS) {//combat
   mc->combatON=TRUE;
  }
  else{
-  mc->dialogName = aAtLoc->name;
-  
-  if(aAtLoc->dead==TRUE){
+  mc->dialogName = aAtLoc->name;  
+  if(aAtLoc->status1==DEAD_STATUS){
     if(mc->lootedSwitch==LOOTED){ //already looted
      //mc->talkieScene = GetTalkie(13);//empty corpse message
     }

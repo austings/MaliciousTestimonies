@@ -1,7 +1,8 @@
 //Matrix Implementation
-//Last Change June 16th, 2023
-//Author Austin Sierra for Church of AI Christ
-//Subject to Creative Commons BY-NC 4.0
+//Last Change July 19,2025
+//Forked June 16th, 2023
+//Author Austin Sierra for TempleOS Foundation
+//Subject to Creative Commons BY-NC 4.0
 #include "Map/Vector.HC";
 
 

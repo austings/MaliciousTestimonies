@@ -1,5 +1,6 @@
 class Actor{
 
+  //persistent
   U8 name[15];
 
   U8  tribe,face,hair;
@@ -12,15 +13,21 @@ class Actor{
       sword,ring1,
       exp,maxExp,lvl;
 
-  U16 ai_script,dir,walking,walkingSubFrame,clock;
-
-  Bool dead,visible;
-
   Inventory *myInv;
+  Bool visible;
+
+  U16 status1,
+      //volatile
+      status2,status3,
+      ai_script,dir,walking,
+      walkingSubFrame,clock;
+
+
 
 };
 
 
+//FACE CODES
 #define T_JUDA  0
 #define T_LEVI  1
 #define T_EPHR  2
@@ -28,7 +35,7 @@ class Actor{
 #define T_DOG   4
 #define T_FOWL  5
 #define T_OX    6
-
+//NPC IDs
 #define PLAYER  00
 #define A_KING  01
 #define A_JEZEBEL 02
@@ -40,7 +47,7 @@ class Actor{
 #define A_FOWL 08
 #define A_MAKABEE 10
 
-
+//Actor Walk Frames
 static CDC*		A1L1;//light
 static CDC*		A1L2;
 static CDC*		A1L3;

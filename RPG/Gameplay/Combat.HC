@@ -6,7 +6,7 @@ U0 Death()
       ctp = combatCQue.next; 
       for(deathloop=0;deathloop<QueCnt(combatCQue)-1;deathloop++)
       {
-        if(ctp->ready->dead){
+        if(ctp->ready->status1==DEAD_STATUS){
          deathcounter++;}
         ctp = ctp->next;
       }

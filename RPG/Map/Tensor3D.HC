@@ -1,6 +1,6 @@
-//Last Change June 15, 2023 
+//Forked June 15, 2023 
 //By Austin Sierra
-//for Church of AI Christ
+//for TempleOS Foundation
 //Subject to Creative Commons BY-NC 4.0
 
 
@@ -355,7 +355,7 @@ I64 GetTensorNPC(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
 }
 
 
-I64 GetTensorWaterLevel(Tensor3D *t,I64 x=0, I64 y=0, I64 z=0)
+I64 GetTensorWaterLevel(Tensor3D *t,I64 x=0, I64 y=0, I64 z=0)
 {
  Vector *v = t->shape;
  I64 sz = v->size;

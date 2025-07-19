@@ -1,6 +1,30 @@
+
+//Walking Frames
+#define W_IDLEDOWN      0
+#define W_IDLEUP        1
+#define W_IDLERIGHT     2
+#define W_IDLELEFT      3
+
+#define W_NOTWALKING       00
+#define W_LEFTSTRAIGHT     01
+#define W_RIGHTSTRAIGHT    02
+#define W_UPSTRAIGHT       03
+#define W_DOWNSTRAIGHT     04
+#define W_LEFTLEFT         05
+#define W_RIGHTLEFT        06
+#define W_UPLEFT           07
+#define W_DOWNLEFT         08
+#define W_LEFTMID          09
+#define W_RIGHTMID         10
+#define W_UPMID            11
+#define W_DOWNMID          12
+#define W_LEFTRIGHT        13
+#define W_RIGHTRIGHT       14
+#define W_UPRIGHT          15
+#define W_DOWNRIGHT        16
 //AAE, EFF
 static CDC* AAE1= FramePtr("AAE1");
-static CDC* AAE2= FramePtr("AAE2");
+static CDC* AAE2= FramePtr("AAE2");
 static CDC* AAE3= FramePtr("AAE3");
 static CDC* AAE4= FramePtr("AAE4");
 static CDC* AAE5= FramePtr("AAE5");
@@ -19,7 +43,7 @@ static CDC* AAE17= FramePtr("AAE17");
 static CDC* AAE18= FramePtr("AAE18");
 static CDC* AAE19= FramePtr("AAE19");
 static CDC* AAE20= FramePtr("AAE20");
-static CDC* AAE21= FramePtr("AAE21");
+static CDC* AAE21= FramePtr("AAE21");
 static CDC* AAE22= FramePtr("AAE22");
 static CDC* AAE23= FramePtr("AAE23");
 static CDC* AAE24= FramePtr("AAE24");

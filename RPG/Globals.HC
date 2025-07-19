@@ -12,6 +12,10 @@ CDirEntry *loadRoot;
 
 #define SCREENX 480
 #define SCREENY 480
+#define SIDEX 160
+#define SIDEY 480
+
+#define MAXACTORCOUNT	11
 
 //Loaded Map
 class World
@@ -85,7 +89,7 @@ class MenuControl{
       currentMenu,
       cutsceneTarget;//switch cutscene frames
   I64 cutsceneTimer,cutsceneIndex;
-
+
   //Dialog
   I64 talkieScene;//dialogID
   U8* dialogName;//dialog actor name

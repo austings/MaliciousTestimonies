@@ -1,6 +1,6 @@
 //Vector Implementation
-//Last Change October 19th, 2023
-//Author Austin Sierra for Church of AIChrist
+//Forked October 19th, 2023
+//Author Austin Sierra for TempleOS Foundation
 //Subject to Creative Commons BY-NC 4.0
 //
 

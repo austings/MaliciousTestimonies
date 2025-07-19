@@ -225,10 +225,10 @@ Bool UpdateDirective(I64 directive,Actor *p,
   {
    if(task->a->id==p->id)
    {
-    if(p->dead||explicitRemoval)
+    if(p->status1==DEAD_STATUS||explicitRemoval)
     //update if actor dies mid animate
     {
-     FreeTask(task);
+     FreeMyTask(p);
      return FALSE;
     }
 
