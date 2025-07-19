@@ -105,7 +105,7 @@ Matrix *MakeCastle(Matrix *toAdd)
 
   //NPCS
  SetMatrixNPC(toAdd,A_JEZEBEL,19,3);//jezebel
- SetMatrixNPC(toAdd,A_KING,18,9);//king
+ SetMatrixNPC(toAdd,A_KING,18,3);//king
  SetMatrixNPC(toAdd,A_ELIJAH,23,25);//elijah
  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard
  SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain

@@ -197,7 +197,10 @@ Actor *DeserializeNPC(I64 npcid)
   p->maxExp = 20;
   p->dir = DIR_DOWN;
   p->visible=TRUE;
+  p->dead = FALSE;
+  p->walking = DIR_IDLE; p->walkingSubFrame=DIR_IDLE;
 
+  Free(fptr);
   return p;
   skip:;
   Free(ln);
@@ -205,13 +208,7 @@ Actor *DeserializeNPC(I64 npcid)
  }
  Free(fptr);
 
-  p->dead = FALSE;
-  p->walking = DIR_IDLE; p->walkingSubFrame=DIR_IDLE;
-  p->health= Str2I64(con)*5;
-  p->currentHealth = p->health;
-  p->mana=Str2I64(wis)*5;
-  p->currentMana = p->mana;
-
+ 
 
  return p;
 

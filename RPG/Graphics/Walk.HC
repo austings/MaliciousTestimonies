@@ -310,7 +310,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   if(p->x<=mc->target->x){
    task->flip = TRUE;
    SetActorDir(p,DIR_RIGHT);
-  }else {SetActorDir(p,DIR_LEFT);}
+  }else {SetActorDir(p,DIR_LEFT);}
   switch(p->face){
    case T_JUDA:
     switch(p->sword){

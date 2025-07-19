@@ -453,30 +453,32 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
   DrawDead(completeActor,a);
   return completeActor;
  }
-
- if(a->face<=T_BENJ){
-  completeActor = GetWalkAnimation(a,completeActor);
- }
-
- if(a->face==T_DOG){
+ switch(a->face)
+ {
+  case T_JUDA...T_BENJ:
+   completeActor = GetWalkAnimation(a,completeActor);
+  break;
+  case T_DOG:
    Sprite3B(completeActor,0,32,10,GetDog);
- }
-
- if(a->face==T_FOWL){
+  break;
+  case T_FOWL:
    Sprite3B(completeActor,0,32,10,GetFowl);
- }
-
- if(a->face==T_OX){
+  break;
+  case T_OX:
    Sprite3B(completeActor,0,32,10,GetOx);
- }
+  break;
+  default:
+   completeActor = GetWalkAnimation(a,completeActor);
+  break;
+ } 
 
  OverlayArmor(completeActor,a);
-//todo make status effects?
+ //todo make status effects?
  if(wlvl>0)
  {
   a->screenY+=(wlvl+a->walking);
   completeActor->color = TRANSPARENT;
-  GrRect3(completeActor,0,60,0,500,500);
+  GrRect3(completeActor,0,60,0,50,50);
  }
 
  return completeActor;
