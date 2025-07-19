@@ -232,8 +232,9 @@ while(TRUE){
       ResetCurrLetter;
       mc->cutsceneTarget=0;
       SetNPC(MakeActor(0,tribe,GetSelectedStats(1),GetSelectedStats(2), 
-                       0,0,0,0,0,0,0,0,0,
-		       5,5,str,int,con,wis,0));
+                       0,0,0,0,
+                       5,5,
+		       str,int,con,wis,0));
       mc->currentMenu=1;
       mc->currentSong=0;
      }

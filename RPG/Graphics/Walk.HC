@@ -144,7 +144,7 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
 
 CDC *GetWalkAnimation(Actor *a, CDC *completeActor)
 {
-  switch(a->race)
+  switch(a->face)
   {
    case T_JUDA://Judah
     completeActor = HandleWalkSubFrame(a, 
@@ -265,11 +265,12 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
  task->a = p;
  task->flip = FALSE;
 
- //sometimes we call t1fish directive without checking race
+ //sometimes we reference t1fish directive 
+ //as general trigger without checking face
  switch(directive)
  {
   case T1FISH...T4FISH:
-   switch(p->race){
+   switch(p->face){
     case T_JUDA:// T1FISH;
      task->cQueDirective =T1FISH;
     break;
@@ -285,7 +286,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
    }
   break;
   case T1READY...T4READY:
-   switch(p->race){
+   switch(p->face){
     case T_JUDA:
      task->cQueDirective = T1READY;  
     break;
@@ -305,7 +306,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
    task->flip = TRUE;
    SetActorHairRight(p);
   }else {SetActorHairLeft(p);}
-  switch(p->race){
+  switch(p->face){
    case T_JUDA:
     switch(p->sword){
      case IT_FIST: //fist
@@ -364,7 +365,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
    task->cQueDirective = BOUNCE;
   break;
   case T1DIE...T4DIE:
-   switch(p->race){
+   switch(p->face){
     case T_JUDA:
      task->cQueDirective = T1DIE;  
     break;
@@ -380,7 +381,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
    }
   break;
   case T1CAST...T4CAST:
-   switch(p->race){
+   switch(p->face){
     case T_JUDA:
      task->cQueDirective = T1CAST;  
     break;

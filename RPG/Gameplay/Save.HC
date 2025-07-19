@@ -62,9 +62,9 @@ U0 SaveForm()
       ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
      
       //write player
-      MemCpy(ptr,&(newSave->player->race),sizeof(U8)); 
+      MemCpy(ptr,&(newSave->player->tribe),sizeof(U8)); 
       ptr+=sizeof(U8); bytesWritten+=sizeof(U8);
-      MemCpy(ptr,&(newSave->player->eye),sizeof(U8)); 
+      MemCpy(ptr,&(newSave->player->face),sizeof(U8)); 
       ptr+=sizeof(U8); bytesWritten+=sizeof(U8);
       MemCpy(ptr,&(newSave->player->hair),sizeof(U8)); 
       ptr+=sizeof(U8); bytesWritten+=sizeof(U8);
@@ -74,19 +74,9 @@ U0 SaveForm()
       ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
       MemCpy(ptr,&(newSave->player->armor),sizeof(I64)); 
       ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->legs),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->boot),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
       MemCpy(ptr,&(newSave->player->sword),sizeof(I64)); 
       ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->offhand),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
       MemCpy(ptr,&(newSave->player->ring1),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->ring2),sizeof(I64)); 
-      ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
-      MemCpy(ptr,&(newSave->player->necklace),sizeof(I64)); 
       ptr+=sizeof(I64); bytesWritten+=sizeof(I64);
       MemCpy(ptr,&(newSave->player->x),sizeof(U64)); 
       ptr+=sizeof(U64); bytesWritten+=sizeof(U64);
@@ -180,9 +170,9 @@ U0 LoadGame(U8 *file)
       ptr+=sizeof(I64); bytesRead+=sizeof(I64);
       
       //write player
-      MemCpy(&(newSave->player->race),ptr,sizeof(U8)); 
+      MemCpy(&(newSave->player->tribe),ptr,sizeof(U8)); 
       ptr+=sizeof(U8); bytesRead+=sizeof(U8);
-      MemCpy(&(newSave->player->eye),ptr,sizeof(U8)); 
+      MemCpy(&(newSave->player->face),ptr,sizeof(U8)); 
       ptr+=sizeof(U8); bytesRead+=sizeof(U8);
       MemCpy(&(newSave->player->hair),ptr,sizeof(U8)); 
       ptr+=sizeof(U8); bytesRead+=sizeof(U8);
@@ -192,19 +182,9 @@ U0 LoadGame(U8 *file)
       ptr+=sizeof(I64); bytesRead+=sizeof(I64);
       MemCpy(&(newSave->player->armor),ptr,sizeof(I64)); 
       ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->legs),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->boot),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
       MemCpy(&(newSave->player->sword),ptr,sizeof(I64)); 
       ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->offhand),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
       MemCpy(&(newSave->player->ring1),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->ring2),ptr,sizeof(I64)); 
-      ptr+=sizeof(I64); bytesRead+=sizeof(I64);
-      MemCpy(&(newSave->player->necklace),ptr,sizeof(I64)); //
       ptr+=sizeof(I64); bytesRead+=sizeof(I64);
       MemCpy(&(newSave->player->x),ptr,sizeof(U64)); 
       ptr+=sizeof(U64); bytesRead+=sizeof(U64);
@@ -229,25 +209,20 @@ U0 LoadGame(U8 *file)
       //MemCpy(&(newSave->player->myInv->maxWeight),ptr,sizeof(I32)); 
       //ptr+=sizeof(I32); bytesRead+=sizeof(I32);
       SetNPC(MakeActor(newSave->player->id,
-      newSave->player->race,
+      newSave->player->tribe,
       newSave->player->hair,
-      newSave->player->eye, 
+      newSave->player->face, 
       newSave->player->hat,
       newSave->player->armor,
-      newSave->player->legs,
-      newSave->player->boot,
       newSave->player->sword,
-      newSave->player->offhand,
       newSave->player->ring1,
-      newSave->player->ring2,
-      newSave->player->necklace,
       newSave->player->x,
       newSave->player->y,
       newSave->player->str,
       newSave->player->int,
       newSave->player->con,
       newSave->player->wis,
-      newSave->player->ai_script));
+      newSave->player->ai_script));
       ptr-=bytesRead; bytesRead=0;
       i++;
       step++;

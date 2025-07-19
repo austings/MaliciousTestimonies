@@ -18,7 +18,6 @@ class Director:CQue{
   I64 x; I64 y; I64 z;
   Bool flip;
   Actor *a;
-
 } direct;
 
 
@@ -45,6 +44,23 @@ class Director:CQue{
 #define W_UPRIGHT          15
 #define W_DOWNRIGHT        16
 
+Director *HasAnyDirective(Actor *a)
+{
+ Director *task = direct.next;
+ I64 i =0; Bool free=FALSE;
+ for(i=0;i!=QueCnt(direct);i++){
+  if(StrCmp(task->a->name,a->name)!=0)
+  {
+   if(task->a->id==a->id)
+    free = TRUE;
+   break;
+  }
+  task = task->next;
+ }
+ if(!free)
+  return NULL;
+ return task;
+}
 
 //convert walk animation frame to cardinal direction
 I64 GetDir(Actor *a)
@@ -381,6 +397,24 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
  //this is a switch statement to animate the armor based on
 //the world timer status
  I64 dir = GetDir(toRender);
+
+ Director *anim = NULL;//HasAnyDirective(toRender);
+ if(anim!=NULL)
+ {
+  switch(anim->cQueDirective)
+  {
+   case T1PUNCH...T4PUNCH:
+    if(anim->flip)
+    {
+     dir=DIR_RIGHT;
+    }
+    else{dir=DIR_LEFT;}
+   break;
+   case T1CAST...T4CAST:
+    dir = DIR_LEFT;
+   break;
+  }
+ }
  I64 yOff = 0;
  I64 xOff = 0;
  if(toRender->walking!=W_NOTWALKING){

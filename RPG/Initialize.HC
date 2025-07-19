@@ -36,7 +36,7 @@ Cd(__DIR__);;
 
 // Loading Combat Scenarios
 #include "Graphics/Attacks.HC";
-#include "Graphics/Prayers.HC";
+#include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
 #include "Graphics/Render.HC";
 
@@ -50,7 +50,7 @@ U0 InitMenuControl()
  mc->currentMenu=0;
  mc->cutsceneTarget=0;//switch cutscene frames
  mc->cutsceneTimer =0;
- mc->cutsceneIndex=0;
+ mc->cutsceneIndex=0;
 
  mc->talkieScene = -1;//dialogID
  mc->dialogName = "???";//dialog actor name

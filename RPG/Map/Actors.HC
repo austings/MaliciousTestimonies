@@ -1,19 +1,23 @@
-class Actor
-{
-  U8  race,eye,hair;
-  I64 id,hat,armor,legs,boot,
-      sword,offhand,
-      ring1,ring2,necklace, maxExp;
-  Vector *hat_coord,hair_coord,armor_coord,
-          sword_coord,hand_coord,leg_coord,boot_coord;
-  U64 x,y,health,mana, currentHealth, currentMana,
-      str,int,con,wis,
-      screenX, screenY;
-  Bool dead,visible;
-  U8 ai_script,walking, exp, lvl;
-  U16 walkingSubFrame;
-  Inventory *myInv;
+class Actor{
+
   U8 name[15];
+
+  U8  tribe,face,hair;
+  
+  I64 id,x,y,screenX,screenY,
+      health,mana,
+      currentHealth,currentMana,
+      str,int,con,wis,
+      hat,armor,legs,boot,
+      sword,ring1,
+      exp,maxExp,lvl;
+
+  U16 ai_script,dir,walking,walkingSubFrame,clock;
+
+  Bool dead,visible;
+
+  Inventory *myInv;
+
 };
 
 

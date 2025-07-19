@@ -432,7 +432,7 @@ U0 CheckAnimQueue(CDC *dc,I64 y)
 
 U0 DrawDead(CDC * dc, Actor *a)
 {
- switch(a->race)
+ switch(a->face)
  {
   case 0...T_BENJ:
    AddDirective(T1DIE,a);
@@ -454,19 +454,19 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
   return completeActor;
  }
 
- if(a->race<=T_BENJ){
+ if(a->face<=T_BENJ){
   completeActor = GetWalkAnimation(a,completeActor);
  }
 
- if(a->race==T_DOG){
+ if(a->face==T_DOG){
    Sprite3B(completeActor,0,32,10,GetDog);
  }
 
- if(a->race==T_FOWL){
+ if(a->face==T_FOWL){
    Sprite3B(completeActor,0,32,10,GetFowl);
  }
 
- if(a->race==T_OX){
+ if(a->face==T_OX){
    Sprite3B(completeActor,0,32,10,GetOx);
  }
 

@@ -164,7 +164,7 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID,U8 *mctext="")
    yInc+=16;
    xInc=0;
   }
-  GrChar(dc,c,6+xInc,386+yInc,2);
+  GrChar(dc,c,6+xInc,386+yInc,2);
   xInc+=14;
    
  }

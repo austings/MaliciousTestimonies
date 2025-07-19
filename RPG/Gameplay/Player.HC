@@ -136,16 +136,11 @@ Actor *DeserializeNPC(I64 npcid)
  U8 id[8],*idptr=id;
  U8 tribe[8],*tribeptr=tribe;
  U8 hair[8],*hairptr=hair;
- U8 eyes[8],*eyesptr=eyes;
+ U8 face[8],*faceptr=face;
  U8 hat[8],*hatptr=hat;
  U8 armor[8],*armorptr=armor;
- U8 legs[8],*legsptr=legs;
- U8 boot[8],*bootptr=boot;
  U8 sword[8],*swordptr=sword;
- U8 offhand[8],*offhandptr=offhand;
  U8 ring1[8],*ring1ptr=ring1;
- U8 ring2[8],*ring2ptr=ring2;
- U8 neck[8],*neckptr=neck;
  U8 x[8],*xptr=x;
  U8 y[8],*yptr=y;
  U8 str[8],*strptr=str;
@@ -166,11 +161,11 @@ Actor *DeserializeNPC(I64 npcid)
   if(count!=npcid||*ln=='#'||*ln==0)
    goto skip;
 
-  StrScan(ln,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
+  StrScan(ln,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
    &nameptr,&idptr,&tribeptr,&hairptr,
-   &eyesptr,&hatptr,&armorptr,&legsptr,
-   &bootptr,&swordptr,&offhandptr,&ring1ptr,
-   &ring2ptr,&neckptr,&xptr,&yptr,&strptr,
+   &faceptr,&hatptr,&armorptr,
+   &swordptr,&ring1ptr,
+   &xptr,&yptr,&strptr,
    &intptr,&conptr,&wisptr,&aiptr,&inv1ptr,
    &inv2ptr,&inv3ptr,&inv4ptr,&inv5ptr);
   
@@ -178,18 +173,13 @@ Actor *DeserializeNPC(I64 npcid)
   for(i=0;i<15;i++)
    p->name[i] = nameptr[i];
   p->id = Str2I64(id);
-  p->race = Str2I64(tribe);
-  p->eye = Str2I64(eyes);
+  p->tribe = Str2I64(tribe);
+  p->face = Str2I64(face);
   p->hair = Str2I64(hair);
   p->hat = Str2I64(hat);
   p->armor = Str2I64(armor);
-  p->legs = Str2I64(legs);
-  p->boot = Str2I64(boot);
   p->sword = Str2I64(sword);
-  p->offhand = Str2I64(offhand);
   p->ring1 = Str2I64(ring1);
-  p->ring2 = Str2I64(ring2);
-  p->necklace = Str2I64(neck);
   p->x = Str2I64(x);
   p->y = Str2I64(y);
   p->str = Str2I64(str);
@@ -198,7 +188,6 @@ Actor *DeserializeNPC(I64 npcid)
   p->wis = Str2I64(wis);
   p->ai_script = Str2I64(ai);
   p->dead = FALSE;
-  p->walking = DIR_IDLE; p->walkingSubFrame=DIR_IDLE;
   p->health= Str2I64(con)*5;
   p->currentHealth = p->health;
   p->mana=Str2I64(wis)*5;
@@ -206,14 +195,10 @@ Actor *DeserializeNPC(I64 npcid)
   p->exp = 0;
   p->lvl = 1;
   p->maxExp = 20;
+  p->dir = DIR_DOWN;
   p->visible=TRUE;
 
   return p;
-  //p->id = Str2I64(id); todo inv
-  //Print(p->name);
-  //Print("\n");
-  //Print(id);
-  //Print("\n");
   skip:;
   Free(ln);
   count++;
@@ -221,7 +206,7 @@ Actor *DeserializeNPC(I64 npcid)
  Free(fptr);
 
   p->dead = FALSE;
-  p->walking = 0; p->walkingSubFrame=0;
+  p->walking = DIR_IDLE; p->walkingSubFrame=DIR_IDLE;
   p->health= Str2I64(con)*5;
   p->currentHealth = p->health;
   p->mana=Str2I64(wis)*5;
@@ -363,25 +348,20 @@ U0 UpdateActorCoords(I64 id, U64 x, U64 y)
 }
 
 
-Actor *MakeActor(I64 id,U8 race,U8 hair,U8 eye, 
-I64 hat,I64 armor, I64 legs, I64 boot, I64 sword,
-I64 offhand,I64 ring1, I64 ring2, I64 necklace, 
-U64 x, U64 y, U64 str=1, U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
+Actor *MakeActor(I64 id,U8 tribe,U8 hair,U8 face, 
+I64 hat,I64 armor, I64 sword, I64 ring1,
+U64 x, U64 y, 
+U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
 {
  Actor *me = MAlloc(sizeof(Actor));
  me->id=id;
- me->race = race;
- me->eye=eye;
+ me->tribe = tribe;
+ me->face=face;
  me->hair=hair;
  me->hat=hat;
  me->armor=armor;
- me->legs=legs;
- me->boot=boot;
  me->sword=sword;
- me->offhand=offhand;
  me->ring1=ring1;
- me->ring2=ring2;
- me->necklace=necklace;
  me->x=x;
  me->y=y;
  me->health=con*5;
@@ -397,6 +377,7 @@ U64 x, U64 y, U64 str=1, U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  me->wis=wis;
  me->ai_script=ai;
  me->dead=FALSE;
+ me->dir=DIR_DOWN;
  me->screenX = 0;
  me->screenY = 0;
  me->visible = TRUE;
@@ -409,10 +390,10 @@ U64 x, U64 y, U64 str=1, U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
 
 U0 InitActors(I64 currentZ)
 {
-SetNPC(MakeActor(1,0,0,0, 
-	         0,0,0,0,0,
+  SetNPC(MakeActor(1,0,0,0, 
 	         0,0,0,0,
-	         5,5,5,5,5,5,0));//player
+	         0,0,
+	         5,5,5,5,0));//player
 
   ResetNPCC;
   while(GetNPCC!=10)

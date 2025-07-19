@@ -3,7 +3,7 @@
 U8 *OPTS_FILE = MStrPrint("%s%s",DirCur,"/Data/OPTIONS.TXT"); 
 
 
-U8 currentSelection = 0, currentHair=0,currentEyes=0;
+U8 currentSelection = 0, currentHair=0,currentFace=0;
 U8 animationCounter = 0;
 
 //Cutscene Control
@@ -35,9 +35,9 @@ U0 IncSelect(U8 type)
    currentHair=0;
   break;
   case 2:
-  currentEyes++;
-  if(currentEyes==4)
-   currentEyes=0;
+  currentFace++;
+  if(currentFace==4)
+   currentFace=0;
   break;
  }
 }
@@ -92,7 +92,7 @@ U8 GetSelectedStats(U8 id)
   return currentHair;
   break;
   case 2:
-  return currentEyes;
+  return currentFace;
   break;
  }
 
@@ -170,27 +170,19 @@ U0 LoadMenu(CDC*dc, CTask *task,CDirEntry *root)
 }
 
 
-U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
+U0 CharMenu(CDC *dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
 {
   I64 i=0,yInc=0,xInc=-7;
-  U8 *t1 = "Tribe";
-  U8 *t2 = "Hair";
-  U8 *t3 = "Face";
-  U8 *t4 = "Tribe of Levi";
-  U8 *t5 = "Tribe of Judah";
-  U8 *t6 = "Tribe of Ephraim";
-  U8 *t7 = "Tribe of Benjamin";
+  U8 *t1 = "Tribe"; U8 *t2 = "Hair"; U8 *t3 = "Face";
+  U8 *t4 = "Tribe of Levi"; U8 *t5 = "Tribe of Judah";
+  U8 *t6 = "Tribe of Ephraim"; U8 *t7 = "Tribe of Benjamin";
   U8 *t8 = "Although the Levites did not receive a specific\nterritorial inheritance, they were designated as\nthe priestly tribe and had a central role in\nreligious life, serving as priests and temple workers.";
   U8 *t9 = "As part of the greater tribe ofJoseph,\nthe Ephraim settled in the northern kingdom of Israel.\nThe stalwart tribe played a central role as\nkey defenders of the political and religious order.";  
   U8 *t10= "Heirs of the Davidic monarchy and King Solomon's\nlegacy, the tribe of Judah played a central role\nin the formation of the Kingdom ofJudah\nand development of Judaism.";
   U8 *t11= "A relatively small tribe, the descendants of\nBenjamin were made significant by the first\nKing of Israel, Saul. They are mighty warriors\nthat control the key city of Jerusalem.";
-  U8 *t12= "STRENGTH:Base Attack Damage";
-  U8 *t13= "CONSTITUTION:Base Attack Defense";
-  U8 *t14= "INTELLIGENCE:Special Attack Damage";
-  U8 *t15= "WISDOM:Special Attack Defense";
-  U8 *t16= "5";
-  U8 *t17= "10";
-  U8 *t18= "15";
+  U8 *t12= "STRENGTH: Base Attack Damage"; U8 *t13= "CONSTITUTION: Base Attack Defense";
+  U8 *t14= "INTELLIGENCE: Special Attack Damage";U8 *t15= "WISDOM: Special Attack Defense";
+  U8 *t16= "5"; U8 *t17= "10"; U8 *t18= "15";
   U8 *t19= "Choose Your Tribe";
 
   dc->color = BLACK;
@@ -203,18 +195,14 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
   
   Sprite3B(dc,250,300,10,GetShadow());
   dc->color = WHITE;
-  for(i=0;i<StrLen(t19);i++)
-  {     
-      GrChar(dc,t19[i],10+i*15,10,2);
+  for(i=0;i<StrLen(t19);i++){     
+   GrChar(dc,t19[i],10+i*15,10,2);
   }
-  switch(currentSelection)
-  {
-   case 0:
+  switch(currentSelection){
+   case T_JUDA:
     PrintLine(dc,t5,10,40,2);
-    for(i=0;i<StrLen(t10);i++)
-    {
-     if(t10[i]!='\n')
-     {
+    for(i=0;i<StrLen(t10);i++){
+     if(t10[i]!='\n'){
       xInc = xInc+7;
       GrChar(dc,t10[i],10+xInc,80+yInc,1);
      }
@@ -226,17 +214,12 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
     PrintLine(dc,t17,390,20,2);
     PrintLine(dc,t17,390,70,2);
     PrintLine(dc,t17,390,120,2);
-    PrintLine(dc,t17,390,170,2);
-
-    GrBlot3(dc,270,280,10,r1);
-
+    PrintLine(dc,t17,390,170,2);    
    break;
-   case 1:
+   case T_LEVI:
     PrintLine(dc,t4,10,40,2);
-    for(i=0;i<StrLen(t8);i++)
-    {
-     if(t8[i]!='\n')
-     {
+    for(i=0;i<StrLen(t8);i++){
+     if(t8[i]!='\n'){
       xInc = xInc+7;
       GrChar(dc,t8[i],10+xInc,80+yInc,1);
      }
@@ -248,17 +231,12 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
     PrintLine(dc,t16,390,20,2);
     PrintLine(dc,t16,390,70,2);
     PrintLine(dc,t18,390,120,2);
-    PrintLine(dc,t18,390,170,2);
-
-    GrBlot3(dc,268,280,10,r2);
-
+    PrintLine(dc,t18,390,170,2); 
    break;
-   case 2:
+   case T_EPHR:
     PrintLine(dc,t6,10,40,2);
-    for(i=0;i<StrLen(t9);i++)
-    {
-     if(t9[i]!='\n')
-     {
+    for(i=0;i<StrLen(t9);i++){
+     if(t9[i]!='\n'){
       xInc = xInc+7;
       GrChar(dc,t9[i],10+xInc,80+yInc,1);
      }
@@ -271,16 +249,11 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
     PrintLine(dc,t18,390,70,2);
     PrintLine(dc,t16,390,120,2);
     PrintLine(dc,t18,390,170,2);
-  
-    GrBlot3(dc,266,280,10,r3);
-
    break;
-   case 3:
+   case T_BENJ:
     PrintLine(dc,t7,10,40,2);
-    for(i=0;i<StrLen(t11);i++)
-    {
-     if(t11[i]!='\n')
-     {
+    for(i=0;i<StrLen(t11);i++){
+     if(t11[i]!='\n'){
       xInc = xInc+7;
       GrChar(dc,t11[i],10+xInc,80+yInc,1);
      }
@@ -292,10 +265,7 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
     PrintLine(dc,t18,390,20,2);
     PrintLine(dc,t18,390,70,2);
     PrintLine(dc,t16,390,120,2);
-    PrintLine(dc,t16,390,170,2);
-    
-    GrBlot3(dc,264,280,10,r4);
-
+    PrintLine(dc,t16,390,170,2);   
    break;
   }
   yInc=0;
@@ -307,19 +277,19 @@ U0 CharMenu(CDC*dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
   PrintLine(dc,t15,390,160,1);
   
 
-  switch(currentEyes)
+  switch(currentFace)
   {
    case 0:
-    //Sprite3B(dc,295,285,10,GetEyes(0));
+    GrBlot3(dc,270,280,10,r1);
    break;
    case 1:
-    //Sprite3B(dc,295,301,10,GetEyes(1));
+    GrBlot3(dc,268,280,10,r2);
    break;
    case 2:
-    //Sprite3B(dc,295,301,10,GetEyes(2));
+    GrBlot3(dc,266,280,10,r3);
    break;
    case 3:
-    //Sprite3B(dc,295,301,10,GetEyes(3));
+    GrBlot3(dc,264,280,10,r4);
    break;
   }  
 
@@ -656,7 +626,7 @@ CDC *RenderStats(Actor *player)
 
   completeMenu->color=WHITE;
 
-  switch(player->race)
+  switch(player->tribe)
   {
     case T_JUDA:
      PrintLine(completeMenu,t0a,0,20);
@@ -867,17 +837,6 @@ CDC *RenderEquipment(Actor *player){
   //ring
   Sprite3B(completeMenu,106,35,10,GetMenuSprite(2));
   PrintLine(completeMenu,d,112,48);
-  //offhand
- wepn = GetNPC(0)->offhand;
- if(wepn>IT_FIST)
- {
-   switch(wepn){
-    case IT_TOOTH://placeholder  
-     GrBlot3(completeMenu,8,
-             116+(camera->dividY),0,ITEM6I);
-     break;
-   }
- }
     
 
  Sprite3B(completeMenu,140,0,1,GetMenuSprite(3));//xbutton
