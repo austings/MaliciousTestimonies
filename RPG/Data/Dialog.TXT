@@ -1,7 +1,7 @@
 ID	TEXT
 1	//I wish I could go to the wedding. Its almost harvesting season.                                                                 |
 2	Yahweh be praised. With this#union, Israel is sure to prosper!                                                                    |
-3	You can go in. You are on the list.                                                                                               |
+3	You can go in.#You are on the list.                                                                                               |
 4	Thank you all for joining my#wedding party. My lovely queen Jezebel has asked me to make a toast.                                 |
 5	In honor of this auspicious#occasion,our united Kingdoms willrebuild the lost city of Jericho!                                    |
 6	Hiel of Bethel will oversee#the construction. Noblemen, report to him outside the city gate for more orders. Now, we feast!       |
@@ -14,7 +14,7 @@ ID	TEXT
 13	There is nothing left #on the corpse.                                                                                             |
 14	You loot the %s's #%s.                                                                                                            |
 15	You must first equip fishing#equipment to fish here.                                                                              |                                                   |
-16	Greetings, traveller.#I bring from my homeland: fine,#silk garments for the royal chatun…#- touch them, see for yourself!         |
+16	Greetings, traveller.#I bring from my homeland: fine,#silk garments for the royal chatun…#- touch them, see for yourself!         |
 17	Moo!                                                                                                                              |
 18	bwak bwak                                                                                                                         |
 19	                                 

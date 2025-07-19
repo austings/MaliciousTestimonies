@@ -23,7 +23,7 @@ Matrix *MakeCastle(Matrix *toAdd)
     if(alt)
      SetMatrix(toAdd,BG_BROWN,i,j);
     else
-     SetMatrix(toAdd,BG_YELLOW,i,j);
+     SetMatrix(toAdd,BG_YELLOW,i,j);
     alt = !alt;
    }
   }
@@ -105,7 +105,7 @@ Matrix *MakeCastle(Matrix *toAdd)
 
   //NPCS
  SetMatrixNPC(toAdd,A_JEZEBEL,19,3);//jezebel
- SetMatrixNPC(toAdd,A_KING,18,3);//king
+ SetMatrixNPC(toAdd,A_KING,18,9);//king
  SetMatrixNPC(toAdd,A_ELIJAH,23,25);//elijah
  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard
  SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
@@ -145,7 +145,7 @@ Matrix *MakeCastle(Matrix *toAdd)
      SetMatrix(toAdd,BG_YELLOW,i,j);//sand
     }
     else{
-     if((j==22)||(i>1&&j==23)||(i>2&&j==24)||(i>4&&j==25)||(i>12&&j==26)||
+     if((i==6&&(j==26||j==25))||(j==22)||(i>1&&j==23)||(i>2&&j==24)||(i>4&&j==25)||(i>12&&j==26)||
         (i>14&&j<30)||((i==9||i==10||i>14)&&j==30)||(j==31&&i>7&&i<11)||
         (i>7&&i<12&&j==32)||(i>3&&i<12&&j==33)||
         ((i<12||(i>19&&i<35)||(i>43))&&j==34)||(j==35&&(i<13||i>17)))
