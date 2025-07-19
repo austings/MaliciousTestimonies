@@ -10,6 +10,11 @@ U0 SetActorSubFrameRule(Actor *a,I64 wsf,I64 w )
 
 }
 
+U0 SetActorDir(Actor *a, I64 dir)
+{
+ a->dir = dir;
+}
+
 CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
                         CDC *L1,CDC *L2,CDC *L3,
                         CDC *R1,CDC *R2,CDC *R3,
@@ -29,49 +34,49 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,D2);
           if(QueCnt(direct)==0)
-           SetActorHairDown(a);
+           SetActorDir(a,DIR_DOWN);
         break;
         case W_IDLEUP://up
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,U2);
           if(QueCnt(direct)==0)
-           SetActorHairUp(a);
+           SetActorDir(a,DIR_UP);
         break;
         case W_IDLERIGHT://right
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,R2);
           if(QueCnt(direct)==0)
-           SetActorHairRight(a);
+           SetActorDir(a,DIR_RIGHT);
         break;
         case W_IDLELEFT://left
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,L2);
           if(QueCnt(direct)==0)
-           SetActorHairLeft(a);
+           SetActorDir(a,DIR_LEFT);
         break;
        }
      break;
      case W_LEFTSTRAIGHT://left straight start
        SetActorSubFrameRule(a,0,5);
-       SetActorHairLeft(a);
+       SetActorDir(a,DIR_LEFT);
        if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,L1);
      break;
      case W_RIGHTSTRAIGHT://right straight start
        SetActorSubFrameRule(a,0,6);
-       SetActorHairRight(a);
+       SetActorDir(a,DIR_RIGHT);
        if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,R1);
      break;
      case W_UPSTRAIGHT://up straight start
        SetActorSubFrameRule(a,0,7);
-       SetActorHairUp(a);
+       SetActorDir(a,DIR_UP);
        if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,U1);
      break;
      case W_DOWNSTRAIGHT://down straight start
        SetActorSubFrameRule(a,0,8); 
-       SetActorHairDown(a);
+       SetActorDir(a,DIR_DOWN);
        if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,D1);
      break;
@@ -304,8 +309,8 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   case T1PUNCH...T4PUNCH:
   if(p->x<=mc->target->x){
    task->flip = TRUE;
-   SetActorHairRight(p);
-  }else {SetActorHairLeft(p);}
+   SetActorDir(p,DIR_RIGHT);
+  }else {SetActorDir(p,DIR_LEFT);}
   switch(p->face){
    case T_JUDA:
     switch(p->sword){

@@ -49,12 +49,9 @@ Director *HasAnyDirective(Actor *a)
  Director *task = direct.next;
  I64 i =0; Bool free=FALSE;
  for(i=0;i!=QueCnt(direct);i++){
-  if(StrCmp(task->a->name,a->name)!=0)
-  {
    if(task->a->id==a->id)
-    free = TRUE;
-   break;
-  }
+   { free = TRUE;
+     break;}
   task = task->next;
  }
  if(!free)
@@ -62,6 +59,26 @@ Director *HasAnyDirective(Actor *a)
  return task;
 }
 
+/*
+ Director *anim = HasAnyDirective(toRender);
+ if(anim!=NULL)
+ {
+  switch(anim->cQueDirective)
+  {
+   case T1PUNCH...T4PUNCH:
+    if(anim->flip)
+    {
+     dir=DIR_RIGHT;
+    }
+    else{dir=DIR_LEFT;}
+   break;
+   case T1CAST...T4CAST:
+    dir = DIR_LEFT;
+   break;
+  }
+ }
+
+*/
 //convert walk animation frame to cardinal direction
 I64 GetDir(Actor *a)
 {
@@ -275,86 +292,6 @@ Item *RetrieveItem(I64 aID, I64 index, Bool select=FALSE)
 }
 
 
-U0 SetActorHairLeft(Actor *a)
-{
- switch(a->hair)
- {
-  case HAIR0D...HAIR0U:
-   a->hair=HAIR0L;
-  break;
-  case HAIR1D...HAIR1U:
-   a->hair=HAIR1L;
-  break;
-  case HAIR2D...HAIR2U:
-   a->hair=HAIR2L;
-  break;
-  case HAIR3D...HAIR3U:
-   a->hair=HAIR3L;
-  break;
- }
-
-}
-
-U0 SetActorHairUp(Actor *a)
-{
- switch(a->hair)
- {
-  case HAIR0D...HAIR0U:
-   a->hair=HAIR0U;
-  break;
-  case HAIR1D...HAIR1U:
-   a->hair=HAIR1U;
-  break;
-  case HAIR2D...HAIR2U:
-   a->hair=HAIR2U;
-  break;
-  case HAIR3D...HAIR3U:
-   a->hair=HAIR3U;
-  break;
- }
-
-}
-
-U0 SetActorHairRight(Actor *a)
-{
- switch(a->hair)
- {
-  case HAIR0D...HAIR0U:
-   a->hair=HAIR0R;
-  break;
-  case HAIR1D...HAIR1U:
-   a->hair=HAIR1R;
-  break;
-  case HAIR2D...HAIR2U:
-   a->hair=HAIR2R;
-  break;
-  case HAIR3D...HAIR3U:
-   a->hair=HAIR3R;
-  break;
- }
-
-}
-
-U0 SetActorHairDown(Actor *a)
-{
- switch(a->hair)
- {
-  case HAIR0D...HAIR0U:
-   a->hair=HAIR0D;
-  break;
-  case HAIR1D...HAIR1U:
-   a->hair=HAIR1D;
-  break;
-  case HAIR2D...HAIR2U:
-   a->hair=HAIR2D;
-  break;
-  case HAIR3D...HAIR3U:
-   a->hair=HAIR3D;
-  break;
- }
-
-}
-
 
 
 CDC *ShowBody(I64 armor,I64 dir )
@@ -384,6 +321,32 @@ CDC *ShowHelm(I64 armor,I64 dir )
 }
 
 
+CDC *ShowHair(I64 hairID, I8 dir)
+{
+ CDC *hairDC = DCNew(100,100);
+ DCFill(hairDC,TRANSPARENT);
+
+ switch(hairID)
+ {
+  case HAIR0:
+   return GetHair0(hairDC,dir);
+  break;
+  case HAIR1:
+   return GetHair1(hairDC,dir);
+  break;
+  case HAIR2:
+   return GetHair2(hairDC,dir);
+  break;
+  case HAIR3:
+   return GetHair3(hairDC,dir);
+  break;
+  default:
+   return hairDC;
+  break;
+ }
+
+}
+
 U0 OverlayArmor(CDC *dc, Actor *toRender)
 {
 /*
@@ -398,23 +361,6 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
 //the world timer status
  I64 dir = GetDir(toRender);
 
- Director *anim = NULL;//HasAnyDirective(toRender);
- if(anim!=NULL)
- {
-  switch(anim->cQueDirective)
-  {
-   case T1PUNCH...T4PUNCH:
-    if(anim->flip)
-    {
-     dir=DIR_RIGHT;
-    }
-    else{dir=DIR_LEFT;}
-   break;
-   case T1CAST...T4CAST:
-    dir = DIR_LEFT;
-   break;
-  }
- }
  I64 yOff = 0;
  I64 xOff = 0;
  if(toRender->walking!=W_NOTWALKING){
@@ -429,7 +375,7 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
   }
  }
  GrBlot3(dc,0+xOff,0+yOff,0,ShowBody(toRender->armor,dir));
- GrBlot3(dc,0+xOff,0+yOff,10,GetHair(toRender->hair));
+ GrBlot3(dc,0+xOff,0+yOff,10,ShowHair(toRender->hair,dir));
  GrBlot3(dc,0+xOff,0+yOff,0,ShowHelm(toRender->hat,dir));
  
 

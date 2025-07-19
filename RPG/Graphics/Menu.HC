@@ -30,8 +30,8 @@ U0 IncSelect(U8 type)
    currentSelection=0;
   break;
   case 1:
-  currentHair=currentHair+4;;
-  if(currentHair==20)
+  currentHair++;;
+  if(currentHair==4)
    currentHair=0;
   break;
   case 2:
@@ -170,7 +170,7 @@ U0 LoadMenu(CDC*dc, CTask *task,CDirEntry *root)
 }
 
 
-U0 CharMenu(CDC *dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
+U0 CharMenu(CDC *dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
 {
   I64 i=0,yInc=0,xInc=-7;
   U8 *t1 = "Tribe"; U8 *t2 = "Hair"; U8 *t3 = "Face";
@@ -289,23 +289,25 @@ U0 CharMenu(CDC *dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
     GrBlot3(dc,266,280,10,r3);
    break;
    case 3:
-    GrBlot3(dc,264,280,10,r4);
+    GrBlot3(dc,264,280,10,r4);
    break;
   }  
 
+  CDC *hair = DCNew(100,100);
+  DCFill(hair,TRANSPARENT);
   switch(currentHair)
   {
-   case 0:
-    GrBlot3(dc,270,280,10,GetHair(0));
+   case HAIR0:
+    GrBlot3(dc,270,280,10,GetHair0(hair, DIR_DOWN));
    break;
-   case 4:
-    GrBlot3(dc,270,280,10,GetHair(4));
+   case HAIR1:
+    GrBlot3(dc,270,280,10,GetHair1(hair, DIR_DOWN));
    break;
-   case 8:
-    GrBlot3(dc,270,280,10,GetHair(8));
+   case HAIR2:
+    GrBlot3(dc,270,280,10,GetHair2(hair, DIR_DOWN));
    break;
-   case 12:
-    GrBlot3(dc,270,280,10,GetHair(12));
+   case HAIR3:
+    GrBlot3(dc,270,280,10,GetHair3(hair, DIR_DOWN));
    break;
   }
   //ARROWSANDARROWLABEL  

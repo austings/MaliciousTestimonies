@@ -91,7 +91,7 @@ U0 KeyEsc()
 
 }
 
-U0 HandleKeyboard(Actor *p, MapNode *puin)
+U0 HandleKeyboard(Actor *p, MapNode *puin)
 {
  if(keys.pressed){
  
