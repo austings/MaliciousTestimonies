@@ -258,24 +258,6 @@ Animation *CreateAnimation(I64 wadFrameName){
  }
 }
 
-U0 ResetDirective(Director *task)
-{
-  task->cQueDirective = NoDirective;
-  task->animIndex = 0;
-  task->x = 999;
-  task->y = 999;
-  task->z = 0;
-  task->flip = FALSE;
-  
-}
-
-
-U0 FreeTask(Director *task)
-{
- QueRem(task);
-// Free(task);
-}
-
 U0 ProceduralAnimate1(CDC *dc,Director *task)
 {
     task->a->visible =TRUE;  
@@ -336,6 +318,7 @@ U0 PlayAnimation(CDC *dc,Director *task){
       ResetDirective(task);
       task->a->visible = TRUE;  
       //task is now over
+//      FreeTask(task);
       goto taskend;
      break;
     
@@ -478,7 +461,7 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
  {
   a->screenY+=(wlvl+a->walking);
   completeActor->color = TRANSPARENT;
-  GrRect3(completeActor,0,60,0,50,50);
+  GrRect3(completeActor,0,60,0,100,100);
  }
 
  return completeActor;

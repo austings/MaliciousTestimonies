@@ -228,7 +228,7 @@ Bool UpdateDirective(I64 directive,Actor *p,
     if(p->dead||explicitRemoval)
     //update if actor dies mid animate
     {
-     QueRem(task);
+     FreeTask(task);
      return FALSE;
     }
 
@@ -275,6 +275,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
  switch(directive)
  {
   case T1FISH...T4FISH:
+   SetActorDir(p,DIR_DOWN);
    switch(p->face){
     case T_JUDA:// T1FISH;
      task->cQueDirective =T1FISH;
@@ -386,6 +387,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
    }
   break;
   case T1CAST...T4CAST:
+   SetActorDir(p,DIR_DOWN);
    switch(p->face){
     case T_JUDA:
      task->cQueDirective = T1CAST;  

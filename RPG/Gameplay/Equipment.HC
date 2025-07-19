@@ -21,6 +21,27 @@ class Director:CQue{
 } direct;
 
 
+U0 ResetDirective(Director *task)
+{
+  task->cQueDirective = NoDirective;
+  task->animIndex = 0;
+  task->x = 999;
+  task->y = 999;
+  task->z = 0;
+  task->flip = FALSE;
+  
+}
+
+
+U0 FreeTask(Director *task)
+{
+ try{
+ QueRem(task);
+ Free(task->a);
+ Free(task);
+} catch{}
+}
+
 #define W_IDLEDOWN      0
 #define W_IDLEUP        1
 #define W_IDLERIGHT     2
@@ -49,7 +70,7 @@ Director *HasAnyDirective(Actor *a)
  Director *task = direct.next;
  I64 i =0; Bool free=FALSE;
  for(i=0;i!=QueCnt(direct);i++){
-   if(task->a->id==a->id)
+   if(task->a->id==a->id&&task->cQueDirective!=NoDirective)
    { free = TRUE;
      break;}
   task = task->next;
@@ -59,29 +80,10 @@ Director *HasAnyDirective(Actor *a)
  return task;
 }
 
-/*
- Director *anim = HasAnyDirective(toRender);
- if(anim!=NULL)
- {
-  switch(anim->cQueDirective)
-  {
-   case T1PUNCH...T4PUNCH:
-    if(anim->flip)
-    {
-     dir=DIR_RIGHT;
-    }
-    else{dir=DIR_LEFT;}
-   break;
-   case T1CAST...T4CAST:
-    dir = DIR_LEFT;
-   break;
-  }
- }
-
-*/
 //convert walk animation frame to cardinal direction
 I64 GetDir(Actor *a)
 {
+ if(HasAnyDirective(a)==NULL){
   U8 walkDir = a->walking;
   U8 subWalk = a->walkingSubFrame;
   switch(walkDir){
@@ -128,6 +130,8 @@ I64 GetDir(Actor *a)
    break;
   }
  return DIR_DOWN;
+ }
+ else {return a->dir;}
 }
 
 
@@ -349,17 +353,11 @@ CDC *ShowHair(I64 hairID, I8 dir)
 
 U0 OverlayArmor(CDC *dc, Actor *toRender)
 {
-/*
- switch(toRender->hat)
- {
-  case IT_HELM:
-  break;
- }
-*/
 
  //this is a switch statement to animate the armor based on
-//the world timer status
- I64 dir = GetDir(toRender);
+ //the world timer status
+ I64 dir = GetDir(toRender); 
+ toRender->dir = dir;
 
  I64 yOff = 0;
  I64 xOff = 0;
@@ -374,9 +372,9 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
    yOff += groffset;
   }
  }
- GrBlot3(dc,0+xOff,0+yOff,0,ShowBody(toRender->armor,dir));
+ GrBlot3(dc,0+xOff,0+yOff,0, ShowBody(toRender->armor,dir));
  GrBlot3(dc,0+xOff,0+yOff,10,ShowHair(toRender->hair,dir));
- GrBlot3(dc,0+xOff,0+yOff,0,ShowHelm(toRender->hat,dir));
+ GrBlot3(dc,0+xOff,0+yOff,0, ShowHelm(toRender->hat,dir));
  
 
 }

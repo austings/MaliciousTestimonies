@@ -289,7 +289,7 @@ U0 CharMenu(CDC *dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
     GrBlot3(dc,266,280,10,r3);
    break;
    case 3:
-    GrBlot3(dc,264,280,10,r4);
+    GrBlot3(dc,264,280,10,r4);
    break;
   }  
 
