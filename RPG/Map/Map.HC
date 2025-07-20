@@ -1,6 +1,7 @@
 
 //Ground Nodes and their Player, Item, Object,Background Arrays
 
+
 class NodeStuff:CQue
 {
   I64 id;
@@ -31,7 +32,7 @@ static CDC*	        ITEM2 = FramePtr("ITEM004");// harpoon
 static CDC*		ITEM2I = FramePtr("WINV015");
 
 #define IT_TOOTH 	3
-static CDC*		ITEM3; //wolf tooth
+static CDC*		ITEM3; //wolf tooth
 static CDC*		ITEM3I;
 
 #define IT_FISH1        4

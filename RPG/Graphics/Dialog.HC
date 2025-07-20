@@ -29,7 +29,7 @@ U0 PrintLine(CDC*dc=gr.dc,U8 *line,I64 startx,I64 starty,F64 scale=1){
 U8 *ReadATextLine(U8 **fbuf) {
   U8 *en,*st=*fbuf,*buf;
   if(!*st) return NULL;
-  if(en=StrFirstOcc(st,"\n")) {
+  if(en=StrFirstOcc(st,"\n")) {
     buf=MAlloc(en-st+2);
     MemCpy(buf,st,en-st+1);
     buf[en-st+1]=0;
@@ -254,12 +254,24 @@ U0 CombatDialog2(CDC *dc, CTask *task)
  found:
 }
 
+//Flee box
 U0 CombatDialog3(CDC *dc, CTask *task)
 {
  U8 *fleeText = "Attempting to run away!";
  dc->color = BLACK;
  Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
  PrintLine(dc,fleeText,12,385,2);
+
+
+}
+
+//Enemy attack     
+U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
+{
+ U8 *eText = "%/S is %/Xing!";
+ dc->color = BLACK;
+ Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
+ PrintLine(dc,eText,12,385,2);
 
 
 }

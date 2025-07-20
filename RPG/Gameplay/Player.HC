@@ -32,7 +32,7 @@ U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  me->status1=NRML_STATUS;
  me->status2=NRML_STATUS;
  me->status3=NRML_STATUS;
- me->dir=DIR_DOWN;
+ SetActorDir(me,DIR_DOWN);
  me->screenX = 0;
  me->screenY = 0;
  me->visible = TRUE;

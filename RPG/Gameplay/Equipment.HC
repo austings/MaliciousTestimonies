@@ -2,6 +2,8 @@
 //convert walk animation frame to cardinal direction
 I64 GetDir(Actor *a)
 {
+ if(a->dir==DELIMITER)
+ {
   U8 walkDir = a->walking;
   U8 subWalk = a->walkingSubFrame;
   switch(walkDir){
@@ -47,8 +49,11 @@ I64 GetDir(Actor *a)
     return DIR_RIGHT;    
    break;
   }
- return DIR_DOWN;
- 
+  return DIR_DOWN;
+
+ }else{
+  return a->dir;
+ }
 }
 
 
@@ -273,8 +278,7 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
 
  //this is a switch statement to animate the armor based on
  //the world timer status
- I64 dir = GetDir(toRender); 
- toRender->dir = dir;
+ I64 dir = GetDir(toRender);
 
  I64 yOff = 0;
  I64 xOff = 0;

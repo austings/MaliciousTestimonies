@@ -14,7 +14,7 @@ CDirEntry *loadRoot;
 #define SCREENY 480
 #define SIDEX 160
 #define SIDEY 480
-
+
 #define MAXACTORCOUNT	11
 
 //Loaded Map
@@ -79,6 +79,9 @@ class CombatTurn:CQue
 #define CS_FLEE			13
 #define CMS_FLEE_DONE		113
 
+#define CMS_ENE1                 4
+#define CMS_ENE2                 5
+#define CMS_ENE3                 6
 
 
 //global settings class for game session

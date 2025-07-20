@@ -10,10 +10,6 @@ U0 SetActorSubFrameRule(Actor *a,I64 wsf,I64 w )
 
 }
 
-U0 SetActorDir(Actor *a, I64 dir)
-{
- a->dir = dir;
-}
 
 CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
                         CDC *L1,CDC *L2,CDC *L3,
@@ -33,50 +29,38 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
         case W_IDLEDOWN://down
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,D2);
-          if(QueCnt(direct)==0)
-           SetActorDir(a,DIR_DOWN);
         break;
         case W_IDLEUP://up
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,U2);
-          if(QueCnt(direct)==0)
-           SetActorDir(a,DIR_UP);
         break;
         case W_IDLERIGHT://right
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,R2);
-          if(QueCnt(direct)==0)
-           SetActorDir(a,DIR_RIGHT);
         break;
         case W_IDLELEFT://left
          if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,L2);
-          if(QueCnt(direct)==0)
-           SetActorDir(a,DIR_LEFT);
         break;
        }
      break;
      case W_LEFTSTRAIGHT://left straight start
        SetActorSubFrameRule(a,0,5);
-       SetActorDir(a,DIR_LEFT);
        if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,L1);
      break;
      case W_RIGHTSTRAIGHT://right straight start
        SetActorSubFrameRule(a,0,6);
-       SetActorDir(a,DIR_RIGHT);
        if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,R1);
      break;
      case W_UPSTRAIGHT://up straight start
        SetActorSubFrameRule(a,0,7);
-       SetActorDir(a,DIR_UP);
        if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,U1);
      break;
      case W_DOWNSTRAIGHT://down straight start
        SetActorSubFrameRule(a,0,8); 
-       SetActorDir(a,DIR_DOWN);
        if(a->visible)
           GrBlot3(completeActor,0+xOffset,0,10,D1);
      break;
@@ -248,7 +232,7 @@ Bool UpdateDirective(I64 directive,Actor *p,
 U0 AddDirective(I64 directive, Actor *p,//npc must own animation
                 I64 sX=DELIMITER,I64 sY=DELIMITER)
 {
- //TODO:this sucks
+ //TODO: this sucks
  Director *task = direct.next;
  I64 i =0; Bool free=FALSE; Bool isEffect = FALSE;
  for(i=0;i!=QueCnt(direct);i++){
@@ -272,8 +256,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
 
  //sometimes we reference t1fish directive 
  //as general trigger without checking face
- switch(directive)
- {
+ switch(directive){
   case T1FISH...T4FISH:
    SetActorDir(p,DIR_DOWN);
    switch(p->face){

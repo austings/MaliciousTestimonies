@@ -77,7 +77,8 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
 
 
 
-U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 screenX, I64 screenY, Actor *p)
+U0 DrawObjsOnLayer(CDC *dc, I64 obj, 
+                   I64 screenX, I64 screenY, Actor *p)
 {
  switch(obj)
  {
@@ -110,34 +111,51 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj, I64 screenX, I64 screenY, Actor *p)
  }
 }
 
-U0 DrawActorsOnLayer(CDC *dc,I64 npc, I64 i, I64 j, Actor *p, I64 wlvl)
+U0 DrawActorsOnLayer(CDC *dc,I64 npc, 
+ I64 i, I64 j, 
+ Actor *p, I64 wlvl)
 {
  //Actors start by converting matrix x,y position to screen X,Y
  Actor *toRender;
- I64 npcOffsetX=-camera->cameraOffSetX; 
- I64 npcOffsetY=-camera->cameraOffSetY;
- Bool highlight =FALSE; 
- if(npc!=PLAYER){
-   toRender = GetNPC(npc);
-   Bool animated = HasDirective(BOUNCE,toRender);
-   if(!animated)
-   { GetActorScreenX(toRender,npcOffsetX,i,FALSE),
-     GetActorScreenY(toRender,npcOffsetY,j,FALSE);
+ I64 npcOffX=-camera->cameraOffSetX; 
+ I64 npcOffY=-camera->cameraOffSetY;
+
+
+ Bool isPlayer=FALSE;
+ if(npc==PLAYER){
+  isPlayer=TRUE;
+  toRender = p; 
+ }else {  toRender = GetNPC(npc); }
+
+ Bool isAnimated = HasDirective(BOUNCE,toRender);
+
+ if(isPlayer||(!isAnimated)){
+  GetActorScreenX(toRender,npcOffX,i,isPlayer);
+  GetActorScreenY(toRender,npcOffY,j,isPlayer);
+ }
+
+ if(isAnimated&&GetNPC(PLAYER)->walking!=DIR_IDLE){
+  UpdateDirective(BOUNCE,toRender,    
+   GetActorScreenX(toRender,npcOffX,i,isPlayer),
+   GetActorScreenY(toRender,npcOffY,j,isPlayer),0);
+ }
+
+ switch(mc->combatMenuStage)
+ {
+  case STAGE_0:
+   switch(mc->combatMenuSelection)
+   {
+    case CS_PRAYER:
+     DrawPrayerHotbar(dc);
+     break;
    }
-   if(animated&&GetNPC(PLAYER)->walking!=DIR_IDLE){
-    UpdateDirective(BOUNCE,toRender,    
-     GetActorScreenX(toRender,npcOffsetX,i,FALSE),
-     GetActorScreenY(toRender,npcOffsetY,j,FALSE),0);
-   }
-   ConfigureCombatPose(toRender,p);
- }else { 
-  toRender = RenderPlayer(dc,p,npcOffsetX,npcOffsetY,i,j);
- }//if player or not, visible
- 
- highlight = CheckTarget(toRender);
+  break;
+ }   
+ Bool isHighlight =FALSE;  
+ isHighlight = CheckTarget(toRender);
       
  RenderCharacter(dc,toRender->screenX,toRender->screenY,
- 10, GetActorAnimationJob(toRender,wlvl), highlight);
+ 10, GetActorAnimationJob(toRender,wlvl), isHighlight);
 }   
 
 U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)

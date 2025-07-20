@@ -20,7 +20,7 @@ U0 Death()
  
 }
 
-U0 HandleCombatLoop(CTask *task, CDC *dc){
+U0 HandleCombatLoop(CTask *task, CDC *dc,Actor *p){
  mc->displayEquipment=FALSE;
  switch(mc->combatMenuStage){
   case STAGE_0:  
@@ -41,12 +41,14 @@ U0 HandleCombatLoop(CTask *task, CDC *dc){
    }
   break;
   case STAGE_1:
+     SetActorDir(p,DELIMITER);//modified dir complete
+     CombatDialog4(dc,task,p);     
   break;
   case STAGE_2:
-   mc->combatMenuStage = STAGE_0;
+     SetActorDir(p,DELIMITER);//modified dir complete
   break;
   case STAGE_3:
-   mc->combatMenuStage = STAGE_0;
+     SetActorDir(p,DELIMITER);//modified dir complete
   break;
  }
 
@@ -104,6 +106,7 @@ U0 CombatTurnArrows(Actor *p)
     mc->turnIndex = 1;
    } 
   break;
-
+  default:
+  break;
  }//switch end
 }

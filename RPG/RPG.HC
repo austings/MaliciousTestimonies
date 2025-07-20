@@ -1,4 +1,151 @@
 
+//updates the matrix model based on taken actions
+U0 WorldTick(I64 i, I64 j, Actor *p)
+{
+ //Tick Combat
+ switch(mc->combatMenuStage){
+  case STAGE_0:
+   switch(mc->combatMenuSelection){
+    case CMS_MOVE_DONE:
+     mc->combatMenuStage=STAGE_1;
+    break;
+    case CMS_STRIKE_DONE:
+     switch(p->sword){
+      case IT_FIST:
+      default: //fist
+       mc->turnIndex++;
+       if(mc->turnIndex==50){
+        RemoveHealth(mc->target,p->str);
+        mc->turnIndex=1;
+        mc->combatMenuStage=STAGE_1;
+       }//mc turnindex
+      break;
+     }//switch p sword    break;
+    case CMS_PRAYER_DONE:
+     switch(mc->prayerToCast){
+      case SP_HEAL: //lay on hands
+       if(mc->turnIndex==1) { CastPrayer(p);}
+       mc->turnIndex++;
+       if(mc->turnIndex==50){
+        AddHealth(mc->target,p->int);
+        RemoveMana(p,prayers->list[mc->prayerToCast]->cost);
+        mc->turnIndex=1;
+        mc->combatMenuStage=STAGE_1;
+       }
+      break;
+     }//switch prayer
+    break;
+    case CS_FLEE:
+     mc->turnIndex++;
+     if(mc->turnIndex>50){
+      U16 r = RandU16();
+      // 80% chance-returns a number from 0 to 65535 (inclusive).
+      // 80% of 65536 = 52428.8, so comparing like this
+      if (r < 0.8 * 65536){
+       mc->combatON = FALSE;
+       mc->combatMenuStage =STAGE_0;
+       mc->combatMenuSelection=CMS_MOVE; 
+      } 
+      else{
+       mc->turnIndex=1;
+       mc->combatMenuStage=STAGE_1;
+      }
+     }
+    break;
+   }
+  break;
+  case STAGE_1:
+   switch(mc->combatMenuSelection){
+    case CMS_ENE1:
+     SetActorDir(p,DELIMITER);//modified dir complete
+     mc->turnIndex= 2;   
+     ctp = combatCQue.next;//reset que pointers
+     ctp = ctp->next;//now pointer is to the first creature in the que
+     if(ctp->ready->status1!=DEAD_STATUS){
+      mc->combatON=TRUE;
+     }//move it randomly}
+     else{
+      player->exp+=(ctp->ready->str+ ctp->ready->con+ 
+                  ctp->ready->int+ ctp->ready->wis);
+      if(player->exp>=player->maxExp){
+       Play("3wC#D#E#F#G#");
+       LvlUp(player);
+      }
+      CombatQueFree();
+      mc->combatON=FALSE;
+     }
+    break;
+    case CMS_ENE2:
+    case CMS_ENE3:
+    default:
+     mc->combatMenuStage=STAGE_2;//go to stage 2, creature's turn 
+    break;  
+   }
+  break;
+  case STAGE_2:
+   mc->combatMenuStage=STAGE_0;
+   mc->combatMenuSelection=CMS_MOVE;      
+
+      //return que pointer to player
+   if(mc->turnIndex==QueCnt(combatCQue))
+   {
+    //ctp = ctp->next;
+    ctp = combatCQue.next;
+    mc->turnIndex = 1;
+   }
+
+  break;
+ }
+
+ //Tick World
+ for(j=-1;j<12;j++){
+  if(camera->topUD+j<wX&&camera->topUD+j>=0){
+   I64 screenY = j*camera->dividY+camera->cameraOffSetY; 
+   for(i=-1;i<12;i++){
+    if(camera->topLR+i<wY&&camera->topLR+i>=0){
+     I64 screenX = i*camera->dividX+camera->cameraOffSetX;
+
+     I64 obj= GetTensorObj(world->level,
+              camera->topLR+i,camera->topUD+j,world->currentZ);     
+     I64 npc =GetTensorNPC(world->level,
+              camera->topLR+i,camera->topUD+j,world->currentZ);
+     I64 wlvl= GetTensorWaterLevel(world->level,
+               camera->topLR+i,camera->topUD+j,world->currentZ);     
+     if(npc!=-1)
+     {
+      Actor *toUpdate = GetNPC(npc);
+  
+      
+     if(npc!=PLAYER){
+      if(mc->combatON==FALSE   && 
+       toUpdate->ai_script==AI_DEFAULT&&
+       toUpdate->status1!=DEAD_STATUS && //(enemy)
+       Abs((p->x)-(toUpdate->x))<=AGGRO_DIS&& //(aggro distance)
+       Abs((p->y)-(toUpdate->y))<=AGGRO_DIS  )
+      {
+       CombatQueInit(toUpdate);
+
+      } else if(mc->combatON==FALSE &&
+            HasDirective(BOUNCE,toUpdate))
+      {
+       I64 npcOffsetX=-camera->cameraOffSetX; 
+       I64 npcOffsetY=-camera->cameraOffSetY;
+
+       UpdateDirective(BOUNCE,toUpdate,    
+        GetActorScreenX(toUpdate,npcOffsetX,toUpdate->x,FALSE),
+        GetActorScreenY(toUpdate,npcOffsetY,toUpdate->y,FALSE),0,TRUE);
+ 
+      }
+     }
+
+     }
+    }
+   }
+  }
+ }
+ player = p;
+}
+
 //
 // Task Functions
 U0 DrawIt(CTask *task, CDC *dc){
@@ -10,16 +157,20 @@ U0 DrawIt(CTask *task, CDC *dc){
    break;
   //Main Game
   case 1:
+   Actor *p = GetNPC(PLAYER);
+   MapNode *pin = GetTensorItem(world->level,
+                    p->x,p->y,world->currentZ);
+
+
    world->timer = world->timer + FRAMERULE;
    if(world->timer>=FRAMERULE_CAP)
    {
+    WorldTick(i,j,p);
     world->timer = 0;
    }
 
-   Actor *p = GetNPC(0);
-   MapNode *puin = GetTensorItem(world->level,p->x,p->y,world->currentZ);
    //Keyboard
-   HandleKeyboard(p,puin);
+   HandleKeyboard(p,pin);
    StartCameraPan(dc,p);   
    //Draw world and one column and row extra for either side        
    ReDrawWorld(dc,i,j);
@@ -37,7 +188,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    }
    RPGInvLogic(dc,p);
    DragPrayer(dc);
-   DrawHealthMana(dc,p,i,j);
+   DrawHealthMana(dc,player,i,j);
    //Dialog   
    if(mc->talkieScene!=-1){
     mc->displayInventory=FALSE;
@@ -45,16 +196,11 @@ U0 DrawIt(CTask *task, CDC *dc){
    }
    //Combat
    else if(mc->combatON){
-     HandleCombatLoop(task, dc);
+
+     HandleCombatLoop(task, dc,p);
    }
    ShowToolTips(dc);
-  /*
-   if(keys.esc==TRUE){
-    dc->color=WHITE;      
-    GrRect(gr.dc,0,0,480,100);//dev console
-    GetChar;
-   }
-  */   
+
    break;
    //character select
    case 2:

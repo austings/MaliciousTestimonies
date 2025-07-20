@@ -15,7 +15,7 @@ class Actor{
 
   Inventory *myInv;
   Bool visible;
-
+
   U16 status1,
       //volatile
       status2,status3,
@@ -26,6 +26,10 @@ class Actor{
 
 };
 
+U0 SetActorDir(Actor *a, I64 dir)
+{
+ a->dir = dir;
+}
 
 //FACE CODES
 #define T_JUDA  0

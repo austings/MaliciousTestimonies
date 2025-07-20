@@ -61,17 +61,18 @@ U0 FreeMyTask(Actor *a)
 
 }
 
-Director *HasAnyDirective(Actor *a)
+Director *HasAnyDirective(Actor *a)
 {
  Director *task = direct.next;
- I64 i =0; Bool free=FALSE;
+ I64 i =0; Bool free=TRUE;
  for(i=0;i!=QueCnt(direct);i++){
    if(task->a->id==a->id&&task->cQueDirective!=NoDirective)
-   { free = TRUE;
-     break;}
+   {free = FALSE;
+     break;
+   }
   task = task->next;
  }
- if(!free)
+ if(free)
   return NULL;
  return task;
 }
