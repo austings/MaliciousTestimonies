@@ -143,7 +143,7 @@ U0 AnyKey()
 U0 HandleKeyboard(Actor *p, MapNode *puin)
 {
  if(keys.pressed){
- // AnyKey;
+  AnyKey;
  
   switch(keys.pressed)
   {

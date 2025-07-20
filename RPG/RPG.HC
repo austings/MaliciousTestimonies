@@ -14,7 +14,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
       case IT_FIST:
       default: //fist
        mc->turnIndex++;
-       if(mc->turnIndex==50){
+       if(mc->turnIndex>2){
         RemoveHealth(mc->target,p->str);
         mc->turnIndex=1;
         mc->combatMenuStage=STAGE_1;
@@ -26,7 +26,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
       case SP_HEAL: //lay on hands
        if(mc->turnIndex==1) { CastPrayer(p);}
        mc->turnIndex++;
-       if(mc->turnIndex==50){
+       if(mc->turnIndex>2){
         AddHealth(mc->target,p->int);
         RemoveMana(p,prayers->list[mc->prayerToCast]->cost);
         mc->turnIndex=1;
@@ -37,7 +37,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
     break;
     case CS_FLEE:
      mc->turnIndex++;
-     if(mc->turnIndex>50){
+     if(mc->turnIndex>2){
       U16 r = RandU16();
       // 80% chance-returns a number from 0 to 65535 (inclusive).
       // 80% of 65536 = 52428.8, so comparing like this
@@ -57,6 +57,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
   case STAGE_1:
    switch(mc->combatMenuSelection){
     case CMS_ENE1:
+    default:
      SetActorDir(p,DELIMITER);//modified dir complete
      mc->turnIndex= 2;   
      ctp = combatCQue.next;//reset que pointers
@@ -74,12 +75,13 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
       CombatQueFree();
       mc->combatON=FALSE;
      }
+     mc->combatMenuStage=STAGE_2;
     break;
-    case CMS_ENE2:
-    case CMS_ENE3:
-    default:
-     mc->combatMenuStage=STAGE_2;//go to stage 2, creature's turn 
-    break;  
+    //case CMS_ENE2:
+    //case CMS_ENE3:
+    //default:
+    // mc->combatMenuStage=STAGE_2;//go to stage 2, creature's turn 
+    //break;  
    }
   break;
   case STAGE_2:
@@ -197,7 +199,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    //Combat
    else if(mc->combatON){
 
-     HandleCombatLoop(task, dc,p);
+     CombatDialogs(task, dc,p);
    }
    ShowToolTips(dc);
 

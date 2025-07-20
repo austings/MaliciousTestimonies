@@ -20,7 +20,7 @@ U0 Death()
  
 }
 
-U0 HandleCombatLoop(CTask *task, CDC *dc,Actor *p){
+U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
  mc->displayEquipment=FALSE;
  switch(mc->combatMenuStage){
   case STAGE_0:  
@@ -39,17 +39,19 @@ U0 HandleCombatLoop(CTask *task, CDC *dc,Actor *p){
 
     break;
    }
-  break;
+  break;/*
   case STAGE_1:
      SetActorDir(p,DELIMITER);//modified dir complete
-     CombatDialog4(dc,task,p);     
+     CombatDialog4(dc,task,p);
+     mc->combatMenuStage = STAGE_0; 
+     mc->combatMenuSelection = CMS_MOVE;    
   break;
   case STAGE_2:
      SetActorDir(p,DELIMITER);//modified dir complete
   break;
   case STAGE_3:
      SetActorDir(p,DELIMITER);//modified dir complete
-  break;
+  break;*/
  }
 
 }
