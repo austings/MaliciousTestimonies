@@ -29,38 +29,6 @@ U0 ObjectTrigger(Actor *p, MapNode *puin)
  } 
 }
 
-U0 AdvanceCombatStage()
-{
- 
- switch(mc->combatMenuStage){
-  case STAGE_0:
-   mc->combatMenuStage=STAGE_1;
-   mc->combatMenuSelection=CMS_ENE1;
-  break;
-  case STAGE_1:
-   switch(mc->combatMenuSelection){
-    case CMS_ENE1:
-    break;
-
-    case CMS_ENE2:
-    break;
-
-    case CMS_ENE3:
-    break;
-   }
-  break;
-  case STAGE_2:
-   mc->combatMenuStage=STAGE_3;
-
-  break;
-  case STAGE_3:
-   mc->combatMenuStage=STAGE_0;
-   mc->combatMenuSelection=CMS_MOVE;
-  break;
- }
-
-
-}
 U0 KeyEnter(Actor *p, MapNode *puin)
 {
  if(mc->combatON){
@@ -80,7 +48,6 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     break;
    case CS_MOVE://move completion
     mc->combatMenuSelection =CMS_MOVE_DONE;
-    AdvanceCombatStage();
     break;
    case CS_STRIKE://strike completion
     mc->combatMenuSelection=CMS_STRIKE_DONE;
@@ -136,6 +103,9 @@ U0 AnyKey()
     mc->combatMenuSelection = CMS_ENE3;
    break;
    case CMS_ENE3:
+   break;
+   default:
+    mc->combatMenuSelection = CMS_ENE1;
    break;
   }
  }

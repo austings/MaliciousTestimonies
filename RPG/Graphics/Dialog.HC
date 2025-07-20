@@ -1,4 +1,4 @@
-#define MAX_D 120
+#define MAX_D 140
 U8 *DIALOG_FILE = MStrPrint("%s%s",DirCur,"/Data/Dialog.TXT"); 
 
 I32 currLetter =-1,yInc=0,xInc=0,nIndex=0,n2Index=0;

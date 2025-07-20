@@ -1,4 +1,4 @@
-ID	TEXT
+ID	TEXT
 1	//I wish I could go to the wedding. Its almost harvesting season.                                                                 |
 2	Yahweh be praised. With this#union, Israel is sure to prosper!                                                                    |
 3	You can go in.#You are on the list.                                                                                               |
@@ -8,13 +8,13 @@ ID	TEXT
 7	This is troubling. King Joshua#warned the death of the children of the man who rebuilt Jericho.                                   |
 8	Hello, I am Hiel. To rebuild Jericho, we need each noble to commit 50 wood and 50 stone. Please go in the forest and recover some.|
 9	I thank you for being here with#us on this special day. Please,#enjoy all the festivities!                                        |
-10	Enjoy the rest of the#celebration. When you are ready, go#see Hiel outside the city gate.                                         |
+10	Enjoy the rest of the#celebration. When you are ready,#go see Hiel outside the #city gate.                                        |
 11	Good morning. Yahweh be praised.                                                                                                  |
 12	You scavenge the %s#as a memento of the moment 	                                                                                  |
 13	There is nothing left #on the corpse.                                                                                             |
 14	You loot the %s's #%s.                                                                                                            |
 15	You must first equip fishing#equipment to fish here.                                                                              |                                                   |
-16	Greetings, traveller.#I bring from my homeland: fine,#silk garments for the royal chatun…#- touch them, see for yourself!         |
+16	Greetings, traveller. I bring #from my homeland: fine, silk #garments for the royal chatun…#- touch them, see for yourself!       |
 17	Moo!                                                                                                                              |
 18	bwak bwak                                                                                                                         |
 19	                                 

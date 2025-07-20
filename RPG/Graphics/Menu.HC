@@ -650,7 +650,7 @@ CDC *RenderStats(Actor *player)
   PrintLine(completeMenu,t3,0,80);
   PrintLine(completeMenu,v3,4*7,80);
   PrintLine(completeMenu,t4,0,100);  
-  PrintLine(completeMenu,v4,4*70,100);
+  PrintLine(completeMenu,v4,4*7,100);
   PrintLine(completeMenu,t5,0,120);  
   PrintLine(completeMenu,v5a,4*7,140);
   GrChar(completeMenu,v5c[0],5*7,140,1);

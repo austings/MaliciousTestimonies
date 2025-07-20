@@ -7,14 +7,18 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
   case STAGE_0:
    switch(mc->combatMenuSelection){
     case CMS_MOVE_DONE:
-     mc->combatMenuStage=STAGE_1;
+     mc->turnIndex++;
+     if(mc->turnIndex>1){
+        mc->turnIndex=1;
+        mc->combatMenuStage=STAGE_1;
+      }
     break;
     case CMS_STRIKE_DONE:
      switch(p->sword){
       case IT_FIST:
       default: //fist
        mc->turnIndex++;
-       if(mc->turnIndex>2){
+       if(mc->turnIndex>3){
         RemoveHealth(mc->target,p->str);
         mc->turnIndex=1;
         mc->combatMenuStage=STAGE_1;
@@ -26,7 +30,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
       case SP_HEAL: //lay on hands
        if(mc->turnIndex==1) { CastPrayer(p);}
        mc->turnIndex++;
-       if(mc->turnIndex>2){
+       if(mc->turnIndex>3){
         AddHealth(mc->target,p->int);
         RemoveMana(p,prayers->list[mc->prayerToCast]->cost);
         mc->turnIndex=1;
@@ -37,14 +41,17 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
     break;
     case CS_FLEE:
      mc->turnIndex++;
-     if(mc->turnIndex>2){
+     if(mc->turnIndex>3){
       U16 r = RandU16();
+      mc->turnIndex=1;
+
       // 80% chance-returns a number from 0 to 65535 (inclusive).
       // 80% of 65536 = 52428.8, so comparing like this
       if (r < 0.8 * 65536){
-       mc->combatON = FALSE;
-       mc->combatMenuStage =STAGE_0;
-       mc->combatMenuSelection=CMS_MOVE; 
+       CombatQueFree();
+       mc->combatON=FALSE;
+       mc->combatMenuStage=STAGE_2;
+ 
       } 
       else{
        mc->turnIndex=1;
@@ -58,24 +65,27 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
    switch(mc->combatMenuSelection){
     case CMS_ENE1:
     default:
-     SetActorDir(p,DELIMITER);//modified dir complete
-     mc->turnIndex= 2;   
-     ctp = combatCQue.next;//reset que pointers
-     ctp = ctp->next;//now pointer is to the first creature in the que
-     if(ctp->ready->status1!=DEAD_STATUS){
-      mc->combatON=TRUE;
-     }//move it randomly}
-     else{
-      player->exp+=(ctp->ready->str+ ctp->ready->con+ 
+     mc->turnIndex++;
+     if(mc->turnIndex>3){
+      SetActorDir(p,DELIMITER);//modified dir complete
+      mc->turnIndex= 2;   
+      ctp = combatCQue.next;//reset que pointers
+      ctp = ctp->next;//now pointer is to the first creature in the que
+      if(ctp->ready->status1!=DEAD_STATUS){
+       mc->combatON=TRUE;
+      }//move it randomly}
+      else{
+       player->exp+=(ctp->ready->str+ ctp->ready->con+ 
                   ctp->ready->int+ ctp->ready->wis);
-      if(player->exp>=player->maxExp){
-       Play("3wC#D#E#F#G#");
-       LvlUp(player);
+       if(player->exp>=player->maxExp){
+        Play("3wC#D#E#F#G#");
+        LvlUp(player);
+       }
+       CombatQueFree();
+       mc->combatON=FALSE;
       }
-      CombatQueFree();
-      mc->combatON=FALSE;
+      mc->combatMenuStage=STAGE_2;
      }
-     mc->combatMenuStage=STAGE_2;
     break;
     //case CMS_ENE2:
     //case CMS_ENE3:
