@@ -268,7 +268,18 @@ U0 CombatDialog3(CDC *dc, CTask *task)
 //Enemy attack     
 U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
 {
- U8 *eText = "%/S is %/Xing!";
+ U8 *prefix = "star";
+ switch(ctp->ready->status1)
+ {
+  case DEAD_STATUS:
+   prefix = "dy";
+  break;
+  default:
+   prefix = "attack";
+  break;
+ }
+ U8 *action = MStrPrint(" is %sing!",prefix);
+ U8 *eText = MStrPrint("%s%s",ctp->ready->name,action);
  dc->color = BLACK;
  Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
  PrintLine(dc,eText,12,385,2);

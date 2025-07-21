@@ -26,13 +26,14 @@ Bool CheckTarget(Actor *toRender){
  //optionally highlight targets for strikes
  Bool highlight= FALSE;
  if((mc->combatMenuSelection==CS_STRIKE||
-     mc->combatMenuSelection==CS_PRAYER2)&&
-    toRender->id==ctp->ready->id)
+     mc->combatMenuSelection==CS_PRAYER2))
  {
+  if(toRender->id==ctp->ready->id){
   highlight = TRUE;
   mc->target = toRender;
   mc->tarposx = toRender->screenX;
   mc->tarposy = toRender->screenY;//change default target
+  }
  }
 
  return highlight;

@@ -93,15 +93,6 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file
  
 }
 
-U0 CombatQueFree() {
-  CombatTurn *ctn = combatCQue.last;
-  QueRem(ctn);
-  ctn = combatCQue.last;
-  QueRem(ctn);
-  
-// QueDel(combatCQue);
-// Free(combatCQue);
-}
 
 U0 RenderCharacter(CDC *dc,I64 iFinalX, I64 iFinalY,I64 iFinalZ,
            CDC *character,Bool highlight=FALSE)

@@ -27,7 +27,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    StartCameraPan(dc,p);   
    //Draw world and one column and row extra for either side        
    ReDrawWorld(dc,i,j);
-   DrawActorsAndItems(dc,p,i,j,l);
+   DrawActorsAndItems(dc,p,i,j,l);
    //Game Menus
    RPGSideBar(dc);
    if(mc->displayStats){

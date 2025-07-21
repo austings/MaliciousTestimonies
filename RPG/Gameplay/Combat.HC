@@ -1,3 +1,12 @@
+U0 CombatQueFree() {
+  CombatTurn *ctn = combatCQue.last;
+  QueRem(ctn);
+  ctn = combatCQue.last;
+  QueRem(ctn);
+  
+// QueDel(combatCQue);
+// Free(combatCQue);
+}
 
 U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
  mc->displayEquipment=FALSE;
@@ -51,7 +60,6 @@ U0 SwitchTarget()
  if(mc->combatQueId>=QueCnt(combatCQue)){
    ctp = combatCQue.next;
    mc->combatQueId = 0;
-
  }   
 
 }
@@ -103,4 +111,48 @@ U0 CombatTurnArrows(Actor *p)
   default:
   break;
  }//switch end
+}
+
+U0 CalculateExp(Actor *p)
+{
+ p->exp+=(ctp->ready->str+ ctp->ready->con+ 
+           ctp->ready->int+ ctp->ready->wis);
+ if(p->exp>=p->maxExp){
+  Play("3wC#D#E#F#G#");
+  LvlUp(p);
+ }
+
+}
+
+U0 EnemyEndTurn(I64 i, Actor *p){
+ mc->turnIndex++;
+ //update after two world ticks
+ if(mc->turnIndex>2){
+
+  SetActorDir(p,DELIMITER);//end prev anims
+  mc->turnIndex= 0;   
+
+  //reset que pointers
+  ctp = combatCQue.next;
+  //check every actor for updates
+  for(i=0;i<QueCnt(combatCQue);i++){
+   if(ctp->ready->id==PLAYER)
+   {
+   }
+   else
+   {
+    if(ctp->ready->status1!=DEAD_STATUS){
+     mc->combatON=TRUE;//continue combat
+    }else{
+     CalculateExp(p);
+    }
+    CombatQueFree();
+    mc->combatON=FALSE;
+
+
+   }
+   ctp = ctp->next;
+  }
+  mc->combatMenuStage=STAGE_2;
+ }      
 }

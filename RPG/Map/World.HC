@@ -72,28 +72,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
      mc->turnIndex++;
     break;
     case CMS_ENE3:
-    //default:
-     mc->turnIndex++;
-     if(mc->turnIndex>2){
-      SetActorDir(p,DELIMITER);//modified dir complete
-      mc->turnIndex= 0;   
-      ctp = combatCQue.next;//reset que pointers
-      ctp = ctp->next;//now pointer is to the first creature in the que
-      if(ctp->ready->status1!=DEAD_STATUS){
-       mc->combatON=TRUE;
-      }//move it randomly}
-      else{
-       player->exp+=(ctp->ready->str+ ctp->ready->con+ 
-                  ctp->ready->int+ ctp->ready->wis);
-       if(player->exp>=player->maxExp){
-        Play("3wC#D#E#F#G#");
-        LvlUp(player);
-       }
-       CombatQueFree();
-       mc->combatON=FALSE;
-      }
-      mc->combatMenuStage=STAGE_2;
-     }
+    EnemyEndTurn(i, p);
     break;
    }
   break;

@@ -45,7 +45,7 @@ Cd(__DIR__);;
 // Loading Skills
 #include "Gameplay/Fishing.HC";
 #include "Gameplay/Inputs.HC";
-// Controller
+// Controller
 #include "Map/World.HC";
 
 U0 InitMenuControl()
