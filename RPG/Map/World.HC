@@ -74,7 +74,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
     case CMS_ENE3:
     //default:
      mc->turnIndex++;
-     if(mc->turnIndex>3){
+     if(mc->turnIndex>2){
       SetActorDir(p,DELIMITER);//modified dir complete
       mc->turnIndex= 0;   
       ctp = combatCQue.next;//reset que pointers

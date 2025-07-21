@@ -44,15 +44,29 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
 
 }
 
+U0 SwitchTarget()
+{
+ ctp = ctp->next;
+ mc->combatQueId++;//return to player from head
+ if(mc->combatQueId>=QueCnt(combatCQue)){
+   ctp = combatCQue.next;
+   mc->combatQueId = 0;
+
+ }   
+
+}
+
 U0 CombatTurnArrows(Actor *p)
 {
+ I64 i;
  switch(mc->combatMenuSelection){
   case CMS_MOVE:
    if(keys.pressed==DIR_UP){mc->combatMenuSelection=CMS_FLEE;}
    if(keys.pressed==DIR_DOWN){mc->combatMenuSelection++;}
   break;
   case CMS_STRIKE:
-  case CMS_PRAYER: 
+  case CMS_PRAYER:
+   ctp = combatCQue.next;  
    if(keys.pressed==DIR_DOWN){
     mc->combatMenuSelection++;
    }
@@ -75,7 +89,7 @@ U0 CombatTurnArrows(Actor *p)
    } else{mc->combatMenuStage=CMS_MOVE_DONE;}
   break;
   case CS_STRIKE://select target
-    ctp = combatCQue.next;
+   SwitchTarget;
   break;
   case CS_PRAYER://select prayer/item
    if(keys.pressed==DIR_DOWN||keys.pressed==DIR_RIGHT)
@@ -84,7 +98,7 @@ U0 CombatTurnArrows(Actor *p)
     CycleInv(TRUE);   
   break;
   case CS_PRAYER2://select target
-    ctp = combatCQue.next;
+    SwitchTarget;
   break;
   default:
   break;
