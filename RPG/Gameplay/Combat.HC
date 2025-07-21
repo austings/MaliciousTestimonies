@@ -1,25 +1,4 @@
 
-U0 Death()
-{
-//Player action select
-      /*I64 deathloop,deathcounter;
-      ctp = combatCQue.next; 
-      for(deathloop=0;deathloop<QueCnt(combatCQue)-1;deathloop++)
-      {
-        if(ctp->ready->status1==DEAD_STATUS){
-         deathcounter++;}
-        ctp = ctp->next;
-      }
-      if(deathcounter==1)
-      {//enemies killed
-       mc->combatON = FALSE;
-       mc->currentSong =0;
-       
-      }
-      else{ */
- 
-}
-
 U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
  mc->displayEquipment=FALSE;
  switch(mc->combatMenuStage){
@@ -39,19 +18,28 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
 
     break;
    }
-  break;/*
+  break;
   case STAGE_1:
+   switch(mc->combatMenuSelection)
+   {
+    case CMS_ENE1:
      SetActorDir(p,DELIMITER);//modified dir complete
      CombatDialog4(dc,task,p);
-     mc->combatMenuStage = STAGE_0; 
-     mc->combatMenuSelection = CMS_MOVE;    
+    break;
+    case CMS_ENE2:
+     SetActorDir(p,DELIMITER);//modified dir complete
+     CombatDialog5(dc,task,p);
+    break;
+    default:
+    break;
+   }
   break;
   case STAGE_2:
      SetActorDir(p,DELIMITER);//modified dir complete
   break;
   case STAGE_3:
      SetActorDir(p,DELIMITER);//modified dir complete
-  break;*/
+  break;
  }
 
 }
@@ -87,12 +75,7 @@ U0 CombatTurnArrows(Actor *p)
    } else{mc->combatMenuStage=CMS_MOVE_DONE;}
   break;
   case CS_STRIKE://select target
-   ctp = ctp->next;
-   mc->turnIndex++;//return to player from head
-   if(mc->turnIndex>QueCnt(combatCQue)){
     ctp = combatCQue.next;
-    mc->turnIndex = 1;
-   } 
   break;
   case CS_PRAYER://select prayer/item
    if(keys.pressed==DIR_DOWN||keys.pressed==DIR_RIGHT)
@@ -101,12 +84,7 @@ U0 CombatTurnArrows(Actor *p)
     CycleInv(TRUE);   
   break;
   case CS_PRAYER2://select target
-   ctp = ctp->next;
-   mc->turnIndex++;//return to player from head
-   if(mc->turnIndex>QueCnt(combatCQue)){
     ctp = combatCQue.next;
-    mc->turnIndex = 1;
-   } 
   break;
   default:
   break;

@@ -103,7 +103,9 @@ class MenuControl{
   Bool combatON;//determines if combat is initiated
   U16 combatMenuStage; //switches between characters in a combat queue
   U8 combatMenuSelection; //affects combat dialog options
-  U8 turnIndex;//used for specific combat timings
+  U8 turnIndex;//used for specific world tick timers
+  U8 combatQueId;
+
   Actor *target;I64 tarposx,tarposy;//players current target
 
   //prayerSelection

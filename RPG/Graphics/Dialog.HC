@@ -275,3 +275,13 @@ U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
 
 
 }
+//Enemy result     
+U0 CombatDialog5(CDC *dc, CTask *task, Actor *p)
+{
+ U8 *eText = "The enemy move was made!";
+ dc->color = BLACK;
+ Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
+ PrintLine(dc,eText,12,385,2);
+
+
+}

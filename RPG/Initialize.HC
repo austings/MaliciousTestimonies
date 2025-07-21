@@ -24,7 +24,7 @@ Cd(__DIR__);;
 #include "Globals.HC";
 #include "Gameplay/Inventory.HC";
 #include "Gameplay/Player.HC";
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 #include "Gameplay/Save.HC";
 
 // Loading Narrative
@@ -45,6 +45,8 @@ Cd(__DIR__);;
 // Loading Skills
 #include "Gameplay/Fishing.HC";
 #include "Gameplay/Inputs.HC";
+// Controller
+#include "Map/World.HC";
 
 U0 InitMenuControl()
 {
@@ -80,6 +82,7 @@ U0 InitMenuControl()
  mc->combatON = FALSE;
  mc->combatMenuStage =STAGE_0;
  mc->combatMenuSelection=CMS_MOVE;
+ mc->combatQueId=PLAYER;
  mc->target = GetNPC(0);
  mc->tarposx = 0;
  mc->tarposy = 0;
@@ -135,5 +138,4 @@ U0 Init(){ //world
 
  InitializeAnimator;
 }
-
 #include "RPG";

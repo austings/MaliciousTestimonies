@@ -69,7 +69,8 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file
   mc->combatON=TRUE;
   mc->loot = "";
   mc->lootedSwitch=FALSE;
-  mc->combatMenuStage=CMS_MOVE;
+  mc->combatMenuStage=STAGE_0;
+  mc->combatMenuSelection=CMS_MOVE;
   mc->currentSong=5;
   QueInit(&combatCQue);
   
@@ -86,7 +87,7 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file
   //combatCQue
   
   ctp = combatCQue.next;
-  mc->turnIndex = 1;
+  mc->turnIndex = 0;
 
   AddDirective(BOUNCE,toInsert);
  

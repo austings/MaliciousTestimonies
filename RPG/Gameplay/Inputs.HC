@@ -97,10 +97,16 @@ U0 AnyKey()
   switch(mc->combatMenuSelection)
   {
    case CMS_ENE1:
-    mc->combatMenuSelection = CMS_ENE2;
+    if(mc->turnIndex>2){
+     mc->combatMenuSelection = CMS_ENE2;
+     mc->turnIndex=0;
+    }
    break;
    case CMS_ENE2:
-    mc->combatMenuSelection = CMS_ENE3;
+    if(mc->turnIndex>2){
+     mc->combatMenuSelection = CMS_ENE3;
+     mc->turnIndex=0;
+    }
    break;
    case CMS_ENE3:
    break;
