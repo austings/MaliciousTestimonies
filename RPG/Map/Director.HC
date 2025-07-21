@@ -55,13 +55,13 @@ U0 FreeMyTask(Actor *a)
  if(i=9999)
  {
    ResetDirective(task);
-   //QueRem(task);
-   //Free(task);
+   QueRem(task);
+   Free(task);
  }
 
 }
 
-Director *HasAnyDirective(Actor *a)
+Director *HasAnyDirective(Actor *a)
 {
  Director *task = direct.next;
  I64 i =0; Bool free=TRUE;

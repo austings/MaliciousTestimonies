@@ -197,6 +197,16 @@ Bool HasDirective(I64 directive,Actor *a)
  return free;
 }
 
+U0 EndProceduralAnimations(){
+ Director *task = direct.next;
+ I64 i =0; 
+ for(i=0;i!=QueCnt(direct);i++){
+  if(task->cQueDirective==BOUNCE)
+  {
+    ResetDirective(task);  
+  }
+ }
+}
 //update directive id by actor and directive
 //inherently checks Has
 Bool UpdateDirective(I64 directive,Actor *p,

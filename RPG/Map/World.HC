@@ -6,9 +6,35 @@ U0 SetCombatStage1(){
 
 }
 
-//updates the matrix model based on taken actions
-U0 WorldTick(I64 i, I64 j, Actor *p)
+U0 TickTile(I64 i,I64 j, Actor *p)
 {
+ if(camera->topLR+i<wY&&camera->topLR+i>=0){
+  I64 screenX = i*camera->dividX+camera->cameraOffSetX;
+
+  I64 obj= GetTensorObj(world->level,
+              camera->topLR+i,camera->topUD+j,world->currentZ);     
+  I64 npc =GetTensorNPC(world->level,
+              camera->topLR+i,camera->topUD+j,world->currentZ);
+  I64 wlvl= GetTensorWaterLevel(world->level,
+              camera->topLR+i,camera->topUD+j,world->currentZ);     
+  if(npc!=-1){
+   Actor *toUpdate = GetNPC(npc);    
+   if(npc!=PLAYER){
+    if(mc->combatON==FALSE   && 
+    toUpdate->ai_script==AI_DEFAULT&&
+    toUpdate->status1!=DEAD_STATUS && //(enemy)
+    Abs((p->x)-(toUpdate->x))<=AGGRO_DIS&& //(aggro distance)
+    Abs((p->y)-(toUpdate->y))<=AGGRO_DIS  )
+    {
+     CombatQueInit(toUpdate);
+    }
+   }
+  }
+ }
+}
+
+//updates the matrix model based on taken actions
+U0 WorldTick(I64 i, I64 j, Actor *p){
  //Tick Combat
  switch(mc->combatMenuStage){
   case STAGE_0:
@@ -86,49 +112,15 @@ U0 WorldTick(I64 i, I64 j, Actor *p)
   break;
  }
 
+ if(mc->combatON==FALSE)
+  EndProceduralAnimations; 
+
  //Tick World
  for(j=-1;j<12;j++){
   if(camera->topUD+j<wX&&camera->topUD+j>=0){
    I64 screenY = j*camera->dividY+camera->cameraOffSetY; 
    for(i=-1;i<12;i++){
-    if(camera->topLR+i<wY&&camera->topLR+i>=0){
-     I64 screenX = i*camera->dividX+camera->cameraOffSetX;
-
-     I64 obj= GetTensorObj(world->level,
-              camera->topLR+i,camera->topUD+j,world->currentZ);     
-     I64 npc =GetTensorNPC(world->level,
-              camera->topLR+i,camera->topUD+j,world->currentZ);
-     I64 wlvl= GetTensorWaterLevel(world->level,
-               camera->topLR+i,camera->topUD+j,world->currentZ);     
-     if(npc!=-1)
-     {
-      Actor *toUpdate = GetNPC(npc);
-  
-      
-     if(npc!=PLAYER){
-      if(mc->combatON==FALSE   && 
-       toUpdate->ai_script==AI_DEFAULT&&
-       toUpdate->status1!=DEAD_STATUS && //(enemy)
-       Abs((p->x)-(toUpdate->x))<=AGGRO_DIS&& //(aggro distance)
-       Abs((p->y)-(toUpdate->y))<=AGGRO_DIS  )
-      {
-       CombatQueInit(toUpdate);
-
-      } else if(mc->combatON==FALSE &&
-            HasDirective(BOUNCE,toUpdate))
-      {
-       I64 npcOffsetX=-camera->cameraOffSetX; 
-       I64 npcOffsetY=-camera->cameraOffSetY;
-
-       UpdateDirective(BOUNCE,toUpdate,    
-        GetActorScreenX(toUpdate,npcOffsetX,toUpdate->x,FALSE),
-        GetActorScreenY(toUpdate,npcOffsetY,toUpdate->y,FALSE),0,TRUE);
- 
-      }
-     }
-
-     }
-    }
+    TickTile(i,j,p);
    }
   }
  }
