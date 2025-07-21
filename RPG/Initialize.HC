@@ -24,7 +24,7 @@ Cd(__DIR__);;
 #include "Globals.HC";
 #include "Gameplay/Inventory.HC";
 #include "Gameplay/Player.HC";
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 #include "Gameplay/Save.HC";
 
 // Loading Narrative
@@ -33,6 +33,7 @@ Cd(__DIR__);;
 #include "Graphics/Menu.HC";
 #include "Graphics/Walk.HC";
 #include "Graphics/Anim.HC";
+#include "Graphics/Interact.HC";
 #include "Music.HC";
 
 // Loading Combat Scenarios

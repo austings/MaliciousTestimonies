@@ -1,6 +1,6 @@
 //Forked June 15, 2023 
 //By Austin Sierra
-//for TempleOS Foundation
+//for TempleOS Foundation
 //Subject to Creative Commons BY-NC 4.0
 
 
