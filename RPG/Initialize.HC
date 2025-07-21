@@ -24,7 +24,7 @@ Cd(__DIR__);;
 #include "Globals.HC";
 #include "Gameplay/Inventory.HC";
 #include "Gameplay/Player.HC";
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 #include "Gameplay/Save.HC";
 
 // Loading Narrative
@@ -45,7 +45,7 @@ Cd(__DIR__);;
 // Loading Skills
 #include "Gameplay/Fishing.HC";
 #include "Gameplay/Inputs.HC";
-// Controller
+// Controller
 #include "Map/World.HC";
 
 U0 InitMenuControl()

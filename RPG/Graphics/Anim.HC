@@ -255,6 +255,9 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF061,EFFSCRATCH,0),allAnimations.last);
    QueIns(AddFrame(EFF060,EFFSCRATCH,0),allAnimations.last);
   break; 
+  case ARCSTRIKE:
+   QueIns(AddFrame(EFF059,ARCSTRIKE,0),allAnimations.last);
+  break;
  }
 }
 
@@ -277,12 +280,52 @@ U0 ProceduralAnimate1(CDC *dc,Director *task)
 
 }
 
-U0 PlayAnimation(CDC *dc,Director *task){ 
+U0 ProceduralAnimateArc(CDC *dc, Director *task)
+{
+    task->a->visible = TRUE;  
+    task->z++;
+    // Interpolation progress (0.0 to 1.0)
+    F64 duration = 120.0; // number of frames for full traversal
+    F64 t = task->z / duration;
+    if (t > 1.0) {
+        // Reverse direction by swapping start/target and resetting progress
+        F64 tmpX = task->x;
+        F64 tmpY = task->y;
+        task->x = player->screenX;
+        task->y = player->screenY;
+        task->z = 0;
+        return;
+    }
 
-  if(task->cQueDirective==BOUNCE)
+    // Linear interpolation between points
+    F64 sx = task->x;
+    F64 sy = task->y;
+    F64 ex = player->screenX;
+    F64 ey = player->screenY;
+
+    // Interpolated horizontal position
+    F64 interpX = sx + (ex - sx) * t;
+    F64 interpY = sy + (ey - sy) * t;
+
+    // Apply vertical arc using a sine wave (peak at t=0.5)
+    F64 arcHeight = 20.0; // height of the arc in pixels
+    F64 arcOffset = arcHeight * Sin(pi * t); // Sin(pi * t) peaks at t=0.5
+
+    task->a->screenX = interpX;
+    task->a->screenY = interpY - arcOffset; // negative = upward arc
+}
+
+U0 PlayAnimation(CDC *dc,Director *task){ 
+  switch(task->cQueDirective)   
   {
-   ProceduralAnimate1(dc,task);
-   goto taskend;
+   case BOUNCE:
+    ProceduralAnimate1(dc,task);
+    goto taskend;
+   break;  
+   case ARCSTRIKE:
+    ProceduralAnimateArc(dc,task);
+    goto taskend;
+   break;
   } 
 
   Animation *ajc = allAnimations.next;
@@ -374,6 +417,7 @@ U0 InitializeAnimator(){
   CreateAnimation(T4SPEAR);
   
   CreateAnimation(BOUNCE);
+  CreateAnimation(ARCSTRIKE);
 
   CreateAnimation(T1DIE);
   CreateAnimation(T2DIE);

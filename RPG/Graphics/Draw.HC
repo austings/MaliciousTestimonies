@@ -127,7 +127,9 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
   toRender = p; 
  }else {  toRender = GetNPC(npc); }
 
- Bool isAnimated = HasDirective(BOUNCE,toRender);
+ Bool isAnimated = HasDirective(BOUNCE,toRender);// ||
+//                   HasDirective(BITE,toRender);
+
 
  if(isPlayer||(!isAnimated)){
   GetActorScreenX(toRender,npcOffX,i,isPlayer);

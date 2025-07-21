@@ -363,6 +363,9 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   case BOUNCE:
    task->cQueDirective = BOUNCE;
   break;
+  case ARCSTRIKE:
+   task->cQueDirective = ARCSTRIKE;
+  break;
   case T1DIE...T4DIE:
    switch(p->face){
     case T_JUDA:
@@ -403,9 +406,9 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
    task->cQueDirective = directive;
    isEffect = TRUE;
   break;
-  //default:
+  //default://dont enable this i know you want to
   // task->cQueDirective = directive;
-   break;
+  //break;
 
  }
  if(!free)

@@ -43,6 +43,8 @@
 #define T3SPEAR 18
 #define T4SPEAR 19
 
+#define BOUNCE 20//"Ready"
+
 #define T1DIE 21
 #define T2DIE 22
 #define T3DIE 23
@@ -59,5 +61,8 @@
 #define EFFFIRE 31
 #define EFFSCRATCH 32
 
-//Procedural
-#define BOUNCE 20//"Ready"
+#define ARCSTRIKE 35
+
+
+
+

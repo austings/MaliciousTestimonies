@@ -93,6 +93,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
    switch(mc->combatMenuSelection){
     case CMS_ENE1:
      mc->turnIndex++;
+//     AddDirective(ARCSTRIKE,p);
     break;
     case CMS_ENE2:
      mc->turnIndex++;
@@ -106,8 +107,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
    mc->combatMenuStage=STAGE_0;
    mc->combatMenuSelection=CMS_MOVE;
    mc->combatQueId=PLAYER;      
-
-      //return que pointer to player
+   //return que pointer to player
   
   break;
  }
