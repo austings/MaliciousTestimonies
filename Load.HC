@@ -14,7 +14,7 @@ $UL,0$Cd(__DIR__);;
 
 
 
-#include "RPG/Initialize.HC";
+#include "RPG/Initialize.HC";
 
 
 
@@ -24,7 +24,7 @@ $UL,0$Cd(__DIR__);;
 ______               
 |  ___|              
 | |_ _ __            
-|  _| '_ \           
+|  _| '_ \           
 | | | | | |          
 \_| |_| |_|          
         ______ _____ 

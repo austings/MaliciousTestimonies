@@ -33,8 +33,8 @@ U0 TickTile(I64 i,I64 j, Actor *p)
  }
 }
 
-//updates the matrix model based on taken actions
-U0 WorldTick(I64 i, I64 j, Actor *p){
+U0 TickCombat(I64 i,I64 j,Actor *p)
+{
  //Tick Combat
  switch(mc->combatMenuStage){
   case STAGE_0:
@@ -115,6 +115,22 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
  if(mc->combatON==FALSE)
   EndProceduralAnimations; 
 
+}
+
+U0 TickInteract(I64 i, I64 j, Actor *p)
+{
+ if(mc->lootedSwitch)
+ {
+  mc->displayInventory=TRUE;
+ }
+}
+
+//updates the matrix model based on taken actions
+U0 WorldTick(I64 i, I64 j, Actor *p){
+
+ TickCombat(i,j,p);
+
+ TickInteract(i,j,p);
  //Tick World
  for(j=-1;j<12;j++){
   if(camera->topUD+j<wX&&camera->topUD+j>=0){
@@ -125,5 +141,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
   }
  }
  player = p;
+
+
 }
 

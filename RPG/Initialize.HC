@@ -31,9 +31,11 @@ Cd(__DIR__);;
 #include "Graphics/Dialog.HC";
 #include "Graphics/Buttons.HC";
 #include "Graphics/Menu.HC";
+#include "Graphics/Sidebar.HC";
+#include "Graphics/Drag.HC";
 #include "Graphics/Walk.HC";
 #include "Graphics/Anim.HC";
-#include "Graphics/Interact.HC";
+#include "Graphics/Interact.HC";
 #include "Music.HC";
 
 // Loading Combat Scenarios
@@ -75,7 +77,7 @@ U0 InitMenuControl()
  mc->draggingInv=FALSE;
  mc->draggingItem=MakeItem(0);
  mc->draggingID=0;
- mc->lootedSwitch=LOOTABLE;
+ mc->lootedSwitch=FALSE;
  mc->inventoryRender = DCNew(640,480);
  DCFill(mc->inventoryRender, TRANSPARENT);
 

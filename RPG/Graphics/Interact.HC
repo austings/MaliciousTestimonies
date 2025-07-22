@@ -29,7 +29,7 @@ U0 InteractActor(I64 npc)
   }
   else
   {
-   mc->talkieScene = GetTalkie(npc);
+   mc->talkieScene = GetTalkie(npc);
   }
  }
 }
@@ -56,7 +56,7 @@ U0 InteractTile(Actor *p, U8 dir,
    switch(obj)
    {
     case OBJ_CHEST:
-     mc->loot;
+     mc->lootedSwitch = TRUE;
     break;
    }
   }   

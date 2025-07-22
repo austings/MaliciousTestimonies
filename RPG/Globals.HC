@@ -113,7 +113,7 @@ class MenuControl{
   I64 *prayerList;
 
   //inventory menus render
-  I64 draggingID;//inventory mouse item
+  I64 draggingID;//inventory mouse item
   Item *draggingItem;
   CDC *inventoryRender;
 
