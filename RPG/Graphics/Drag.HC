@@ -287,7 +287,7 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
              0,GetMenuSprite(2));
     }
    }
-   //GrBlot3(dc,0,0,10,RenderInventory(p));
+   //GrBlot3(dc,0,0,10,RenderInventory(p));
 
  }
 

@@ -140,22 +140,7 @@ U0 HandleKeyboard(Actor *p, MapNode *puin)
  }
 }
 
-
-U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
-{
-
- if(M_X>=496&&M_X<=619&& //save button
-    M_Y>=421&&M_Y<=458){
-   SaveButton;
- }
-
- //GameArea
- if(M_X>=0&&M_X<480&&
-    M_Y>=0&&M_Y<480)
- {
-  
- }
-
+U0 HandleMouseSideBar(I64 M_X, I64 M_Y, I64 i,I64 j){
  //SideBar
  Bool subMenu = mc->displayPrayers || mc->displayStats;
  if(!subMenu)
@@ -188,7 +173,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
   PrayerFilters(M_X,M_Y,i,j); //prayer submenu
   
  }
- 
+
  //pop up menu Xs
  if(M_X>=140&&M_X<=180&&//equip x
           M_Y>=10&&M_Y<=40
@@ -207,10 +192,18 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
    mc->displayStats=FALSE;  mc->displayPrayers=FALSE;
  }
 
- //if release on equip wep slot
- if(mc->displayInventory==TRUE||
-           mc->displayEquipment==TRUE){
-  if(mc->displayEquipment==TRUE&&mc->draggingInv){
+
+ if(M_X>=496&&M_X<=619&& //save button
+    M_Y>=421&&M_Y<=458){
+   SaveButton;
+ }
+
+}
+
+U0 HandleMouseRelease(I64 M_X, I64 M_Y, I64 i, I64 j)
+{
+ if(mc->draggingInv){
+  if(mc->displayEquipment==TRUE){
    if(M_X>=8 &&
       M_X< 60  &&
       M_Y>=116  &&
@@ -235,8 +228,29 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
       M_Y< 91){
     ReleaseRing;
    }
-
   }
+  if(mc->lootedSwitch)
+  {
+   //todo  
+  }
+ }
+}
+U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
+{
+ 
+ HandleMouseSideBar(M_X,M_Y,i,j);
+ //GameArea
+ if(M_X>=0&&M_X<480&&
+    M_Y>=0&&M_Y<480)
+ {
+  
+ }
+
+ if(mc->displayInventory==TRUE||
+           mc->displayEquipment==TRUE){
+ //if release on equip wep slot
+  HandleMouseRelease(M_X,M_Y,i,j);
+
   //check inventory region
   for(i=0;i<INVWIDTH;i++){
    for(j=0;j<INVHEIGHT;j++){
