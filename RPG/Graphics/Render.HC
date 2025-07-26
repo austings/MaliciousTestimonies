@@ -67,7 +67,6 @@ U0 StartCameraPan(CDC *dc,Actor *p)
 
 U0 CombatQueInit(Actor *toInsert){ //parameter encounter file
   mc->combatON=TRUE;
-  mc->loot = "";
   mc->lootedSwitch=FALSE;
   mc->combatMenuStage=STAGE_0;
   mc->combatMenuSelection=CMS_MOVE;

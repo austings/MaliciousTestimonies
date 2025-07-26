@@ -187,15 +187,13 @@ U0 GetItemScreenLoc(I64 invIDToFetch, I64 *x, I64 *y){
 }
 
 
-I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE)
-{
+I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE){
   Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
   I64 i;
-  for(i=0;i<index;i++)
-  {
+  for(i=0;i<index;i++){
     toBeRetrieved = toBeRetrieved->next;
   }
-  //DocPrint("%d",toBeRetrieved->id);
+
   if(select)//move to mouse
   {
    toBeRetrieved->visible = FALSE;
@@ -203,7 +201,6 @@ I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE)
   }
   if(toBeRetrieved->visible==TRUE)
    return toBeRetrieved->id;
-
 }
 
 Item *RetrieveItem(I64 aID, I64 index, Bool select=FALSE)

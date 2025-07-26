@@ -63,6 +63,7 @@
 
 #define ARCSTRIKE 35
 
-
+//Chest Ids
+#define CAMP_CHEST 1000000
 
 

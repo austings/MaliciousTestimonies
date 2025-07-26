@@ -22,7 +22,7 @@ Cd(__DIR__);;
 #include "Gameplay/AI.HC";
 // Loading Player
 #include "Globals.HC";
-#include "Gameplay/Inventory.HC";
+#include "Gameplay/Inventory.HC";
 #include "Gameplay/Player.HC";
 #include "Gameplay/Equipment.HC";
 #include "Gameplay/Save.HC";
@@ -53,33 +53,41 @@ Cd(__DIR__);;
 
 U0 InitMenuControl()
 {
+ //narrative
  mc->currentSong=1;
  mc->currentMenu=0;
  mc->cutsceneTarget=0;//switch cutscene frames
  mc->cutsceneTimer =0;
  mc->cutsceneIndex=0;
-
  mc->talkieScene = -1;//dialogID
  mc->dialogName = "???";//dialog actor name
 
+ //display
  mc->displayInventory=FALSE;
  mc->displayStats=FALSE;
  mc->displayShop=FALSE;
  mc->displayEquipment=FALSE;
  mc->displayPrayers=FALSE;
+
+ //prayers
  mc->prayerPage=0;
  mc->dragPrayer=-1;
  mc->prayerToCast=-1;
  mc->prayerListSize =0;
  mc->prayerListIndex =0;
  mc->prayerDragging=FALSE;
+
+ //inventory
  mc->reRenderInv=TRUE;
  mc->draggingInv=FALSE;
  mc->draggingItem=MakeItem(0);
  mc->draggingID=0;
- mc->lootedSwitch=FALSE;
  mc->inventoryRender = DCNew(640,480);
  DCFill(mc->inventoryRender, TRANSPARENT);
+
+ //chest
+ mc->lootedSwitch=FALSE;
+ mc->lootTarget=PLAYER;
 
  //combat
  mc->combatON = FALSE;

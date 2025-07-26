@@ -15,7 +15,8 @@ CDirEntry *loadRoot;
 #define SIDEX 160
 #define SIDEY 480
 
-#define MAXACTORCOUNT	11
+#define MAX_WRITTEN_ACTORS 999999
+#define MAXACTORCOUNT	11 //on screen
 
 //Loaded Map
 class World
@@ -73,7 +74,7 @@ class CombatTurn:CQue
 #define CS_PRAYER		12
 #define CS_PRAYER2		122
 #define CMS_PRAYER_DONE		112
-#define DELIMITER -9348934
+#define DELIMITER -9348934
 
 #define CMS_FLEE		3
 #define CS_FLEE			13
@@ -97,9 +98,12 @@ class MenuControl{
   I64 talkieScene;//dialogID
   U8* dialogName;//dialog actor name
 
-  //Combat preferences
+  //Looting
   Bool lootedSwitch;
-  U8* loot;
+  I64 lootTarget;
+  Inventory *lootInv;
+
+  //combat preferences
   Bool combatON;//determines if combat is initiated
   U16 combatMenuStage; //switches between characters in a combat queue
   U8 combatMenuSelection; //affects combat dialog options
@@ -113,7 +117,7 @@ class MenuControl{
   I64 *prayerList;
 
   //inventory menus render
-  I64 draggingID;//inventory mouse item
+  I64 draggingID;//inventory mouse item
   Item *draggingItem;
   CDC *inventoryRender;
 

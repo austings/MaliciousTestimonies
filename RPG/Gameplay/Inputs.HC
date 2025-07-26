@@ -258,12 +258,28 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
        M_X< (i+1)*45+2 &&
        M_Y>=(j*42)+310 &&
        M_Y< (j+1)*42+310&&!mc->prayerDragging){
-     InvDrag(i,j);
+     InvDrag(i,j,PLAYER);
 
     }//end inventory if
    }//end inventory height
-  }//end inventory width    
+  }//end inventory width     
  }
+
+ //check repository region
+ if(mc->lootedSwitch){
+  for(i=0;i<INVWIDTH;i++){
+   for(j=0;j<INVHEIGHT;j++){
+    if(M_X>=(i*45)+2   &&
+       M_X< (i+1)*45+2 &&
+       M_Y>=(j*42) &&
+       M_Y< (j+1)*42&&!mc->prayerDragging){
+     InvDrag(i,j,mc->lootTarget);
+
+    }//end inventory if
+   }//end inventory height
+  }//end inventory width
+ }
+
 
 }
 U0 HandleRMouse(I64 M_X, I64 M_Y, I64 i, I64 j)

@@ -13,10 +13,10 @@ U0 InteractActor(I64 npc)
     }
     else{
      if(mc->lootedSwitch==LOOTABLE){
-      mc->loot = "..........";
+      //mc->loot = "..........";
       switch(npc){
         case 6://wolf fang
-        mc->loot = "wolf fang";
+        //mc->loot = "wolf fang";
         AddItemToInventory(PLAYER,3);
         break;
         default:

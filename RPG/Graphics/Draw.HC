@@ -102,11 +102,10 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
    } 
   break;
   case OBJ_CHEST:
-  Sprite3(dc, screenX-16, screenY-12, 10, GetFurniture(obj));
-  break;
- 
+   Sprite3(dc, screenX-16, screenY-12, 10, GetFurniture(obj));
+  break; 
   default:
-  Sprite3(dc,screenX, screenY,10,GetFurniture(obj));
+   Sprite3(dc,screenX, screenY,10,GetFurniture(obj));
   break;
  }
 }

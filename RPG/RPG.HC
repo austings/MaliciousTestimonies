@@ -33,7 +33,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    if(mc->displayStats){
     GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));
    } else if(mc->displayPrayers){
-    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderPrayers(p));
+    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderPrayers(p));
    }
 
    if(mc->displayEquipment){
@@ -45,7 +45,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    //Dialog   
    if(mc->talkieScene!=-1){
     mc->displayInventory=FALSE;
-    Chatbox(mc->dialogName,dc,task,mc->talkieScene,mc->loot);
+    Chatbox(mc->dialogName,dc,task,mc->talkieScene);
    }
    //Combat
    else if(mc->combatON){

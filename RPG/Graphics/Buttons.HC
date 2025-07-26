@@ -206,37 +206,45 @@ U0 ReleaseRing()
 
 }
 
-
+#define CHESTIDSBEGIN  MAX_WRITTEN_ACTORS+1
 
 //check if user click or release for each 'button' of inventory
 //i: inv width
 //j: inv height
-U0 InvDrag(I64 i, I64 j)
-{
+U0 InvDrag(I64 i, I64 j,I64 actor){
  Bool marked = FALSE;                 
- I8 occupied= GetNPC(0)->myInv->mtrx[j][i].occupied;                 
- if(mc->draggingInv==FALSE)//start dragging
- {
-  if(occupied!=-1)//if there is an item underneath
-  {
-   mc->draggingID = RetrieveItemID(0,occupied,TRUE);
-   mc->draggingItem = RetrieveItem(0,occupied,TRUE);
+ I8 occupied;
+ if(actor <=CHESTIDSBEGIN){
+  occupied= GetNPC(actor)->myInv->mtrx[j][i].occupied;                 
+ }
+ else{
+  occupied = mc->lootInv->mtrx[j][i].occupied;
+ }
+ if(mc->draggingInv==FALSE){//start dragging
+  if(occupied!=-1){//if there is an item underneath
+   mc->draggingID = RetrieveItemID(actor,occupied,TRUE);
+   mc->draggingItem = RetrieveItem(actor,occupied,TRUE);
    mc->reRenderInv=TRUE;
    mc->draggingInv=TRUE;
   }
  }else{//release
   //if there is an item underneath
-  if(occupied!=-1&&occupied!=mc->draggingItem->invID){
-   //continue drag
+  if(occupied!=-1&&occupied!=mc->draggingItem->invID){//continue drag
    marked = TRUE;
-  }else{
-   //if open space, drop and release w=1 h=2
+  }else{//if open space, drop and release w=1 h=2
    U8 itemW, itemH;
    U8 invHMax= mc->draggingItem->h;
    U8 invWMax = mc->draggingItem->w;
    for(itemW=0;itemW<invWMax;itemW++) {
     for(itemH=0;itemH<invHMax;itemH++) {
-     I8 tempOccupied = GetNPC(0)->myInv->mtrx[j+(itemH)][i+(itemW)].occupied;
+     I64 tempOccupied;
+     if(actor <= CHESTIDSBEGIN){
+      tempOccupied = 
+         GetNPC(actor)->myInv->mtrx[j+(itemH)][i+(itemW)].occupied;
+     }else { 
+      tempOccupied = 
+         mc->lootInv->mtrx[j+(itemH)][i+(itemW)].occupied;
+     }
      if(tempOccupied!=-1&& tempOccupied!=mc->draggingItem->invID){
       marked=TRUE;break;
      }
@@ -251,3 +259,4 @@ U0 InvDrag(I64 i, I64 j)
   }
  }//end release
 }
+
