@@ -94,7 +94,7 @@ U0 CombatTurnArrows(Actor *p)
       p->walking==W_NOTWALKING){
     MoveActor(p,keys.pressed);
     RemoveMana(p,MOVEMENT_COST);
-   } else{mc->combatMenuStage=CMS_MOVE_DONE;}
+   } else{mc->combatMenuSelection=CMS_MOVE_DONE;}
   break;
   case CS_STRIKE://select target
    SwitchTarget;

@@ -281,7 +281,7 @@ U0 ProceduralAnimate1(CDC *dc,Director *task)
 }
 
 U0 ProceduralAnimateArc(CDC *dc, Director *task)
-{
+{/*
     task->a->visible = TRUE;  
     task->z++;
     // Interpolation progress (0.0 to 1.0)
@@ -313,6 +313,7 @@ U0 ProceduralAnimateArc(CDC *dc, Director *task)
 
     task->a->screenX = interpX;
     task->a->screenY = interpY - arcOffset; // negative = upward arc
+*/
 }
 
 U0 PlayAnimation(CDC *dc,Director *task){ 

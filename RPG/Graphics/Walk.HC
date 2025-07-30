@@ -207,21 +207,20 @@ U0 EndProceduralAnimations(){
   }
  }
 }
-//update directive id by actor and directive
+//update directive id by paramaters actor and directive
 //inherently checks Has
+//paramaeters screen x y z to be updated
+//explicitRemoval takes it out of director queue
 Bool UpdateDirective(I64 directive,Actor *p,
                      I64 x, I64 y, I64 z,Bool explicitRemoval=FALSE)
 {
  Director *task = direct.next;
  I64 i =0; Bool free=FALSE;
  for(i=0;i!=QueCnt(direct);i++){
-  if(task->cQueDirective==directive)
-  {
-   if(task->a->id==p->id)
-   {
-    if(p->status1==DEAD_STATUS||explicitRemoval)
-    //update if actor dies mid animate
-    {
+  if(task->cQueDirective==directive){
+   if(task->a->id==p->id){
+    if(p->status1==DEAD_STATUS||explicitRemoval){
+     //update if actor dies mid animate
      FreeMyTask(p);
      return FALSE;
     }

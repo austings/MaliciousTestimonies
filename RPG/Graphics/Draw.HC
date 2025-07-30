@@ -110,9 +110,17 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
  }
 }
 
+//
+// Draw Actor(s) On Layer
+//
+//device context, Actor NPC ID
+//tile x (i), tile j (j) //screen tile #
+//Actor to be drawn
+//approx screenX, approx screenY,
 U0 DrawActorsOnLayer(CDC *dc,I64 npc, 
  I64 i, I64 j, 
- Actor *p, I64 wlvl)
+ Actor *p, 
+ I64 screenX, I64 screenY, I64 wlvl)
 {
  //Actors start by converting matrix x,y position to screen X,Y
  Actor *toRender;
@@ -130,12 +138,11 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
 //                   HasDirective(BITE,toRender);
 
 
+
  if(isPlayer||(!isAnimated)){
   GetActorScreenX(toRender,npcOffX,i,isPlayer);
   GetActorScreenY(toRender,npcOffY,j,isPlayer);
- }
-
- if(isAnimated&&GetNPC(PLAYER)->walking!=DIR_IDLE){
+ }else if(isAnimated&&GetNPC(PLAYER)->walking!=DIR_IDLE){
   UpdateDirective(BOUNCE,toRender,    
    GetActorScreenX(toRender,npcOffX,i,isPlayer),
    GetActorScreenY(toRender,npcOffY,j,isPlayer),0);
@@ -179,7 +186,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
       DrawObjsOnLayer(dc,obj,screenX,screenY,p);
      DrawItemsOnLayer(dc,i,j,l);
      if(npc!=IT_NULL)
-      DrawActorsOnLayer(dc,npc,i,j,p,wlvl); 
+      DrawActorsOnLayer(dc,npc,i,j,p,screenX,screenY,wlvl); 
           
     }//if too large x
    }//for x

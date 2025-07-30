@@ -1,6 +1,7 @@
 
 
 
+
 I64 GetActorScreenX(Actor *a, I64 npcox, I64 i, Bool Player=TRUE)
 {
  if(Player){
