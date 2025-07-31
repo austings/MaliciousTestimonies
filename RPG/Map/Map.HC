@@ -1,7 +1,7 @@
 
 //Ground Nodes and their Player, Item, Object,Background Arrays
 
-
+
 class NodeStuff:CQue
 {
   I64 id;
@@ -104,6 +104,7 @@ class Inventory
   Item *collection;
   ItemNode mtrx[4][11]; 
 };
+
 
 //
 //Prayer Globals

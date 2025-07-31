@@ -76,7 +76,6 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
 }
 
 
-
 U0 DrawObjsOnLayer(CDC *dc, I64 obj, 
                    I64 screenX, I64 screenY, Actor *p)
 {
@@ -109,6 +108,8 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
   break;
  }
 }
+
+
 
 //
 // Draw Actor(s) On Layer

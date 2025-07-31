@@ -74,7 +74,7 @@ class CombatTurn:CQue
 #define CS_PRAYER		12
 #define CS_PRAYER2		122
 #define CMS_PRAYER_DONE		112
-#define DELIMITER -9348934
+#define DELIMITER -9348934
 
 #define CMS_FLEE		3
 #define CS_FLEE			13

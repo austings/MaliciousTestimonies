@@ -22,7 +22,8 @@ Cd(__DIR__);;
 #include "Gameplay/AI.HC";
 // Loading Player
 #include "Globals.HC";
-#include "Gameplay/Inventory.HC";
+#include "Gameplay/Item.HC";
+#include "Map/Objects.HC";
 #include "Gameplay/Player.HC";
 #include "Gameplay/Equipment.HC";
 #include "Gameplay/Save.HC";

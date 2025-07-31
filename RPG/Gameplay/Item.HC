@@ -85,7 +85,7 @@ Item *MakeItem(I64 id){
  return build;
 }
 
-Inventory *MakeInventory()
+Inventory *MakeInventory()
 {
   I64 i,j;
   Inventory *newInv = MAlloc(sizeof(Inventory));
