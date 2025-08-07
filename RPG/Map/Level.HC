@@ -3,6 +3,9 @@ U0 SerializeMatrix()
 {
 }
 
+
+#define CAMPCHEST 7
+
 Matrix *MakeCastle(Matrix *toAdd)
 {
 
@@ -30,7 +33,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  //campsite
  SetMatrixObj(toAdd,OBJ_TENT,2,1);
  SetMatrixObj(toAdd,OBJ_WOOD,2,2);
- SetMatrixObj(toAdd,OBJ_CHEST,1,4);
+ SetMatrixObj(toAdd,OBJ_CHEST,1,4,TRUE,CAMPCHEST);
  
   //Items
   SetMatrixItem(toAdd,IT_DAGGER,3,2);

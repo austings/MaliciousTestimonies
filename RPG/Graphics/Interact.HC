@@ -34,9 +34,11 @@ U0 InteractActor(I64 npc)
  }
 }
 
-U0 InteractChest()
+U0 InteractChest(I64 inv)
 {
-
+ mc->lootedSwitch = TRUE;
+ mc->lootTarget = inv;
+ GrabChest(inv);
 }
 
 U0 InteractTile(Actor *p, U8 dir,
@@ -46,17 +48,22 @@ U0 InteractTile(Actor *p, U8 dir,
 {
  p->walkingSubFrame=walkingSubFrameKey;
 
- if(p->x+xOff!=WEST_MAX&& p->x+xOff!=wX&&
-    p->y+yOff!=NORTH_MAX&&p->y+yOff!=wY){
+ I64 iactX = p->x+xOff;
+ I64 iactY = p->y+yOff;
 
-  I64 npc = GetTensorNPC(world->level,p->x+xOff,p->y+yOff,world->currentZ);
-  I64 obj = GetTensorObj(world->level,p->x+xOff,p->y+yOff,world->currentZ);
+ if(iactX!=WEST_MAX&&iactX!=wX&&
+    iactY!=NORTH_MAX&&iactY!=wY){
+
+  I64 npc = GetTensorNPC(world->level,iactX,iactY,world->currentZ);
+  I64 obj = GetTensorObj(world->level,iactX,iactY,world->currentZ);
 
   if(obj!=IT_NULL){
    switch(obj)
    {
     case OBJ_CHEST:
-     mc->lootedSwitch = TRUE;
+     I64 inv = GetTensorInv(world->level,iactX,iactY,world->currentZ);
+     InteractChest(inv);
+
     break;
    }
   }   

@@ -11,7 +11,7 @@ class MapNode
 {
  F64 bg;
  Bool isSolid, hasNPC, hasObj;
- I64 idNPC,idObj;
+ I64 idNPC,idObj,idInv;
  I64 waterLvl, len;
  NodeStuff *items;
   

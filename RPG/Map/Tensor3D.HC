@@ -397,6 +397,26 @@ I64 GetTensorObj(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
  return val; 
 }
 
+I64 GetTensorInv(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
+{
+ Vector *v = t->shape;
+ I64 sz = v->size;
+ sz= GetVector(v,2); 
+ I64 tot = 0;
+ I64 val = 0;
+ while(tot<sz)
+ {
+  if(tot==z)
+  {
+   val= GetMatrixInv(t->data,x,y);
+  }
+  t = t->next;
+
+  tot++;
+ }
+ return val; 
+}
+
 MapNode *GetTensorItem(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
 {
  Vector *v = t->shape;

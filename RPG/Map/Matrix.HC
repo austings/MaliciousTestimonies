@@ -2,7 +2,7 @@
 //Last Change July 19,2025
 //Forked June 16th, 2023
 //Author Austin Sierra for TempleOS Foundation
-//Subject to Creative Commons BY-NC 4.0
+//Subject to Creative Commons BY-NC 4.0
 #include "Map/Vector.HC";
 
 
@@ -116,7 +116,8 @@ U0 SetMatrix(Matrix *m,F64 d, I64 row,I64 col)
 
 }
 //Set Matrix m at data position row col to value d
-U0 SetMatrixObj(Matrix *m,I64 d, I64 row,I64 col,Bool solid=TRUE)
+U0 SetMatrixObj(Matrix *m,I64 d, I64 row,I64 col,
+                Bool solid=TRUE,I64 inventoryID=IT_NULL)
 {
  try{ 
   I64 i=0;
@@ -126,7 +127,7 @@ U0 SetMatrixObj(Matrix *m,I64 d, I64 row,I64 col,Bool solid=TRUE)
    i++;    
 
   }
-   SetVectorObj(m->data,d,col,solid);
+   SetVectorObj(m->data,d,col,solid,inventoryID);
  }
  catch{
    "Matrix Location Out of Range";
@@ -248,6 +249,19 @@ I64 GetMatrixObj(Matrix *m, I64 row, I64 col)
   }
 
   return GetVectorObj(m->data,col);
+}
+//returns the data value at position x,y in Matrix m
+I64 GetMatrixInv(Matrix *m, I64 row, I64 col)
+{
+  I64 i=0;
+  while(i<row)
+  { 
+   m = m->next;
+   i++;
+
+  }
+
+  return GetVectorInv(m->data,col);
 }
 
 

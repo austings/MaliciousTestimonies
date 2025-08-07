@@ -23,7 +23,7 @@ Cd(__DIR__);;
 // Loading Player
 #include "Globals.HC";
 #include "Gameplay/Item.HC";
-#include "Map/Objects.HC";
+#include "Map/Objects.HC";
 #include "Gameplay/Player.HC";
 #include "Gameplay/Equipment.HC";
 #include "Gameplay/Save.HC";
@@ -84,11 +84,12 @@ U0 InitMenuControl()
  mc->draggingItem=MakeItem(0);
  mc->draggingID=0;
  mc->inventoryRender = DCNew(640,480);
- DCFill(mc->inventoryRender, TRANSPARENT);
+ DCFill(mc->inventoryRender, TRANSPARENT);
 
  //chest
  mc->lootedSwitch=FALSE;
  mc->lootTarget=PLAYER;
+ ObjQueInit;
 
  //combat
  mc->combatON = FALSE;

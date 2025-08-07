@@ -36,7 +36,7 @@ Vector *CreateVector(I32 size)
   v->data[i] = CAlloc(sizeof(MapNode));
   v->data[i]->bg = 0;
   v->data[i]->hasNPC = FALSE;
-  v->data[i]->idNPC = -1;
+  v->data[i]->idNPC = IT_NULL;
   v->data[i]->isSolid = FALSE;
 
   v->data[i]->waterLvl = 0;
@@ -44,7 +44,8 @@ Vector *CreateVector(I32 size)
   v->data[i]->items = CAlloc(sizeof(NodeStuff));
 
   v->data[i]->hasObj = FALSE;
-  v->data[i]->idObj = -1;
+  v->data[i]->idObj = IT_NULL;
+  v->data[i]->idInv = IT_NULL;
   QueInit(v->data[i]->items);
 
  //heuristic data
@@ -60,11 +61,13 @@ Vector *CreateVector(I32 size)
 }
 
 //add furniture item data d to vector index i.
-U0 SetVectorObj(Vector *v,I64 d,I32 i,Bool solid = TRUE)
+U0 SetVectorObj(Vector *v,I64 d,I32 i,
+                Bool solid = TRUE,I64 inventoryID=IT_NULL)
 {
  v->data[i]->idObj = d;
  v->data[i]->hasObj= TRUE;
  v->data[i]->isSolid =solid;
+ v->data[i]->idInv = inventoryID;
  
 
 }
@@ -219,6 +222,11 @@ I64 GetVectorObj(Vector *v, I32 i)
    return v->data[i]->idObj;
  else
    return -1;
+}
+
+I64 GetVectorInv(Vector *v, I32 i)
+{
+ return v->data[i]->idInv;
 }
 
 I64 GetVectorWaterLevel(Vector *v,I32 i)
