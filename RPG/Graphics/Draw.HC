@@ -102,13 +102,17 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
   break;
   case OBJ_CHEST:
    Sprite3(dc, screenX-16, screenY-12, 10, GetFurniture(obj));
+  break;
+  case OBJ_POPPY:
+  case OBJ_POPHV:
+   Sprite3(dc,screenX, screenY,10,GetPlant(obj));
   break; 
   default:
    Sprite3(dc,screenX, screenY,10,GetFurniture(obj));
   break;
  }
 }
-
+
 
 
 //

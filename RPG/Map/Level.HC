@@ -103,8 +103,22 @@ Matrix *MakeCastle(Matrix *toAdd)
    }
  }
 
+ //poppy field
+ SetMatrixObj(toAdd,OBJ_POPPY,28,4,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,29,3,FALSE);
+
+ SetMatrixObj(toAdd,OBJ_POPPY,30,2,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,31,3,FALSE);
   
-  //Other buildings
+ SetMatrixObj(toAdd,OBJ_POPPY,32,2,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,32,3,FALSE);
+  
+ SetMatrixObj(toAdd,OBJ_POPPY,33,4,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,33,3,FALSE);
+  
+ SetMatrixObj(toAdd,OBJ_POPPY,34,2,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,34,3,FALSE);
+  
 
   //NPCS
  SetMatrixNPC(toAdd,A_JEZEBEL,19,3);//jezebel
@@ -113,7 +127,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard
  SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
  SetMatrixNPC(toAdd,6,8,8);//wild dog
- SetMatrixNPC(toAdd,9,90,90);//wild dog
+ SetMatrixNPC(toAdd,9,90,90);//wild dog
  SetMatrixNPC(toAdd,11,6,13);//wild dog
  SetMatrixNPC(toAdd,12,9,12);//wild dog
  SetMatrixNPC(toAdd,13,50,13);//wild dog
@@ -136,7 +150,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  //SetMatrixNPC(toAdd,24,19,25);
   
 
-
+ //beach
  SetMatrixItem(toAdd,IT_HARPOON,5,23);
  //water and sand
  for(i=0;i<50;i++){
