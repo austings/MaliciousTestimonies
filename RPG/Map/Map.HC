@@ -46,6 +46,10 @@ static CDC*             ITEM5I= FramePtr("ARMR012");
 static CDC*             ITEM6= FramePtr("ITEM044");
 static CDC*             ITEM6I= FramePtr("CLOT012");
 
+#define IT_BULB 	7
+static CDC*		ITEM7; //poppy bulb
+static CDC*		ITEM7I;
+
 
 //special
 #define SP_FISHING_SPOT 999

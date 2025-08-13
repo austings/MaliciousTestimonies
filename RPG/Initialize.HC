@@ -3,16 +3,15 @@ Cd(__DIR__);;
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
 #include "Data/Ids.HC";
-
+// Loading Map
+#include "Map/Map.HC";
+#include "Map/Tensor3D.HC";
 // Load built-in Graphics
 #include "Sprites/SS1.HC"; 
 #include "Sprites/SpriteSheet1.HC";
 #include "Sprites/SpriteSheet2.HC";
 #include "Sprites/SpriteSheet3.HC";
 #include "Sprites/SpriteSheet4.HC";
-// Loading Map
-#include "Map/Map.HC";
-#include "Map/Tensor3D.HC";
 // Loading Data Into Map
 #include "Map/Actors.HC";
 #include "Map/Director.HC";
@@ -84,7 +83,7 @@ U0 InitMenuControl()
  mc->draggingItem=MakeItem(0);
  mc->draggingID=0;
  mc->inventoryRender = DCNew(640,480);
- DCFill(mc->inventoryRender, TRANSPARENT);
+ DCFill(mc->inventoryRender, TRANSPARENT);
 
  //chest
  mc->lootedSwitch=FALSE;

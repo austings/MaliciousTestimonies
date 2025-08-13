@@ -1,3 +1,49 @@
+
+
+U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
+{
+
+ CDC *render = DCNew(100,100);
+ DCFill(render, TRANSPARENT);
+
+ I64 yoff=270, xoff=-2; 
+ switch(itemID)
+ {
+  case IT_FIST:
+  //not visible  
+  break;
+  case IT_DAGGER://dagger 
+   render =ITEM1I;
+  break;
+  case IT_HARPOON://harpoon 
+   render=ITEM2I;
+   yoff= 302;
+  break;
+  case IT_TOOTH://wolfteeth
+   render = ITEM3I;
+  break;
+  case IT_FISH1://fish
+   render=ITEM4I;
+   yoff =312;
+  break;
+  case IT_HELM://iron helm
+   render = DCScaled(ITEM5I,.5,.5);
+   yoff=312;
+   xoff=8;
+  break;
+  case IT_SHIRT://regular shirt
+   render = DCScaled(ITEM6I,.9,.9);
+   yoff=312;
+  break;
+  case IT_BULB://poppy
+   render = ITEM7I;
+  break;
+
+ }
+ GrBlot3(target,x+xoff,y+yoff,0,render);
+
+}
+
  
 CDC *RenderInventory(Actor *p)
 { 
@@ -33,45 +79,8 @@ CDC *RenderInventory(Actor *p)
       scanned[scanWriteIndex] = occupied;
       scanWriteIndex++;
       I64 currentItemID = RetrieveItemID(0,occupied); 
-           
-      switch(currentItemID)
-      {
-       case 0:
-        //not visible
-       break;
-       case IT_DAGGER://dagger   
-        GrBlot3(newInventoryRender,
-                i*camera->dividX-2,j*camera->dividY+270,
-                0,ITEM1I);
-       break;
-       case IT_HARPOON://harpoon   
-        GrBlot3(newInventoryRender,
-                i*camera->dividX-2,j*camera->dividY+302,
-                0,ITEM2I);
-       break;
-       case IT_TOOTH://wolfteeth
-        GrBlot3(newInventoryRender,
-                i*camera->dividX-2,j*camera->dividY+270,
-                0,ITEM3I);
-       break;
-       case IT_FISH1://fish
-        GrBlot3(newInventoryRender,
-                i*camera->dividX-2,j*camera->dividY+312,
-                0,ITEM4I);
-       break;
-       case IT_HELM://iron helm
-        GrBlot3(newInventoryRender,
-                i*camera->dividX-2+10,j*camera->dividY+312,
-                0,DCScaled(ITEM5I,.5,.5));
-       break;
-       case IT_SHIRT://regular shirt
-        GrBlot3(newInventoryRender,
-                i*camera->dividX-2,j*camera->dividY+312,
-                0,DCScaled(ITEM6I,.9,.9));
-       break;
-
-      }
-      //Free(&retrieved);
+      BlotItem(newInventoryRender, currentItemID,
+               i*camera->dividX,j*camera->dividY);    
      }
     }
    }
@@ -291,7 +300,6 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
 
  }
 
-
  if(mc->displayInventory)//inventory
  {
    dc->color = BLACK;
@@ -308,35 +316,9 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
    GrBlot3(dc,0,0,10,RenderInventory(p));
    Sprite3B(dc,460,280,0,GetMenuSprite(3));
    if(mc->draggingInv){
-    switch(mc->draggingID)
-    {
-      case IT_FIST:
-       //not visible
-      break;
-      case IT_DAGGER://dagger   
-       GrBlot3(dc,camera->cursorX-(mc->draggingItem->wOff),
-                  camera->cursorY-(mc->draggingItem->hOff),
-                  0,ITEM1I);
-      break;
-      case IT_HARPOON://harpoon   
-       GrBlot3(dc,camera->cursorX,
-                  camera->cursorY-(mc->draggingItem->hOff),
-                  0,ITEM2I);
-      break;
-      case IT_TOOTH://wolfteeth
-       GrBlot3(dc,camera->cursorX,camera->cursorY,0,ITEM3I);
-      break;
-      case IT_FISH1: //fish
-       GrBlot3(dc,camera->cursorX,camera->cursorY,0,ITEM4I);
-      break;
-      case IT_HELM: 
-       GrBlot3(dc,camera->cursorX,camera->cursorY,0,DCScaled(ITEM5I,.5,.5));
-      break;
-      case IT_SHIRT: 
-       GrBlot3(dc,camera->cursorX,camera->cursorY,0,DCScaled(ITEM6I,.9,.9));
-      break;
-
-    }
+     BlotItem(dc,mc->draggingID,
+              camera->cursorX+2-(mc->draggingItem->wOff),
+              camera->cursorY-270-(mc->draggingItem->hOff));
    } 
  }
 }

@@ -53,12 +53,13 @@ Item *MakeItem(I64 id){
   build->value = 2;
   break;
   case IT_FISH1:
-  build->name = "Trout";
+  build->name = "Raw Trout";
   build->w=1,build->h=2;
   build->hOff=32;
   build->usable=TRUE;
-  build->v1="HP+10";
-  build->v2="SP+10";
+  build->v1="SP+10";
+  build->v2="Alchemy Ingredient";
+  build->v3="Can be placed in a pot over a campfire.";
   build->value = 3;
   break;
   case IT_HELM:
@@ -80,12 +81,22 @@ Item *MakeItem(I64 id){
   build->v2="SP+10";
   build->value = 5;
   break;
+  case IT_BULB:
+  build->name = "Poppy Bulb";
+  build->w=2,build->h=3;
+  build->hOff=32;
+  build->equip_slot=EQ_SLOT_BDY;
+  build->v1="Alchemy Ingredient";
+  build->v2="Can be placed in a pot over a campfire.";
+  build->value = 5;
+  break;
 
+  break;
  }
  return build;
 }
 
-Inventory *MakeInventory()
+Inventory *MakeInventory()
 {
   I64 i,j;
   Inventory *newInv = MAlloc(sizeof(Inventory));
