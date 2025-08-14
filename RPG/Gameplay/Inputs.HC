@@ -14,18 +14,27 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
 U0 ObjectTrigger(Actor *p, MapNode *puin)
 {
  I64 pui = puin->idObj;
- if(pui==SP_FISHING_SPOT)
+ switch(pui)
  {
-  if(p->sword==IT_HARPOON)
-  {
+  case SP_FISHING_SPOT:
+   if(p->sword==IT_HARPOON)
+   {
     FishingHoleTrigger(p); Play("ArE");
-  }
-  else
-  {
+   }
+   else
+   {
     mc->dialogName = "Missing Proper Weapon";
     mc->talkieScene = GetTalkie(SV_MISS_FISH_EQUIP);
 
-  }
+   }
+  break;
+  case OBJ_POPPY:
+   puin->idObj = OBJ_POPHV;
+   AddItemToInventory(PLAYER,IT_BULB);
+   mc->reRenderInv=TRUE;
+   //animate
+   Play("ArE");
+  break;
  } 
 }
 

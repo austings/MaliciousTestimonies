@@ -37,6 +37,7 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
   break;
   case IT_BULB://poppy
    render = ITEM7I;
+   yoff = 300;
   break;
 
  }

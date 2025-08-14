@@ -104,6 +104,8 @@ Matrix *MakeCastle(Matrix *toAdd)
  }
 
  //poppy field
+// SetMatrixObj(toAdd,OBJ_POPPY,8,3,FALSE);
+
  SetMatrixObj(toAdd,OBJ_POPPY,28,4,FALSE);
  SetMatrixObj(toAdd,OBJ_POPPY,29,3,FALSE);
 
@@ -127,7 +129,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard
  SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
  SetMatrixNPC(toAdd,6,8,8);//wild dog
- SetMatrixNPC(toAdd,9,90,90);//wild dog
+ SetMatrixNPC(toAdd,9,90,90);//wild dog
  SetMatrixNPC(toAdd,11,6,13);//wild dog
  SetMatrixNPC(toAdd,12,9,12);//wild dog
  SetMatrixNPC(toAdd,13,50,13);//wild dog

@@ -5,7 +5,7 @@ Cd(__DIR__);;
 #include "Data/Ids.HC";
 // Loading Map
 #include "Map/Map.HC";
-#include "Map/Tensor3D.HC";
+#include "Map/Tensor3D.HC";
 // Load built-in Graphics
 #include "Sprites/SS1.HC"; 
 #include "Sprites/SpriteSheet1.HC";
@@ -53,6 +53,8 @@ Cd(__DIR__);;
 
 U0 InitMenuControl()
 {
+
+ InitSprites;
  //narrative
  mc->currentSong=1;
  mc->currentMenu=0;
@@ -63,7 +65,7 @@ U0 InitMenuControl()
  mc->dialogName = "???";//dialog actor name
 
  //display
- mc->displayInventory=FALSE;
+ mc->displayInventory=FALSE;
  mc->displayStats=FALSE;
  mc->displayShop=FALSE;
  mc->displayEquipment=FALSE;

@@ -83,7 +83,7 @@ Item *MakeItem(I64 id){
   break;
   case IT_BULB:
   build->name = "Poppy Bulb";
-  build->w=2,build->h=3;
+  build->w=1,build->h=1;
   build->hOff=32;
   build->equip_slot=EQ_SLOT_BDY;
   build->v1="Alchemy Ingredient";

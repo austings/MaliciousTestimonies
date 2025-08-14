@@ -32,8 +32,8 @@ static CDC*	        ITEM2 = FramePtr("ITEM004");// harpoon
 static CDC*		ITEM2I = FramePtr("WINV015");
 
 #define IT_TOOTH 	3
-static CDC*		ITEM3; //wolf tooth
-static CDC*		ITEM3I;
+static CDC*		ITEM3=DCNew(100,100); //wolf tooth
+static CDC*		ITEM3I=DCNew(100,100);
 
 #define IT_FISH1        4
 static CDC*		ITEM4I = FramePtr("ITEM164");//fish
@@ -47,8 +47,8 @@ static CDC*             ITEM6= FramePtr("ITEM044");
 static CDC*             ITEM6I= FramePtr("CLOT012");
 
 #define IT_BULB 	7
-static CDC*		ITEM7; //poppy bulb
-static CDC*		ITEM7I;
+static CDC*		ITEM7=DCNew(100,100); //poppy bulb
+static CDC*		ITEM7I=DCNew(100,100);
 
 
 //special
@@ -61,7 +61,7 @@ static CDC*		SPECIAL2 = FramePtr("EFF076");
 #define SP_HEAL	0
 static CDC* ITEM050= FramePtr("ITEM050");
 
-//Sprite3B(ITEM3I,0,0,10,GetFang);
+
 //ITEM4 = FramePtr("");
 
 //Tile Codes
