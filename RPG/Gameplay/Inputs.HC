@@ -209,7 +209,7 @@ U0 HandleMouseSideBar(I64 M_X, I64 M_Y, I64 i,I64 j){
 
 }
 
-U0 HandleMouseRelease(I64 M_X, I64 M_Y, I64 i, I64 j)
+U0 HandleMouseEquipRelease(I64 M_X, I64 M_Y, I64 i, I64 j)
 {
  if(mc->draggingInv){
   if(mc->displayEquipment==TRUE){
@@ -238,59 +238,52 @@ U0 HandleMouseRelease(I64 M_X, I64 M_Y, I64 i, I64 j)
     ReleaseRing;
    }
   }
-  if(mc->lootedSwitch)
-  {
-   //todo  
-  }
  }
 }
 U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
-{
- 
+{ 
+ //Begin SideBar
  HandleMouseSideBar(M_X,M_Y,i,j);
- //GameArea
+ //End SideBar
+
+ //Begin GameArea
  if(M_X>=0&&M_X<480&&
     M_Y>=0&&M_Y<480)
  {
-  
- }
-
- if(mc->displayInventory==TRUE||
-           mc->displayEquipment==TRUE){
- //if release on equip wep slot
-  HandleMouseRelease(M_X,M_Y,i,j);
-
-  //check inventory region
-  for(i=0;i<INVWIDTH;i++){
-   for(j=0;j<INVHEIGHT;j++){
-    if(M_X>=(i*45)+2   &&
-       M_X< (i+1)*45+2 &&
-       M_Y>=(j*42)+310 &&
-       M_Y< (j+1)*42+310&&!mc->prayerDragging){
-     InvDrag(i,j,PLAYER);
-
-    }//end inventory if
-   }//end inventory height
-  }//end inventory width     
- }
-
- //check repository region
- if(mc->lootedSwitch){
-  for(i=0;i<INVWIDTH;i++){
-   for(j=0;j<INVHEIGHT;j++){
-    if(M_X>=(i*45)+2   &&
+  //Equip wep slot
+  HandleMouseEquipRelease(M_X,M_Y,i,j);
+  //check repository region
+  if(mc->lootedSwitch){
+   for(i=0;i<INVWIDTH;i++){
+    for(j=0;j<INVHEIGHT;j++){
+     if(M_X>=(i*45)+2   &&
        M_X< (i+1)*45+2 &&
        M_Y>=(j*42) &&
        M_Y< (j+1)*42&&!mc->prayerDragging){
-     InvDrag(i,j,mc->lootTarget);
+      InvDrag(i,j,mc->lootTarget);
 
-    }//end inventory if
-   }//end inventory height
-  }//end inventory width
- }
+     }//end inventory if
+    }//end inventory height
+   }//end inventory width
+  }//end lootedswitch
 
+  if(mc->displayInventory==TRUE){  
+   //check inventory region
+   for(i=0;i<INVWIDTH;i++){
+    for(j=0;j<INVHEIGHT;j++){
+     if(M_X>=(i*45)+2   &&
+       M_X< (i+1)*45+2 &&
+       M_Y>=(j*42)+310 &&
+       M_Y< (j+1)*42+310&&!mc->prayerDragging){
+      InvDrag(i,j,PLAYER);
 
+     }//end inventory if
+    }//end inventory height
+   }//end inventory width     
+  }//end invdisplay
+ } //End game area
 }
+
 U0 HandleRMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 {
 }
