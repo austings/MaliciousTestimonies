@@ -104,7 +104,10 @@ Matrix *MakeCastle(Matrix *toAdd)
  }
 
  //poppy field
-// SetMatrixObj(toAdd,OBJ_POPPY,8,3,FALSE);
+// SetMatrixObj(toAdd,OBJ_POPPY,8,3,FALSE);
+ SetMatrixItem(toAdd,IT_POT,8,2);
+ SetMatrixItem(toAdd,IT_WPOT,8,3);
+ SetMatrixItem(toAdd,IT_HPPOT,8,4);
 
  SetMatrixObj(toAdd,OBJ_POPPY,28,4,FALSE);
  SetMatrixObj(toAdd,OBJ_POPPY,29,3,FALSE);

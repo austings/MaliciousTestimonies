@@ -46,32 +46,38 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
  MapNode *mn = GetTensorItem(world->level,
                     camera->topLR+i,camera->topUD+j, 
                     world->currentZ);
- for(l=0;l<mn->len;l++){
+ for(l=0;l<mn->len;l++){ 
   I64 item = (GetItem(mn,l))->id;
+  CDC *endRender = DCNew(100,100);
+  DCFill(endRender,TRANSPARENT);
   switch(item){
+   case IT_FIST:
+   case IT_NULL:
+    break;
    case IT_DAGGER:
-    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
-              j*camera->dividY+camera->cameraOffSetY,10,
-              ITEM1);
+    endRender = ITEM1;
     break;
    case IT_HARPOON:
-    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
-              j*camera->dividY+camera->cameraOffSetY,10,
-              ITEM2);
+    endRender = ITEM2;
     break;
    case IT_HELM:
-    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
-              j*camera->dividY+camera->cameraOffSetY,10,
-              ITEM5);
+    endRender = ITEM5;
    break;
    case IT_SHIRT:
-    GrBlot3(dc,i*camera->dividX-13+camera->cameraOffSetX,
-              j*camera->dividY+camera->cameraOffSetY,10,
-              ITEM6);
-    break;
+    endRender = ITEM6;
+   break;
+   case IT_POT:
+   case IT_WPOT:
+   case IT_HPPOT:
+    endRender = ITEM10;
+   break;
    default:
     break;
   }
+  GrBlot3(dc,i*camera->dividX+camera->cameraOffSetX,
+             j*camera->dividY+camera->cameraOffSetY,
+             10,endRender);
+
  } 
 }
 

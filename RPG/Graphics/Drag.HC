@@ -2,6 +2,7 @@
 
 U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
 {
+ //fix to take item hOff/wOff
 
  CDC *render = DCNew(100,100);
  DCFill(render, TRANSPARENT);
@@ -38,6 +39,18 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
   case IT_BULB://poppy
    render = ITEM7I;
    yoff = 300;
+  break;
+  case IT_POT:
+   render = ITEM8I;
+   yoff = 315; xoff=12;
+  break;
+  case IT_WPOT:
+   render = ITEM9I;
+   yoff = 315; xoff=12;
+  break;
+  case IT_HPPOT:
+   render = ITEM10I;
+   yoff = 315; xoff=12;//
   break;
 
  }

@@ -50,6 +50,18 @@ static CDC*             ITEM6I= FramePtr("CLOT012");
 static CDC*		ITEM7=DCNew(100,100); //poppy bulb
 static CDC*		ITEM7I=DCNew(100,100);
 
+#define IT_POT	 	8
+static CDC*		ITEM8=DCNew(100,100); 
+static CDC*		ITEM8I=DCNew(100,100);
+
+#define IT_WPOT 	9
+static CDC*		ITEM9=DCNew(100,100); 
+static CDC*		ITEM9I=DCNew(100,100);
+
+#define IT_HPPOT 	10
+static CDC*		ITEM10= FramePtr("ITEM070");
+static CDC*		ITEM10I=DCNew(100,100);
+
 
 //special
 #define SP_FISHING_SPOT 999

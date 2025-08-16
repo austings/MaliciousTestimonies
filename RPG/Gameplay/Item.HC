@@ -23,7 +23,7 @@ Item *MakeItem(I64 id){
  build->usable=FALSE;
   
  switch(id){
-  case 0://not used
+  case IT_FIST://not used
   build->name = "Bag";
   build->w=1,build->h=1;
   break;
@@ -59,7 +59,6 @@ Item *MakeItem(I64 id){
   build->usable=TRUE;
   build->v1="SP+10";
   build->v2="Alchemy Ingredient";
-  build->v3="Can be placed in a pot over a campfire.";
   build->value = 3;
   break;
   case IT_HELM:
@@ -85,12 +84,32 @@ Item *MakeItem(I64 id){
   build->name = "Poppy Bulb";
   build->w=1,build->h=1;
   build->hOff=32;
-  build->equip_slot=EQ_SLOT_BDY;
   build->v1="Alchemy Ingredient";
-  build->v2="Can be placed in a pot over a campfire.";
   build->value = 5;
   break;
-
+  case IT_POT:
+  build->name = "Clay Pot";
+  build->w=2,build->h=2;
+  build->hOff=50, build->wOff=10;
+  //build->usable=TRUE;
+  build->value = 1;
+  build->v1="Crafting Reagent";
+  break;
+  case IT_WPOT:
+  build->name = "Water Pot";
+  build->w=2,build->h=2;
+  build->hOff=50, build->wOff=10;
+  //build->usable=TRUE;
+  build->value =1;
+  build->v1="Crafting Reagent";
+  break;
+  case IT_HPPOT:
+  build->name = "Poppy Decoction";
+  build->w=2,build->h=2;
+  build->hOff=50, build->wOff=10;
+  build->usable=TRUE;
+  build->value =10;
+  build->v1="HP+25";
   break;
  }
  return build;
