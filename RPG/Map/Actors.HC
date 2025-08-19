@@ -67,6 +67,17 @@ U0 SetActorDir(Actor *a, I64 dir)
 #define A_FOWL3 24
 #define A_FOWL2 25
 #define A_GUEST 26
+#define A_GUEST2 27
+#define A_GUEST3 28
+#define A_GUEST4 29
+#define A_GUEST5 30
+#define A_GUEST6 31
+#define A_GUEST7 32
+#define A_GUEST8 33
+#define A_GUEST9 34
+#define A_GUEST10 35
+#define A_GUEST11 36
+#define A_GUEST12 37
 
 
 //Actor Walk Frames
