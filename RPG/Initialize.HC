@@ -14,6 +14,7 @@ Cd(__DIR__);;
 #include "Sprites/SpriteSheet4.HC";
 // Loading Data Into Map
 #include "Map/Actors.HC";
+#include "Gameplay/Markov/Markov.HC";
 #include "Map/Director.HC";
 #include "Map/Level.HC";
 
@@ -65,7 +66,7 @@ U0 InitMenuControl()
  mc->dialogName = "???";//dialog actor name
 
  //display
- mc->displayInventory=FALSE;
+ mc->displayInventory=FALSE;
  mc->displayStats=FALSE;
  mc->displayShop=FALSE;
  mc->displayEquipment=FALSE;

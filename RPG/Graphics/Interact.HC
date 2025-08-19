@@ -1,4 +1,31 @@
 
+//InteractCorpse
+//param npc- the npc id of the corpse
+U0 InteractCorpse(I64 npc)
+{
+ if(mc->lootedSwitch==LOOTED){ //already looted
+  //mc->talkieScene = GetTalkie(13);//empty corpse message
+ }
+ else{
+  if(mc->lootedSwitch==LOOTABLE){
+   //mc->loot = "..........";
+   switch(npc){
+    case 6://wolf fang
+        //mc->loot = "wolf fang";
+        AddItemToInventory(PLAYER,3);
+        break;
+        default:
+        break;
+   }
+   mc->lootedSwitch=LOOTING;
+  }
+     //mc->talkieScene = 12;  
+ }
+
+}
+
+//InteractActor
+//param npc- the npc id of the actor player is interacting with
 U0 InteractActor(I64 npc)
 {
  Actor *aAtLoc= GetNPC(npc);
@@ -8,24 +35,7 @@ U0 InteractActor(I64 npc)
  else{
   mc->dialogName = aAtLoc->name;  
   if(aAtLoc->status1==DEAD_STATUS){
-    if(mc->lootedSwitch==LOOTED){ //already looted
-     //mc->talkieScene = GetTalkie(13);//empty corpse message
-    }
-    else{
-     if(mc->lootedSwitch==LOOTABLE){
-      //mc->loot = "..........";
-      switch(npc){
-        case 6://wolf fang
-        //mc->loot = "wolf fang";
-        AddItemToInventory(PLAYER,3);
-        break;
-        default:
-        break;
-      }
-      mc->lootedSwitch=LOOTING;
-     }
-     //mc->talkieScene = 12;  
-    }
+   InteractCorpse(npc);
   }
   else
   {

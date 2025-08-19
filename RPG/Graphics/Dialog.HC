@@ -1,5 +1,6 @@
 #define MAX_D 140
 U8 *DIALOG_FILE = MStrPrint("%s%s",DirCur,"/Data/Dialog.TXT"); 
+U8 *MARKOV_FILE = MStrPrint("%s%s",DirCur,"/Gameplay/Markov/Data.DD"); 
 
 I32 currLetter =-1,yInc=0,xInc=0,nIndex=0,n2Index=0;
 U8 myDialog[MAX_D];
@@ -40,82 +41,100 @@ U8 *ReadATextLine(U8 **fbuf) {
   return StrNew(st);
 }
 
+#define GENERATED_TEXT 19
 
-U0 DeserializeDialog(I64 textID){ 
- U8 *fptr =FileRead(DIALOG_FILE);
- U8 *lnptr,*ln,*temp;
- StrUtil(fptr,SUF_REM_CTRL_CHARS);
+U0 DeserializeDialog(I64 textID){
  U8 *nameptr=myDialog;
- U8 id[8],*idptr=id;
- lnptr=fptr;
+  //id for sorting purpose only
+  U8 id[8],*idptr=id;
 
- I32 count = 0;
- while(ln=ReadALine(&lnptr))
+ if(textID==GENERATED_TEXT)//generated text
  {
-  //"%s",ln;
-  if(count!=textID||*ln=='#'||*ln==0)
-   goto skip;
-  StrScan(ln,"%s\t%s",&idptr,&nameptr);
-  break;
-  skip:;
-  Free(ln);
-  count++;
- }
- Free(fptr);
+  U8 *speech =MarkovGenerate(DocPut,MARKOV_FILE,25,"THE");  
+  I64 dialogLen = 0; 
+  I64 strLen = StrLen(speech);
+  for(dialogLen=0;dialogLen<strLen;dialogLen++){
+   if(dialogLen<MAX_D-1)
+   {
+    myDialog[dialogLen] = speech[dialogLen];
+   }
+  }
+  myDialog[dialogLen] = '\0'; 
 
+ }else{
+ 
+  U8 *fptr =FileRead(DIALOG_FILE);
+  U8 *lnptr,*ln,*temp;
+  StrUtil(fptr,SUF_REM_CTRL_CHARS);
+  lnptr=fptr; 
+
+  I32 count = 0;
+  while(ln=ReadALine(&lnptr))
+  {
+   //"%s",ln;
+   if(count!=textID||*ln=='#'||*ln==0)
+    goto skip;
+   StrScan(ln,"%s\t%s",&idptr,&nameptr);
+   break;
+   skip:;
+   Free(ln);
+   count++;
+  }
+  Free(fptr);
+ }
 }
 
 
-U0 GetDialogMsg(U8 textID,U8 *mctext)
+//textID = dialog from Dialog.TXT
+U0 GetDialogMsg(U8 textID)
 {
-
   if(currLetter==0)
    DeserializeDialog(textID);
 }
 
-I64 GetTalkie(I64 id)
-{
-  I64 talkie =0;
-  switch(id)
-  {
-   case SV_KING_1://king
+I64 GetTalkie(I64 id){
+ I64 talkie =0;
+ switch(id){
+  case SV_KING_1://king
    talkie = 10;
-   break;
-   case SV_JEZ_1://jezebel
+  break;
+  case SV_JEZ_1://jezebel
    talkie = 9;
-   break;
-   case SV_ELI_1://elijah
+  break;
+  case SV_ELI_1://elijah
    talkie = 11;
-   break;
-   case SV_GUARD1://guard
+  break;
+  case SV_GUARD1://guard
    talkie = 2;
-   break;
-   case SV_GUARD2://captain
+  break;
+  case SV_GUARD2://captain
    talkie = 3;
-   break;
-   case SV_WOLF1://wolf
-   case 9:
-   case 11...20:
+  break;
+  case SV_WOLF1://wolf
+  case 9:
+  case 11...20:
    talkie = 12;
-   break;
-   case SV_MISS_FISH_EQUIP://missing fish equip
+  break;
+  case SV_MISS_FISH_EQUIP://missing fish equip
    talkie = 15;
-   break;
-   case SV_COW://ox
+  break;
+  case SV_COW://ox
    talkie = 17;
-   break;
-   case SV_FOWL://fowl
+  break;
+  case SV_FOWL://fowl
    talkie = 18;
-   break;
-   case 10://SV_MAKABEE://shop
+  break;
+  case 10://SV_MAKABEE://shop
    talkie = SV_MAKABEE_SHOP;
-   break;
-   default:
-   talkie=12;
-   break;
-
-  }
-  return talkie;
+  break;
+  case SV_GENERIC_START:
+   talkie = 19;
+  break; 
+  default:
+   talkie=1;
+  break; 
+ }
+ return talkie;
 }
 
 U0 ClearDialog()
@@ -137,7 +156,11 @@ U0 MerchantMenu(CDC *dc){
 
 }
 
-U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID,U8 *mctext="")
+//name = Name of the NPC ==mc->dialogName
+//dc = current device context
+//task = current ctask
+//textID = mc->talkieScene = Dialog.TXT
+U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
 {
  I64 i,xInc=0,yInc=0;
  U8 c;
@@ -149,8 +172,8 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID,U8 *mctext="")
  if(MerchantList(textID))
   MerchantMenu(dc);
  
-
- GetDialogMsg(textID,mctext);
+ 
+ GetDialogMsg(textID);
 
  for(i=0;i<currLetter;i++)
  {

@@ -6,11 +6,12 @@
 #define SV_GUARD1               4
 #define SV_GUARD2               5
 #define SV_WOLF1                6
-#define SV_MISS_FISH_EQUIP      7001
 #define SV_COW                  7
 #define SV_FOWL                 8
 #define SV_MAKABEE              10 
 #define SV_MAKABEE_SHOP         16
+#define SV_GENERIC_START	26
+#define SV_MISS_FISH_EQUIP      7001
 
 //Status Effects
 #define NRML_STATUS 0
@@ -63,7 +64,7 @@
 
 #define ARCSTRIKE 35
 
-//Chest Ids
+//Chest Ids
 #define CAMP_CHEST 1000000
 
 

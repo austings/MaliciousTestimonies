@@ -49,7 +49,25 @@ U0 SetActorDir(Actor *a, I64 dir)
 #define A_WILD_DOG 06
 #define A_OX_CART 07
 #define A_FOWL 08
-#define A_MAKABEE 10
+#define A_WD2 09 //wild dog
+#define A_MAKABEE 10 
+#define A_WD3 11
+#define A_WD4 12
+#define A_WD5 13
+#define A_WD6 14
+#define A_WD7 15
+#define A_WD8 16
+#define A_WD9 17
+#define A_WD10 18
+#define A_WD11 19
+#define A_WD12 20
+#define A_FOWL6 21
+#define A_FOWL5 22
+#define A_FOWL4 23
+#define A_FOWL3 24
+#define A_FOWL2 25
+#define A_GUEST 26
+
 
 //Actor Walk Frames
 static CDC*		A1L1;//light
