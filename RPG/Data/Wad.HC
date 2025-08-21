@@ -8,7 +8,7 @@
 #define DIR_DOWN	8
 #define DIR_ENTER       16
 #define DIR_ESC         32
-
+#define DIR_DEV         64
 
 //by austin inspired by Alec Murphy
 CDC* DCFlippedX(CDC* src){

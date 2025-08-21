@@ -36,13 +36,15 @@ Cd(__DIR__);;
 #include "Graphics/Drag.HC";
 #include "Graphics/Walk.HC";
 #include "Graphics/Anim.HC";
-#include "Graphics/Interact.HC";
+#include "Graphics/Interact.HC";
 #include "Music.HC";
 
 // Loading Combat Scenarios
 #include "Graphics/Attacks.HC";
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
+//Console
+#include "Dev/Dev.HC";
 #include "Graphics/Render.HC";
 #include "Graphics/Draw.HC";
 
@@ -71,6 +73,7 @@ U0 InitMenuControl()
  mc->displayShop=FALSE;
  mc->displayEquipment=FALSE;
  mc->displayPrayers=FALSE;
+ mc->displayDev=FALSE;
 
  //prayers
  mc->prayerPage=0;
@@ -138,6 +141,7 @@ U0 Init(){ //world
  InitMenuControl;
  InitCamera;       
  InitHotKeys;
+ InitDev;
  //prayers
  InitializePrayers;
 

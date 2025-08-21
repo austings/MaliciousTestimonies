@@ -132,15 +132,15 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,A_GUEST,19,6);//guest
  SetMatrixNPC(toAdd,A_GUEST2,20,6);//guest
  SetMatrixNPC(toAdd,A_GUEST3,18,7);//guest
- SetMatrixNPC(toAdd,A_GUEST4,23,7);//guest
+ SetMatrixNPC(toAdd,A_GUEST4,23,5);//guest
  SetMatrixNPC(toAdd,A_GUEST5,22,7);//guest
- SetMatrixNPC(toAdd,A_GUEST6,19,8);//guest
+ SetMatrixNPC(toAdd,A_GUEST6,19,8);//guest
  SetMatrixNPC(toAdd,A_GUEST7,16,8);//guest
  SetMatrixNPC(toAdd,A_GUEST8,21,8);//guest
- SetMatrixNPC(toAdd,A_GUEST9,16,9);//guest
- SetMatrixNPC(toAdd,A_GUEST10,18,9);//guest
- SetMatrixNPC(toAdd,A_GUEST11,20,9);//guest
- SetMatrixNPC(toAdd,A_GUEST12,22,9);//guest
+ SetMatrixNPC(toAdd,A_GUEST9,35,17);//guest
+ SetMatrixNPC(toAdd,A_GUEST10,41,17);//guest
+ SetMatrixNPC(toAdd,A_GUEST11,4,19);//guest
+ SetMatrixNPC(toAdd,A_GUEST12,51,18);//guest
 
  SetMatrixNPC(toAdd,A_ELIJAH,23,25);//elijah
  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard

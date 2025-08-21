@@ -16,7 +16,7 @@ CDirEntry *loadRoot;
 #define SIDEY 480
 
 #define MAX_WRITTEN_ACTORS 999999
-#define MAXACTORCOUNT	11 //on screen
+#define MAXACTORCOUNT	11 //on screen
 
 //Loaded Map
 class World
@@ -104,7 +104,7 @@ class MenuControl{
   Inventory *lootInv;
 
   //combat preferences
-  Bool combatON;//determines if combat is initiated
+  Bool combatON;//determines if combat is initiated
   U16 combatMenuStage; //switches between characters in a combat queue
   U8 combatMenuSelection; //affects combat dialog options
   U8 turnIndex;//used for specific world tick timers
@@ -126,7 +126,8 @@ class MenuControl{
        displayStats,
        displayPrayers,prayerPage,prayerDragging,
        displayShop,
-       displayEquipment;
+       displayEquipment,
+       displayDev;
 
 };
 

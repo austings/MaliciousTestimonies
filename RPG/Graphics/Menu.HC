@@ -316,7 +316,7 @@ U0 CharMenu(CDC *dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
   Sprite3B(dc,375,350,10,GetLilArrow());
   Sprite3B(dc,375,400,10,GetLilArrow());
   PrintLine(dc,t1,380,310,1); 
-  PrintLine(dc,t2,380,360,1);
+  PrintLine(dc,t2,380,360,1);
   PrintLine(dc,t3,380,410,1);
 
 
@@ -362,7 +362,7 @@ U32 GetCurrLetter()
  return currLetter;
 }
 
-U0 IntroCutscene(CDC *dc, CTask *task,U8 textID)
+U0 IntroCutscene(CDC *dc, CTask *task,U8 textID)
 {
 
  I64 i;
@@ -469,4 +469,3 @@ U0 IntroCutscene(CDC *dc, CTask *task,U8 textID)
  AddCurrLetter(1,textID);
  CleanUpImage;
 }
-

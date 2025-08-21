@@ -172,7 +172,7 @@ CDC *RenderStats(Actor *player)
     break;
   }
   PrintLine(completeMenu,t1,0,40);
-  PrintLine(completeMenu,v1,4*7,40);
+  PrintLine(completeMenu,v1,4*7,40);
   PrintLine(completeMenu,t2,0,60);
   PrintLine(completeMenu,v2,4*7,60);
   PrintLine(completeMenu,t3,0,80);

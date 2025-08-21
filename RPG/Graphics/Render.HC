@@ -104,3 +104,21 @@ U0 RenderCharacter(CDC *dc,I64 iFinalX, I64 iFinalY,I64 iFinalZ,
     GrBlot3(dc,iFinalX,iFinalY,iFinalZ,character);
 
 }
+
+
+U0 RenderMenus(CDC *dc, Actor *p)
+{
+   if(mc->displayDev){
+    GrBlot3(dc,0,0,0,RenderDev(p));
+   }
+   if(mc->displayStats){
+    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));
+   } else if(mc->displayPrayers){
+    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderPrayers(p));
+   }
+
+   if(mc->displayEquipment){
+    GrBlot3(dc,10,10,0,RenderEquipment(p));
+   }
+
+}

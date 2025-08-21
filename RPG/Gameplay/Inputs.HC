@@ -143,6 +143,13 @@ U0 HandleKeyboard(Actor *p, MapNode *puin)
    break;
    case DIR_ESC:
    break;
+   case DIR_DEV:
+    if(mc->displayDev){
+     mc->displayDev = FALSE;
+    }else{
+     mc->displayDev = TRUE;
+    }
+   break;
   }
   keys.pressed = 0;  
 

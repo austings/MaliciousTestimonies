@@ -30,15 +30,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    DrawActorsAndItems(dc,p,i,j,l);
    //Game Menus
    RPGSideBar(dc);
-   if(mc->displayStats){
-    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));
-   } else if(mc->displayPrayers){
-    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderPrayers(p));
-   }
-
-   if(mc->displayEquipment){
-    GrBlot3(dc,10,10,0,RenderEquipment(p));
-   }
+   RenderMenus(dc,p);
    RPGInvLogic(i,j,dc,p);
    DragPrayer(dc);
    DrawHealthMana(dc,player,i,j);
@@ -103,9 +95,10 @@ while(TRUE){
     goto fs_end;
   break; 
   case 1://main game
-     switch (GetMsg(&arg1,&arg2,
-     1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
-     |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
+   U8 input = GetMsg(&arg1,&arg2,
+      1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
+      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE);
+    switch (input) {
       case MSG_KEY_UP:
       case '\n':
        keys.pressed=0;
@@ -121,6 +114,7 @@ while(TRUE){
        }
       break;
       case MSG_KEY_DOWN:
+      if(mc->displayDev){AddDevChar(arg1);}else{
       switch(arg1){
         case 'I':
         case 'i':
@@ -161,6 +155,10 @@ while(TRUE){
         case '\n':
          keys.pressed=DIR_ENTER;
         break;
+        case '~':
+        case '`':
+         keys.pressed=DIR_DEV;
+        break;
         case 0:
          switch(arg2.u8[0]){
           case SC_ENTER:
@@ -181,6 +179,7 @@ while(TRUE){
          }
         break;
       }
+      }
       break;
       case MSG_MS_L_DOWN:
        HandleMouse(camera->cursorX,camera->cursorY,i,j);
