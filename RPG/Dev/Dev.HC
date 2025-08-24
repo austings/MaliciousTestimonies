@@ -27,7 +27,7 @@ CDC *RenderDev(Actor *p)
 //blink
 // devc.line0 = MStrPrint("%s%s",devc.line0);
 // devc.line0[StrLen(devc.line0)-1]=char; 
-// devc.line0 = MStrPrint("%s%s",devc.line0); 
+// devc.line0 = MStrPrint("%s%s",devc.line0); 
 
  PrintLine(devc.cmd,devc.line0,10,52,1); 
  PrintLine(devc.cmd,devc.line1,10,40,1); 
@@ -43,28 +43,26 @@ U0 DevKeyEnter()
 {
 // devc.
 }
-//ZerpRedgrave
-//https://github.com/ZerpRedgrave/LibHC/blob/main/LibHC/Str/StrIns.HC
-U64 *StrIns(U8 *str,U8 *part,I64 i){
-        //Insert Str in Index Location then Return Overwrite Str
-        U64 pl=StrLen(part);
-        U8 *st=MStrPrint("%h*c%s",pl,32,str);
-
-        if(StrLen(str)<i || i < -1) throw('OutIndex');
-
-        MemCpy(st,str,i);
-        MemCpy(st+i,part,pl);
-
-        return st;
-}
-U0 AddDevChar(U8 char)
+U0 AddDevChar(I64 buffer)
 {
- devc.line0= MStrPrint("%s%c",devc.line0,char);
-
- //U64 *res =StrIns(devc.line0,cs,StrLen(devc.line0)-2);
- //devc.line0 = MStrPrint("%s ",res);
+
+ I64 newLen = StrLen(devc.line0)+2;//plus new char and null char
+ I64 insertLoc = StrLen(devc.line0);
+ U8 *myNewStr= MAlloc(newLen);
+ U8 convChar = ((U8)buffer);
  
+ MemCpy(myNewStr,devc.line0,insertLoc);
+ myNewStr[insertLoc-1] = convChar;
+ //myNewStr[insertLoc] = 'ÿ';
+ myNewStr[insertLoc+1] = '\0';
+ //devc.line0 = myNewStr; 
+ devc.line0 = MStrPrint("%s",myNewStr);
+
+
 }
+
+
+
 
 U0 DelDevChar()
 {

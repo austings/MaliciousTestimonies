@@ -99,22 +99,26 @@ while(TRUE){
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
       |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE);
     switch (input) {
-      case MSG_KEY_UP:
-      case '\n':
-       keys.pressed=0;
-      break;
-      case 0:
-       switch(arg2.u8[0]){
-	case SC_CURSOR_LEFT:
-	case SC_CURSOR_RIGHT:
-	case SC_CURSOR_DOWN:
-	case SC_CURSOR_UP:
-	 keys.pressed=0;
-	break;
-       }
-      break;
-      case MSG_KEY_DOWN:
-      if(mc->displayDev){AddDevChar(arg1);}else{
+     case MSG_KEY_UP:
+      switch(arg1){
+       case '\n':
+        keys.pressed=0;
+       break;
+       case 0:
+        switch(arg2.u8[0]){ 
+	 case SC_CURSOR_LEFT:
+	 case SC_CURSOR_RIGHT:
+	 case SC_CURSOR_DOWN:
+	 case SC_CURSOR_UP:
+	  keys.pressed=0;
+	 break;
+        }
+       break;
+      }
+     break;
+     case MSG_KEY_DOWN:
+      if(mc->displayDev&&arg1>65&&arg1<126){
+       AddDevChar(arg1);}else{
       switch(arg1){
         case 'I':
         case 'i':
@@ -124,7 +128,7 @@ while(TRUE){
         case 'w': keys.pressed=DIR_UP;
         break;
         case 'A':
-        case 'a': keys.pressed=DIR_LEFT;
+        case 'a': keys.pressed=DIR_LEFT;
         break;
         case 'S': 
         case 's': keys.pressed=DIR_DOWN;

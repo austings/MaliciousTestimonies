@@ -36,7 +36,7 @@ Cd(__DIR__);;
 #include "Graphics/Drag.HC";
 #include "Graphics/Walk.HC";
 #include "Graphics/Anim.HC";
-#include "Graphics/Interact.HC";
+#include "Graphics/Interact.HC";
 #include "Music.HC";
 
 // Loading Combat Scenarios
