@@ -109,7 +109,7 @@ U0 RenderCharacter(CDC *dc,I64 iFinalX, I64 iFinalY,I64 iFinalZ,
 U0 RenderMenus(CDC *dc, Actor *p)
 {
    if(mc->displayDev){
-    GrBlot3(dc,0,0,0,RenderDev(p));
+    GrBlot3(dc,0,0,0,RenderDev());
    }
    if(mc->displayStats){
     GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));

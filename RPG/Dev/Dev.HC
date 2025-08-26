@@ -22,12 +22,17 @@ U0 InitDev()
  devc.line4 = StrNew("Welcome to the dev console."); 
 }
 
-CDC *RenderDev(Actor *p)
+CDC *RenderDev()
 { 
 //blink
 // devc.line0 = MStrPrint("%s%s",devc.line0);
 // devc.line0[StrLen(devc.line0)-1]=char; 
-// devc.line0 = MStrPrint("%s%s",devc.line0); 
+// devc.line0 = MStrPrint("%s%s",devc.line0); 
+ DCClear(devc.cmd);
+ DCRst(devc.cmd);
+ DCDepthBufRst(devc.cmd);
+ DCFill(devc.cmd, WHITE);
+ devc.cmd->color=BLACK;
 
  PrintLine(devc.cmd,devc.line0,10,52,1); 
  PrintLine(devc.cmd,devc.line1,10,40,1); 
@@ -53,7 +58,7 @@ U0 AddDevChar(I64 buffer)
  
  MemCpy(myNewStr,devc.line0,insertLoc);
  myNewStr[insertLoc-1] = convChar;
- //myNewStr[insertLoc] = 'ÿ';
+ myNewStr[insertLoc] = 'ÿ';
  myNewStr[insertLoc+1] = '\0';
  //devc.line0 = myNewStr; 
  devc.line0 = MStrPrint("%s",myNewStr);

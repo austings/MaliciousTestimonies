@@ -2,7 +2,7 @@
 //
 // Task Functions
 U0 DrawIt(CTask *task, CDC *dc){
- I64 i,j,l,colis;//iterables
+ I64 i,j,l,colis;//iterables
  U8 sprite;
  switch(mc->currentMenu){//main menu
   case 0:
@@ -128,7 +128,7 @@ while(TRUE){
         case 'w': keys.pressed=DIR_UP;
         break;
         case 'A':
-        case 'a': keys.pressed=DIR_LEFT;
+        case 'a': keys.pressed=DIR_LEFT;
         break;
         case 'S': 
         case 's': keys.pressed=DIR_DOWN;
