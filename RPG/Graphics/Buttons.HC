@@ -243,7 +243,7 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
          GetNPC(actor)->myInv->mtrx[j+(itemH)][i+(itemW)].occupied;
      }else { 
       tempOccupied = 
-         mc->lootInv->mtrx[j+(itemH)][i+(itemW)].occupied;
+         mc->lootInv->mtrx[j+(itemH)][i+(itemW)].occupied;
      }
      if(tempOccupied!=-1&& tempOccupied!=mc->draggingItem->invID){
       marked=TRUE;break;

@@ -58,7 +58,7 @@ I64 MainMenuControls(I64 arg1, I64 arg2,I64 msg_code){
      mc->currentMenu=3;mc->currentSong=3;
     } else if(camera->cursorY>307&&camera->cursorY<349){//load game
      loadRoot = FilesFind("Saves/*",FUF_JUST_FILES);
-     mc->currentMenu=4;mc->currentSong=4;
+     mc->currentMenu=4;mc->currentSong=4;
     } else if(camera->cursorY>358&&camera->cursorY<399){//options
     } else if(camera->cursorY>408&&camera->cursorY<448){//exit
      return 1;
@@ -316,7 +316,7 @@ U0 CharMenu(CDC *dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
   Sprite3B(dc,375,350,10,GetLilArrow());
   Sprite3B(dc,375,400,10,GetLilArrow());
   PrintLine(dc,t1,380,310,1); 
-  PrintLine(dc,t2,380,360,1);
+  PrintLine(dc,t2,380,360,1);
   PrintLine(dc,t3,380,410,1);
 
 

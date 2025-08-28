@@ -74,6 +74,7 @@ U0 InitMenuControl()
  mc->displayEquipment=FALSE;
  mc->displayPrayers=FALSE;
  mc->displayDev=FALSE;
+ mc->displaySave=FALSE;
 
  //prayers
  mc->prayerPage=0;

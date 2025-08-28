@@ -24,19 +24,26 @@ U0 Quit()
 
 
 
+CDC *RenderSaveForm()
+{
+
+}
+
+U0 SaveForm()
+{
+ mc->displaySave =TRUE;
+}
+
+
+
 //
 //Save and Load
 //
 
-U0 SaveForm()
+U0 SaveFormReturn(U8 *filename)
 {
  //Save user input
- StrCpy(&saveFileFormat,"LastGameSave");
- if(DocForm(&saveFileFormat)){
- "Enter File Name:%s",saveFileFormat.saveFile;
- }
- else{"\n";}
- DocClear;
+ StrCpy(&saveFileFormat,filename);
 
  //allocate file
  U8 *fileName = MStrPrint("%s%s%s","Saves/",saveFileFormat.saveFile,".BIN");

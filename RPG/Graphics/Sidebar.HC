@@ -5,8 +5,8 @@ U0 RPGSideBar(CDC *dc)
    dc->color = DKGRAY;
    GrRect3(dc,12*camera->dividX+camera->cameraOffSetX,0,0,200,480);
    Sprite3B(dc,11*camera->dividX-25,-4,0,GetSideMenu);
-   Sprite3B(dc,494,420,0,GetButton(4));//save button 
-
+   //save button 
+   Sprite3B(dc,494,420,0,GetButton(4));
    //equipment button
    Sprite3B(dc,494,40,0,GetMenuSprite(MENU_MENUBOX));    
    Sprite3B(dc,510,52,0,GetMenuSprite(MENU_EQUIPMENT));
@@ -30,7 +30,7 @@ U0 RPGSideBar(CDC *dc)
 
    //music button
    Sprite3B(dc,494,220,0,GetMenuSprite(MENU_MENUBOX));    
-   Sprite3B(dc,493,222,0,GetMenuSprite(MENU_MUSIC));
+   Sprite3B(dc,493,222,0,GetMenuSprite(MENU_MUSIC));
    if(mc->musicMuted)   
     Sprite3B(dc,500,230,0,GetMenuSprite(MENU_MUTE));
 

@@ -27,12 +27,12 @@ CDC *RenderDev()
 //blink
 // devc.line0 = MStrPrint("%s%s",devc.line0);
 // devc.line0[StrLen(devc.line0)-1]=char; 
-// devc.line0 = MStrPrint("%s%s",devc.line0); 
+// devc.line0 = MStrPrint("%s%s",devc.line0); 
  DCClear(devc.cmd);
  DCRst(devc.cmd);
  DCDepthBufRst(devc.cmd);
  DCFill(devc.cmd, WHITE);
- devc.cmd->color=BLACK;
+ devc.cmd->color=BLACK;
 
  PrintLine(devc.cmd,devc.line0,10,52,1); 
  PrintLine(devc.cmd,devc.line1,10,40,1); 
