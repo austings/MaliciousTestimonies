@@ -26,10 +26,10 @@ Cd(__DIR__);;
 #include "Map/Objects.HC";
 #include "Gameplay/Player.HC";
 #include "Gameplay/Equipment.HC";
-#include "Gameplay/Save.HC";
 
 // Loading Narrative
 #include "Graphics/Dialog.HC";
+#include "Gameplay/Save.HC";
 #include "Graphics/Buttons.HC";
 #include "Graphics/Menu.HC";
 #include "Graphics/Sidebar.HC";
@@ -74,7 +74,7 @@ U0 InitMenuControl()
  mc->displayEquipment=FALSE;
  mc->displayPrayers=FALSE;
  mc->displayDev=FALSE;
- mc->displaySave=FALSE;
+ mc->displaySave=FALSE;
 
  //prayers
  mc->prayerPage=0;
@@ -158,4 +158,9 @@ U0 Init(){ //world
 
  InitializeAnimator;
 }
+
+U0 FreeEverything(){
+
+}
+
 #include "RPG";

@@ -326,6 +326,8 @@ U0 PlayAnimation(CDC *dc,Director *task){
    case ARCSTRIKE:
     ProceduralAnimateArc(dc,task);
     goto taskend;
+ //  case EFFFIRE:
+ 
    break;
   } 
 
@@ -351,12 +353,10 @@ U0 PlayAnimation(CDC *dc,Director *task){
     switch(task->cQueDirective)
     {
      case T1DIE...T4DIE:
+     case EFFFIRE:
       task->animIndex=task->animIndex-1;
       tmp = ajc->last;
       //repeat last frame forever
-     break;
-     case EFFFIRE:
-      task->animIndex=0;//this might leak memory after awhile
      break;
      default:
       ResetDirective(task);
@@ -471,16 +471,20 @@ U0 DrawDead(CDC * dc, Actor *a)
 
 CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
 {
+
  CDC *completeActor = DCNew(500,500);
  DCFill(completeActor, TRANSPARENT);
 
- if(a->status1==DEAD_STATUS)
+ switch(a->status1)
  {
-  DrawDead(completeActor,a);
-  return completeActor;
- }else{
-  switch(a->face)
-  {
+  case DEAD_STATUS:
+   DrawDead(completeActor,a);
+   return completeActor;
+  default:
+  break;
+ }
+ switch(a->face)
+ {
    case T_JUDA...T_BENJ:
     completeActor = GetWalkAnimation(a,completeActor);
    break;
@@ -496,17 +500,17 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
    default:
     completeActor = GetWalkAnimation(a,completeActor);
    break;
-  } 
+ } 
 
-  OverlayArmor(completeActor,a);
-  //todo make status effects?
-  if(wlvl>0)
-  {
-   a->screenY+=(wlvl+a->walking);
-   completeActor->color = TRANSPARENT;
-   GrRect3(completeActor,0,60,0,100,100);
-  }
+ OverlayArmor(completeActor,a);
+ //todo make status effects?
+ if(wlvl>0)
+ {
+  a->screenY+=(wlvl+a->walking);
+  completeActor->color = TRANSPARENT;
+  GrRect3(completeActor,0,60,0,100,100);
  }
+
 
  return completeActor;
 

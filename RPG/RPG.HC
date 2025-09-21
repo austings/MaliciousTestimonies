@@ -2,7 +2,7 @@
 //
 // Task Functions
 U0 DrawIt(CTask *task, CDC *dc){
- I64 i,j,l,colis;//iterables
+ I64 i,j,l,colis;//iterables
  U8 sprite;
  switch(mc->currentMenu){//main menu
   case 0:
@@ -27,13 +27,13 @@ U0 DrawIt(CTask *task, CDC *dc){
    StartCameraPan(dc,p);   
    //Draw world and one column and row extra for either side        
    ReDrawWorld(dc,i,j);
-   DrawActorsAndItems(dc,p,i,j,l);
+   DrawActorsAndItems(dc,p,i,j,l); // former leak
    //Game Menus
    RPGSideBar(dc);
    RenderMenus(dc,p);
    RPGInvLogic(i,j,dc,p);
    DragPrayer(dc);
-   DrawHealthMana(dc,player,i,j);
+   DrawHealthMana(dc,player,i,j);
    //Dialog   
    if(mc->talkieScene!=-1){
     mc->displayInventory=FALSE;
@@ -41,7 +41,6 @@ U0 DrawIt(CTask *task, CDC *dc){
    }
    //Combat
    else if(mc->combatON){
-
      CombatDialogs(task, dc,p);
    }
    ShowToolTips(dc);
@@ -118,7 +117,8 @@ while(TRUE){
      break;
      case MSG_KEY_DOWN:
       if(mc->displayDev&&arg1>65&&arg1<126){
-       AddDevChar(arg1);}else{
+       AddDevChar(arg1);}else if(mc->displaySave&&arg1>65&&arg1<126){
+       ModifySaveBuffer(arg1);}else {
       switch(arg1){
         case 'I':
         case 'i':

@@ -74,8 +74,12 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     break;
 
   }//end switch
- }else
- {
+ }else{
+  if(mc->displaySave)
+  { mc->currentMenu=0;
+    mc->currentSong=1;
+    SaveFormReturn(p); 
+  }
   if(puin->hasObj)
    ObjectTrigger(p,puin);
   PickUpItemTrigger(p,puin);
@@ -247,6 +251,7 @@ U0 HandleMouseEquipRelease(I64 M_X, I64 M_Y, I64 i, I64 j)
   }
  }
 }
+
 U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 { 
  //Begin SideBar

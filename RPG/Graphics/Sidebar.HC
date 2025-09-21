@@ -30,7 +30,7 @@ U0 RPGSideBar(CDC *dc)
 
    //music button
    Sprite3B(dc,494,220,0,GetMenuSprite(MENU_MENUBOX));    
-   Sprite3B(dc,493,222,0,GetMenuSprite(MENU_MUSIC));
+   Sprite3B(dc,493,222,0,GetMenuSprite(MENU_MUSIC));
    if(mc->musicMuted)   
     Sprite3B(dc,500,230,0,GetMenuSprite(MENU_MUTE));
 

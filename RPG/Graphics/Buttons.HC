@@ -2,9 +2,7 @@
 U0 SaveButton()
 {
  SaveForm;
- mc->currentMenu=0;
- mc->currentSong=1; 
-}
+}
 
 
 U0 EquipButton()

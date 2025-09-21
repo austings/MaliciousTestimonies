@@ -46,13 +46,16 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
  MapNode *mn = GetTensorItem(world->level,
                     camera->topLR+i,camera->topUD+j, 
                     world->currentZ);
- for(l=0;l<mn->len;l++){ 
+ CDC *scratch = DCNew(100,100);
+ DCFill(scratch,TRANSPARENT);
+/*
+ for(l=0;l<mn->len;l++){
+  CDC *endRender = NULL; 
   I64 item = (GetItem(mn,l))->id;
-  CDC *endRender = DCNew(100,100);
-  DCFill(endRender,TRANSPARENT);
   switch(item){
    case IT_FIST:
    case IT_NULL:
+    endRender = scratch;
     break;
    case IT_DAGGER:
     endRender = ITEM1;
@@ -77,8 +80,9 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
   GrBlot3(dc,i*camera->dividX+camera->cameraOffSetX,
              j*camera->dividY+camera->cameraOffSetY,
              10,endRender);
+ }*/
+ DCDel(scratch); 
 
- } 
 }
 
 
@@ -89,14 +93,14 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
  {
   case OBJ_WOOD:
    Sprite3(dc,screenX, screenY,20,GetFurniture(obj));
-   if(!HasDirective(EFFFIRE,p))
-   {
-    AddDirective(EFFFIRE,p,screenX-32,screenY-25);
-   }
-   else
-   {
-    UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30);
-   }
+   //if(!HasDirective(EFFFIRE,p))
+   //{
+   /// AddDirective(EFFFIRE,p,screenX-32,screenY-25);
+   //}
+   //else
+   //{
+   // UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30);
+   //}
   break;
   case SP_FISHING_SPOT:
    if(world->timer<FRAMERULE_CAP/2){ 
@@ -146,9 +150,7 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
  }else {  toRender = GetNPC(npc); }
 
  Bool isAnimated = HasDirective(BOUNCE,toRender);// ||
-//                   HasDirective(BITE,toRender);
-
-
+ //                  HasDirective(BITE,toRender);
 
  if(isPlayer||(!isAnimated)){
   GetActorScreenX(toRender,npcOffX,i,isPlayer);
@@ -170,11 +172,14 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
    }
   break;
  }   
+
  Bool isHighlight =FALSE;  
  isHighlight = CheckTarget(toRender);
-      
+ CDC *drawnActor = GetActorAnimationJob(toRender,wlvl);//leak     
  RenderCharacter(dc,toRender->screenX,toRender->screenY,
- 10, GetActorAnimationJob(toRender,wlvl), isHighlight);
+                 10, drawnActor, isHighlight);
+ DCDel(drawnActor);
+ //Free(toRender);
 }   
 
 U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
@@ -193,15 +198,15 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
      I64 wlvl= GetTensorWaterLevel(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
 
-     if(obj!=IT_NULL)
-      DrawObjsOnLayer(dc,obj,screenX,screenY,p);
+     //if(obj!=IT_NULL)
+     // DrawObjsOnLayer(dc,obj,screenX,screenY,p);
      DrawItemsOnLayer(dc,i,j,l);
      if(npc!=IT_NULL)
       DrawActorsOnLayer(dc,npc,i,j,p,screenX,screenY,wlvl); 
           
     }//if too large x
    }//for x
-   CheckAnimQueue(dc,screenY);//compute animations by row 
+   //CheckAnimQueue(dc,screenY);//compute animations by row 
   }//if too large y
  }//for y
 }

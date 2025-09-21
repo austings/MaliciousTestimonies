@@ -290,10 +290,16 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
    yOff += groffset;
   }
  }
- GrBlot3(dc,0+xOff,0+yOff,0, ShowBody(toRender->armor,dir));
- GrBlot3(dc,0+xOff,0+yOff,10,ShowHair(toRender->hair,dir));
- GrBlot3(dc,0+xOff,0+yOff,0, ShowHelm(toRender->hat,dir));
- 
 
+ CDC *armor = ShowBody(toRender->armor,dir);
+ CDC *hair = ShowHair(toRender->hair,dir);
+ CDC *hat = ShowHelm(toRender->hat,dir);
+ GrBlot3(dc,0+xOff,0+yOff,0, armor);
+ GrBlot3(dc,0+xOff,0+yOff,10,hair);
+ GrBlot3(dc,0+xOff,0+yOff,0, hat);
+
+ DCDel(armor); 
+ DCDel(hair); 
+ DCDel(hat); 
 }
 

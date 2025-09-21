@@ -106,19 +106,28 @@ U0 RenderCharacter(CDC *dc,I64 iFinalX, I64 iFinalY,I64 iFinalZ,
 }
 
 
-U0 RenderMenus(CDC *dc, Actor *p)
+U0 RenderMenus(CDC *dc, Actor *p)
 {
+ CDC *render;
    if(mc->displayDev){
-    GrBlot3(dc,0,0,0,RenderDev());
+    render = RenderDev();
+    GrBlot3(dc,0,0,0,render); DCDel(render);
    }
-   if(mc->displayStats){
-    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderStats(p));
-   } else if(mc->displayPrayers){
-    GrBlot3(dc,12*camera->dividX-25,-4,0,RenderPrayers(p));
+   if(mc->displayStats){ 
+    render = RenderStats(p); 
+    GrBlot3(dc,12*camera->dividX-25,-4,0,render); DCDel(render);
+   } else if(mc->displayPrayers){ 
+    render = RenderPrayers(p); 
+    GrBlot3(dc,12*camera->dividX-25,-4,0,render); DCDel(render);
    }
 
    if(mc->displayEquipment){
-    GrBlot3(dc,10,10,0,RenderEquipment(p));
+    render = RenderEquipment(p);
+    GrBlot3(dc,10,10,0,render); DCDel(render);
+   }
+   if(mc->displaySave){
+    render = RenderSaveForm();
+    GrBlot3(dc,100,100,0,render); DCDel(render);
    }
 
 }

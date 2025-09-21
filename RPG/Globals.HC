@@ -110,7 +110,7 @@ class MenuControl{
   U8 turnIndex;//used for specific world tick timers
   U8 combatQueId;
 
-  Actor *target;I64 tarposx,tarposy;//players current target
+  Actor *target;I64 tarposx,tarposy;//players current target
 
   //prayerSelection
   I64 prayerToCast, dragPrayer, prayerListIndex, prayerListSize;
@@ -128,7 +128,7 @@ class MenuControl{
        displayShop,
        displayEquipment,
        displayDev,
-       displaySav;
+       displaySave;
 
 };
 

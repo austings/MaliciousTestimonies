@@ -1,6 +1,6 @@
 class SaveFormat
 {
-U8  saveFile[32]	format "$$DA-P,A=\"FileName:%s\"$$\n";
+U8  *saveFile;//[32]	format "$$DA-P,A=\"FileName:%s\"$$\n";
 } saveFileFormat;  
 
 class SaveFileData
@@ -26,11 +26,38 @@ U0 Quit()
 
 CDC *RenderSaveForm()
 {
-
+  CDC *ret = DCNew(400,200);
+  DCFill(ret, WHITE);
+  ret->color = BLACK;
+  U8 *title = "Save File Name:";
+  PrintLine(ret,title,0,0,1); 
+  ret->color = LTGRAY;
+  GrRect(ret,12,32,388,100);
+  PrintLine(ret,saveFileFormat.saveFile,13,33,1); 
+
+ return ret;
+
+}
+U0 ModifySaveBuffer(I64 buffer)
+{
+ I64 newLen = StrLen(saveFileFormat.saveFile)+2;//plus new char and null char
+ I64 insertLoc = StrLen(saveFileFormat.saveFile);
+ U8 *myNewStr= MAlloc(newLen);
+ U8 convChar = ((U8)buffer);
+ 
+ MemCpy(myNewStr, saveFileFormat.saveFile,insertLoc);
+ myNewStr[insertLoc-1] = convChar;
+ myNewStr[insertLoc] = 'ÿ';
+ myNewStr[insertLoc+1] = '\0';
+ //devc.line0 = myNewStr; 
+ saveFileFormat.saveFile = MStrPrint("%s",myNewStr);
+
+
 }
 
 U0 SaveForm()
 {
+ saveFileFormat.saveFile = "ÿ";
  mc->displaySave =TRUE;
 }
 
@@ -40,10 +67,10 @@ U0 SaveForm()
 //Save and Load
 //
 
-U0 SaveFormReturn(U8 *filename)
+U0 SaveFormReturn(Actor *p)
 {
  //Save user input
- StrCpy(&saveFileFormat,filename);
+ //StrCpy(&saveFileFormat,saveFileFormat.saveFile);
 
  //allocate file
  U8 *fileName = MStrPrint("%s%s%s","Saves/",saveFileFormat.saveFile,".BIN");
@@ -152,7 +179,7 @@ U0 SaveFormReturn(U8 *filename)
  //FBlkWrite(file,buffer,sector,1);
  FClose(file);
  Free(newSave);
- //Quit;
+ //Quit;
 }
 
 
