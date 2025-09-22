@@ -354,8 +354,9 @@ U0 PlayAnimation(CDC *dc,Director *task){
     {
      case T1DIE...T4DIE:
      case EFFFIRE:
-      task->animIndex=task->animIndex-1;
-      tmp = ajc->last;
+      task->animIndex=0;
+     // task->animIndex=task->animIndex-1;
+     // tmp = ajc->last;
       //repeat last frame forever
      break;
      default:

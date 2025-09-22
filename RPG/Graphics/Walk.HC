@@ -403,7 +403,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   case EFFFIRE:
   //case EFFSCRATCH:
    task->cQueDirective = directive;
- //  isEffect = TRUE;
+   isEffect = TRUE;
   break;
   //default://dont enable this i know you want to
   // task->cQueDirective = directive;

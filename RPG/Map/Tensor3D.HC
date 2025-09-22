@@ -423,7 +423,7 @@ MapNode *GetTensorItem(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
  I64 sz = v->size;
  sz= GetVector(v,2);
  I64 tot = 0;
- MapNode *val = MAlloc(sizeof(MapNode));
+ MapNode *val;// = MAlloc(sizeof(MapNode));
  while(tot<sz)
  {
   if(tot==z)
