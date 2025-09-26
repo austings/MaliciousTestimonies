@@ -3,18 +3,18 @@
 
 class Animation:CQue{
   CDC *frame;
-  I8 frameDuration,
+  I8 frameDuration,//how many times to show 
      frameDurationIndex,
      xOffset, yOffset;
   I64 key;
-  I8 frameIndex;
+  I8 frameIndex;//frame pos in anim
 } allAnimations;
 
 
 
 class Director:CQue{
   I64 cQueDirective;
-  I32 animIndex;
+  I32 animIndex;//cur pos in anim
   I64 x; I64 y; I64 z;
   Bool flip;
   Actor *a;
@@ -54,7 +54,6 @@ U0 FreeMyTask(Actor *a)
 
  if(i=9999)
  {
-   ResetDirective(task);
    QueRem(task);
    Free(task);
  }

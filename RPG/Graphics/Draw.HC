@@ -86,20 +86,20 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
 }
 
 
-U0 DrawObjsOnLayer(CDC *dc, I64 obj, 
+U0 DrawObjsOnLayer(CDC *dc, I64 obj, 
                    I64 screenX, I64 screenY, Actor *p)
 {
  switch(obj)
  {
   case OBJ_WOOD:
-   Sprite3(dc,screenX, screenY,20,GetFurniture(obj));/*
-   if(!HasDirective(EFFFIRE,p))
-   {
-    AddDirective(EFFFIRE,p,screenX-32,screenY-25);
-   }
-   else
-   {
-    UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30);*/
+   Sprite3(dc,screenX, screenY,20,GetFurniture(obj));
+   //if(!HasDirective(EFFFIRE,p))
+   //{
+   // AddDirective(EFFFIRE,p,screenX-32,screenY-25);
+   //}
+   //else
+   //{
+   // UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30);
    //}
   break;
   case SP_FISHING_SPOT:
@@ -206,7 +206,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
           
     }//if too large x
    }//for x
-   //CheckAnimQueue(dc,screenY);//compute animations by row 
+   CheckAnimQueue(dc,screenY);//compute animations by row 
   }//if too large y
  }//for y
 }

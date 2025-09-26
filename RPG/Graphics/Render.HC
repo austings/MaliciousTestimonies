@@ -106,7 +106,7 @@ U0 RenderCharacter(CDC *dc,I64 iFinalX, I64 iFinalY,I64 iFinalZ,
 }
 
 
-U0 RenderMenus(CDC *dc, Actor *p)
+U0 RenderMenus(CDC *dc, Actor *p)
 {
  CDC *render;
    if(mc->displayDev){

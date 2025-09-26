@@ -52,5 +52,61 @@ U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
 
 U0 PlayStrikeAnim(Actor *p)
 {
- AddDirective(T1PUNCH,p); 
+ I64 anim = T1PUNCH;
+  switch(p->face){
+   case T_JUDA:
+    switch(p->sword){
+     case IT_FIST: //fist
+      anim = T1PUNCH;
+     break;
+     case IT_DAGGER: 
+      anim = T1PUNCH;//T1DAGGER;
+     break;
+     case IT_HARPOON: 
+      anim = T1PUNCH;//T1SPEAR;
+     break;
+    }  
+   break;
+   case T_LEVI:
+    switch(p->sword){
+     case IT_FIST: //fist
+      anim = T2PUNCH;//T2PUNCH;
+     break;
+     case IT_DAGGER: 
+      anim = T2PUNCH;//T2DAGGER;
+     break;
+     case IT_HARPOON: 
+      anim = T2PUNCH;//T2SPEAR;
+     break;
+    }  
+   break;
+   case T_EPHR:
+    switch(p->sword){
+     case IT_FIST: //fist
+      anim = T3PUNCH;
+     break;
+     case IT_DAGGER: 
+      anim = T3PUNCH;//T3DAGGER;
+     break;
+     case IT_HARPOON: 
+      anim = T3PUNCH;//T3SPEAR;
+     break;
+    }
+   break;
+   case T_BENJ:
+    switch(p->sword){
+     case IT_FIST: //fist
+      anim = T4PUNCH;//T4PUNCH;
+     break;
+     case IT_DAGGER: 
+      anim = T4PUNCH;//T4DAGGER;
+     break;
+     case IT_HARPOON: 
+      anim = T4PUNCH;//T4SPEAR;
+     break;
+    }
+   break;
+  }
+
+ AddDirective(anim,p); 
 }

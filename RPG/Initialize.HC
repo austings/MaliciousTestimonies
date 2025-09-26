@@ -159,7 +159,7 @@ U0 Init(){ //world
  InitializeAnimator;
 }
 
-U0 FreeEverything(){
+U0 FreeEverything(){
 
 }
 

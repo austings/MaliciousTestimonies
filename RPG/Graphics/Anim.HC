@@ -316,7 +316,9 @@ U0 ProceduralAnimateArc(CDC *dc, Director *task)
 */
 }
 
-U0 PlayAnimation(CDC *dc,Director *task){ 
+U0 PlayAnimation(CDC *dc,Director *task){
+  I64 i;
+  I64 cnt = QueCnt(allAnimations); 
   switch(task->cQueDirective)   
   {
    case BOUNCE:
@@ -326,19 +328,18 @@ U0 PlayAnimation(CDC *dc,Director *task){
    case ARCSTRIKE:
     ProceduralAnimateArc(dc,task);
     goto taskend;
- //  case EFFFIRE:
- 
-   break;
   } 
 
   Animation *ajc = allAnimations.next;
-
-  while(task->cQueDirective!=ajc->key){
-   ajc = ajc->next;
+/*
+  for(i=0;i<cnt;i++){
+   if(task->cQueDirective!=ajc->key)
+    ajc = ajc->next;
   }
   
-  while(task->animIndex!=ajc->frameIndex){
-   ajc = ajc->next;
+  for(i=0;i<task->animIndex;i++){
+   if(task->animIndex!=ajc->frameIndex) 
+    ajc = ajc->next;
   }
  
   if(ajc->frameDurationIndex<ajc->frameDuration){
@@ -355,12 +356,11 @@ U0 PlayAnimation(CDC *dc,Director *task){
      case T1DIE...T4DIE:
      case EFFFIRE:
       task->animIndex=0;
-     // task->animIndex=task->animIndex-1;
-     // tmp = ajc->last;
       //repeat last frame forever
      break;
      default:
       ResetDirective(task);
+      //FreeMyTask();
       task->a->visible = TRUE;  
       goto taskend;
      break;
@@ -368,11 +368,14 @@ U0 PlayAnimation(CDC *dc,Director *task){
     }
    }
   }
+*/
   if(task->flip){
+   CDC *flipped = DCFlippedX(ajc->frame); 
    GrBlot3(dc,task->x+ajc->xOffset,
              task->y+ajc->yOffset,
              task->z,
-             DCFlippedX(ajc->frame));
+             flipped);
+   DCDel(flipped);
     
   }else{
   
@@ -451,6 +454,11 @@ U0 CheckAnimQueue(CDC *dc,I64 y)
    if(task->y<=y+10&&task->y >= y-35)
     PlayAnimation(dc,task);
   }
+  else
+  {
+  // FreeMyTask(task);
+  }
+
   task = task->next;
  }
  

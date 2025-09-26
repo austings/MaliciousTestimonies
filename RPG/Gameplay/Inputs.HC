@@ -78,7 +78,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
   if(mc->displaySave)
   { mc->currentMenu=0;
     mc->currentSong=1;
-    SaveFormReturn(p); 
+    SaveFormReturn(p); 
   }
   if(puin->hasObj)
    ObjectTrigger(p,puin);

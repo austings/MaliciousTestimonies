@@ -1,4 +1,4 @@
-
+#define MAX_ATTEMPTS 999999
 //Walking Frames
 #define W_IDLEDOWN      0
 #define W_IDLEUP        1

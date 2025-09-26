@@ -211,6 +211,7 @@ U0 EndProceduralAnimations(){
 //inherently checks Has
 //paramaeters screen x y z to be updated
 //explicitRemoval takes it out of director queue
+
 Bool UpdateDirective(I64 directive,Actor *p,
                      I64 x, I64 y, I64 z,Bool explicitRemoval=FALSE)
 {
@@ -237,25 +238,11 @@ Bool UpdateDirective(I64 directive,Actor *p,
 }
 
 
-//sX,sY optional; use p for x and y by default
-U0 AddDirective(I64 directive, Actor *p,//npc must own animation
-                I64 sX=DELIMITER,I64 sY=DELIMITER)
+Director *InitDirective(Actor *p, I64 sX, I64 sY)
 {
- //TODO: this sucks
  Director *task = direct.next;
- I64 i =0; Bool free=FALSE; Bool isEffect = FALSE;
- for(i=0;i!=QueCnt(direct);i++){
-  if(task->cQueDirective==NoDirective)
-  {
-   free = TRUE;
-   break;
-  }
-  task = task->next;
- }
- if(!free){
-  task = MAlloc(sizeof(Director));
-  task->a = MAlloc(sizeof(Actor));
- }
+ task = MAlloc(sizeof(Director));
+ //task->a = MAlloc(sizeof(Actor));
 
  task->x = p->screenX;task->y = p->screenY;
  if(sX!=DELIMITER){task->x = sX; task->y = sY;}
@@ -263,6 +250,15 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
  task->a = p;
  task->flip = FALSE;
 
+ return task;
+}
+
+//sX,sY optional; use p for x and y by default
+U0 AddDirective(I64 directive, Actor *p,//npc must own animation
+                I64 sX=DELIMITER,I64 sY=DELIMITER)
+{
+ Director *task = InitDirective(p,sX,sY);
+ Bool isEffect = FALSE;
  //sometimes we reference t1fish directive 
  //as general trigger without checking face
  switch(directive){
@@ -300,64 +296,11 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
    }
   break;
   case T1PUNCH...T4PUNCH:
+   task->cQueDirective = directive;
   if(p->x<=mc->target->x){
    task->flip = TRUE;
    SetActorDir(p,DIR_RIGHT);
   }else {SetActorDir(p,DIR_LEFT);}
-  switch(p->face){
-   case T_JUDA:
-    switch(p->sword){
-     case IT_FIST: //fist
-      task->cQueDirective = T1PUNCH;
-     break;
-     case IT_DAGGER: 
-      task->cQueDirective = T1PUNCH;//T1DAGGER;
-     break;
-     case IT_HARPOON: 
-      task->cQueDirective = T1PUNCH;//T1SPEAR;
-     break;
-    }  
-   break;
-   case T_LEVI:
-    switch(p->sword){
-     case IT_FIST: //fist
-      task->cQueDirective = T2PUNCH;//T2PUNCH;
-     break;
-     case IT_DAGGER: 
-      task->cQueDirective = T2PUNCH;//T2DAGGER;
-     break;
-     case IT_HARPOON: 
-      task->cQueDirective = T2PUNCH;//T2SPEAR;
-     break;
-    }  
-   break;
-   case T_EPHR:
-    switch(p->sword){
-     case IT_FIST: //fist
-      task->cQueDirective = T3PUNCH;
-     break;
-     case IT_DAGGER: 
-      task->cQueDirective = T3PUNCH;//T3DAGGER;
-     break;
-     case IT_HARPOON: 
-      task->cQueDirective = T3PUNCH;//T3SPEAR;
-     break;
-    }
-   break;
-   case T_BENJ:
-    switch(p->sword){
-     case IT_FIST: //fist
-      task->cQueDirective = T4PUNCH;//T4PUNCH;
-     break;
-     case IT_DAGGER: 
-      task->cQueDirective = T4PUNCH;//T4DAGGER;
-     break;
-     case IT_HARPOON: 
-      task->cQueDirective = T4PUNCH;//T4SPEAR;
-     break;
-    }
-   break;
-  }
   break;
   case BOUNCE:
    task->cQueDirective = BOUNCE;
@@ -410,8 +353,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   //break;
 
  }
- if(!free)
-  QueIns(task,direct.last);
+ QueIns(task,direct.last);
  if(!isEffect) 
   p->visible=FALSE;
 

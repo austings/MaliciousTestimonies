@@ -11,10 +11,6 @@ class DevConsole{
 
 U0 InitDev()
 {
- devc.cmd = DCNew(400,140);
- DCFill(devc.cmd, WHITE);
- devc.cmd->color=BLACK;
-
  devc.line0 = StrNew("ÿ"); 
  devc.line1 = StrNew("you're debugging; in that case, good job!"); 
  devc.line2 = StrNew("Note this is technically cheating... unless"); 
@@ -26,11 +22,12 @@ CDC *RenderDev()
 { 
  // blink
  // devc.line0 = MStrPrint("%s%s",devc.line0);
- // devc.line0[StrLen(devc.line0)-1]=char; 
+ // devc.line0[StrLen(devc.line0)-1]=char; 
  // devc.line0 = MStrPrint("%s%s",devc.line0); 
- DCClear(devc.cmd);
- DCRst(devc.cmd);
- DCDepthBufRst(devc.cmd);
+// DCClear(devc.cmd);
+// DCRst(devc.cmd);
+// DCDepthBufRst(devc.cmd);
+ devc.cmd = DCNew(400,140);
  DCFill(devc.cmd, WHITE);
  devc.cmd->color=BLACK;
 
