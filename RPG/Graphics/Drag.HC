@@ -4,14 +4,16 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
 {
  //fix to take item hOff/wOff
 
- CDC *render = DCNew(100,100);
- DCFill(render, TRANSPARENT);
+ CDC *render;
+ CDC *scratch = DCNew(100,100);
+ DCFill(scratch, TRANSPARENT);
 
  I64 yoff=270, xoff=-2; 
  switch(itemID)
  {
   case IT_FIST:
-  //not visible  
+  //not visible 
+   render = scratch; 
   break;
   case IT_DAGGER://dagger 
    render =ITEM1I;
@@ -52,11 +54,14 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
    render = ITEM10I;
    yoff = 315; xoff=12;//
   break;
+  default:
+   render = scratch;
+  break;
 
  }
- GrBlot3(target,x+xoff,y+yoff,0,render);
+ GrBlot(target,x+xoff,y+yoff,render);
 
- DCDel(render);
+ DCDel(scratch);
 }
 
  
@@ -331,7 +336,7 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
    GrBlot3(dc,0,0,10,RenderInventory(p));
    //CDC *invRend = RenderInventory(p);
    //GrBlot3(dc,0,0,10,invRend);
-   //DCDel(invRend);
+   //DCDel(invRend);
    Sprite3B(dc,460,280,0,GetMenuSprite(3));
    if(mc->draggingInv){
      BlotItem(dc,mc->draggingID,

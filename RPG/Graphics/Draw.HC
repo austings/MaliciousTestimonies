@@ -93,14 +93,14 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
  {
   case OBJ_WOOD:
    Sprite3(dc,screenX, screenY,20,GetFurniture(obj));
-   //if(!HasDirective(EFFFIRE,p))
-   //{
-   // AddDirective(EFFFIRE,p,screenX-32,screenY-25);
-   //}
-   //else
-   //{
-   // UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30);
-   //}
+   if(!HasDirective(EFFFIRE,p))
+   {
+    AddDirective(EFFFIRE,p,screenX-32,screenY-25);
+   }
+   else
+   {
+    UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30);
+   }
   break;
   case SP_FISHING_SPOT:
    if(world->timer<FRAMERULE_CAP/2){ 

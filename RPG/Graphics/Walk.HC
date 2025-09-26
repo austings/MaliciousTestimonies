@@ -248,6 +248,7 @@ Director *InitDirective(Actor *p, I64 sX, I64 sY)
  if(sX!=DELIMITER){task->x = sX; task->y = sY;}
 
  task->a = p;
+ task->animIndex = 0;
  task->flip = FALSE;
 
  return task;

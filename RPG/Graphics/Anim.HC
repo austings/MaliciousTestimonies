@@ -331,19 +331,18 @@ U0 PlayAnimation(CDC *dc,Director *task){
   } 
 
   Animation *ajc = allAnimations.next;
-/*
+
   for(i=0;i<cnt;i++){
    if(task->cQueDirective!=ajc->key)
     ajc = ajc->next;
   }
   
-  for(i=0;i<task->animIndex;i++){
-   if(task->animIndex!=ajc->frameIndex) 
-    ajc = ajc->next;
+  while(task->animIndex!=ajc->frameIndex){ 
+   ajc = ajc->next;
   }
  
   if(ajc->frameDurationIndex<ajc->frameDuration){
-   ajc->frameDurationIndex++;
+   ajc->frameDurationIndex++;// = ajc->frameDurationIndex++;
   }
   else{
    ajc->frameDurationIndex=0;
@@ -368,7 +367,7 @@ U0 PlayAnimation(CDC *dc,Director *task){
     }
    }
   }
-*/
+
   if(task->flip){
    CDC *flipped = DCFlippedX(ajc->frame); 
    GrBlot3(dc,task->x+ajc->xOffset,
