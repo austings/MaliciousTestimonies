@@ -2,7 +2,7 @@
 U0 SaveButton()
 {
  SaveForm;
-}
+}
 
 
 U0 EquipButton()
@@ -204,6 +204,39 @@ U0 ReleaseRing()
 
 }
 
+U0 CombineIfPossible(I64 pItem)
+{
+ Item *item= RetrieveItem(PLAYER,pItem);
+
+
+ switch(mc->draggingID)
+ {
+  case IT_WPOT:
+   if(item->id==IT_BULB){
+    RemoveItemLocID(pItem);
+    RemoveItemLoc(mc->draggingItem);
+    AddItemToInventory(PLAYER,IT_HPPOT);
+    mc->reRenderInv=TRUE;
+    mc->draggingInv=FALSE; 
+
+   }
+  break;  
+  case IT_BULB:
+   if(item->id==IT_WPOT)
+   {
+    RemoveItemLocID(pItem);
+    RemoveItemLoc(mc->draggingItem);
+    AddItemToInventory(PLAYER,IT_HPPOT);
+    mc->reRenderInv=TRUE;
+    mc->draggingInv=FALSE; 
+
+   }
+  break;
+  
+  
+ }
+}
+
 #define CHESTIDSBEGIN  MAX_WRITTEN_ACTORS+1
 
 //check if user click or release for each 'button' of inventory
@@ -247,7 +280,10 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
       marked=TRUE;break;
      }
     }
-    if(marked){break;}
+    if(marked){//check if we can combine
+     CombineIfPossible(occupied);
+     break;
+    }
    }
   }
   if(!marked){

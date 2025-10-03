@@ -130,6 +130,25 @@ U0 RemoveItemLoc(Item *item)
  }
 }
 
+U0 RemoveItemLocID(I64 item)
+{
+ Actor *p = GetNPC(0);
+
+ I64 i,j,x,y;
+
+ //remove old loc
+ for(i=0;i<11;i++)
+ {
+  for(j=0;j<4;j++)
+  {
+    if(p->myInv->mtrx[j][i].occupied==item)
+    {  p->myInv->mtrx[j][i].occupied=-1; }
+   
+      
+  }
+ }
+}
+
 U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
 {
  Actor *p = GetNPC(0);
