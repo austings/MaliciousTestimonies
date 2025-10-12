@@ -40,7 +40,9 @@ U0 ObjectTrigger(Actor *p, MapNode *puin)
 
 U0 KeyEnter(Actor *p, MapNode *puin)
 {
- if(mc->combatON){
+ if(mc->displayDev)
+ {DevKeyEnter(); }
+ else if(mc->combatON){
   switch(mc->combatMenuSelection){
    case CMS_MOVE://move
     mc->combatMenuSelection =CS_MOVE; 
@@ -129,6 +131,7 @@ U0 AnyKey()
   }
  }
 }
+
 U0 HandleKeyboard(Actor *p, MapNode *puin)
 {
  if(keys.pressed){

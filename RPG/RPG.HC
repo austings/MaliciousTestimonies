@@ -33,7 +33,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    RenderMenus(dc,p);
    RPGInvLogic(i,j,dc,p);
    DragPrayer(dc);
-   DrawHealthMana(dc,player,i,j);
+   DrawHealthMana(dc,player,i,j);
    //Dialog   
    if(mc->talkieScene!=-1){
     mc->displayInventory=FALSE;
@@ -116,7 +116,7 @@ while(TRUE){
       }
      break;
      case MSG_KEY_DOWN:
-      if(mc->displayDev&&arg1>65&&arg1<126){
+      if(mc->displayDev&&arg1>65&&arg1<126&&arg1!=96){//within char range and not dev key
        AddDevChar(arg1);}else if(mc->displaySave&&arg1>65&&arg1<126){
        ModifySaveBuffer(arg1);}else {
       switch(arg1){

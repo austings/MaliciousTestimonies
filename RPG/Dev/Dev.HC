@@ -43,7 +43,21 @@ CDC *RenderDev()
 
 U0 DevKeyEnter()
 {
- // devc.
+
+ Free(devc.line4);
+ devc.line4 = devc.line3;
+ devc.line3 = devc.line2;
+ devc.line2 = devc.line1;
+
+ I64 newLen = StrLen(devc.line0);//minus new char (keep null char)
+ U8 *myNewStr= MAlloc(newLen);
+ MemCpy(myNewStr,devc.line0,newLen-1);
+ myNewStr[newLen-1] = '\0'; 
+ devc.line0 = MStrPrint("%s",myNewStr);
+ Free(myNewStr);
+
+ devc.line1 = devc.line0;
+ devc.line0 = StrNew("ÿ");//MStrPrint("",);
 }
 
 U0 AddDevChar(I64 buffer)
@@ -57,9 +71,9 @@ U0 AddDevChar(I64 buffer)
  myNewStr[insertLoc-1] = convChar;
  myNewStr[insertLoc] = 'ÿ';
  myNewStr[insertLoc+1] = '\0';
- //devc.line0 = myNewStr; 
+ 
  devc.line0 = MStrPrint("%s",myNewStr);
-
+ Free(myNewStr);
 
 }
 
