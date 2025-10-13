@@ -90,6 +90,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
 
 U0 KeyArrow(Actor *p)
 { //corresponds to DIR left, right, up, down
+ PrintDevMessage("Key!");
  SetActorDir(p,DELIMITER);//in progress
  if(!mc->combatON){
   if(p->walking==W_NOTWALKING){

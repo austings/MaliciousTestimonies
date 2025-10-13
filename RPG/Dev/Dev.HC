@@ -72,15 +72,20 @@ U0 AddDevChar(I64 buffer)
  myNewStr[insertLoc] = 'ÿ';
  myNewStr[insertLoc+1] = '\0';
  
+ Free(devc.line0);
  devc.line0 = MStrPrint("%s",myNewStr);
  Free(myNewStr);
 
 }
 
-
-
-
 U0 DelDevChar()
 {
  devc.line0[StrLen(devc.line0)-2]=0;
+}
+
+U0 PrintDevMessage(U8 *msg)
+{
+ Free(devc.line0);
+ devc.line0 = msg;
+ DevKeyEnter;
 }

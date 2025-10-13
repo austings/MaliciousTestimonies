@@ -52,7 +52,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    CharMenu(dc,task,A1D1,A2D1,A3D1,A4D1);   
    break;
    case 3:
-   IntroCutscene(dc,task,mc->cutsceneTarget);
+   IntroCutscene(dc,task,mc->cutsceneTarget);
    break;
    case 4:
    LoadMenu(dc,task,loadRoot);
