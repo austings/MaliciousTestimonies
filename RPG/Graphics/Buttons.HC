@@ -204,10 +204,24 @@ U0 ReleaseRing()
 
 }
 
+Bool FillItemIfOnWater(I64 wlvl=0){
+ if(wlvl>0){
+  switch(mc->draggingID){
+   case IT_POT:
+    RemoveItemLoc(mc->draggingItem);
+    AddItemToInventory(PLAYER,IT_WPOT);
+    mc->reRenderInv=TRUE;
+    mc->draggingInv=FALSE; 
+    return TRUE;
+   break;
+  }
+ }
+ return FALSE;
+}
+
 U0 CombineIfPossible(I64 pItem)
 {
  Item *item= RetrieveItem(PLAYER,pItem);
-
 
  switch(mc->draggingID)
  {
@@ -259,9 +273,14 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
    mc->draggingInv=TRUE;
   }
  }else{//release
+  I64 wlvl= GetTensorWaterLevel(world->level,player->x,player->y,world->currentZ);     
+  if(FillItemIfOnWater(wlvl))
+   marked=TRUE;
   //if there is an item underneath
   if(occupied!=-1&&occupied!=mc->draggingItem->invID){//continue drag
    marked = TRUE;
+   CombineIfPossible(occupied);
+
   }else{//if open space, drop and release w=1 h=2
    U8 itemW, itemH;
    U8 invHMax= mc->draggingItem->h;

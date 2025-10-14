@@ -103,14 +103,18 @@ Matrix *MakeCastle(Matrix *toAdd)
    }
  }
 
- //poppy field
-// SetMatrixObj(toAdd,OBJ_POPPY,8,3,FALSE);
+ //poppy start test
  SetMatrixItem(toAdd,IT_POT,8,2);
  SetMatrixItem(toAdd,IT_WPOT,8,3);
  SetMatrixItem(toAdd,IT_HPPOT,8,4);
 
+ SetMatrixObj(toAdd,OBJ_POPPY,10,2,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,10,4,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,10,6,FALSE);
+
+ //ne poppy field
  SetMatrixObj(toAdd,OBJ_POPPY,28,4,FALSE);
- SetMatrixObj(toAdd,OBJ_POPPY,29,3,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,29,3,FALSE);
 
  SetMatrixObj(toAdd,OBJ_POPPY,30,2,FALSE);
  SetMatrixObj(toAdd,OBJ_POPPY,31,3,FALSE);
@@ -125,6 +129,10 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixObj(toAdd,OBJ_POPPY,34,3,FALSE);
   
 
+ SetMatrixObj(toAdd,OBJ_POPPY,9,3,FALSE);
+
+ SetMatrixObj(toAdd,OBJ_POPPY,9,3,FALSE);
+
   //NPCS
  SetMatrixNPC(toAdd,A_JEZEBEL,19,3);//jezebel
  SetMatrixNPC(toAdd,A_KING,18,3);//king
@@ -132,7 +140,7 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,A_GUEST,19,6);//guest
  SetMatrixNPC(toAdd,A_GUEST2,20,6);//guest
  SetMatrixNPC(toAdd,A_GUEST3,18,7);//guest
- SetMatrixNPC(toAdd,A_GUEST4,23,5);//guest
+ SetMatrixNPC(toAdd,A_GUEST4,23,5);//guest
  SetMatrixNPC(toAdd,A_GUEST5,22,7);//guest
  SetMatrixNPC(toAdd,A_GUEST6,19,8);//guest
  SetMatrixNPC(toAdd,A_GUEST7,16,8);//guest
@@ -158,6 +166,11 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,19,45,7);//wild dog
  SetMatrixNPC(toAdd,20,47,9);//wild dog
 
+ //sw poppy field
+ SetMatrixObj(toAdd,OBJ_POPPY,5,37,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,8,38,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,10,37,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,13,38,FALSE);
  
  SetMatrixNPC(toAdd,A_OX_CART,1,21);
  FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
