@@ -273,9 +273,6 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
    mc->draggingInv=TRUE;
   }
  }else{//release
-  I64 wlvl= GetTensorWaterLevel(world->level,player->x,player->y,world->currentZ);     
-  if(FillItemIfOnWater(wlvl))
-   marked=TRUE;
   //if there is an item underneath
   if(occupied!=-1&&occupied!=mc->draggingItem->invID){//continue drag
    marked = TRUE;

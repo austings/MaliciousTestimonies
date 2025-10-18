@@ -266,6 +266,12 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
  if(M_X>=0&&M_X<480&&
     M_Y>=0&&M_Y<480)
  {
+  if(M_Y<480-(42*4)&&mc->draggingInv==TRUE)
+  {  
+   I64 wlvl= GetTensorWaterLevel(world->level,player->x,player->y,world->currentZ);     
+   if(FillItemIfOnWater(wlvl))
+    goto handlemend;
+  }
   //Equip wep slot
   HandleMouseEquipRelease(M_X,M_Y,i,j);
   //check repository region
@@ -273,7 +279,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
    for(i=0;i<INVWIDTH;i++){
     for(j=0;j<INVHEIGHT;j++){
      if(M_X>=(i*45)+2   &&
-       M_X< (i+1)*45+2 &&
+       M_X< (i+1)*45+2 &&
        M_Y>=(j*42) &&
        M_Y< (j+1)*42&&!mc->prayerDragging){
       InvDrag(i,j,mc->lootTarget);
@@ -298,6 +304,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
    }//end inventory width     
   }//end invdisplay
  } //End game area
+ handlemend:
 }
 
 U0 HandleRMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
