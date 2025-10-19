@@ -26,6 +26,7 @@ U0 TickTile(I64 i,I64 j, Actor *p)
     Abs((p->x)-(toUpdate->x))<=AGGRO_DIS&& //(aggro distance)
     Abs((p->y)-(toUpdate->y))<=AGGRO_DIS  )
     {
+     PrintDevMessage("NOTDEAD");
      CombatQueInit(toUpdate);
     }
    }
@@ -104,16 +105,16 @@ U0 TickCombat(I64 i,I64 j,Actor *p)
    }
   break;
   case STAGE_2:
-   mc->combatMenuStage=STAGE_0;
-   mc->combatMenuSelection=CMS_MOVE;
-   mc->combatQueId=PLAYER;      
+    mc->combatMenuStage=STAGE_0;
+    mc->combatMenuSelection=CMS_MOVE;
+    mc->combatQueId=PLAYER; 
    //return que pointer to player
   
   break;
  }
 
- if(mc->combatON==FALSE)
-  EndProceduralAnimations; 
+ //if(mc->combatON==FALSE)
+ // EndProceduralAnimations; 
 
 }
 

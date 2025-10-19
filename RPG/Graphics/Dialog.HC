@@ -306,6 +306,9 @@ U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
  dc->color = BLACK;
  Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
  PrintLine(dc,eText,12,385,2);
+ Free(action);
+ //Free(prefix);
+ Free(eText);
 
 
 }

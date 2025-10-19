@@ -25,11 +25,11 @@ Cd(__DIR__);;
 #include "Gameplay/Item.HC";
 #include "Map/Objects.HC";
 #include "Gameplay/Player.HC";
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 
 // Loading Narrative
 #include "Graphics/Dialog.HC";
-// Loading GUI
+// Loading GUI
 #include "Dev/Dev.HC";
 #include "Gameplay/Save.HC";
 #include "Graphics/Buttons.HC";

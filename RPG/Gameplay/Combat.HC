@@ -145,14 +145,14 @@ U0 EnemyEndTurn(I64 i, Actor *p){
      mc->combatON=TRUE;//continue combat
     }else{
      CalculateExp(p);
+     mc->combatON=FALSE;
+     CombatQueFree();
     }
-    CombatQueFree();
-    mc->combatON=FALSE;
-
 
    }
-   ctp = ctp->next;
+    ctp = ctp->next;
   }
+  ctp = combatCQue.next;
   mc->combatMenuStage=STAGE_2;
  }      
 }
