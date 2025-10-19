@@ -90,7 +90,6 @@ U0 KeyEnter(Actor *p, MapNode *puin)
 
 U0 KeyArrow(Actor *p)
 { //corresponds to DIR left, right, up, down
- PrintDevMessage("Key!");
  SetActorDir(p,DELIMITER);//in progress
  if(!mc->combatON){
   if(p->walking==W_NOTWALKING){
@@ -279,7 +278,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
    for(i=0;i<INVWIDTH;i++){
     for(j=0;j<INVHEIGHT;j++){
      if(M_X>=(i*45)+2   &&
-       M_X< (i+1)*45+2 &&
+       M_X< (i+1)*45+2 &&
        M_Y>=(j*42) &&
        M_Y< (j+1)*42&&!mc->prayerDragging){
       InvDrag(i,j,mc->lootTarget);

@@ -29,6 +29,8 @@ Cd(__DIR__);;
 
 // Loading Narrative
 #include "Graphics/Dialog.HC";
+// Loading GUI
+#include "Dev/Dev.HC";
 #include "Gameplay/Save.HC";
 #include "Graphics/Buttons.HC";
 #include "Graphics/Menu.HC";
@@ -43,8 +45,6 @@ Cd(__DIR__);;
 #include "Graphics/Attacks.HC";
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
-//Console
-#include "Dev/Dev.HC";
 #include "Graphics/Render.HC";
 #include "Graphics/Draw.HC";
 

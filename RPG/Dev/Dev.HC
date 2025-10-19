@@ -87,5 +87,5 @@ U0 PrintDevMessage(U8 *msg)
 {
  Free(devc.line0);
  devc.line0 = msg;
- DevKeyEnter;
+ DevKeyEnter;
 }
