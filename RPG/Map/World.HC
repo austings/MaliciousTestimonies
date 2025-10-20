@@ -104,10 +104,14 @@ U0 TickCombat(I64 i,I64 j,Actor *p)
         AddDirective(ARCSTRIKE,ctp->ready);
       break;
      }
+     if(mc->turnIndex>6)
+      AutoTurnEnd;
     break;
     case CMS_ENE2:
      UpdateDirective(ARCSTRIKE,ctp->ready,0,0,0,TRUE);
      mc->turnIndex++;
+     if(mc->turnIndex>6)
+      AutoTurnEnd;
     break;
     case CMS_ENE3:
     EnemyEndTurn(i, p);

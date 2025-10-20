@@ -280,14 +280,26 @@ U0 ProceduralAnimate1(CDC *dc,Director *task)
 
 }
 
+F64 fmod(F64 x, F64 y)
+{
+    F64 div = x / y;
+    I64 n = ToI64(div);  // truncate toward zero
+    return x - ToF64(n * y);
+}
+
 U0 ProceduralAnimateArc(CDC *dc, Director *task)
 {
     task->a->visible = TRUE;  
     task->z++;
 
-    // Timing control
-    F64 duration = 120.0;  // frames or ticks for one full travel
-    F64 t = (task->z % (I64)duration) / duration; // normalized 0–1
+    // Timing
+    F64 duration = 32.0;  // one full travel forward or backward
+    F64 cycle = fmod(task->z / duration, 2.0); 
+    F64 t;
+    if (cycle <= 1.0)
+     t = cycle;// going forward 
+    else
+     t = 2.0 - cycle;// coming back
     F64 phase = task->z / 10.0; // for bounce timing
 
     // Start and end points
@@ -296,32 +308,19 @@ U0 ProceduralAnimateArc(CDC *dc, Director *task)
     F64 ex = player->screenX;
     F64 ey = player->screenY;
 
-    // Linear interpolation (LERP) between start and end
+    // LERP between start and end
     F64 px = sx + (ex - sx) * t;
     F64 py = sy + (ey - sy) * t;
 
-    // Add a small sinusoidal bounce vertically
-    F64 amplitudeY = 5.0; // bounce height
+    // Bounce
+    F64 amplitudeY = 15.0;
     F64 bounce = amplitudeY * Abs(Sin(phase));
 
+    // Apply
     task->a->screenX = px;
     task->a->screenY = py - bounce;
-
-    // Reverse direction when reaching the end
-    if (t >= 1.0) {
-        // swap start and end to go back
-        F64 tempX = task->x;
-        F64 tempY = task->y;
-        task->x = ex;
-        task->y = ey;
-        player->screenX = tempX;
-        player->screenY = tempY;
-        task->z = 0; // reset time
-    }
-
-
-
 }
+
 
 U0 PlayAnimation(CDC *dc,Director *task){
   I64 i;

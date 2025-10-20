@@ -137,6 +137,33 @@ U0 AnyKey()
  }
 }
 
+U0 AutoTurnEnd()
+{
+ if(mc->combatMenuStage==STAGE_1)//enemy turn
+ {
+  switch(mc->combatMenuSelection)
+  {
+   case CMS_ENE1:
+    mc->combatMenuSelection = CMS_ENE2;//move complete
+    if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=PLAYER){
+     player->currentHealth-=(ctp->ready->str);
+     RemoveStatus(ctp->ready);
+    }
+    mc->turnIndex=0;
+   break;
+   case CMS_ENE2:
+    mc->combatMenuSelection = CMS_ENE3;
+    mc->turnIndex=0;
+   break;
+   case CMS_ENE3:
+   break;
+   default:
+    mc->combatMenuSelection = CMS_ENE1;
+   break;
+  }
+ }
+}
+
 U0 HandleKeyboard(Actor *p, MapNode *puin)
 {
  if(keys.pressed){
