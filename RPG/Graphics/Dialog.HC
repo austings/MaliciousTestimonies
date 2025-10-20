@@ -299,6 +299,7 @@ U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
   break;
   default:
    prefix = "attack";
+   AddStatus(ctp->ready,ATTK_STATUS);
   break;
  }
  U8 *action = MStrPrint(" is %sing!",prefix);

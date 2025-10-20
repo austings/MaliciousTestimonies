@@ -25,7 +25,7 @@ Cd(__DIR__);;
 #include "Gameplay/Item.HC";
 #include "Map/Objects.HC";
 #include "Gameplay/Player.HC";
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 
 // Loading Narrative
 #include "Graphics/Dialog.HC";
@@ -101,10 +101,11 @@ U0 InitMenuControl()
  mc->combatON = FALSE;
  mc->combatMenuStage =STAGE_0;
  mc->combatMenuSelection=CMS_MOVE;
- mc->combatQueId=PLAYER;
  mc->target = GetNPC(0);
  mc->tarposx = 0;
  mc->tarposy = 0;
+ mc->combatTurn = 0;
+ mc->targetCTPIndex = 0;
 
 
 }

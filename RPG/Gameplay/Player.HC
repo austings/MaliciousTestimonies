@@ -75,9 +75,23 @@ U0 SetNPC(Actor *a)
 
 //StatusEffects
 
+Bool HasStatus(Actor *a, U16 statusCode)
+{
+ if(a->status1 == statusCode)
+ {
+  return TRUE;
+ }
+ return FALSE;
+}
+
 U0 AddStatus(Actor *a,U16 statusCode)
 {
   a->status1 = statusCode;
+}
+
+U0 RemoveStatus(Actor *a)
+{
+  a->status1 = NRML_STATUS;
 }
 
 U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)

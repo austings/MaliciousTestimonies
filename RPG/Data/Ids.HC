@@ -19,6 +19,7 @@
 #define NRML_STATUS 0
 #define DEAD_STATUS 1
 #define WADE_STATUS 2
+#define ATTK_STATUS 3
 
 //Animations
 #define T1FISH 0//"T1Fish"

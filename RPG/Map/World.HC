@@ -3,7 +3,7 @@ U0 SetCombatStage1(){
  mc->turnIndex=1;
  mc->combatMenuStage=STAGE_1;
  mc->combatMenuSelection=CMS_ENE1;
-
+ CTPProgress;
 }
 
 U0 TickTile(I64 i,I64 j, Actor *p)
@@ -55,8 +55,10 @@ U0 TickCombat(I64 i,I64 j,Actor *p)
         SetCombatStage1;
        }//mc turnindex
       break;
-     }//switch p sword    break;
+     }//switch p sword    
+    break;
     case CMS_PRAYER_DONE:
+     PrintDevMessage("CASTING");
      switch(mc->prayerToCast){
       case SP_HEAL: //lay on hands
        if(mc->turnIndex==1) { CastPrayer(p);}
@@ -93,7 +95,15 @@ U0 TickCombat(I64 i,I64 j,Actor *p)
    switch(mc->combatMenuSelection){
     case CMS_ENE1:
      mc->turnIndex++;
-     AddDirective(ARCSTRIKE,ctp->ready);
+     switch(ctp->ready->status1)
+     {
+      case DEAD_STATUS:
+      break;
+      default:
+       if(!HasDirective(ARCSTRIKE,ctp->ready))
+        AddDirective(ARCSTRIKE,ctp->ready);
+      break;
+     }
     break;
     case CMS_ENE2:
      UpdateDirective(ARCSTRIKE,ctp->ready,0,0,0,TRUE);
@@ -107,8 +117,6 @@ U0 TickCombat(I64 i,I64 j,Actor *p)
   case STAGE_2:
     mc->combatMenuStage=STAGE_0;
     mc->combatMenuSelection=CMS_MOVE;
-    mc->combatQueId=PLAYER; 
-   //return que pointer to player
   
   break;
  }

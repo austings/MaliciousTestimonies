@@ -108,9 +108,9 @@ class MenuControl{
   U16 combatMenuStage; //switches between characters in a combat queue
   U8 combatMenuSelection; //affects combat dialog options
   U8 turnIndex;//used for specific world tick timers
-  U8 combatQueId;
+  U8 combatTurn;//whose turn it is
 
-  Actor *target;I64 tarposx,tarposy;//players current target
+  Actor *target;I64 targetCTPIndex, tarposx,tarposy;//players current target
 
   //prayerSelection
   I64 prayerToCast, dragPrayer, prayerListIndex, prayerListSize;

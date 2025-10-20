@@ -40,6 +40,8 @@ U0 ObjectTrigger(Actor *p, MapNode *puin)
 
 U0 KeyEnter(Actor *p, MapNode *puin)
 {
+ U8 *selection = MStrPrint("%d", mc->combatMenuSelection);
+ PrintDevMessage(selection);
  if(mc->displayDev)
  {DevKeyEnter(); }
  else if(mc->combatON){
@@ -72,7 +74,6 @@ U0 KeyEnter(Actor *p, MapNode *puin)
    break;
    case CS_PRAYER2://select target (prayer completion)
     mc->combatMenuSelection=CMS_PRAYER_DONE;
-    CastPrayer(p);
     break;
 
   }//end switch
@@ -113,7 +114,11 @@ U0 AnyKey()
   {
    case CMS_ENE1:
     if(mc->turnIndex>2){
-     mc->combatMenuSelection = CMS_ENE2;
+     mc->combatMenuSelection = CMS_ENE2;//move complete
+     if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=PLAYER){
+      player->currentHealth-=(ctp->ready->str);
+      RemoveStatus(ctp->ready);
+     }
      mc->turnIndex=0;
     }
    break;

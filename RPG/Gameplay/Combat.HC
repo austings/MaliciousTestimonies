@@ -1,3 +1,4 @@
+
 U0 CombatQueFree() {
   //CombatTurn *ctn = combatCQue.last;
   //QueRem(&ctn);
@@ -32,11 +33,11 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
    switch(mc->combatMenuSelection)
    {
     case CMS_ENE1:
-     SetActorDir(p,DELIMITER);//modified dir complete
+     SetActorDir(p,DELIMITER);//make attack
      CombatDialog4(dc,task,p);
     break;
     case CMS_ENE2:
-     SetActorDir(p,DELIMITER);//modified dir complete
+     SetActorDir(p,DELIMITER);//ene move complete
      CombatDialog5(dc,task,p);
     break;
     default:
@@ -55,13 +56,33 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
 
 U0 SwitchTarget()
 {
+ I64 count = QueCnt(combatCQue);
  ctp = ctp->next;
- mc->combatQueId++;//return to player from head
- if(mc->combatQueId>=QueCnt(combatCQue)){
-   ctp = combatCQue.next;
-   mc->combatQueId = 0;
- }   
+ mc->targetCTPIndex++;
+ if(mc->targetCTPIndex==count){
+  ctp = combatCQue.next;
+  mc->targetCTPIndex = 0;
+ }
 
+
+}
+
+U0 CTPProgress()
+{
+ mc->combatTurn++;
+ I64 i, count = QueCnt(combatCQue);
+ if(mc->combatTurn==count)
+ {
+  mc->combatTurn = 0;
+ }
+ ctp = combatCQue.next;
+ for(i=0;i<count;i++)
+ {
+  if(i==mc->combatTurn)
+   break;
+  else
+   ctp = ctp->next;
+ }
 }
 
 U0 CombatTurnArrows(Actor *p)
@@ -74,7 +95,6 @@ U0 CombatTurnArrows(Actor *p)
   break;
   case CMS_STRIKE:
   case CMS_PRAYER:
-   ctp = combatCQue.next;  
    if(keys.pressed==DIR_DOWN){
     mc->combatMenuSelection++;
    }
@@ -116,7 +136,7 @@ U0 CombatTurnArrows(Actor *p)
 U0 CalculateExp(Actor *p)
 {
  p->exp+=(ctp->ready->str+ ctp->ready->con+ 
-           ctp->ready->int+ ctp->ready->wis);
+           ctp->ready->int+ ctp->ready->wis)/4;
  if(p->exp>=p->maxExp){
   Play("3wC#D#E#F#G#");
   LvlUp(p);
@@ -124,16 +144,17 @@ U0 CalculateExp(Actor *p)
 
 }
 
+
+//i = iterable
+//p = player
 U0 EnemyEndTurn(I64 i, Actor *p){
  mc->turnIndex++;
  //update after two world ticks
  if(mc->turnIndex>2){
 
   SetActorDir(p,DELIMITER);//end prev anims
-  mc->turnIndex= 0;   
-
-  //reset que pointers
-  ctp = combatCQue.next;
+  mc->turnIndex= 0;
+  ctp = combatCQue.next;   
   //check every actor for updates
   for(i=0;i<QueCnt(combatCQue);i++){
    if(ctp->ready->id==PLAYER)
@@ -152,9 +173,9 @@ U0 EnemyEndTurn(I64 i, Actor *p){
 
    }
     ctp = ctp->next;
-  }
-  ctp = combatCQue.next;
+  } 
   enemyend:
+  CTPProgress;
   mc->combatMenuStage=STAGE_2;
  }      
 }

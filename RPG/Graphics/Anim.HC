@@ -366,8 +366,8 @@ U0 PlayAnimation(CDC *dc,Director *task){
      break;
      default:
       ResetDirective(task);
-      //FreeMyTask();
       task->a->visible = TRUE;  
+      //FreeMyTask(task->cQueDirective,task->a);
       goto taskend;
      break;
     

@@ -34,7 +34,7 @@ U0 ResetDirective(Director *task)
 }
 
 
-U0 FreeMyTask(Actor *a)
+U0 FreeMyTask(I64 name, Actor *a)
 {
  Director *task = direct.next;
 
@@ -43,7 +43,7 @@ U0 FreeMyTask(Actor *a)
  for(i=0;i<cnt;i++)
  {
 
-  if(a->id == task->a->id)
+  if(a->id == task->a->id&&task->cQueDirective==name)
   {
    i=9999;
    break;
@@ -59,6 +59,14 @@ U0 FreeMyTask(Actor *a)
  }
 
 }
+
+U0 FreeTask(Director *task)
+{
+ QueRem(task);
+ Free(task);
+}
+
+
 
 Director *HasAnyDirective(Actor *a)
 {

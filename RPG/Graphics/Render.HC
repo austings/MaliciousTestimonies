@@ -84,10 +84,9 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file
   ctn = CAlloc(sizeof(CombatTurn));
   ctn->ready = toInsert; 
   QueIns(ctn,combatCQue.last);
-  //combatCQue
-  
+  //combatCQue  
   ctp = combatCQue.next;
-  mc->combatQueId = PLAYER;
+  mc->combatTurn = 0;
 
   AddDirective(BOUNCE,toInsert);
  

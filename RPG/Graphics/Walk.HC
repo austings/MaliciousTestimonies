@@ -197,6 +197,7 @@ Bool HasDirective(I64 directive,Actor *a)
  return free;
 }
 
+//deprecated
 U0 EndProceduralAnimations(){
  Director *task = direct.next;
  I64 i =0; 
@@ -222,7 +223,7 @@ Bool UpdateDirective(I64 directive,Actor *p,
    if(task->a->id==p->id){
     if(p->status1==DEAD_STATUS||explicitRemoval){
      //update if actor dies mid animate
-     FreeMyTask(p);
+     FreeMyTask(directive, p);
      return FALSE;
     }
 
