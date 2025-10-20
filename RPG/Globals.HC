@@ -128,7 +128,7 @@ class MenuControl{
        displayShop,
        displayEquipment,
        displayDev,
-       displaySave;
+       displaySave;
 
 };
 

@@ -138,6 +138,9 @@ Animation *CreateAnimation(I64 wadFrameName){
   case BOUNCE:
    QueIns(AddFrame(AAE7,BOUNCE,0),allAnimations.last);
   break;
+  case ARCSTRIKE:
+   QueIns(AddFrame(AAE7,ARCSTRIKE,0),allAnimations.last);
+  break;
   case T1DIE:
    QueIns(AddFrame(AAE74,T$ER$1DIE,0),allAnimations.last);
    QueIns(AddFrame(AAE75,T$ER$1DIE,1),allAnimations.last);
@@ -255,9 +258,6 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF061,EFFSCRATCH,0),allAnimations.last);
    QueIns(AddFrame(EFF060,EFFSCRATCH,0),allAnimations.last);
   break; 
-  case ARCSTRIKE:
-   QueIns(AddFrame(EFF059,ARCSTRIKE,0),allAnimations.last);
-  break;
  }
 }
 
@@ -281,39 +281,46 @@ U0 ProceduralAnimate1(CDC *dc,Director *task)
 }
 
 U0 ProceduralAnimateArc(CDC *dc, Director *task)
-{/*
+{
     task->a->visible = TRUE;  
     task->z++;
-    // Interpolation progress (0.0 to 1.0)
-    F64 duration = 120.0; // number of frames for full traversal
-    F64 t = task->z / duration;
-    if (t > 1.0) {
-        // Reverse direction by swapping start/target and resetting progress
-        F64 tmpX = task->x;
-        F64 tmpY = task->y;
-        task->x = player->screenX;
-        task->y = player->screenY;
-        task->z = 0;
-        return;
-    }
 
-    // Linear interpolation between points
+    // Timing control
+    F64 duration = 120.0;  // frames or ticks for one full travel
+    F64 t = (task->z % (I64)duration) / duration; // normalized 0–1
+    F64 phase = task->z / 10.0; // for bounce timing
+
+    // Start and end points
     F64 sx = task->x;
     F64 sy = task->y;
     F64 ex = player->screenX;
     F64 ey = player->screenY;
 
-    // Interpolated horizontal position
-    F64 interpX = sx + (ex - sx) * t;
-    F64 interpY = sy + (ey - sy) * t;
+    // Linear interpolation (LERP) between start and end
+    F64 px = sx + (ex - sx) * t;
+    F64 py = sy + (ey - sy) * t;
 
-    // Apply vertical arc using a sine wave (peak at t=0.5)
-    F64 arcHeight = 20.0; // height of the arc in pixels
-    F64 arcOffset = arcHeight * Sin(pi * t); // Sin(pi * t) peaks at t=0.5
+    // Add a small sinusoidal bounce vertically
+    F64 amplitudeY = 5.0; // bounce height
+    F64 bounce = amplitudeY * Abs(Sin(phase));
 
-    task->a->screenX = interpX;
-    task->a->screenY = interpY - arcOffset; // negative = upward arc
-*/
+    task->a->screenX = px;
+    task->a->screenY = py - bounce;
+
+    // Reverse direction when reaching the end
+    if (t >= 1.0) {
+        // swap start and end to go back
+        F64 tempX = task->x;
+        F64 tempY = task->y;
+        task->x = ex;
+        task->y = ey;
+        player->screenX = tempX;
+        player->screenY = tempY;
+        task->z = 0; // reset time
+    }
+
+
+
 }
 
 U0 PlayAnimation(CDC *dc,Director *task){

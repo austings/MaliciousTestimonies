@@ -1,11 +1,11 @@
 U0 CombatQueFree() {
-  CombatTurn *ctn = combatCQue.last;
-  QueRem(ctn);
-  ctn = combatCQue.last;
-  QueRem(ctn);
+  //CombatTurn *ctn = combatCQue.last;
+  //QueRem(&ctn);
+  //ctn = combatCQue.last;
+  //QueRem(&ctn);
   
-// QueDel(combatCQue);
-// Free(combatCQue);
+ QueDel(&combatCQue);
+ //Free(&combatCQue);
 }
 
 U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
@@ -147,12 +147,14 @@ U0 EnemyEndTurn(I64 i, Actor *p){
      CalculateExp(p);
      mc->combatON=FALSE;
      CombatQueFree();
+     goto enemyend;
     }
 
    }
     ctp = ctp->next;
   }
   ctp = combatCQue.next;
+  enemyend:
   mc->combatMenuStage=STAGE_2;
  }      
 }

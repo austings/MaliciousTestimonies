@@ -26,7 +26,6 @@ U0 TickTile(I64 i,I64 j, Actor *p)
     Abs((p->x)-(toUpdate->x))<=AGGRO_DIS&& //(aggro distance)
     Abs((p->y)-(toUpdate->y))<=AGGRO_DIS  )
     {
-     PrintDevMessage("NOTDEAD");
      CombatQueInit(toUpdate);
     }
    }
@@ -94,9 +93,10 @@ U0 TickCombat(I64 i,I64 j,Actor *p)
    switch(mc->combatMenuSelection){
     case CMS_ENE1:
      mc->turnIndex++;
-//     AddDirective(ARCSTRIKE,p);
+     AddDirective(ARCSTRIKE,ctp->ready);
     break;
     case CMS_ENE2:
+     UpdateDirective(ARCSTRIKE,ctp->ready,0,0,0,TRUE);
      mc->turnIndex++;
     break;
     case CMS_ENE3:
