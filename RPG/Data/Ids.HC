@@ -47,8 +47,6 @@
 #define T3SPEAR 18
 #define T4SPEAR 19
 
-#define BOUNCE 20//"Ready"
-
 #define T1DIE 21
 #define T2DIE 22
 #define T3DIE 23
@@ -59,13 +57,21 @@
 #define T3CAST 27
 #define T4CAST 28
 
-//Effects
-#define T1EFFHEAL 29
-#define EFFFISH 30
-#define EFFFIRE 31
-#define EFFSCRATCH 32
+#define T1HURT 29
+#define T2HURT 30
+#define T3HURT 31
+#define T4HURT 32
 
-#define ARCSTRIKE 35
+
+//Procedural
+#define BOUNCE 200
+#define ARCSTRIKE 201
+
+//Effects
+#define T1EFFHEAL 290
+#define EFFFISH 300
+#define EFFFIRE 310
+#define EFFSCRATCH 320
 
 //Chest Ids
 #define CAMP_CHEST 1000000

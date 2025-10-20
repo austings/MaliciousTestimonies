@@ -336,17 +336,35 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
      task->cQueDirective = T2CAST;
     break;
     case T_EPHR:
-     task->cQueDirective = T3CAST;
+     task->cQueDirective = T3CAST;
     break;
     case T_BENJ:
      task->cQueDirective = T4CAST;
     break;
    }
   break;
+  case T1HURT...T4HURT:
+   SetActorDir(p,DIR_DOWN);
+   switch(p->face){
+    case T_JUDA:
+     task->cQueDirective = T1HURT;  
+    break;
+    case T_LEVI:
+     task->cQueDirective = T2HURT;
+    break;
+    case T_EPHR:
+     task->cQueDirective = T3HURT;
+    break;
+    case T_BENJ:
+     task->cQueDirective = T4HURT;
+    break;
+   }
+  break;
+
   case T1EFFHEAL:
   case EFFFISH:
   case EFFFIRE:
-  //case EFFSCRATCH:
+  case EFFSCRATCH:
    task->cQueDirective = directive;
    isEffect = TRUE;
   break;

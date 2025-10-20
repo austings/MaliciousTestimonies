@@ -141,6 +141,26 @@ Animation *CreateAnimation(I64 wadFrameName){
   case ARCSTRIKE:
    QueIns(AddFrame(AAE7,ARCSTRIKE,0),allAnimations.last);
   break;
+  case T1HURT:
+   QueIns(AddFrame(AAE97,T$ER$1HURT,0),allAnimations.last);
+   QueIns(AddFrame(AAE98,T$ER$1HURT,1),allAnimations.last);
+   QueIns(AddFrame(AAE99,T$ER$1HURT,2),allAnimations.last);
+  break;
+  case T2HURT:
+   QueIns(AddFrame(AAE151,T$ER$2HURT,0),allAnimations.last);
+   QueIns(AddFrame(AAE152,T$ER$2HURT,1),allAnimations.last);
+   QueIns(AddFrame(AAE153,T$ER$2HURT,2),allAnimations.last);
+  break;
+  case T3HURT:
+   QueIns(AddFrame(AAE205,T$ER$3HURT,0),allAnimations.last);
+   QueIns(AddFrame(AAE206,T$ER$3HURT,1),allAnimations.last);
+   QueIns(AddFrame(AAE207,T$ER$3HURT,2),allAnimations.last);
+  break;
+  case T4HURT:
+   QueIns(AddFrame(AAE52,T$ER$4HURT,0),allAnimations.last);
+   QueIns(AddFrame(AAE53,T$ER$4HURT,1),allAnimations.last);
+   QueIns(AddFrame(AAE54,T$ER$4HURT,2),allAnimations.last);
+  break;
   case T1DIE:
    QueIns(AddFrame(AAE74,T$ER$1DIE,0),allAnimations.last);
    QueIns(AddFrame(AAE75,T$ER$1DIE,1),allAnimations.last);
@@ -253,10 +273,14 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF364,EFFFIRE,10),allAnimations.last);
   break;
   case EFFSCRATCH:
-   QueIns(AddFrame(EFF059,EFFSCRATCH,0),allAnimations.last);
-   QueIns(AddFrame(EFF060,EFFSCRATCH,0),allAnimations.last);
-   QueIns(AddFrame(EFF061,EFFSCRATCH,0),allAnimations.last);
-   QueIns(AddFrame(EFF060,EFFSCRATCH,0),allAnimations.last);
+   QueIns(AddFrame(EFF025,EFFSCRATCH,0),allAnimations.last);
+   QueIns(AddFrame(EFF060,EFFSCRATCH,1),allAnimations.last);
+   QueIns(AddFrame(EFF026,EFFSCRATCH,2),allAnimations.last);
+   QueIns(AddFrame(EFF061,EFFSCRATCH,3),allAnimations.last);
+   QueIns(AddFrame(EFF026,EFFSCRATCH,4),allAnimations.last);
+   QueIns(AddFrame(EFF060,EFFSCRATCH,5),allAnimations.last);
+   QueIns(AddFrame(EFF025,EFFSCRATCH,6),allAnimations.last);
+
   break; 
  }
 }
@@ -299,7 +323,15 @@ U0 ProceduralAnimateArc(CDC *dc, Director *task)
     if (cycle <= 1.0)
      t = cycle;// going forward 
     else
+    {
+     if(!HasDirective(EFFSCRATCH,player)){
+      AddDirective(EFFSCRATCH,player,player->screenX,player->screenY+10);
+      AddDirective(T1HURT,player);
+      Play("ttt2A#BC...");
+      
+     }
      t = 2.0 - cycle;// coming back
+    }
     F64 phase = task->z / 10.0; // for bounce timing
 
     // Start and end points
@@ -433,6 +465,11 @@ U0 InitializeAnimator(){
   CreateAnimation(T2DIE);
   CreateAnimation(T3DIE);
   CreateAnimation(T4DIE);
+
+  CreateAnimation(T1HURT);
+  CreateAnimation(T2HURT);
+  CreateAnimation(T3HURT);
+  CreateAnimation(T4HURT);
 
   CreateAnimation(T1CAST);
   CreateAnimation(T2CAST);
