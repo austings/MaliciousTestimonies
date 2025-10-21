@@ -7,7 +7,25 @@ class Object:CQue{
 
 #define MAX_CHESTS 10
 
-
+U0 GetItemScreenLoc(I64 invIDToFetch, I64 *x, I64 *y){
+ I64 i,j; 
+ Actor *p = GetNPC(0);
+ for(i=0;i<INVWIDTH;i++)
+ {
+  for(j=0;j<INVHEIGHT;j++)
+  {
+   if(p->myInv->mtrx[j][i].occupied==invIDToFetch)
+   { 
+    *x = i*45+2+15;
+    *y = j*42+310;
+    goto please_clap;
+    
+   }         
+  }
+ }
+ please_clap:
+}
+
 
 U0 ObjQueInit()
 {

@@ -174,7 +174,35 @@ Bool *DumpBoolIndex(I64 i,U8 *_d,U8 *class_name=lastclass)
 
 
 //data files fetch
-//Rest of Original code by nrootconauto (Clayton Rhodes)
+//Rest of Original code by nrootconauto (Clayton Rhodes)
+
+U8 *ReadALine(U8 **fbuf) {
+  U8 *en,*st=*fbuf,*buf;
+  if(!*st) return NULL;
+  if(en=StrFirstOcc(st,"\n")) {
+    buf=MAlloc(en-st+2);
+    MemCpy(buf,st,en-st+1);
+    buf[en-st+1]=0;
+    *fbuf=en+1;
+    return buf;
+  }
+  *fbuf+=StrLen(st);
+  return StrNew(st);
+}
+
+U8 *ReadATextLine(U8 **fbuf) {
+  U8 *en,*st=*fbuf,*buf;
+  if(!*st) return NULL;
+  if(en=StrFirstOcc(st,"\n")) {
+    buf=MAlloc(en-st+2);
+    MemCpy(buf,st,en-st+1);
+    buf[en-st+1]=0;
+    *fbuf=en+1;
+    return buf;
+  }
+  *fbuf+=StrLen(st);
+  return StrNew(st);
+}
 
 
 public I64 GrYoloFloodFill(CDC *dc=gr.dc,I64 x,I64 y,

@@ -55,6 +55,36 @@ I64 GetDir(Actor *a)
   return a->dir;
  }
 }
+//convert inv id to item id
+I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE){
+  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
+  I64 i;
+  for(i=0;i<index;i++){
+    toBeRetrieved = toBeRetrieved->next;
+  }
+
+  if(select)//move to mouse
+  {
+   toBeRetrieved->visible = FALSE;
+   return toBeRetrieved->id;
+  }
+  if(toBeRetrieved->visible==TRUE)
+   return toBeRetrieved->id;
+}
+
+//convert inv id to item
+Item *RetrieveItem(I64 aID, I64 index)
+{
+  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
+  I64 i;
+  for(i=0;i<index;i++)
+  {
+    toBeRetrieved = toBeRetrieved->next;
+  }
+  return toBeRetrieved;
+}
+
+
 
 
 Bool AddItemToInventory(I64 actorID, I64 itemID)
@@ -97,6 +127,8 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
      }
     }
     item->invID = cnt;
+    mc->reRenderInv=TRUE;
+
     return TRUE;
 
    }
@@ -104,6 +136,7 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
   }
   skip_num:
  }
+ mc->reRenderInv=TRUE;
 
  return FALSE;
 
@@ -111,42 +144,62 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
 
 
 //usually used for populating equipment slots
-U0 RemoveItemLoc(Item *item)
+U0 RemoveItemLoc(Item *item, Bool delete =FALSE)
 {
- Actor *p = GetNPC(0);
+ Actor *p = GetNPC(PLAYER);
 
  I64 i,j,x,y;
 
  //remove old loc
- for(i=0;i<11;i++)
+ for(i=0;i<INVWIDTH;i++)
  {
-  for(j=0;j<4;j++)
+  for(j=0;j<INVHEIGHT;j++)
   {
     if(p->myInv->mtrx[j][i].occupied==item->invID)
-    {  p->myInv->mtrx[j][i].occupied=-1; }
+    {  p->myInv->mtrx[j][i].occupied=IT_NULL; }
    
       
   }
  }
+
+ if(delete)
+ {
+  //U8 *msg = MStrPrint("ITEM:%s ",(RetrieveItem(PLAYER,item->invID))->name);
+  //PrintDevMessage(msg);
+  //QueRem(RetrieveItem(PLAYER,item->invID));
+ }
+
+ mc->reRenderInv=TRUE;
+
 }
 
-U0 RemoveItemLocID(I64 item)
+
+U0 RemoveItemLocID(I64 item, Bool delete =FALSE)
 {
- Actor *p = GetNPC(0);
+ Actor *p = GetNPC(PLAYER);
 
  I64 i,j,x,y;
 
  //remove old loc
- for(i=0;i<11;i++)
+ for(i=0;i<INVWIDTH;i++)
  {
-  for(j=0;j<4;j++)
+  for(j=0;j<INVHEIGHT;j++)
   {
     if(p->myInv->mtrx[j][i].occupied==item)
-    {  p->myInv->mtrx[j][i].occupied=-1; }
+    {  p->myInv->mtrx[j][i].occupied=IT_NULL; }
    
       
   }
  }
+
+ if(delete)
+ {
+  //U8 *msg = MStrPrint("ITEM:%s ",(RetrieveItem(PLAYER,item))->name);
+  //PrintDevMessage(msg);
+  //QueRem(RetrieveItem(PLAYER,item));
+ }
+ mc->reRenderInv=TRUE;
+
 }
 
 U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
@@ -184,53 +237,8 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
 
   }
  }
-}
+ mc->reRenderInv=TRUE;
 
-U0 GetItemScreenLoc(I64 invIDToFetch, I64 *x, I64 *y){
- I64 i,j; 
- Actor *p = GetNPC(0);
- for(i=0;i<INVWIDTH;i++)
- {
-  for(j=0;j<INVHEIGHT;j++)
-  {
-   if(p->myInv->mtrx[j][i].occupied==invIDToFetch)
-   { 
-    *x = i*45+2+15;
-    *y = j*42+310;
-    goto please_clap;
-    
-   }         
-  }
- }
- please_clap:
-}
-
-
-I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE){
-  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
-  I64 i;
-  for(i=0;i<index;i++){
-    toBeRetrieved = toBeRetrieved->next;
-  }
-
-  if(select)//move to mouse
-  {
-   toBeRetrieved->visible = FALSE;
-   return toBeRetrieved->id;
-  }
-  if(toBeRetrieved->visible==TRUE)
-   return toBeRetrieved->id;
-}
-
-Item *RetrieveItem(I64 aID, I64 index, Bool select=FALSE)
-{
-  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
-  I64 i;
-  for(i=0;i<index;i++)
-  {
-    toBeRetrieved = toBeRetrieved->next;
-  }
-  return toBeRetrieved;
 }
 
 

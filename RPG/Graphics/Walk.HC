@@ -336,7 +336,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
      task->cQueDirective = T2CAST;
     break;
     case T_EPHR:
-     task->cQueDirective = T3CAST;
+     task->cQueDirective = T3CAST;
     break;
     case T_BENJ:
      task->cQueDirective = T4CAST;

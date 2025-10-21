@@ -88,7 +88,8 @@ Bool FindPrayer()
 
 U0 GatherSelections()
 {
- I64 i,selectI=0; 
+ Free(mc->prayerList);
+ I64 i,,j,selectI=0; 
  I64 totalItems = NUM_HOTKEYS+(INVWIDTH*INVHEIGHT);
  I64 *selections = MAlloc(sizeof(I64)*totalItems);
 
@@ -106,27 +107,45 @@ U0 GatherSelections()
  //add delimiter
  selections[selectI] = DELIMITER;
  selectI++;
+ I64 itemStart = selectI;
  
  //add any usables
+
  Item *candidate = (GetNPC(0))->myInv->collection->next;
  for(i=0;i<INVWIDTH*INVHEIGHT;i++)
  {
   if(candidate->usable)
   {
-   selections[selectI] = candidate->invID;
-   selectI++;
+   Bool exists = FALSE;
+   // check if already added
+   for (j = itemStart;j<selectI; j++){
+    if (selections[j] == candidate->invID){
+     exists = TRUE;
+     break;
+    }
+   }
+   if(!exists){
+    U8 *msg = MStrPrint("Item: %s  ",candidate->name);
+    PrintDevMessage(msg);
+    selections[selectI] = candidate->invID;
+    selectI++;
+   }
   }
   candidate= candidate->next;
  }
+
  // Resize array to exact used size
  I64 *trimmed = MAlloc(sizeof(I64) * selectI);
  for (i = 0; i < selectI; i++)
  {
   trimmed[i] = selections[i];
  }
-
+ Free(msg);
+ msg = MStrPrint("ListSize: %d  ",selectI);
+ PrintDevMessage(msg);
  mc->prayerListSize = selectI;
  mc->prayerList = trimmed;
+ mc->prayerToCast =DELIMITER;
  Free(selections); 
 
 }

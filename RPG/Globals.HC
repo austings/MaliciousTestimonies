@@ -115,6 +115,7 @@ class MenuControl{
   //prayerSelection
   I64 prayerToCast, dragPrayer, prayerListIndex, prayerListSize;
   I64 *prayerList;
+  Bool isItem, isItemSelector;
 
   //inventory menus render
   I64 draggingID;//inventory mouse item

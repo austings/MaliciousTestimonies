@@ -26,21 +26,6 @@ U0 PrintLine(CDC*dc=gr.dc,U8 *line,I64 startx,I64 starty,F64 scale=1){
  }
 
 }
-
-U8 *ReadATextLine(U8 **fbuf) {
-  U8 *en,*st=*fbuf,*buf;
-  if(!*st) return NULL;
-  if(en=StrFirstOcc(st,"\n")) {
-    buf=MAlloc(en-st+2);
-    MemCpy(buf,st,en-st+1);
-    buf[en-st+1]=0;
-    *fbuf=en+1;
-    return buf;
-  }
-  *fbuf+=StrLen(st);
-  return StrNew(st);
-}
-
 #define GENERATED_TEXT 19
 
 U0 DeserializeDialog(I64 textID){
@@ -238,9 +223,9 @@ U0 CombatDialog2(CDC *dc, CTask *task)
 {
  Sprite3B(dc,300,250,0,GetButton(5));
  I64 i,j,x=280,y=250;
- Bool isItem = FALSE;
  mc->prayerToCast = mc->prayerList[mc->prayerListIndex];
 
+ mc->isItemSelector=FALSE;
  for(i=0;i<mc->prayerListSize;i++){
   if(mc->prayerList[i]==mc->prayerToCast){
    //delimiter indicates player selected back button
@@ -248,14 +233,14 @@ U0 CombatDialog2(CDC *dc, CTask *task)
     Sprite3B(dc,x,y,0,GetCross);
     goto found;
    }
-   if(isItem){
+   if(mc->isItemSelector){
      GetItemScreenLoc(mc->prayerToCast,&x,&y);
      Sprite3B(dc,x,y,0,GetCross);
      goto found;
    }
    else
    {//player selecting prayer from hotbar
-    if(!isItem){
+    if(!mc->isItemSelector){
      for(j=0;j<NUM_HOTKEYS;j++)
      {
       if(hotkeys[j]==mc->prayerToCast){
@@ -271,7 +256,7 @@ U0 CombatDialog2(CDC *dc, CTask *task)
   else
   {//if we have passed delimiter, then we enter the inventory space
    if(mc->prayerList[i]==DELIMITER)
-    isItem=TRUE;
+    mc->isItemSelector=TRUE;
   }  
  }
  found:
@@ -302,7 +287,7 @@ U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
    AddStatus(ctp->ready,ATTK_STATUS);
   break;
  }
- U8 *action = MStrPrint(" is %sing!",prefix);
+ U8 *action = MStrPrint(" is %sing!",prefix);
  U8 *eText = MStrPrint("%s%s",ctp->ready->name,action);
  dc->color = BLACK;
  Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);

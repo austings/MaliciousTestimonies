@@ -75,7 +75,7 @@ Item *MakeItem(I64 id){
   build->name = "Common Shirt";
   build->w=2,build->h=3;
   build->hOff=32;
-  build->equip_slot=EQ_SLOT_BDY;
+  build->equip_slot=EQ_SLOT_BDY;
   build->v1="HP+10";
   build->v2="SP+10";
   build->value = 5;
@@ -137,3 +137,4 @@ Inventory *MakeInventory()
 
  return newInv;
 }
+

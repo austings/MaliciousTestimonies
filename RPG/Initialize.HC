@@ -13,24 +13,24 @@ Cd(__DIR__);;
 #include "Sprites/SpriteSheet3.HC";
 #include "Sprites/SpriteSheet4.HC";
 // Loading Data Into Map
+#include "Gameplay/Item.HC";
 #include "Map/Actors.HC";
 #include "Gameplay/Markov/Markov.HC";
 #include "Map/Director.HC";
 #include "Map/Level.HC";
 
 //Pathfinding
-#include "Gameplay/AI.HC";
+#include "Gameplay/AI.HC";
 // Loading Player
 #include "Globals.HC";
-#include "Gameplay/Item.HC";
 #include "Map/Objects.HC";
-#include "Gameplay/Player.HC";
-#include "Gameplay/Equipment.HC";
-
 // Loading Narrative
 #include "Graphics/Dialog.HC";
 // Loading GUI
 #include "Dev/Dev.HC";
+#include "Gameplay/Player.HC";
+#include "Gameplay/Equipment.HC";
+
 #include "Gameplay/Save.HC";
 #include "Graphics/Buttons.HC";
 #include "Graphics/Menu.HC";
@@ -79,8 +79,11 @@ U0 InitMenuControl()
  //prayers
  mc->prayerPage=0;
  mc->dragPrayer=-1;
- mc->prayerToCast=-1;
+ mc->prayerToCast=DELIMITER;
+ mc->isItem = FALSE;
+ mc->isItemSelector = FALSE;
  mc->prayerListSize =0;
+ mc->prayerList =MAlloc(sizeof(I64));
  mc->prayerListIndex =0;
  mc->prayerDragging=FALSE;
 
@@ -113,7 +116,7 @@ U0 InitMenuControl()
 U0 InitHotKeys()
 {
  I64 a;
- for(a=0;a<9;a++) {
+ for(a=0;a<NUM_HOTKEYS;a++) {
   hotkeys[a] = -1;               
  }
 }

@@ -6,6 +6,105 @@ U0 SetCombatStage1(){
  CTPProgress;
 }
 
+U0 Stage0(Actor *p)
+{
+ switch(mc->combatMenuSelection){
+  case CMS_MOVE_DONE:
+   mc->turnIndex++;
+   if(mc->turnIndex>1){
+    SetCombatStage1;
+   }
+  break;
+  case CMS_STRIKE_DONE:
+   switch(p->sword){
+    case IT_FIST:
+    default: //fist
+     mc->turnIndex++;
+     if(mc->turnIndex>3){
+      RemoveHealth(mc->target,p->str);
+      SetCombatStage1;
+     }//mc turnindex
+    break;
+   }//switch p sword    
+  break;
+  case CMS_PRAYER_DONE:
+   if(mc->isItem){
+    switch(mc->prayerToCast)
+    {
+     case IT_HPPOT:
+      if(mc->turnIndex==1) { CastPrayer(p);}
+      mc->turnIndex++;
+      if(mc->turnIndex>3){
+       AddHealth(mc->target,10);
+       SetCombatStage1;
+      }
+     break;
+    }
+   }
+   else{
+    switch(mc->prayerToCast){
+     case SP_HEAL: //lay on hands
+      if(mc->turnIndex==1) { CastPrayer(p);}
+      mc->turnIndex++;
+      if(mc->turnIndex>3){
+       AddHealth(mc->target,p->int);
+       RemoveMana(p,prayers->list[mc->prayerToCast]->cost);
+       SetCombatStage1;
+      }
+     break;
+    }//switch prayer
+   }//isItem
+  break;
+  case CS_FLEE:
+   mc->turnIndex++;
+   if(mc->turnIndex>3){
+    U16 r = RandU16();
+    mc->turnIndex=1;
+    // 80% chance-returns a number from 0 to 65535 (inclusive).
+    // 80% of 65536 = 52428.8, so comparing like this
+    if (r < 0.8 * 65536){
+     CombatQueFree();
+     mc->combatON=FALSE;
+     mc->combatMenuStage=STAGE_2;
+      
+    } 
+    else{
+     SetCombatStage1;
+    }
+   }
+  break;
+ }
+}
+
+U0 Stage1(I64 i, Actor *p)
+{
+ switch(mc->combatMenuSelection){
+  case CMS_ENE1:
+   mc->turnIndex++;
+   switch(ctp->ready->status1)
+   {
+    case DEAD_STATUS:
+    break;
+    default:
+     if(!HasDirective(ARCSTRIKE,ctp->ready))
+      AddDirective(ARCSTRIKE,ctp->ready);
+    break;
+   }
+   if(mc->turnIndex>6)
+    AutoTurnEnd;
+  break;
+  case CMS_ENE2:
+   UpdateDirective(ARCSTRIKE,ctp->ready,0,0,0,TRUE);
+   mc->turnIndex++;
+   if(mc->turnIndex>6)
+    AutoTurnEnd;
+  break;
+  case CMS_ENE3:
+   EnemyEndTurn(i, p);
+  break;
+ }
+}
+
 U0 TickTile(I64 i,I64 j, Actor *p)
 {
  if(camera->topLR+i<wY&&camera->topLR+i>=0){
@@ -33,91 +132,13 @@ U0 TickTile(I64 i,I64 j, Actor *p)
  }
 }
 
+
 U0 TickCombat(I64 i,I64 j,Actor *p)
 {
  //Tick Combat
  switch(mc->combatMenuStage){
-  case STAGE_0:
-   switch(mc->combatMenuSelection){
-    case CMS_MOVE_DONE:
-     mc->turnIndex++;
-     if(mc->turnIndex>1){
-       SetCombatStage1;
-      }
-    break;
-    case CMS_STRIKE_DONE:
-     switch(p->sword){
-      case IT_FIST:
-      default: //fist
-       mc->turnIndex++;
-       if(mc->turnIndex>3){
-        RemoveHealth(mc->target,p->str);
-        SetCombatStage1;
-       }//mc turnindex
-      break;
-     }//switch p sword    
-    break;
-    case CMS_PRAYER_DONE:
-     PrintDevMessage("CASTING");
-     switch(mc->prayerToCast){
-      case SP_HEAL: //lay on hands
-       if(mc->turnIndex==1) { CastPrayer(p);}
-       mc->turnIndex++;
-       if(mc->turnIndex>3){
-        AddHealth(mc->target,p->int);
-        RemoveMana(p,prayers->list[mc->prayerToCast]->cost);
-        SetCombatStage1;
-       }
-      break;
-     }//switch prayer
-    break;
-    case CS_FLEE:
-     mc->turnIndex++;
-     if(mc->turnIndex>3){
-      U16 r = RandU16();
-      mc->turnIndex=1;
-      // 80% chance-returns a number from 0 to 65535 (inclusive).
-      // 80% of 65536 = 52428.8, so comparing like this
-      if (r < 0.8 * 65536){
-       CombatQueFree();
-       mc->combatON=FALSE;
-       mc->combatMenuStage=STAGE_2;
- 
-      } 
-      else{
-       SetCombatStage1;
-      }
-     }
-    break;
-   }
-  break;
-  case STAGE_1:
-   switch(mc->combatMenuSelection){
-    case CMS_ENE1:
-     mc->turnIndex++;
-     switch(ctp->ready->status1)
-     {
-      case DEAD_STATUS:
-      break;
-      default:
-       if(!HasDirective(ARCSTRIKE,ctp->ready))
-        AddDirective(ARCSTRIKE,ctp->ready);
-      break;
-     }
-     if(mc->turnIndex>6)
-      AutoTurnEnd;
-    break;
-    case CMS_ENE2:
-     UpdateDirective(ARCSTRIKE,ctp->ready,0,0,0,TRUE);
-     mc->turnIndex++;
-     if(mc->turnIndex>6)
-      AutoTurnEnd;
-    break;
-    case CMS_ENE3:
-    EnemyEndTurn(i, p);
-    break;
-   }
-  break;
+  case STAGE_0: Stage0(p); break;
+  case STAGE_1: Stage1(i, p);break;
   case STAGE_2:
     mc->combatMenuStage=STAGE_0;
     mc->combatMenuSelection=CMS_MOVE;
@@ -141,6 +162,8 @@ U0 TickInteract(I64 i, I64 j, Actor *p)
 //updates the matrix model based on taken actions
 U0 WorldTick(I64 i, I64 j, Actor *p){
 
+ U8 *msg = MStrPrint("%d",mc->prayerToCast);
+ PrintDevMessage(msg);
  TickCombat(i,j,p);
 
  TickInteract(i,j,p);

@@ -3,7 +3,6 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
  if(puin->len>0)
  {
   I64 pui = (PickUpItem(puin,0))->id;
-  mc->reRenderInv=TRUE;
   if(!AddItemToInventory(PLAYER,pui)){
    Play("ArE"); 
   } 
@@ -31,7 +30,6 @@ U0 ObjectTrigger(Actor *p, MapNode *puin)
   case OBJ_POPPY:
    puin->idObj = OBJ_POPHV;
    AddItemToInventory(PLAYER,IT_BULB);
-   mc->reRenderInv=TRUE;
    //animate
    Play("ArE");
   break;
@@ -40,8 +38,6 @@ U0 ObjectTrigger(Actor *p, MapNode *puin)
 
 U0 KeyEnter(Actor *p, MapNode *puin)
 {
- U8 *selection = MStrPrint("%d", mc->combatMenuSelection);
- PrintDevMessage(selection);
  if(mc->displayDev)
  {DevKeyEnter(); }
  else if(mc->combatON){
@@ -68,7 +64,14 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     break;
    case CS_PRAYER://select which prayer
     if(mc->prayerToCast!=DELIMITER)
+    {
+     if(mc->isItemSelector){
+      mc->isItem=TRUE;
+      RemoveItemLocID(mc->prayerToCast,TRUE);
+      mc->prayerToCast = RetrieveItemID(p,mc->prayerToCast);
+     }     
      mc->combatMenuSelection=CS_PRAYER2;
+    }
     else
      mc->combatMenuSelection=CMS_PRAYER;//go back
    break;
@@ -354,7 +357,7 @@ U0 ShowToolTips(CDC *dc = gr.dc)
        camera->cursorX< (i+1)*45+2&&
        camera->cursorY>=(j*42)+310  &&
        camera->cursorY< (j+1)*42+310){
-     Item *item= RetrieveItem(0,GetNPC(0)->myInv->mtrx[j][i].occupied);
+     Item *item= RetrieveItem(PLAYER,GetNPC(PLAYER)->myInv->mtrx[j][i].occupied);
      if(StrCmp(item->name,"Bag")==0){break;}                 
      dc->color = DKGRAY;
      I8 yinc = 0;

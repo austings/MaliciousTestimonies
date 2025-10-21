@@ -83,6 +83,10 @@ U0 CTPProgress()
   else
    ctp = ctp->next;
  }
+ mc->prayerToCast=DELIMITER;
+ mc->isItem =FALSE;
+ mc->isItemSelector =FALSE;
+
 }
 
 U0 CombatTurnArrows(Actor *p)
