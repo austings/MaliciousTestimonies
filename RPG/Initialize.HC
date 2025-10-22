@@ -20,7 +20,7 @@ Cd(__DIR__);;
 #include "Map/Level.HC";
 
 //Pathfinding
-#include "Gameplay/AI.HC";
+#include "Gameplay/AI.HC";
 // Loading Player
 #include "Globals.HC";
 #include "Map/Objects.HC";

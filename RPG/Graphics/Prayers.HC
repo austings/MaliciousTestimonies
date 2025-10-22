@@ -125,8 +125,6 @@ U0 GatherSelections()
     }
    }
    if(!exists){
-    U8 *msg = MStrPrint("Item: %s  ",candidate->name);
-    PrintDevMessage(msg);
     selections[selectI] = candidate->invID;
     selectI++;
    }
@@ -140,9 +138,6 @@ U0 GatherSelections()
  {
   trimmed[i] = selections[i];
  }
- Free(msg);
- msg = MStrPrint("ListSize: %d  ",selectI);
- PrintDevMessage(msg);
  mc->prayerListSize = selectI;
  mc->prayerList = trimmed;
  mc->prayerToCast =DELIMITER;

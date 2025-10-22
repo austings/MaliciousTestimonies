@@ -174,7 +174,7 @@ Bool *DumpBoolIndex(I64 i,U8 *_d,U8 *class_name=lastclass)
 
 
 //data files fetch
-//Rest of Original code by nrootconauto (Clayton Rhodes)
+//Rest of Original code by nrootconauto (Clayton Rhodes)
 
 U8 *ReadALine(U8 **fbuf) {
   U8 *en,*st=*fbuf,*buf;
@@ -214,7 +214,7 @@ public I64 GrYoloFloodFill(CDC *dc=gr.dc,I64 x,I64 y,
   I64 res=0,j,old_flags=dc->flags;
   CColorROPU32 old_color2=dc->color2;
   CDC *old_brush;
-  //if (dc->flags & DCF_DONT_DRAW) //TODO
+  //if (dc->flags & DCF_DONT_DRAW) 
   //  return 0;
   old_brush=dc->brush;
   dc->brush=NULL;

@@ -166,7 +166,9 @@ U0 RemoveItemLoc(Item *item, Bool delete =FALSE)
  {
   //U8 *msg = MStrPrint("ITEM:%s ",(RetrieveItem(PLAYER,item->invID))->name);
   //PrintDevMessage(msg);
-  //QueRem(RetrieveItem(PLAYER,item->invID));
+  Item *torm = RetrieveItem(PLAYER,item->invID);
+  QueRem(torm);
+  Free(torm);
  }
 
  mc->reRenderInv=TRUE;
@@ -185,8 +187,8 @@ U0 RemoveItemLocID(I64 item, Bool delete =FALSE)
  {
   for(j=0;j<INVHEIGHT;j++)
   {
-    if(p->myInv->mtrx[j][i].occupied==item)
-    {  p->myInv->mtrx[j][i].occupied=IT_NULL; }
+    if(p->myInv->mtrx[j][i].occupied==item){  
+     p->myInv->mtrx[j][i].occupied=IT_NULL; }
    
       
   }
@@ -196,7 +198,10 @@ U0 RemoveItemLocID(I64 item, Bool delete =FALSE)
  {
   //U8 *msg = MStrPrint("ITEM:%s ",(RetrieveItem(PLAYER,item))->name);
   //PrintDevMessage(msg);
-  //QueRem(RetrieveItem(PLAYER,item));
+  Item *torm = RetrieveItem(PLAYER,item);
+  QueRem(torm);
+  Free(torm);
+
  }
  mc->reRenderInv=TRUE;
 
@@ -213,8 +218,8 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
  {
   for(j=0;j<INVHEIGHT;j++)
   {
-    if(p->myInv->mtrx[j][i].occupied==item->invID)
-    {  p->myInv->mtrx[j][i].occupied=-1; }
+    if(p->myInv->mtrx[j][i].occupied==item->invID){  
+     p->myInv->mtrx[j][i].occupied=IT_NULL; }
    
       
   }

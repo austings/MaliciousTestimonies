@@ -257,7 +257,7 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
  }
  if(mc->draggingInv==FALSE){//start dragging
   if(occupied!=-1){//if there is an item underneath
-   mc->draggingID = RetrieveItemID(actor,occupied,TRUE);
+   mc->draggingID = RetrieveItemID(actor,occupied,TRUE);
    mc->draggingItem = RetrieveItem(actor,occupied);
    mc->reRenderInv=TRUE;
    mc->draggingInv=TRUE;

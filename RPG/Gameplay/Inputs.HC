@@ -67,13 +67,17 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     {
      if(mc->isItemSelector){
       mc->isItem=TRUE;
+      I64 itemID = RetrieveItemID(p,mc->prayerToCast);
       RemoveItemLocID(mc->prayerToCast,TRUE);
-      mc->prayerToCast = RetrieveItemID(p,mc->prayerToCast);
+      mc->prayerToCast = itemID; 
+
      }     
      mc->combatMenuSelection=CS_PRAYER2;
     }
-    else
+    else{
      mc->combatMenuSelection=CMS_PRAYER;//go back
+     mc->prayerListIndex = 0;
+    }
    break;
    case CS_PRAYER2://select target (prayer completion)
     mc->combatMenuSelection=CMS_PRAYER_DONE;
@@ -357,8 +361,11 @@ U0 ShowToolTips(CDC *dc = gr.dc)
        camera->cursorX< (i+1)*45+2&&
        camera->cursorY>=(j*42)+310  &&
        camera->cursorY< (j+1)*42+310){
-     Item *item= RetrieveItem(PLAYER,GetNPC(PLAYER)->myInv->mtrx[j][i].occupied);
-     if(StrCmp(item->name,"Bag")==0){break;}                 
+     Item *item= RetrieveItem(PLAYER,
+                  GetNPC(PLAYER)->myInv->mtrx[j][i].occupied);
+     //TODOfix this defensive programming
+     //inventory item not properly referenced/ old items removed
+     if(!item || !item->name ||StrCmp(item->name,"Bag")==0){break;}                 
      dc->color = DKGRAY;
      I8 yinc = 0;
      if(item->v1!=NULL)

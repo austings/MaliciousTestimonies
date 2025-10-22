@@ -84,6 +84,7 @@ U0 CTPProgress()
    ctp = ctp->next;
  }
  mc->prayerToCast=DELIMITER;
+ mc->prayerListIndex = 0;
  mc->isItem =FALSE;
  mc->isItemSelector =FALSE;
 

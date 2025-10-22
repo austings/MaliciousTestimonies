@@ -327,7 +327,7 @@ U0 ProceduralAnimateArc(CDC *dc, Director *task)
      if(!HasDirective(EFFSCRATCH,player)){
       AddDirective(EFFSCRATCH,player,player->screenX,player->screenY+10);
       AddDirective(T1HURT,player);
-      Play("ttt2A#BC...");
+      //Play("ttt2A#BC...");
       
      }
      t = 2.0 - cycle;// coming back
