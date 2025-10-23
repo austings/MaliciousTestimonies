@@ -162,8 +162,6 @@ U0 TickInteract(I64 i, I64 j, Actor *p)
 //updates the matrix model based on taken actions
 U0 WorldTick(I64 i, I64 j, Actor *p){
 
- U8 *msg = MStrPrint("%d",mc->prayerToCast);
- PrintDevMessage(msg);
  TickCombat(i,j,p);
 
  TickInteract(i,j,p);

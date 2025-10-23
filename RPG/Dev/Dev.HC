@@ -99,6 +99,7 @@ U0 DelDevChar()
 U0 PrintDevMessage(U8 *msg)
 {
  Free(devc.line0);
- devc.line0 = msg;
+ devc.line0 = MStrPrint("%s ",msg);
+ Free(msg);
  DevKeyEnter;
 }

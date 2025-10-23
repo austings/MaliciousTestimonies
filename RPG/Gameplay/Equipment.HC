@@ -57,19 +57,17 @@ I64 GetDir(Actor *a)
 }
 //convert inv id to item id
 I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE){
-  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
-  I64 i;
-  for(i=0;i<index;i++){
-    toBeRetrieved = toBeRetrieved->next;
-  }
-
-  if(select)//move to mouse
-  {
-   toBeRetrieved->visible = FALSE;
-   return toBeRetrieved->id;
-  }
-  if(toBeRetrieved->visible==TRUE)
-   return toBeRetrieved->id;
+ Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
+ I64 i;
+ for(i=0;i<index;i++){
+  toBeRetrieved = toBeRetrieved->next;
+ }
+ if(select){//move to mouse
+  toBeRetrieved->visible = FALSE;
+  return toBeRetrieved->id;
+ }
+ if(toBeRetrieved->visible==TRUE)
+  return toBeRetrieved->id;
 }
 
 //convert inv id to item
@@ -87,42 +85,33 @@ Item *RetrieveItem(I64 aID, I64 index)
 
 
 
-Bool AddItemToInventory(I64 actorID, I64 itemID)
-{
+Bool AddItemToInventory(I64 actorID, I64 itemID){
  I64 i,j,x,y,area;
  Actor *p = GetNPC(actorID);
  Item *item = MakeItem(itemID);
  
- for(i=0;i<11;i++)
- {
-  for(j=0;j<4;j++)
-  {
+ for(i=0;i<INVWIDTH;i++){
+  for(j=0;j<INVHEIGHT;j++){
    area=0;
-   for(x=item->w-1;x>=0;x--)
-   {
+   for(x=item->w-1;x>=0;x--){
     if(i+x>=11)
      goto skip_num;
  
-    for(y=item->h-1;y>=0;y--)
-    {
+    for(y=item->h-1;y>=0;y--){
      if(j+y>=4)
       goto skip_num;
      if(p->myInv->mtrx[j+y][i+x].occupied<0)
-       area++;
-  
+       area++;  
     }
    }
 
-   if(area==(item->h)*(item->w))
-   {
+   if(area==(item->h)*(item->w)){
     QueIns(item,p->myInv->collection->last);
     //PopUpPrint( "item added");
     I64 cnt = ++p->myInv->count;
     
-    for(x=item->w-1;x>=0;x--)
-    {  
-     for(y=item->h-1;y>=0;y--)
-     {
+    for(x=item->w-1;x>=0;x--){  
+     for(y=item->h-1;y>=0;y--){
       p->myInv->mtrx[j+y][i+x].occupied = cnt;
      }
     }
@@ -130,45 +119,45 @@ Bool AddItemToInventory(I64 actorID, I64 itemID)
     mc->reRenderInv=TRUE;
 
     return TRUE;
-
    }
-
   }
   skip_num:
  }
  mc->reRenderInv=TRUE;
-
  return FALSE;
 
 }
 
 
 //usually used for populating equipment slots
-U0 RemoveItemLoc(Item *item, Bool delete =FALSE)
-{
+U0 RemoveItemLoc(Item *item, Bool delete =FALSE){
  Actor *p = GetNPC(PLAYER);
 
  I64 i,j,x,y;
 
  //remove old loc
- for(i=0;i<INVWIDTH;i++)
- {
-  for(j=0;j<INVHEIGHT;j++)
-  {
-    if(p->myInv->mtrx[j][i].occupied==item->invID)
-    {  p->myInv->mtrx[j][i].occupied=IT_NULL; }
-   
-      
+ for(i=0;i<INVWIDTH;i++){
+  for(j=0;j<INVHEIGHT;j++){
+   if(p->myInv->mtrx[j][i].occupied==item->invID){ 
+    for(x=0;x<item->w;x++){  
+     for(y=0;y<item->h;y++){
+      p->myInv->mtrx[j+y][i+x].occupied = IT_NULL;
+     }
+    }
+   }      
   }
  }
 
- if(delete)
- {
-  //U8 *msg = MStrPrint("ITEM:%s ",(RetrieveItem(PLAYER,item->invID))->name);
-  //PrintDevMessage(msg);
-  Item *torm = RetrieveItem(PLAYER,item->invID);
-  QueRem(torm);
-  Free(torm);
+ if(delete){
+  Item *cur = p->myInv->collection->next;
+  for(i=0;i<item->invID;i++)
+   cur = cur->next;
+  for(i=item->invID;i<p->myInv->count;i++){
+   cur->invID--;
+  }
+  p->myInv->count--; 
+  QueRem(item);
+  Free(item);
  }
 
  mc->reRenderInv=TRUE;
@@ -181,30 +170,75 @@ U0 RemoveItemLocID(I64 item, Bool delete =FALSE)
  Actor *p = GetNPC(PLAYER);
 
  I64 i,j,x,y;
+ Item *torm = RetrieveItem(PLAYER,item);
 
  //remove old loc
- for(i=0;i<INVWIDTH;i++)
- {
-  for(j=0;j<INVHEIGHT;j++)
-  {
-    if(p->myInv->mtrx[j][i].occupied==item){  
-     p->myInv->mtrx[j][i].occupied=IT_NULL; }
-   
-      
+ for(i=0;i<INVWIDTH;i++){
+  for(j=0;j<INVHEIGHT;j++){
+   if(p->myInv->mtrx[j][i].occupied==item){ 
+    for(x=0;x<torm->w;x++){  
+     for(y=0;y<torm->h;y++){
+      p->myInv->mtrx[j+y][i+x].occupied = IT_NULL;
+     }
+    }
+   }  
   }
  }
 
- if(delete)
- {
-  //U8 *msg = MStrPrint("ITEM:%s ",(RetrieveItem(PLAYER,item))->name);
-  //PrintDevMessage(msg);
-  Item *torm = RetrieveItem(PLAYER,item);
+ if(delete){
+  Item *cur = p->myInv->collection->next;
+  for(i=0;i<item;i++)
+   cur = cur->next;
+  for(i=item;i<p->myInv->count;i++){
+   cur->invID--;
+  }
+  p->myInv->count--; 
+
   QueRem(torm);
   Free(torm);
 
  }
  mc->reRenderInv=TRUE;
 
+}
+
+U0 PrintInventory()
+{
+ Actor *p = GetNPC(PLAYER);
+ U8 *str1 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
+    p->myInv->mtrx[0][0].occupied, p->myInv->mtrx[0][1].occupied, p->myInv->mtrx[0][2].occupied,
+    p->myInv->mtrx[0][3].occupied, p->myInv->mtrx[0][4].occupied, p->myInv->mtrx[0][5].occupied,
+    p->myInv->mtrx[0][6].occupied, p->myInv->mtrx[0][7].occupied, p->myInv->mtrx[0][8].occupied,
+    p->myInv->mtrx[0][9].occupied, p->myInv->mtrx[0][10].occupied);
+
+ U8 *str2 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
+    p->myInv->mtrx[1][0].occupied, p->myInv->mtrx[1][1].occupied, p->myInv->mtrx[1][2].occupied,
+    p->myInv->mtrx[1][3].occupied, p->myInv->mtrx[1][4].occupied, p->myInv->mtrx[1][5].occupied,
+    p->myInv->mtrx[1][6].occupied, p->myInv->mtrx[1][7].occupied, p->myInv->mtrx[1][8].occupied,
+    p->myInv->mtrx[1][9].occupied, p->myInv->mtrx[1][10].occupied);
+
+ U8 *str3 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
+    p->myInv->mtrx[2][0].occupied, p->myInv->mtrx[2][1].occupied, p->myInv->mtrx[2][2].occupied,
+    p->myInv->mtrx[2][3].occupied, p->myInv->mtrx[2][4].occupied, p->myInv->mtrx[2][5].occupied,
+    p->myInv->mtrx[2][6].occupied, p->myInv->mtrx[2][7].occupied, p->myInv->mtrx[2][8].occupied,
+    p->myInv->mtrx[2][9].occupied, p->myInv->mtrx[2][10].occupied);
+ 
+ U8 *str4 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
+    p->myInv->mtrx[3][0].occupied, p->myInv->mtrx[3][1].occupied, p->myInv->mtrx[3][2].occupied,
+    p->myInv->mtrx[3][3].occupied, p->myInv->mtrx[3][4].occupied, p->myInv->mtrx[3][5].occupied,
+    p->myInv->mtrx[3][6].occupied, p->myInv->mtrx[3][7].occupied, p->myInv->mtrx[3][8].occupied,
+    p->myInv->mtrx[3][9].occupied, p->myInv->mtrx[3][10].occupied);
+
+
+ PrintDevMessage(str1);
+ PrintDevMessage(str2);
+ PrintDevMessage(str3);
+ PrintDevMessage(str4);
+
+//Free(str1);
+//Free(str2);
+//Free(str3);
+//Free(str4);
 }
 
 U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
@@ -219,7 +253,16 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
   for(j=0;j<INVHEIGHT;j++)
   {
     if(p->myInv->mtrx[j][i].occupied==item->invID){  
-     p->myInv->mtrx[j][i].occupied=IT_NULL; }
+     for(x=0;x<item->w;x++)
+     {  
+      for(y=0;y<item->h;y++)
+      {
+       p->myInv->mtrx[j+y][i+x].occupied = IT_NULL;
+      }
+     }
+
+    
+    }
    
       
   }
