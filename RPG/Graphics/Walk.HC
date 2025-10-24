@@ -188,13 +188,30 @@ Bool HasDirective(I64 directive,Actor *a)
  for(i=0;i!=QueCnt(direct);i++){
   if(task->cQueDirective==directive)
   {
-   if(task->a->id==a->id)
+   if(task->a->id==a->id){
     free = TRUE;
-   break;
+    break;
+   }
   }
   task = task->next;
  }
  return free;
+}
+
+Director *FindDirective(Actor *a)
+{
+ Director *task = direct.next;
+ I64 i =0; Bool free=FALSE;
+ for(i=0;i!=QueCnt(direct);i++){
+  if(task->a->id==a->id)
+  {
+   if(task->a->id==a->id&&!(task->isEffect))
+    return task;
+  }
+  task = task->next;
+ }
+ return NULL;
+
 }
 
 //deprecated
@@ -246,12 +263,14 @@ Director *InitDirective(Actor *p, I64 sX, I64 sY)
  //task->a = MAlloc(sizeof(Actor));
 
  task->x = p->screenX;task->y = p->screenY;
+ task->xFOff = 0;
+ task->yFOff = 0;
  if(sX!=DELIMITER){task->x = sX; task->y = sY;}
 
  task->a = p;
  task->animIndex = 0;
  task->flip = FALSE;
-
+ task->isEffect = FALSE;
  return task;
 }
 
@@ -367,6 +386,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   case EFFSCRATCH:
    task->cQueDirective = directive;
    isEffect = TRUE;
+   task->isEffect = isEffect;
   break;
   //default://dont enable this i know you want to
   // task->cQueDirective = directive;

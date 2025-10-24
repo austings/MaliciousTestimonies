@@ -10,6 +10,9 @@ class DevConsole{
  U8 *line5;
  U8 *line6;
  U8 *line7;
+ U8 *line8;
+ U8 *line9;
+ U8 *line10;
 
 } devc;
 
@@ -19,10 +22,13 @@ U0 InitDev()
  devc.line1 = StrNew("V"); 
  devc.line2 = StrNew("|"); 
  devc.line3 = StrNew("|"); 
- devc.line4 = StrNew("you're debugging; in that case, good job!"); 
- devc.line5 = StrNew("Note this is technically cheating... unless"); 
- devc.line6 = StrNew("Please type in your command to begin."); 
- devc.line7 = StrNew("Welcome to the dev console"); 
+ devc.line4 = StrNew("|"); 
+ devc.line5 = StrNew("|"); 
+ devc.line6 = StrNew("|"); 
+ devc.line7 = StrNew("you're debugging; in that case, good job!"); 
+ devc.line8 = StrNew("Note this is technically cheating... unless"); 
+ devc.line9 = StrNew("Please type in your command to begin."); 
+ devc.line10 = StrNew("Welcome to the dev console"); 
 
 }
 
@@ -38,14 +44,17 @@ CDC *RenderDev()
  devc.cmd = DCNew(400,140);
  DCFill(devc.cmd, WHITE);
  devc.cmd->color=BLACK;
- PrintLine(devc.cmd,devc.line0,10,88,1); 
- PrintLine(devc.cmd,devc.line1,10,76,1); 
- PrintLine(devc.cmd,devc.line2,10,64,1); 
- PrintLine(devc.cmd,devc.line3,10,52,1); 
- PrintLine(devc.cmd,devc.line4,10,40,1); 
- PrintLine(devc.cmd,devc.line5,10,28,1); 
- PrintLine(devc.cmd,devc.line6,10,16,1);
- PrintLine(devc.cmd,devc.line7,10,4,1);  
+ PrintLine(devc.cmd,devc.line0,10,124,1); 
+ PrintLine(devc.cmd,devc.line1,10,112,1); 
+ PrintLine(devc.cmd,devc.line2,10,100,1); 
+ PrintLine(devc.cmd,devc.line3,10,88,1); 
+ PrintLine(devc.cmd,devc.line4,10,76,1); 
+ PrintLine(devc.cmd,devc.line5,10,64,1);
+ PrintLine(devc.cmd,devc.line6,10,52,1);  
+ PrintLine(devc.cmd,devc.line7,10,40,1);
+ PrintLine(devc.cmd,devc.line8,10,28,1);  
+ PrintLine(devc.cmd,devc.line9,10,16,1);
+ PrintLine(devc.cmd,devc.line10,10,4,1);  
 
  return devc.cmd; 
 
@@ -54,7 +63,10 @@ CDC *RenderDev()
 U0 DevKeyEnter()
 {
 
- Free(devc.line7);
+ Free(devc.line10);
+ devc.line10 = devc.line9;
+ devc.line9 = devc.line8;
+ devc.line8 = devc.line7;
  devc.line7 = devc.line6;
  devc.line6 = devc.line5;
  devc.line5 = devc.line4;

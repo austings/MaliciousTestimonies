@@ -211,9 +211,13 @@ Bool FillItemIfOnWater(I64 wlvl=0){
  return FALSE;
 }
 
+//place item (pitem) is the item on the tile
+//mc->draggingItem = to 
 U0 CombineIfPossible(I64 pItem)
 {
  Item *item= RetrieveItem(PLAYER,pItem);
+ PrintDevMessage(MStrPrint("COMBINE:%s",mc->draggingItem->name));
+ PrintDevMessage(MStrPrint("WITH:%s",item->name));
 
  switch(mc->draggingID)
  {
@@ -259,6 +263,7 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
   if(occupied!=-1){//if there is an item underneath
    mc->draggingID = RetrieveItemID(actor,occupied,TRUE);
    mc->draggingItem = RetrieveItem(actor,occupied);
+   PrintDevMessage(MStrPrint("BEGIN:%s",mc->draggingItem->name));
    mc->reRenderInv=TRUE;
    mc->draggingInv=TRUE;
   }

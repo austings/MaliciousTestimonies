@@ -209,7 +209,7 @@ U0 ReadNPC(I64 id)
  //  return loaded10;
   break;
   case 10://max 10
-  loaded1 = DeserializeNPC(id);
+  loaded1 = DeserializeNPC(id);
   loaded=1;
   break;
  }

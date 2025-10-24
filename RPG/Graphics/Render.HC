@@ -1,4 +1,48 @@
 
+CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
+{
+
+ CDC *completeActor = DCNew(500,500);
+ DCFill(completeActor, TRANSPARENT);
+
+ switch(a->status1)
+ {
+  case DEAD_STATUS:
+   DrawDead(completeActor,a);
+   return completeActor;
+  default:
+  break;
+ }
+ switch(a->face)
+ {
+   case T_JUDA...T_BENJ:
+    completeActor = GetWalkAnimation(a,completeActor);
+   break;
+   case T_DOG:
+    Sprite3B(completeActor,0,32,10,GetDog);
+   break;
+   case T_FOWL:
+    Sprite3B(completeActor,0,32,10,GetFowl);
+   break;
+   case T_OX:
+    Sprite3B(completeActor,0,32,10,GetOx);
+   break;
+   default:
+    completeActor = GetWalkAnimation(a,completeActor);
+   break;
+ } 
+
+ OverlayArmor(completeActor,a);
+ //todo make status effects?
+ if(wlvl>0)
+ {
+  a->screenY+=(wlvl+a->walking);
+  completeActor->color = TRANSPARENT;
+  GrRect3(completeActor,0,60,0,100,100);
+ }
+ return completeActor;
+
+}
 
 
 

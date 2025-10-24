@@ -1,47 +1,47 @@
 Cd(__DIR__);;
-// Construct Graphics from WAD
+
+// Constructing Graphics from WAD
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
 #include "Data/Ids.HC";
+
 // Loading Map
 #include "Map/Map.HC";
 #include "Map/Tensor3D.HC";
-// Load built-in Graphics
+
+// Loading Graphics
 #include "Sprites/SS1.HC"; 
 #include "Sprites/SpriteSheet1.HC";
 #include "Sprites/SpriteSheet2.HC";
 #include "Sprites/SpriteSheet3.HC";
 #include "Sprites/SpriteSheet4.HC";
+
 // Loading Data Into Map
 #include "Gameplay/Item.HC";
 #include "Map/Actors.HC";
 #include "Gameplay/Markov/Markov.HC";
 #include "Map/Director.HC";
 #include "Map/Level.HC";
-
-//Pathfinding
 #include "Gameplay/AI.HC";
-// Loading Player
+
+// Loading World
 #include "Globals.HC";
 #include "Map/Objects.HC";
-// Loading Narrative
 #include "Graphics/Dialog.HC";
-// Loading GUI
 #include "Dev/Dev.HC";
 #include "Gameplay/Player.HC";
-#include "Gameplay/Equipment.HC";
-
 #include "Gameplay/Save.HC";
+
+// Loading Animations
+#include "Graphics/Walk.HC";
+#include "Graphics/Anim.HC";
+#include "Gameplay/Equipment.HC";
 #include "Graphics/Buttons.HC";
 #include "Graphics/Menu.HC";
 #include "Graphics/Sidebar.HC";
 #include "Graphics/Drag.HC";
-#include "Graphics/Walk.HC";
-#include "Graphics/Anim.HC";
 #include "Graphics/Interact.HC";
 #include "Music.HC";
-
-// Loading Combat Scenarios
 #include "Graphics/Attacks.HC";
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
@@ -51,7 +51,8 @@ Cd(__DIR__);;
 // Loading Skills
 #include "Gameplay/Fishing.HC";
 #include "Gameplay/Inputs.HC";
-// Controller
+
+// Finalize World
 #include "Map/World.HC";
 
 U0 InitMenuControl()

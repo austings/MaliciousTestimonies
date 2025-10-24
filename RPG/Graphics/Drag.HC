@@ -59,8 +59,6 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
   break;
 
  }
- U8 *msg = MStrPrint("ITEM: %d, x:%d, y:%d",itemID,(x+xoff),(y+yoff));
- PrintDevMessage(msg);
  GrBlot(target,x+xoff,y+yoff,render);
  DCDel(scratch);
 }

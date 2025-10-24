@@ -1,3 +1,41 @@
+U0 PrintInventory()
+{
+ Actor *p = GetNPC(PLAYER);
+ U8 *str1 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
+    p->myInv->mtrx[0][0].occupied, p->myInv->mtrx[0][1].occupied, p->myInv->mtrx[0][2].occupied,
+    p->myInv->mtrx[0][3].occupied, p->myInv->mtrx[0][4].occupied, p->myInv->mtrx[0][5].occupied,
+    p->myInv->mtrx[0][6].occupied, p->myInv->mtrx[0][7].occupied, p->myInv->mtrx[0][8].occupied,
+    p->myInv->mtrx[0][9].occupied, p->myInv->mtrx[0][10].occupied);
+
+ U8 *str2 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
+    p->myInv->mtrx[1][0].occupied, p->myInv->mtrx[1][1].occupied, p->myInv->mtrx[1][2].occupied,
+    p->myInv->mtrx[1][3].occupied, p->myInv->mtrx[1][4].occupied, p->myInv->mtrx[1][5].occupied,
+    p->myInv->mtrx[1][6].occupied, p->myInv->mtrx[1][7].occupied, p->myInv->mtrx[1][8].occupied,
+    p->myInv->mtrx[1][9].occupied, p->myInv->mtrx[1][10].occupied);
+
+ U8 *str3 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
+    p->myInv->mtrx[2][0].occupied, p->myInv->mtrx[2][1].occupied, p->myInv->mtrx[2][2].occupied,
+    p->myInv->mtrx[2][3].occupied, p->myInv->mtrx[2][4].occupied, p->myInv->mtrx[2][5].occupied,
+    p->myInv->mtrx[2][6].occupied, p->myInv->mtrx[2][7].occupied, p->myInv->mtrx[2][8].occupied,
+    p->myInv->mtrx[2][9].occupied, p->myInv->mtrx[2][10].occupied);
+ 
+ U8 *str4 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
+    p->myInv->mtrx[3][0].occupied, p->myInv->mtrx[3][1].occupied, p->myInv->mtrx[3][2].occupied,
+    p->myInv->mtrx[3][3].occupied, p->myInv->mtrx[3][4].occupied, p->myInv->mtrx[3][5].occupied,
+    p->myInv->mtrx[3][6].occupied, p->myInv->mtrx[3][7].occupied, p->myInv->mtrx[3][8].occupied,
+    p->myInv->mtrx[3][9].occupied, p->myInv->mtrx[3][10].occupied);
+
+
+ PrintDevMessage(str1);
+ PrintDevMessage(str2);
+ PrintDevMessage(str3);
+ PrintDevMessage(str4);
+
+//Free(str1);
+//Free(str2);
+//Free(str3);
+//Free(str4);
+}
 
 //convert walk animation frame to cardinal direction
 I64 GetDir(Actor *a)
@@ -128,69 +166,81 @@ Bool AddItemToInventory(I64 actorID, I64 itemID){
 
 }
 
-
 //usually used for populating equipment slots
+//item is a Item class instance
+//removes inventory item by Item class reference
 U0 RemoveItemLoc(Item *item, Bool delete =FALSE){
  Actor *p = GetNPC(PLAYER);
 
- I64 i,j,x,y;
+ I64 i,j;
 
- //remove old loc
+ //remove old loc,update other items index in rendered matrix
  for(i=0;i<INVWIDTH;i++){
   for(j=0;j<INVHEIGHT;j++){
-   if(p->myInv->mtrx[j][i].occupied==item->invID){ 
-    for(x=0;x<item->w;x++){  
-     for(y=0;y<item->h;y++){
-      p->myInv->mtrx[j+y][i+x].occupied = IT_NULL;
-     }
-    }
-   }      
+   I64 valueToUpdate = p->myInv->mtrx[j][i].occupied;
+   if(valueToUpdate==item->invID){
+    valueToUpdate = IT_NULL;
+   }
+   if(valueToUpdate>item->invID){
+    valueToUpdate = valueToUpdate-1;
+   } 
+   p->myInv->mtrx[j][i].occupied = valueToUpdate;
   }
  }
 
+ //update player array
+ PrintDevMessage(MStrPrint("TOREMOVE:%d, ITEMNUM%d",item->name,item->invID));
  if(delete){
-  Item *cur = p->myInv->collection->next;
-  for(i=0;i<item->invID;i++)
-   cur = cur->next;
-  for(i=item->invID;i<p->myInv->count;i++){
+  Item *cur = p->myInv->collection->next;//head container memory loc
+  for(i=0;i<=item->invID;i++)//increment by i where i=0 is the first item
+   cur = cur->next;//run once where item to remove=0
+  for(i=item->invID;i<p->myInv->count;i++){
+   PrintDevMessage(MStrPrint("DECREMENTING:%d",cur->invID));
    cur->invID--;
+   cur = cur->next;
   }
   p->myInv->count--; 
   QueRem(item);
   Free(item);
  }
-
+ PrintInventory;
  mc->reRenderInv=TRUE;
 
 }
 
-
-U0 RemoveItemLocID(I64 item, Bool delete =FALSE)
+//item is a invID
+//removes inventory item by invID reference
+U0 RemoveItemLocID(I64 invID, Bool delete =FALSE)
 {
+
  Actor *p = GetNPC(PLAYER);
 
- I64 i,j,x,y;
- Item *torm = RetrieveItem(PLAYER,item);
-
- //remove old loc
+ I64 i,j;
+ Item *torm = RetrieveItem(PLAYER,invID);
+ 
+ //remove old loc,update other items index in rendered matrix
  for(i=0;i<INVWIDTH;i++){
   for(j=0;j<INVHEIGHT;j++){
-   if(p->myInv->mtrx[j][i].occupied==item){ 
-    for(x=0;x<torm->w;x++){  
-     for(y=0;y<torm->h;y++){
-      p->myInv->mtrx[j+y][i+x].occupied = IT_NULL;
-     }
-    }
-   }  
+   I64 valueToUpdate = p->myInv->mtrx[j][i].occupied;
+   if(valueToUpdate==invID){
+    valueToUpdate = IT_NULL;
+   }
+   if(valueToUpdate>invID){
+    valueToUpdate = valueToUpdate-1;
+   } 
+   p->myInv->mtrx[j][i].occupied = valueToUpdate;
   }
  }
 
+ PrintDevMessage(MStrPrint("TOREMOVE:%d,ITEMNUM%d",torm->name,invID));
  if(delete){
   Item *cur = p->myInv->collection->next;
-  for(i=0;i<item;i++)
+  for(i=0;i<=invID;i++)
    cur = cur->next;
-  for(i=item;i<p->myInv->count;i++){
+  for(i=invID;i<p->myInv->count;i++){
+   PrintDevMessage(MStrPrint("DEC ITEM NUM:%d",cur->invID));
    cur->invID--;
+   cur = cur->next;
   }
   p->myInv->count--; 
 
@@ -198,48 +248,13 @@ U0 RemoveItemLocID(I64 item, Bool delete =FALSE)
   Free(torm);
 
  }
+
+ PrintInventory;
  mc->reRenderInv=TRUE;
 
 }
 
-U0 PrintInventory()
-{
- Actor *p = GetNPC(PLAYER);
- U8 *str1 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
-    p->myInv->mtrx[0][0].occupied, p->myInv->mtrx[0][1].occupied, p->myInv->mtrx[0][2].occupied,
-    p->myInv->mtrx[0][3].occupied, p->myInv->mtrx[0][4].occupied, p->myInv->mtrx[0][5].occupied,
-    p->myInv->mtrx[0][6].occupied, p->myInv->mtrx[0][7].occupied, p->myInv->mtrx[0][8].occupied,
-    p->myInv->mtrx[0][9].occupied, p->myInv->mtrx[0][10].occupied);
 
- U8 *str2 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
-    p->myInv->mtrx[1][0].occupied, p->myInv->mtrx[1][1].occupied, p->myInv->mtrx[1][2].occupied,
-    p->myInv->mtrx[1][3].occupied, p->myInv->mtrx[1][4].occupied, p->myInv->mtrx[1][5].occupied,
-    p->myInv->mtrx[1][6].occupied, p->myInv->mtrx[1][7].occupied, p->myInv->mtrx[1][8].occupied,
-    p->myInv->mtrx[1][9].occupied, p->myInv->mtrx[1][10].occupied);
-
- U8 *str3 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
-    p->myInv->mtrx[2][0].occupied, p->myInv->mtrx[2][1].occupied, p->myInv->mtrx[2][2].occupied,
-    p->myInv->mtrx[2][3].occupied, p->myInv->mtrx[2][4].occupied, p->myInv->mtrx[2][5].occupied,
-    p->myInv->mtrx[2][6].occupied, p->myInv->mtrx[2][7].occupied, p->myInv->mtrx[2][8].occupied,
-    p->myInv->mtrx[2][9].occupied, p->myInv->mtrx[2][10].occupied);
- 
- U8 *str4 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
-    p->myInv->mtrx[3][0].occupied, p->myInv->mtrx[3][1].occupied, p->myInv->mtrx[3][2].occupied,
-    p->myInv->mtrx[3][3].occupied, p->myInv->mtrx[3][4].occupied, p->myInv->mtrx[3][5].occupied,
-    p->myInv->mtrx[3][6].occupied, p->myInv->mtrx[3][7].occupied, p->myInv->mtrx[3][8].occupied,
-    p->myInv->mtrx[3][9].occupied, p->myInv->mtrx[3][10].occupied);
-
-
- PrintDevMessage(str1);
- PrintDevMessage(str2);
- PrintDevMessage(str3);
- PrintDevMessage(str4);
-
-//Free(str1);
-//Free(str2);
-//Free(str3);
-//Free(str4);
-}
 
 U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
 {
@@ -345,6 +360,30 @@ CDC *ShowHair(I64 hairID, I8 dir)
 
 }
 
+
+U0 ComputeArmorOffsets(Actor *toRender, I64 dir,I64 *xOff, I64 *yOff)
+{
+ // Create a value based on timer (cycle every 30 ticks)
+ if(toRender->walking!=W_NOTWALKING){
+  F64 t = (world->timer % 30) / 30.0 * 2.0 * pi;
+  I64 groffset = ToI64(Sin(t) * 3.0); // values from -3 to +3
+  if(dir == DIR_RIGHT || dir == DIR_LEFT){
+   *xOff += (groffset/2);
+   *yOff += (groffset/2);
+  } else {
+   *yOff += groffset;
+  }
+ }
+
+ Director *task =FindDirective(toRender);  
+ if(!task)
+  return;
+ else{
+  *xOff += task->xFOff;
+  *yOff += task->yFOff;
+ }
+}
+
 U0 OverlayArmor(CDC *dc, Actor *toRender)
 {
 
@@ -354,18 +393,7 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
 
  I64 yOff = 0;
  I64 xOff = 0;
- if(toRender->walking!=W_NOTWALKING){
-  // Create a value based on timer (cycle every 30 ticks)
-  F64 t = (world->timer % 30) / 30.0 * 2.0 * pi;
-  I64 groffset = ToI64(Sin(t) * 3.0); // values from -3 to +3
-  if(dir == DIR_RIGHT || dir == DIR_LEFT){
-   xOff += (groffset/2);
-   yOff += (groffset/2);
-  } else {
-   yOff += groffset;
-  }
- }
-
+ ComputeArmorOffsets(toRender, dir,&xOff,&yOff);
  CDC *armor = ShowBody(toRender->armor,dir);
  CDC *hair = ShowHair(toRender->hair,dir);
  CDC *hat = ShowHelm(toRender->hat,dir);
