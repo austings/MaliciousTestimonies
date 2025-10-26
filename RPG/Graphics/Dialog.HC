@@ -5,27 +5,6 @@ U8 *MARKOV_FILE = MStrPrint("%s%s",DirCur,"/Gameplay/Markov/Data.DD");
 I32 currLetter =-1,yInc=0,xInc=0,nIndex=0,n2Index=0;
 U8 myDialog[MAX_D];
 
-U0 GrChar(CDC *dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale){
-  I64 i,j,k=0;
-  for(i=0;i<FONT_HEIGHT;i++){
-    for(j=0;j<FONT_WIDTH;j++){
-      if(Bt(&text.font[ch],k++)){
-        GrRect(dc,x+j*scale,y+i*scale,scale,scale);
-      }
-    }
-  }
-}
-
-U0 PrintLine(CDC*dc=gr.dc,U8 *line,I64 startx,I64 starty,F64 scale=1){
- I64 factor = ToI64(scale*7);
- I64 i;
- for(i=0;i<StrLen(line);i++)
- {
-  GrChar(dc,line[i],startx+(i*factor),
-                    starty,scale);
- }
-
-}
 #define GENERATED_TEXT 19
 
 U0 DeserializeDialog(I64 textID){

@@ -31,10 +31,6 @@ U0 PrintInventory()
  PrintDevMessage(str3);
  PrintDevMessage(str4);
 
-//Free(str1);
-//Free(str2);
-//Free(str3);
-//Free(str4);
 }
 
 //convert walk animation frame to cardinal direction
@@ -97,8 +93,11 @@ I64 GetDir(Actor *a)
 I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE){
  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
  I64 i;
- for(i=0;i<index;i++){
-  toBeRetrieved = toBeRetrieved->next;
+ for(i=0;i<INVWIDTH*INVHEIGHT;i++){
+  if(toBeRetrieved->invID!=index)
+   toBeRetrieved = toBeRetrieved->next;
+  else
+   break;
  }
  if(select){//move to mouse
   toBeRetrieved->visible = FALSE;
@@ -111,13 +110,17 @@ I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE){
 //convert inv id to item
 Item *RetrieveItem(I64 aID, I64 index)
 {
-  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
-  I64 i;
-  for(i=0;i<index;i++)
-  {
-    toBeRetrieved = toBeRetrieved->next;
-  }
-  return toBeRetrieved;
+ Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
+ I64 i;
+ for(i=0;i<INVWIDTH*INVHEIGHT;i++)
+ {
+  if(toBeRetrieved->invID!=index)
+   toBeRetrieved = toBeRetrieved->next;
+  else
+   break;
+ }
+
+ return toBeRetrieved;
 }
 
 
@@ -189,13 +192,11 @@ U0 RemoveItemLoc(Item *item, Bool delete =FALSE){
  }
 
  //update player array
- PrintDevMessage(MStrPrint("TOREMOVE:%d, ITEMNUM%d",item->name,item->invID));
  if(delete){
   Item *cur = p->myInv->collection->next;//head container memory loc
   for(i=0;i<=item->invID;i++)//increment by i where i=0 is the first item
    cur = cur->next;//run once where item to remove=0
   for(i=item->invID;i<p->myInv->count;i++){
-   PrintDevMessage(MStrPrint("DECREMENTING:%d",cur->invID));
    cur->invID--;
    cur = cur->next;
   }
@@ -232,13 +233,11 @@ U0 RemoveItemLocID(I64 invID, Bool delete =FALSE)
   }
  }
 
- PrintDevMessage(MStrPrint("TOREMOVE:%d,ITEMNUM%d",torm->name,invID));
  if(delete){
   Item *cur = p->myInv->collection->next;
   for(i=0;i<=invID;i++)
    cur = cur->next;
-  for(i=invID;i<p->myInv->count;i++){
-   PrintDevMessage(MStrPrint("DEC ITEM NUM:%d",cur->invID));
+  for(i=invID;i<p->myInv->count;i++){
    cur->invID--;
    cur = cur->next;
   }
@@ -375,13 +374,13 @@ U0 ComputeArmorOffsets(Actor *toRender, I64 dir,I64 *xOff, I64 *yOff)
   }
  }
 
- Director *task =FindDirective(toRender);  
- if(!task)
-  return;
- else{
-  *xOff += task->xFOff;
-  *yOff += task->yFOff;
- }
+// Director *task =FindDirective(toRender);  
+// if(!task)
+//  return;
+// else{
+//  *xOff += task->xAOff;
+//  *yOff += task->yAOff;
+// }
 }
 
 U0 OverlayArmor(CDC *dc, Actor *toRender)

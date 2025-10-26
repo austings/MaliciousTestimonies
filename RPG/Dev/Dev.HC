@@ -1,3 +1,24 @@
+U0 GrChar(CDC *dc=gr.dc,U8 ch,I64 x,I64 y,I64 scale){
+  I64 i,j,k=0;
+  for(i=0;i<FONT_HEIGHT;i++){
+    for(j=0;j<FONT_WIDTH;j++){
+      if(Bt(&text.font[ch],k++)){
+        GrRect(dc,x+j*scale,y+i*scale,scale,scale);
+      }
+    }
+  }
+}
+
+U0 PrintLine(CDC*dc=gr.dc,U8 *line,I64 startx,I64 starty,F64 scale=1){
+ I64 factor = ToI64(scale*7);
+ I64 i;
+ for(i=0;i<StrLen(line);i++)
+ {
+  GrChar(dc,line[i],startx+(i*factor),
+                    starty,scale);
+ }
+
+}
 
 class DevConsole{
 
@@ -32,15 +53,14 @@ U0 InitDev()
 
 }
 
-CDC *RenderDev()
-{ 
+CDC *RenderDev(){ 
  // blink
  // devc.line0 = MStrPrint("%s%s",devc.line0);
  // devc.line0[StrLen(devc.line0)-1]=char; 
  // devc.line0 = MStrPrint("%s%s",devc.line0); 
-// DCClear(devc.cmd);
-// DCRst(devc.cmd);
-// DCDepthBufRst(devc.cmd);
+ // DCClear(devc.cmd);
+ // DCRst(devc.cmd);
+ // DCDepthBufRst(devc.cmd);
  devc.cmd = DCNew(400,140);
  DCFill(devc.cmd, WHITE);
  devc.cmd->color=BLACK;
@@ -55,14 +75,10 @@ CDC *RenderDev()
  PrintLine(devc.cmd,devc.line8,10,28,1);  
  PrintLine(devc.cmd,devc.line9,10,16,1);
  PrintLine(devc.cmd,devc.line10,10,4,1);  
-
  return devc.cmd; 
-
 }
 
-U0 DevKeyEnter()
-{
-
+U0 DevKeyEnter(){
  Free(devc.line10);
  devc.line10 = devc.line9;
  devc.line9 = devc.line8;
@@ -108,10 +124,11 @@ U0 DelDevChar()
  devc.line0[StrLen(devc.line0)-2]=0;
 }
 
-U0 PrintDevMessage(U8 *msg)
+U0 PrintDevMessage(U8 *msg, Bool toFree=TRUE)
 {
  Free(devc.line0);
  devc.line0 = MStrPrint("%s ",msg);
- Free(msg);
+ if(toFree)
+  Free(msg);
  DevKeyEnter;
 }

@@ -62,7 +62,7 @@ static CDC*		ITEM9I=DCNew(100,100);
 static CDC*		ITEM10= FramePtr("ITEM070");
 static CDC*		ITEM10I=DCNew(100,100);
 
-
+#define IT_OLIVEBRANCH  11
 //special
 #define SP_FISHING_SPOT 999
 static CDC*		SPECIAL1 = FramePtr("EFF075");//special point

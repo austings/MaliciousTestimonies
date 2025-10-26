@@ -115,10 +115,15 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
   break;
   case OBJ_POPPY:
   case OBJ_POPHV:
-   Sprite3(dc,screenX, screenY,10,GetPlant(obj));
+   Sprite3(dc, screenX, screenY, 10, GetPlant(obj));
+  break;
+  case OBJ_OLIVETREE:
+   Sprite3(dc, screenX-58, screenY-148, 10, GetOliveTree(TILETREE));
+   Sprite3(dc, screenX+5, screenY-54, 10, GetOliveTree(IT_OLIVEBRANCH));
+   Sprite3(dc, screenX-48, screenY-42, 10, GetOliveTree(TILETRUNK));
   break; 
   default:
-   Sprite3(dc,screenX, screenY,10,GetFurniture(obj));
+   Sprite3(dc, screenX, screenY, 10, GetFurniture(obj));
   break;
  }
 }
@@ -150,7 +155,6 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
  }else {  toRender = GetNPC(npc); }
 
  Bool isAnimated = HasDirective(BOUNCE,toRender);// ||
- //                  HasDirective(BITE,toRender);
  if(isPlayer||(!isAnimated)){
   GetActorScreenX(toRender,npcOffX,i,isPlayer);
   GetActorScreenY(toRender,npcOffY,j,isPlayer);

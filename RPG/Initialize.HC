@@ -4,7 +4,8 @@ Cd(__DIR__);;
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
 #include "Data/Ids.HC";
-
+#include "Dev/Dev.HC";
+
 // Loading Map
 #include "Map/Map.HC";
 #include "Map/Tensor3D.HC";
@@ -28,7 +29,6 @@ Cd(__DIR__);;
 #include "Globals.HC";
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
-#include "Dev/Dev.HC";
 #include "Gameplay/Player.HC";
 #include "Gameplay/Save.HC";
 

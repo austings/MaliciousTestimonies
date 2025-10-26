@@ -67,6 +67,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     {
      if(mc->isItemSelector){
       mc->isItem=TRUE;
+      PrintDevMessage("GERE",FALSE);
       I64 itemID = RetrieveItemID(p,mc->prayerToCast);
       RemoveItemLocID(mc->prayerToCast,TRUE);
       mc->prayerToCast = itemID; 

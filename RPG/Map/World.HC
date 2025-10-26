@@ -146,12 +146,9 @@ U0 TickCombat(I64 i,I64 j,Actor *p)
   break;
  }
 
- //if(mc->combatON==FALSE)
- // EndProceduralAnimations; 
-
 }
 
-U0 TickInteract(I64 i, I64 j, Actor *p)
+U0 TickInteract(I64 i, I64 j, Actor *p)
 {
  if(mc->lootedSwitch)
  {

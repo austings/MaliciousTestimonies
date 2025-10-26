@@ -1,16 +1,13 @@
-
 U0 SerializeMatrix()
 {
-}
 
+}
 
 #define CAMPCHEST 7
 
-Matrix *MakeCastle(Matrix *toAdd)
-{
+Matrix *MakeCastle(Matrix *toAdd){
 
-  I64 i,j;
-
+ I64 i,j;
   
  for(j=0;j<100;j++)
  {    
@@ -35,11 +32,12 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixObj(toAdd,OBJ_WOOD,2,2);
  SetMatrixObj(toAdd,OBJ_CHEST,1,4,TRUE,CAMPCHEST);
  
-  //Items
-  SetMatrixItem(toAdd,IT_DAGGER,3,2);
-  SetMatrixItem(toAdd,IT_HELM,5,8);
-  SetMatrixItem(toAdd,IT_SHIRT,4,8);
+ //Items
+ SetMatrixItem(toAdd,IT_DAGGER,3,2);
+ SetMatrixItem(toAdd,IT_HELM,5,8);
+ SetMatrixItem(toAdd,IT_SHIRT,4,8);
 
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,3,8);
 
  //rock walls
  for(i=0;i<11;i++)
@@ -165,6 +163,9 @@ Matrix *MakeCastle(Matrix *toAdd)
  SetMatrixNPC(toAdd,18,35,7);//wild dog
  SetMatrixNPC(toAdd,19,45,7);//wild dog
  SetMatrixNPC(toAdd,20,47,9);//wild dog
+
+
+
 
  //sw poppy field
  SetMatrixObj(toAdd,OBJ_POPPY,5,37,FALSE);

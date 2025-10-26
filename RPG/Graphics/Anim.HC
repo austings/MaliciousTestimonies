@@ -1,24 +1,33 @@
 
-
-Animation *AddFrame(CDC *frame,I64 key,I8 fIndex; 
-                    I8 xO=0,I8 yO=0,I8 sfd=4)
-{
-  Animation *createdFrame = CAlloc(sizeof(Animation));
-  createdFrame->frame = frame;
-  createdFrame->frameDuration = sfd;
-  createdFrame->frameDurationIndex = 0;
-  createdFrame->frameIndex = fIndex;
-  createdFrame->xOffset=xO;
-  createdFrame->yOffset=yO;
-  createdFrame->key = key;  
-  return createdFrame;
+// frame  - CDC frame to add to this Animation
+// key    - cQueDirective ID key
+// fIndex - (subframe) the index of this animation frame /the whole anim 
+// xO - xoffset in reference to world
+// yO - yoffset in reference to world
+// sfd - subframe duration
+// xAOff - armor x offset for this frame
+// yAOff - armor y offset for this frame
+#define STANDSFD 4
+Animation *AddFrame(CDC *frame, I64 key, I8 fIndex; 
+                    I8 xO=0, I8 yO=0, I8 sfd=STANDSFD,
+                    I64 xAOff=0, I64 yAOff=0){
+ Animation *createdFrame = CAlloc(sizeof(Animation));
+ createdFrame->frame = frame;
+ createdFrame->frameDuration = sfd;
+ createdFrame->frameDurationIndex = 0;
+ createdFrame->frameIndex = fIndex;
+ createdFrame->xOffset=xO;
+ createdFrame->yOffset=yO;
+ createdFrame->xAOff=xAOff;
+ createdFrame->yAOff=yAOff;
+ createdFrame->key = key;  
+ return createdFrame;
 }
 
 
 
 Animation *CreateAnimation(I64 wadFrameName){
- switch(wadFrameName)
- {
+ switch(wadFrameName) {
   case T1FISH:
    QueIns(AddFrame(AAE110,T1FISH,0,5,2,24),allAnimations.last);  
    QueIns(AddFrame(AAE111,T1FISH,1,5,2,24),allAnimations.last);
@@ -56,60 +65,60 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(AAE9,T4READY,2,0,0,24),allAnimations.last);    
   break;
   case T1PUNCH:
-   QueIns(AddFrame(AAE61,T1PUNCH,0),allAnimations.last);
-   QueIns(AddFrame(AAE62,T1PUNCH,1),allAnimations.last);
-   QueIns(AddFrame(AAE63,T1PUNCH,2),allAnimations.last);    
-   QueIns(AddFrame(AAE64,T1PUNCH,3),allAnimations.last);
-   QueIns(AddFrame(AAE65,T1PUNCH,4),allAnimations.last);
-   QueIns(AddFrame(AAE66,T1PUNCH,5),allAnimations.last);    
-   QueIns(AddFrame(AAE67,T1PUNCH,6),allAnimations.last);
-   QueIns(AddFrame(AAE68,T1PUNCH,7),allAnimations.last);
-   QueIns(AddFrame(AAE69,T1PUNCH,8),allAnimations.last);    
-   QueIns(AddFrame(AAE70,T1PUNCH,9),allAnimations.last);
-   QueIns(AddFrame(AAE71,T1PUNCH,10),allAnimations.last);
-   QueIns(AddFrame(AAE72,T1PUNCH,11),allAnimations.last);    
+   QueIns(AddFrame(AAE61,T1PUNCH,0,0,0,STANDSFD,6),allAnimations.last);
+   QueIns(AddFrame(AAE62,T1PUNCH,1,0,0,STANDSFD,5),allAnimations.last);
+   QueIns(AddFrame(AAE63,T1PUNCH,2,0,0,STANDSFD,4),allAnimations.last);    
+   QueIns(AddFrame(AAE64,T1PUNCH,3,0,0,STANDSFD,3),allAnimations.last);
+   QueIns(AddFrame(AAE65,T1PUNCH,4,0,0,STANDSFD,2),allAnimations.last);
+   QueIns(AddFrame(AAE66,T1PUNCH,5,0,0,STANDSFD,1),allAnimations.last);    
+   QueIns(AddFrame(AAE67,T1PUNCH,6,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE68,T1PUNCH,7,0,0,STANDSFD,-1),allAnimations.last);
+   QueIns(AddFrame(AAE69,T1PUNCH,8,0,0,STANDSFD,-2),allAnimations.last);    
+   QueIns(AddFrame(AAE70,T1PUNCH,9,0,0,STANDSFD,-3),allAnimations.last);
+   QueIns(AddFrame(AAE71,T1PUNCH,10,0,0,STANDSFD,-4),allAnimations.last);
+   QueIns(AddFrame(AAE72,T1PUNCH,11,0,0,STANDSFD,-5),allAnimations.last);    
   break;
   case T2PUNCH:
-   QueIns(AddFrame(AAE115,T2PUNCH,0),allAnimations.last);
-   QueIns(AddFrame(AAE116,T2PUNCH,1),allAnimations.last);
-   QueIns(AddFrame(AAE117,T2PUNCH,2),allAnimations.last);    
-   QueIns(AddFrame(AAE118,T2PUNCH,3),allAnimations.last);
-   QueIns(AddFrame(AAE119,T2PUNCH,4),allAnimations.last);
-   QueIns(AddFrame(AAE120,T2PUNCH,5),allAnimations.last);    
-   QueIns(AddFrame(AAE121,T2PUNCH,6),allAnimations.last);
-   QueIns(AddFrame(AAE122,T2PUNCH,7),allAnimations.last);
-   QueIns(AddFrame(AAE123,T2PUNCH,8),allAnimations.last);    
-   QueIns(AddFrame(AAE124,T2PUNCH,9),allAnimations.last);
-   QueIns(AddFrame(AAE125,T2PUNCH,10),allAnimations.last);
-   QueIns(AddFrame(AAE126,T2PUNCH,11),allAnimations.last);
+   QueIns(AddFrame(AAE115,T2PUNCH,0,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE116,T2PUNCH,1,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE117,T2PUNCH,2,0,0,STANDSFD,0),allAnimations.last);    
+   QueIns(AddFrame(AAE118,T2PUNCH,3,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE119,T2PUNCH,4,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE120,T2PUNCH,5,0,0,STANDSFD,0),allAnimations.last);    
+   QueIns(AddFrame(AAE121,T2PUNCH,6,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE122,T2PUNCH,7,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE123,T2PUNCH,8,0,0,STANDSFD,0),allAnimations.last);    
+   QueIns(AddFrame(AAE124,T2PUNCH,9,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE125,T2PUNCH,10,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE126,T2PUNCH,11,0,0,STANDSFD,0),allAnimations.last);
   break;
   case T3PUNCH:
-   QueIns(AddFrame(AAE169,T3PUNCH,0),allAnimations.last);
-   QueIns(AddFrame(AAE170,T3PUNCH,1),allAnimations.last);
-   QueIns(AddFrame(AAE171,T3PUNCH,2),allAnimations.last);    
-   QueIns(AddFrame(AAE172,T3PUNCH,3),allAnimations.last);
-   QueIns(AddFrame(AAE173,T3PUNCH,4),allAnimations.last);
-   QueIns(AddFrame(AAE174,T3PUNCH,5),allAnimations.last);    
-   QueIns(AddFrame(AAE175,T3PUNCH,6),allAnimations.last);
-   QueIns(AddFrame(AAE176,T3PUNCH,7),allAnimations.last);
-   QueIns(AddFrame(AAE177,T3PUNCH,8),allAnimations.last);    
-   QueIns(AddFrame(AAE178,T3PUNCH,9),allAnimations.last);
-   QueIns(AddFrame(AAE179,T3PUNCH,10),allAnimations.last);
-   QueIns(AddFrame(AAE180,T3PUNCH,11),allAnimations.last);
+   QueIns(AddFrame(AAE169,T3PUNCH,0,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE170,T3PUNCH,1,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE171,T3PUNCH,2,0,0,STANDSFD,0),allAnimations.last);    
+   QueIns(AddFrame(AAE172,T3PUNCH,3,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE173,T3PUNCH,4,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE174,T3PUNCH,5,0,0,STANDSFD,0),allAnimations.last);    
+   QueIns(AddFrame(AAE175,T3PUNCH,6,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE176,T3PUNCH,7,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE177,T3PUNCH,8,0,0,STANDSFD,0),allAnimations.last);    
+   QueIns(AddFrame(AAE178,T3PUNCH,9,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE179,T3PUNCH,10,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE180,T3PUNCH,11,0,0,STANDSFD,0),allAnimations.last);
   break;
   case T4PUNCH:
-   QueIns(AddFrame(AAE7,T4PUNCH,0),allAnimations.last);
-   QueIns(AddFrame(AAE8,T4PUNCH,1),allAnimations.last);
-   QueIns(AddFrame(AAE9,T4PUNCH,2),allAnimations.last);    
-   QueIns(AddFrame(AAE10,T4PUNCH,3),allAnimations.last);
-   QueIns(AddFrame(AAE11,T4PUNCH,4),allAnimations.last);
-   QueIns(AddFrame(AAE12,T4PUNCH,5),allAnimations.last);    
-   QueIns(AddFrame(AAE13,T4PUNCH,6),allAnimations.last);
-   QueIns(AddFrame(AAE14,T4PUNCH,7),allAnimations.last);
-   QueIns(AddFrame(AAE15,T4PUNCH,8),allAnimations.last);    
-   QueIns(AddFrame(AAE16,T4PUNCH,9),allAnimations.last);
-   QueIns(AddFrame(AAE17,T4PUNCH,10),allAnimations.last);
-   QueIns(AddFrame(AAE18,T4PUNCH,11),allAnimations.last);     
+   QueIns(AddFrame(AAE7,T4PUNCH,0,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE8,T4PUNCH,1,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE9,T4PUNCH,2,0,0,STANDSFD,0),allAnimations.last);    
+   QueIns(AddFrame(AAE10,T4PUNCH,3,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE11,T4PUNCH,4,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE12,T4PUNCH,5,0,0,STANDSFD,0),allAnimations.last);    
+   QueIns(AddFrame(AAE13,T4PUNCH,6,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE14,T4PUNCH,7,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE15,T4PUNCH,8,0,0,STANDSFD,0),allAnimations.last);    
+   QueIns(AddFrame(AAE16,T4PUNCH,9,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE17,T4PUNCH,10,0,0,STANDSFD,0),allAnimations.last);
+   QueIns(AddFrame(AAE18,T4PUNCH,11,0,0,STANDSFD,0),allAnimations.last);     
   break;
   case T1DAGGER:
    QueIns(AddFrame(AAE7,T1DAGGER,0),allAnimations.last);
@@ -218,7 +227,6 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(AAE131,T$ER$2CAST,4),allAnimations.last);
    QueIns(AddFrame(AAE132,T$ER$2CAST,5),allAnimations.last);
    QueIns(AddFrame(AAE132,T$ER$2CAST,6),allAnimations.last);
-
   break;
   case T3CAST:
    QueIns(AddFrame(AAE210,T$ER$3CAST,0),allAnimations.last);
@@ -228,7 +236,6 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(AAE186,T$ER$3CAST,4),allAnimations.last);
    QueIns(AddFrame(AAE186,T$ER$3CAST,5),allAnimations.last);
    QueIns(AddFrame(AAE186,T$ER$3CAST,6),allAnimations.last);
-
   break;
   case T4CAST:
    QueIns(AddFrame(AAE20,T$ER$4CAST,0),allAnimations.last);
@@ -280,149 +287,134 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF026,EFFSCRATCH,4),allAnimations.last);
    QueIns(AddFrame(EFF060,EFFSCRATCH,5),allAnimations.last);
    QueIns(AddFrame(EFF025,EFFSCRATCH,6),allAnimations.last);
-
   break; 
  }
 }
 
-U0 ProceduralAnimate1(CDC *dc,Director *task)
-{
-    task->a->visible =TRUE;  
-    // Animate: back and forth horizontally and sinusoidal bounce vertically
-    task->z++;
-
-    F64 time = task->z / 10.0; // adjust speed
-    F64 amplitudeX = 10;       // horizontal distance
-    F64 amplitudeY = 4;       // vertical arc height
-
-    task->a->screenX = task->x + (amplitudeX * Sin(time));
-    task->a->screenY = task->y - (amplitudeY * Abs(Sin(time))); // bounce upward only
-
-    if (time > 2 * pi) {
-      task->z = 0;
-    }
-
+U0 ProceduralAnimate1(CDC *dc,Director *task){
+ task->a->visible =TRUE;  
+ // Animate: back and forth horizontally and sinusoidal bounce vertically
+ task->z++;
+ F64 time = task->z / 10.0; // adjust speed
+ F64 amplitudeX = 10;       // horizontal distance
+ F64 amplitudeY = 4;       // vertical arc height
+ task->a->screenX = task->x + (amplitudeX * Sin(time));
+ task->a->screenY = task->y - (amplitudeY * Abs(Sin(time))); // bounce upward only
+ if (time > 2 * pi) {
+  task->z = 0;
+ }
 }
 
-F64 fmod(F64 x, F64 y)
-{
+F64 fmod(F64 x, F64 y){
     F64 div = x / y;
     I64 n = ToI64(div);  // truncate toward zero
     return x - ToF64(n * y);
 }
 
-U0 ProceduralAnimateArc(CDC *dc, Director *task)
-{
-    task->a->visible = TRUE;  
-    task->z++;
+U0 ProceduralAnimateArc(CDC *dc, Director *task){
+ task->a->visible = TRUE;  
+ task->z++;
+  
+ // Timing
+ F64 duration = 32.0;  // one full travel forward or backward
+ F64 cycle = fmod(task->z / duration, 2.0); 
+ F64 t;
+ if (cycle <= 1.0)
+  t = cycle;// going forward 
+ else {
+  if(!HasDirective(EFFSCRATCH,player)){
+   AddDirective(EFFSCRATCH,player,player->screenX,player->screenY+10);
+   AddDirective(T1HURT,player);
+   //Play("ttt2A#BC...");
+  }
+  t = 2.0 - cycle;// coming back
+ }
+ F64 phase = task->z / 10.0; // for bounce timing
+   
+ // Start and end points
+ F64 sx = task->x;
+ F64 sy = task->y;
+ F64 ex = player->screenX;
+ F64 ey = player->screenY;
+   
+ // LERP between start and end
+ F64 px = sx + (ex - sx) * t;
+ F64 py = sy + (ey - sy) * t;
+   
+ // Bounce
+ F64 amplitudeY = 15.0;
+ F64 bounce = amplitudeY * Abs(Sin(phase));
 
-    // Timing
-    F64 duration = 32.0;  // one full travel forward or backward
-    F64 cycle = fmod(task->z / duration, 2.0); 
-    F64 t;
-    if (cycle <= 1.0)
-     t = cycle;// going forward 
-    else
-    {
-     if(!HasDirective(EFFSCRATCH,player)){
-      AddDirective(EFFSCRATCH,player,player->screenX,player->screenY+10);
-      AddDirective(T1HURT,player);
-      //Play("ttt2A#BC...");
-      
-     }
-     t = 2.0 - cycle;// coming back
-    }
-    F64 phase = task->z / 10.0; // for bounce timing
-
-    // Start and end points
-    F64 sx = task->x;
-    F64 sy = task->y;
-    F64 ex = player->screenX;
-    F64 ey = player->screenY;
-
-    // LERP between start and end
-    F64 px = sx + (ex - sx) * t;
-    F64 py = sy + (ey - sy) * t;
-
-    // Bounce
-    F64 amplitudeY = 15.0;
-    F64 bounce = amplitudeY * Abs(Sin(phase));
-
-    // Apply
-    task->a->screenX = px;
-    task->a->screenY = py - bounce;
+ // Apply
+ task->a->screenX = px;
+ task->a->screenY = py - bounce;
 }
 
 
-U0 PlayAnimation(CDC *dc,Director *task){
-  I64 i;
-  I64 cnt = QueCnt(allAnimations); 
-  switch(task->cQueDirective)   
-  {
-   case BOUNCE:
-    ProceduralAnimate1(dc,task);
-    goto taskend;
-   break;  
-   case ARCSTRIKE:
-    ProceduralAnimateArc(dc,task);
-    goto taskend;
-  } 
-
-  Animation *ajc = allAnimations.next;
-
-  for(i=0;i<cnt;i++){
-   if(task->cQueDirective!=ajc->key)
-    ajc = ajc->next;
-  }
+U0 PlayAnimation(CDC *dc, Director *task){
+ I64 i;
+ I64 cnt = QueCnt(allAnimations); 
+ switch(task->cQueDirective)   {
+  case BOUNCE:
+   ProceduralAnimate1(dc,task);
+   goto taskend;
+  break;  
+  case ARCSTRIKE:
+   ProceduralAnimateArc(dc,task);
+   goto taskend;
+  break;
+ } 
+ Animation *ajc = allAnimations.next;
   
-  while(task->animIndex!=ajc->frameIndex){ 
+ for(i=0;i<cnt;i++){
+  if(task->cQueDirective!=ajc->key)
    ajc = ajc->next;
-  }
+ }
+  
+ while(task->animIndex!=ajc->frameIndex){ 
+  ajc = ajc->next;
+ }
  
-  if(ajc->frameDurationIndex<ajc->frameDuration){
-   ajc->frameDurationIndex++;// = ajc->frameDurationIndex++;
-  }
-  else{
-   ajc->frameDurationIndex=0;
-   Animation *tmp = ajc->next;
-   task->animIndex = task->animIndex+1;
-   if(tmp->frameIndex<=ajc->frameIndex)
-   {
-    switch(task->cQueDirective)
-    {
-     case T1DIE...T4DIE:
-     case EFFFIRE:
-      task->animIndex=0;
-      //repeat last frame forever
-     break;
-     default:
-      ResetDirective(task);
-      task->a->visible = TRUE;  
-      //FreeMyTask(task->cQueDirective,task->a);
-      goto taskend;
-     break;
-    
-    }
+ if(ajc->frameDurationIndex<ajc->frameDuration){
+  ajc->frameDurationIndex++;
+ }else{
+  ajc->frameDurationIndex=0;
+  Animation *tmp = ajc->next;
+  task->animIndex = task->animIndex+1;
+  if(tmp->frameIndex<=ajc->frameIndex){
+   switch(task->cQueDirective){
+    case T1DIE...T4DIE:
+    case EFFFIRE:
+     task->animIndex=0; //repeat last frame forever
+    break;
+    default:            
+     ResetDirective(task);
+     task->a->visible = TRUE;  
+     goto taskend;
+    break;
    }
   }
+ }
 
-  if(task->flip){
-   CDC *flipped = DCFlippedX(ajc->frame); 
-   GrBlot3(dc,task->x+ajc->xOffset,
+ if(task->flip){
+  task->xAOff = ajc->xAOff;
+  task->yAOff = ajc->yAOff;
+  CDC *flipped = DCFlippedX(ajc->frame); 
+  GrBlot3(dc,task->x+ajc->xOffset,
              task->y+ajc->yOffset,
              task->z,
              flipped);
-   DCDel(flipped);
-    
-  }else{
-  
-   GrBlot3(dc,task->x+ajc->xOffset,
-             task->y+ajc->yOffset,
-             task->z,
-             ajc->frame);
-  }
-
-  taskend:
+  DCDel(flipped);   
+ }else{
+  task->xAOff = -ajc->xAOff;
+  task->yAOff = -ajc->yAOff;
+  GrBlot3(dc,task->x+ajc->xOffset,
+            task->y+ajc->yOffset,
+            task->z,
+            ajc->frame);
+ }
+ 
+ taskend:
  
 }
 
@@ -452,7 +444,6 @@ U0 InitializeAnimator(){
   CreateAnimation(T3DAGGER);
   CreateAnimation(T4DAGGER);
  
-
   CreateAnimation(T1SPEAR);
   CreateAnimation(T2SPEAR);
   CreateAnimation(T3SPEAR);
@@ -470,47 +461,42 @@ U0 InitializeAnimator(){
   CreateAnimation(T2HURT);
   CreateAnimation(T3HURT);
   CreateAnimation(T4HURT);
-
+            
   CreateAnimation(T1CAST);
   CreateAnimation(T2CAST);
   CreateAnimation(T3CAST);
   CreateAnimation(T4CAST);
-
+              
   CreateAnimation(T1EFFHEAL);
   CreateAnimation(EFFFISH);
   CreateAnimation(EFFFIRE);
   CreateAnimation(EFFSCRATCH);
  //load all animations into the hashtable 
-}
-
-
-U0 CheckAnimQueue(CDC *dc,I64 y)
-{
+}        
+        
+U0 CheckAnimQueue(CDC *dc,I64 y){
  Director *task = direct.next;
- I64 i =0;
+ I64 i=0;
  for(i=0;i!=QueCnt(direct);i++){
-  if(task->cQueDirective!=NoDirective)
-  {
+  if(task->cQueDirective!=NoDirective){
    //estimate this task row to account for drawing offsets
    //this is necessary to ensure foreground draws properly
-   if(task->y<=y+10&&task->y >= y-35)
+   if(task->y<=y+10&&task->y>=y-35)
     PlayAnimation(dc,task);
-  }
-  else
-  {
-  // FreeMyTask(task);
-  }
-
-  task = task->next;
- }
+   task = task->next;   
  
-}
-
-
-U0 DrawDead(CDC * dc, Actor *a)
-{
- switch(a->face)
- {
+  }                    
+  else{
+   Director *temp = task;//use temp to continue loop  
+   task = task->next;              
+   FreeTask(temp);        
+  }                 
+ }                     
+}                   
+                  
+           
+U0 DrawDead(CDC *dc, Actor *a){
+ switch(a->face){
   case 0...T_BENJ:
    AddDirective(T1DIE,a);
   break;
@@ -519,9 +505,6 @@ U0 DrawDead(CDC * dc, Actor *a)
   break;
  } 
 }
-
-
-
 
 U8 GetWalkOffsetX(U8 walkdir){
  U8 XOffset = 0;

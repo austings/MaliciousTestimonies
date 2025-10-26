@@ -262,7 +262,7 @@ while(TRUE){
    CDirEntry *cur;
    I64 yInc=0;
    switch (msg_code=GetMsg(&arg1,&arg2,
-	  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
+	  1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
    {
     case MSG_MS_L_DOWN:
      if(camera->cursorX>=19&&camera->cursorX<=187&&camera->cursorY>=18&&

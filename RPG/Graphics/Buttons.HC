@@ -133,7 +133,7 @@ U0 ReleaseSword()
  GetNPC(0)->sword =mc->draggingID;
 
  mc->draggingInv=FALSE; 
- RemoveItemLoc(mc->draggingItem);                 
+ RemoveItemLoc(mc->draggingItem,TRUE);                 
 
 }
 
@@ -153,7 +153,7 @@ U0 ReleaseBody()
  GetNPC(0)->armor =mc->draggingID;
 
  mc->draggingInv=FALSE; 
- RemoveItemLoc(mc->draggingItem);                 
+ RemoveItemLoc(mc->draggingItem,TRUE);                 
 
 }
 
@@ -174,7 +174,7 @@ U0 ReleaseHelm()
 
  mc->reRenderInv=TRUE;
  mc->draggingInv=FALSE; 
- RemoveItemLoc(mc->draggingItem);                 
+ RemoveItemLoc(mc->draggingItem,TRUE);                 
 
 }
 U0 ReleaseRing()
@@ -193,7 +193,7 @@ U0 ReleaseRing()
  GetNPC(0)->ring1 =mc->draggingID;
 
  mc->draggingInv=FALSE; 
- RemoveItemLoc(mc->draggingItem);                 
+ RemoveItemLoc(mc->draggingItem,TRUE);                 
 
 }
 
@@ -204,6 +204,7 @@ Bool FillItemIfOnWater(I64 wlvl=0){
     RemoveItemLoc(mc->draggingItem,TRUE);
     AddItemToInventory(PLAYER,IT_WPOT);
     mc->draggingInv=FALSE; 
+    PrintInventory;
     return TRUE;
    break;
   }
@@ -216,8 +217,6 @@ Bool FillItemIfOnWater(I64 wlvl=0){
 U0 CombineIfPossible(I64 pItem)
 {
  Item *item= RetrieveItem(PLAYER,pItem);
- PrintDevMessage(MStrPrint("COMBINE:%s",mc->draggingItem->name));
- PrintDevMessage(MStrPrint("WITH:%s",item->name));
 
  switch(mc->draggingID)
  {
@@ -263,7 +262,6 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
   if(occupied!=-1){//if there is an item underneath
    mc->draggingID = RetrieveItemID(actor,occupied,TRUE);
    mc->draggingItem = RetrieveItem(actor,occupied);
-   PrintDevMessage(MStrPrint("BEGIN:%s",mc->draggingItem->name));
    mc->reRenderInv=TRUE;
    mc->draggingInv=TRUE;
   }
