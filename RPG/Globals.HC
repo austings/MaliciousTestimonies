@@ -44,8 +44,8 @@ class CombatTurn:CQue
 } combatCQue;
 
 #define AGGRO_DIS	2
-#define MOVEMENT_COST		5
-
+#define MOVEMENT_COST		5
+#define W_T 90
 //looting constants for 
 //looting previous corpse check
 #define LOOTED		0
@@ -87,6 +87,10 @@ class CombatTurn:CQue
 
 //global settings class for game session
 class MenuControl{
+
+  //Display
+  I64 tickWeather;
+
   //Narrative Control
   Bool fxMuted,musicMuted;
   I32 currentSong,//for draw and song threads
@@ -129,7 +133,7 @@ class MenuControl{
        displayShop,
        displayEquipment,
        displayDev,
-       displaySave;
+       displaySave; 
 
 };
 

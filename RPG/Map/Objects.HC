@@ -65,5 +65,5 @@ Inventory *GrabChest(I64 chestID)
 U0 FreeObjQue()
 {
  QueDel(&obj_que);
- Free(*obj_que);
+ Free(&obj_que);
 }

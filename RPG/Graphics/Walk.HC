@@ -39,7 +39,7 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
     break;
    }
    break;
-  case W_LEFTSTRAIGHT://left straight start
+  case W_LEFTSTRAIGHT://left straight start
    SetActorSubFrameRule(a,0,5);
    if(a->visible)
     GrBlot3(completeActor,0+xOffset,0,10,L1);

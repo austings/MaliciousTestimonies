@@ -321,7 +321,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
        M_X< (i+1)*45+2 &&
        M_Y>=(j*42) &&
        M_Y< (j+1)*42&&!mc->prayerDragging){
-      InvDrag(i,j,mc->lootTarget);
+      //InvDrag(i,j,mc->lootTarget);
 
      }//end inventory if
     }//end inventory height
@@ -428,3 +428,4 @@ U0 ShowToolTips(CDC *dc = gr.dc)
   }
  }
 }
+

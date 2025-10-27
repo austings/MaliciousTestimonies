@@ -244,7 +244,6 @@ U0 CombineIfPossible(I64 pItem)
  }
 }
 
-#define CHESTIDSBEGIN  MAX_WRITTEN_ACTORS+1
 
 //check if user click or release for each 'button' of inventory
 //i: inv width
@@ -252,12 +251,8 @@ U0 CombineIfPossible(I64 pItem)
 U0 InvDrag(I64 i, I64 j,I64 actor){
  Bool marked = FALSE;                 
  I8 occupied;
- if(actor <=CHESTIDSBEGIN){
-  occupied= GetNPC(actor)->myInv->mtrx[j][i].occupied;                 
- }
- else{
-  occupied = mc->lootInv->mtrx[j][i].occupied;
- }
+ occupied= GetNPC(actor)->myInv->mtrx[j][i].occupied;                 
+ 
  if(mc->draggingInv==FALSE){//start dragging
   if(occupied!=-1){//if there is an item underneath
    mc->draggingID = RetrieveItemID(actor,occupied,TRUE);
@@ -278,13 +273,8 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
    for(itemW=0;itemW<invWMax;itemW++) {
     for(itemH=0;itemH<invHMax;itemH++) {
      I64 tempOccupied;
-     if(actor <= CHESTIDSBEGIN){
-      tempOccupied = 
+     tempOccupied = 
          GetNPC(actor)->myInv->mtrx[j+(itemH)][i+(itemW)].occupied;
-     }else { 
-      tempOccupied = 
-         mc->lootInv->mtrx[j+(itemH)][i+(itemW)].occupied;
-     }
      if(tempOccupied!=-1&& tempOccupied!=mc->draggingItem->invID){
       marked=TRUE;break;
      }

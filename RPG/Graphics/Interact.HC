@@ -47,7 +47,7 @@ U0 InteractActor(I64 npc)
 U0 InteractChest(I64 inv)
 {
  mc->lootedSwitch = TRUE;
- mc->lootTarget = inv;
+ // mc->lootTarget = inv;
  GrabChest(inv);
 }
 
@@ -73,7 +73,6 @@ U0 InteractTile(Actor *p, U8 dir,
     case OBJ_CHEST:
      I64 inv = GetTensorInv(world->level,iactX,iactY,world->currentZ);
      InteractChest(inv);
-
     break;
    }
   }   

@@ -64,8 +64,8 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
 }
 
  
-CDC *RenderInventory(Actor *p)
-{
+CDC *RenderInventory(Inventory *myInv,Bool isPlayer=TRUE){
+
  if(mc->reRenderInv)
  {
   I64 i,j,i2;
@@ -78,7 +78,7 @@ CDC *RenderInventory(Actor *p)
   {
    for(j=0;j<INVHEIGHT;j++)
    {
-    I8 occupied= p->myInv->mtrx[j][i].occupied;
+    I8 occupied= myInv->mtrx[j][i].occupied;
     if(occupied!=IT_NULL)
     {
      Bool alreadyScanned = FALSE;
@@ -311,6 +311,9 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
              0,GetMenuSprite(2));
     }
    }
+   //GrBlot3(dc,0,0,10,RenderInventory(mc->lootTarget));
+   //Sprite3B(dc,460,280,0,GetMenuSprite(3));
+
 
  }
 
@@ -327,7 +330,7 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
              0,GetMenuSprite(2));
     }
    }
-   GrBlot3(dc,0,0,10,RenderInventory(p));
+   GrBlot3(dc,0,0,10,RenderInventory(p->myInv));
    Sprite3B(dc,460,280,0,GetMenuSprite(3));
    if(mc->draggingInv){
      BlotItem(dc,mc->draggingID,

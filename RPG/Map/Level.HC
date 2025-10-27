@@ -111,6 +111,12 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixObj(toAdd,OBJ_POPPY,10,6,FALSE);
 
  //ne poppy field
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,28,2);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,35,3);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,37,9);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,28,12);
+
+
  SetMatrixObj(toAdd,OBJ_POPPY,28,4,FALSE);
  SetMatrixObj(toAdd,OBJ_POPPY,29,3,FALSE);
 
@@ -168,6 +174,11 @@ Matrix *MakeCastle(Matrix *toAdd){
 
 
  //sw poppy field
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,5,36);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,12,36);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,4,45);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,13,45);
+
  SetMatrixObj(toAdd,OBJ_POPPY,5,37,FALSE);
  SetMatrixObj(toAdd,OBJ_POPPY,8,38,FALSE);
  SetMatrixObj(toAdd,OBJ_POPPY,10,37,FALSE);

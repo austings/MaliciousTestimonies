@@ -5,7 +5,7 @@ Cd(__DIR__);;
 #include "Data/Frames.HC";
 #include "Data/Ids.HC";
 #include "Dev/Dev.HC";
-
+
 // Loading Map
 #include "Map/Map.HC";
 #include "Map/Tensor3D.HC";
@@ -46,6 +46,7 @@ Cd(__DIR__);;
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
 #include "Graphics/Render.HC";
+#include "Graphics/Weather.HC";
 #include "Graphics/Draw.HC";
 
 // Loading Skills
@@ -76,6 +77,8 @@ U0 InitMenuControl()
  mc->displayPrayers=FALSE;
  mc->displayDev=FALSE;
  mc->displaySave=FALSE;
+ mc->tickWeather=0;
+
 
  //prayers
  mc->prayerPage=0;
@@ -98,7 +101,7 @@ U0 InitMenuControl()
 
  //chest
  mc->lootedSwitch=FALSE;
- mc->lootTarget=PLAYER;
+ mc->lootInv= MakeInventory();
  ObjQueInit;
 
  //combat

@@ -173,6 +173,10 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
  }
  player = p;
 
+ mc->tickWeather++;
+ if(mc->tickWeather>W_T)
+  mc->tickWeather=0;
+
 
 }
 

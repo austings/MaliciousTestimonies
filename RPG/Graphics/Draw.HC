@@ -166,7 +166,7 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
   }else{
    UpdateDirective(BOUNCE,toRender,    
    GetActorScreenX(toRender,npcOffX,i,isPlayer),
-   GetActorScreenY(toRender,npcOffY,j,isPlayer),0);
+   GetActorScreenY(toRender,npcOffY,j,isPlayer),0);
 
   }
  }
@@ -194,6 +194,7 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
 
 U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
 {//draw npcs and items
+ PlayWeather(dc,i,j);
  for(j=-1;j<12;j++){
   if(camera->topUD+j<wX&&camera->topUD+j>=0){
    I64 screenY = j*camera->dividY+camera->cameraOffSetY; 
@@ -210,6 +211,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
 
      if(obj!=IT_NULL)
       DrawObjsOnLayer(dc,obj,screenX,screenY,p);
+ 
      DrawItemsOnLayer(dc,i,j,l);
      if(npc!=IT_NULL)
       DrawActorsOnLayer(dc,npc,i,j,p,screenX,screenY,wlvl); 
@@ -219,6 +221,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
    CheckAnimQueue(dc,screenY);//compute animations by row 
   }//if too large y
  }//for y
+
 }
 
 
