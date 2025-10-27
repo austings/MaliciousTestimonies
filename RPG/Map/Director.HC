@@ -32,8 +32,8 @@ U0 ResetDirective(Director *task){
 U0 FreeTask(Director *task){
  PrintDevMessage("BEGIN",FALSE);
  PrintDevMessage(MStrPrint("LOG:%d,%s",task->cQueDirective,task->a->name));
- //QueRem(task);
- //Free(task);
+ QueRem(task);
+ Free(task);
  PrintDevMessage("FREED!",FALSE);
 }
 

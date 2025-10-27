@@ -477,7 +477,7 @@ U0 InitializeAnimator(){
 U0 CheckAnimQueue(CDC *dc,I64 y){
  Director *task = direct.next;
  I64 i=0;
- for(i=0;i!=QueCnt(direct);i++){
+ while (task != &direct) { //for(i=0;i!=QueCnt(direct);i++){
   if(task->cQueDirective!=NoDirective){
    //estimate this task row to account for drawing offsets
    //this is necessary to ensure foreground draws properly

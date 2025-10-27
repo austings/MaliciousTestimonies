@@ -22,7 +22,7 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
     Sprite3B(completeActor,0,32,10,GetDog);
    break;
    case T_FOWL:
-    Sprite3B(completeActor,0,32,10,GetFowl);
+    Sprite3B(completeActor,0,32,10,GetFowl);
    break;
    case T_OX:
     Sprite3B(completeActor,0,32,10,GetOx);
