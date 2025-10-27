@@ -3,8 +3,10 @@
 U0 RPGSideBar(CDC *dc)
 {
    dc->color = DKGRAY;
-   GrRect3(dc,12*camera->dividX+camera->cameraOffSetX,0,0,200,480);
-   Sprite3B(dc,11*camera->dividX-25,-4,0,GetSideMenu);
+   GrRect(dc,12*camera->dividX-24,0,480,480);
+   //GrRect3(dc,12*camera->dividX,0,0,1280,480);
+
+   Sprite3B(dc,11*camera->dividX-24,-4,0,GetSideMenu);
    //save button 
    Sprite3B(dc,494,420,0,GetButton(4));
    //equipment button

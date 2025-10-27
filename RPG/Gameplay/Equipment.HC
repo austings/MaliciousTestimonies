@@ -374,13 +374,13 @@ U0 ComputeArmorOffsets(Actor *toRender, I64 dir,I64 *xOff, I64 *yOff)
   }
  }
 
-// Director *task =FindDirective(toRender);  
-// if(!task)
-//  return;
-// else{
-//  *xOff += task->xAOff;
-//  *yOff += task->yAOff;
-// }
+ Director *task =FindDirective(toRender);  
+ if(!task)
+  return;
+ else{
+  *xOff += task->xAOff;
+  *yOff += task->yAOff;
+ }
 }
 
 U0 OverlayArmor(CDC *dc, Actor *toRender)

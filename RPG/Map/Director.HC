@@ -27,6 +27,8 @@ U0 ResetDirective(Director *task){
  task->flip = FALSE;
  task->xAOff = 0;
  task->yAOff = 0;
+ SetActorDir(task->a,DIR_DOWN);//end prayer
+
 }
 
 U0 FreeTask(Director *task){

@@ -39,7 +39,7 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
     break;
    }
    break;
-  case W_LEFTSTRAIGHT://left straight start
+  case W_LEFTSTRAIGHT://left straight start
    SetActorSubFrameRule(a,0,5);
    if(a->visible)
     GrBlot3(completeActor,0+xOffset,0,10,L1);
@@ -317,7 +317,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
    }
   break;
   case T1HURT...T4HURT:
-   SetActorDir(p,DIR_DOWN);
+   SetActorDir(p,DIR_LEFT);
    switch(p->face){
     case T_JUDA:
      task->cQueDirective = T1HURT;  

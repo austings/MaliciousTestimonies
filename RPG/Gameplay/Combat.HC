@@ -27,7 +27,6 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
    switch(mc->combatMenuSelection)
    {
     case CMS_ENE1:
-     SetActorDir(p,DELIMITER);//make attack
      CombatDialog4(dc,task,p);
     break;
     case CMS_ENE2:

@@ -22,6 +22,7 @@ U0 Stage0(Actor *p)
      mc->turnIndex++;
      if(mc->turnIndex>3){
       RemoveHealth(mc->target,p->str);
+      SetActorDir(p,DELIMITER);//end attack
       SetCombatStage1;
      }//mc turnindex
     break;

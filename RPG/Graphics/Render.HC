@@ -25,7 +25,7 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
     Sprite3B(completeActor,0,32,10,GetFowl);
    break;
    case T_OX:
-    Sprite3B(completeActor,0,32,10,GetOx);
+    Sprite3B(completeActor,0,32,10,GetOx);
    break;
    default:
     completeActor = GetWalkAnimation(a,completeActor);

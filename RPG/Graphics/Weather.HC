@@ -22,22 +22,10 @@ U0 PlayWeather(CDC *dc, I64 i, I64 j){
    F64 xDrift = driftAmp * Sin((mc->tickWeather * driftFreq) + j * 0.2);
 
    Sprite3B(weatherLayer, ToI64(xBase + xDrift), ToI64(yBase), 0, GetLeaf);
-
- /*  // checkerboard offset: alternate rows shifted horizontally
-   I64 xBase = i + ((j / 128) % 2) * 64;  // half-offset every other row
-
-            // vertical motion (wrap back to top)
-   I64 yBase = ((j + (mc->tickWeather * 2)) % 480) - 60;
-
-            // sine drift
-   F64 xDrift = driftAmp * Sin((mc->tickWeather * driftFreq) + (F64)j * 0.1);
-
-   Sprite3B(weatherLayer, ToI64(xBase + xDrift), yBase, 20, GetLeaf);/
-*/
   }
  }
 
  GrBlot3(dc,0,0,0,weatherLayer);
- Free(weatherLayer);
+ DCDel(weatherLayer);
 
 }
