@@ -197,10 +197,10 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
 U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
 {//draw npcs and items
  PlayWeather(dc,i,j);
- for(j=-1;j<15;j++){
+ for(j=-1;j<14;j++){
   if(camera->topUD+j<wX&&camera->topUD+j>=0){
    I64 screenY = j*camera->dividY+camera->cameraOffSetY; 
-   for(i=-3;i<15;i++){
+   for(i=-4;i<14;i++){
     if(camera->topLR+i<wY&&camera->topLR+i>=0){
      I64 screenX = i*camera->dividX+camera->cameraOffSetX;
 
