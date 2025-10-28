@@ -192,4 +192,14 @@ U8 *GetBG(I64 id)
   return color;
 }
 
+F64 map_range(F64 w, F64 a, F64 b, F64 newWL, F64 newWU) {
+    return newWL + (w - a) * (newWU - newWL) / (b - a);
+}
+
+
+I64 ScreenPToTile(I64 sx, I64 lb, I64 ub)
+{ 
+ return ToI64(map_range(ToF64(sx), 0.0, 480.0, ToF64(lb+1),ToF64(ub-5)));
+}
+
 

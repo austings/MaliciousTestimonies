@@ -76,7 +76,7 @@ U0 InteractTile(Actor *p, U8 dir,
     break;
    }
   }   
-  if(!CheckSolid(world->level,p->x+xOff,p->y+yOff,world->currentZ)){
+  if(!CheckSolid(world->level,p->x+xOff,p->y+yOff,world->currentZ)||mc->clip){
 
    if(npc!=IT_NULL){
     if(p->id==PLAYER){

@@ -27,17 +27,14 @@ U0 ResetDirective(Director *task){
  task->flip = FALSE;
  task->xAOff = 0;
  task->yAOff = 0;
- SetActorDir(task->a,DIR_DOWN);//end prayer
+ SetActorDir(task->a,DIR_DOWN);//end prayer
 
 }
 
 U0 FreeTask(Director *task){
- PrintDevMessage("BEGIN",FALSE);
- PrintDevMessage(MStrPrint("LOG:%d,%s",task->cQueDirective,task->a->name));
  QueRem(task);
  Free(task);
- PrintDevMessage("FREED!",FALSE);
-}
+}
 
 Director *HasAnyDirective(Actor *a){
  Director *task = direct.next;

@@ -44,7 +44,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    else if(mc->combatON){
      CombatDialogs(task, dc,p);
    }
-   ShowToolTips(dc);
+   ShowToolTips(dc);
 
    break;
    //character select

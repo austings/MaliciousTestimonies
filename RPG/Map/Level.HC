@@ -114,7 +114,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixObj(toAdd,OBJ_OLIVETREE,28,2);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,35,3);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,37,9);
- SetMatrixObj(toAdd,OBJ_OLIVETREE,28,12);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,28,12);
 
 
  SetMatrixObj(toAdd,OBJ_POPPY,28,4,FALSE);

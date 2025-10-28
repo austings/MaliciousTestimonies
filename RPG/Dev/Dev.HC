@@ -37,6 +37,8 @@ class DevConsole{
 
 } devc;
 
+
+
 U0 InitDev()
 {
  devc.line0 = StrNew("ÿ"); 
@@ -95,6 +97,14 @@ U0 DevKeyEnter(){
  MemCpy(myNewStr,devc.line0,newLen-1);
  myNewStr[newLen-1] = '\0'; 
  devc.line0 = MStrPrint("%s",myNewStr);
+
+ if(StrCmp(devc.line0,"noclip")==0)
+ {
+  if(mc->clip)
+   mc->clip=FALSE;
+  else
+   mc->clip=TRUE;
+ }
  Free(myNewStr);
 
  devc.line1 = devc.line0;

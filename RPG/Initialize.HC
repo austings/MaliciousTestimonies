@@ -4,7 +4,6 @@ Cd(__DIR__);;
 #include "Data/Wad.HC";
 #include "Data/Frames.HC";
 #include "Data/Ids.HC";
-#include "Dev/Dev.HC";
 
 // Loading Map
 #include "Map/Map.HC";
@@ -20,13 +19,14 @@ Cd(__DIR__);;
 // Loading Data Into Map
 #include "Gameplay/Item.HC";
 #include "Map/Actors.HC";
-#include "Gameplay/Markov/Markov.HC";
+#include "Gameplay/Markov/Markov.HC";
 #include "Map/Director.HC";
 #include "Map/Level.HC";
 #include "Gameplay/AI.HC";
 
 // Loading World
 #include "Globals.HC";
+#include "Dev/Dev.HC";
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
 #include "Gameplay/Player.HC";
@@ -46,7 +46,7 @@ Cd(__DIR__);;
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
 #include "Graphics/Render.HC";
-#include "Graphics/Weather.HC";
+#include "Graphics/Weather.HC";
 #include "Graphics/Draw.HC";
 
 // Loading Skills
@@ -78,7 +78,11 @@ U0 InitMenuControl()
  mc->displayDev=FALSE;
  mc->displaySave=FALSE;
  mc->tickWeather=0;
-
+ mc->screenXL=0;
+ mc->screenYL=0;
+ mc->smoothScreenX = 0;
+ mc->smoothScreenY = 0;
+ mc->clip=FALSE;
 
  //prayers
  mc->prayerPage=0;

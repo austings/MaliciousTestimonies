@@ -26,7 +26,7 @@ U0 IncSelect(U8 type)
  {
   case 0:
   currentSelection++;
-  if(currentSelection==4)
+  if(currentSelection==4)
    currentSelection=0;
   break;
   case 1:

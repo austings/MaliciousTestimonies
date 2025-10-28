@@ -1,7 +1,6 @@
 
 
-U0 ReDrawWorld(CDC *dc, I64 i, I64 j)
-{
+U0 ReDrawWorld(CDC *dc, I64 i, I64 j){
   for(i=-1;i<12;i++){
     if(camera->topLR+i<wX&&camera->topLR+i>=0){
      for(j=-1;j<12;j++){
@@ -194,22 +193,49 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
  //Free(toRender);
 }   
 
+
 U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
 {//draw npcs and items
- PlayWeather(dc,i,j);
- for(j=-1;j<14;j++){
-  if(camera->topUD+j<wX&&camera->topUD+j>=0){
-   I64 screenY = j*camera->dividY+camera->cameraOffSetY; 
-   for(i=-4;i<14;i++){
-    if(camera->topLR+i<wY&&camera->topLR+i>=0){
-     I64 screenX = i*camera->dividX+camera->cameraOffSetX;
+ I64 screenY = camera->dividY+camera->cameraOffSetY;
+ I64 screenX = i*camera->dividX+camera->cameraOffSetX;
 
+
+ I64 RenderHLowerBound = -1;
+ I64 RenderHUpperBound = 14;
+ I64 RenderWLowerBound = -4;
+ I64 RenderWUpperBound = 14;
+
+
+ for(j=RenderHLowerBound;j<RenderHUpperBound;j++){
+  if(camera->topUD+j<wX&&camera->topUD+j>=0){
+   screenY = j*camera->dividY+camera->cameraOffSetY; 
+   for(i=RenderWLowerBound;i<RenderWUpperBound;i++){
+    if(camera->topLR+i<wY&&camera->topLR+i>=0){
+     screenX = i*camera->dividX+camera->cameraOffSetX;
+
+     I16 c =  GetTensor(world->level,camera->topLR+i,camera->topUD+j,world->currentZ);    
+    
      I64 obj= GetTensorObj(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
      I64 npc= GetTensorNPC(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
      I64 wlvl= GetTensorWaterLevel(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
+    
+
+     if ((j-(-1))%4 == 0 && (i-(-4))%4== 0 &&c<BG_LT_GRAY ) {
+      F64 equ1 = map_range(j, RenderHLowerBound, RenderHUpperBound, 
+                          0, 480);
+      F64 equ2 = map_range(i, RenderWLowerBound, RenderWUpperBound, 
+                          0, 480);
+      PlayWeather2(dc,i,j,equ1,equ2,
+                   RenderHLowerBound,
+                   RenderHUpperBound,
+                   RenderWLowerBound,
+                   RenderWUpperBound
+                   );
+     }
+ 
 
      if(obj!=IT_NULL)
       DrawObjsOnLayer(dc,obj,screenX,screenY,p);
@@ -217,10 +243,11 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
      DrawItemsOnLayer(dc,i,j,l);
      if(npc!=IT_NULL)
       DrawActorsOnLayer(dc,npc,i,j,p,screenX,screenY,wlvl); 
+     
           
     }//if too large x
    }//for x
-   if(j<12)
+   if(j<RenderHUpperBound-2)
     CheckAnimQueue(dc,screenY);//compute animations by row 
   }//if too large y
  }//for y

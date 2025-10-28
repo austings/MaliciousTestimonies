@@ -44,7 +44,7 @@ class CombatTurn:CQue
 } combatCQue;
 
 #define AGGRO_DIS	2
-#define MOVEMENT_COST		5
+#define MOVEMENT_COST		5
 #define W_T 90
 //looting constants for 
 //looting previous corpse check
@@ -89,7 +89,9 @@ class CombatTurn:CQue
 class MenuControl{
 
   //Display
-  I64 tickWeather;
+  I64 tickWeather,screenXL,screenYL,
+      smoothScreenY,smoothScreenX;
+  Bool clip;
 
   //Narrative Control
   Bool fxMuted,musicMuted;

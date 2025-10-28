@@ -406,8 +406,8 @@ U0 PlayAnimation(CDC *dc, Director *task){
              flipped);
   DCDel(flipped);   
  }else{
-  task->xAOff = -ajc->xAOff;
-  task->yAOff = -ajc->yAOff;
+  task->xAOff = -ajc->xAOff-1;
+  task->yAOff = -ajc->yAOff-1;
   GrBlot3(dc,task->x+ajc->xOffset,
             task->y+ajc->yOffset,
             task->z,
