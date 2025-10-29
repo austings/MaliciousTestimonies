@@ -96,7 +96,7 @@ class MenuControl{
   //Narrative Control
   Bool fxMuted,musicMuted;
   I32 currentSong,//for draw and song threads
-      currentMenu,
+      currentMenu,//foreign key
       cutsceneTarget;//switch cutscene frames
   I64 cutsceneTimer,cutsceneIndex;
 
@@ -105,9 +105,9 @@ class MenuControl{
   U8* dialogName;//dialog actor name
 
   //Looting
-  Bool lootedSwitch;
-  I64 lootTarget;
-  Inventory *lootInv;
+  Bool lootedSwitch;//true/false open gui
+  I64 lootTarget;//foreign key
+  Inventory *lootInv;//inv object
 
   //combat preferences
   Bool combatON;//determines if combat is initiated

@@ -107,11 +107,30 @@ I64 *RetrieveItemID(I64 aID, I64 index, Bool select=FALSE){
   return toBeRetrieved->id;
 }
 
+//convert inv id to item id
+I64 *RetrieveItemIDFromInv(Inventory *inv, I64 index, Bool select=FALSE){
+ Item *toBeRetrieved = inv->collection->next;
+ I64 i;
+ for(i=0;i<INVWIDTH*INVHEIGHT;i++){
+  if(toBeRetrieved->invID!=index)
+   toBeRetrieved = toBeRetrieved->next;
+  else
+   break;
+ }
+ if(select){//move to mouse
+  toBeRetrieved->visible = FALSE;
+  return toBeRetrieved->id;
+ }
+ if(toBeRetrieved->visible==TRUE)
+  return toBeRetrieved->id;
+}
+
 //convert inv id to item
 Item *RetrieveItem(I64 aID, I64 index)
 {
  Item *toBeRetrieved = (GetNPC(aID))->myInv->collection->next;
  I64 i;
+ if(index<0) return toBeRetrieved;
  for(i=0;i<INVWIDTH*INVHEIGHT;i++)
  {
   if(toBeRetrieved->invID!=index)
@@ -121,6 +140,44 @@ Item *RetrieveItem(I64 aID, I64 index)
  }
 
  return toBeRetrieved;
+}
+
+Bool AddItemToInv(Inventory *inv, I64 iID){
+ I64 i,j,x,y,area;
+ Item *item = MakeItem(iID); 
+ for(i=0;i<INVWIDTH;i++){
+  for(j=0;j<INVHEIGHT;j++){
+   area=0;
+   for(x=item->w-1;x>=0;x--){
+    if(i+x>=11)
+     goto skip_num; 
+    for(y=item->h-1;y>=0;y--){
+     if(j+y>=4)
+      goto skip_num;
+     if(inv->mtrx[j+y][i+x].occupied<0)
+       area++;  
+    }
+   }
+   if(area==(item->h)*(item->w)){
+    QueIns(item,inv->collection->last);
+    I64 cnt = ++inv->count;
+    
+    for(x=item->w-1;x>=0;x--){  
+     for(y=item->h-1;y>=0;y--){
+      inv->mtrx[j+y][i+x].occupied = cnt;
+     }
+    }
+    item->invID = cnt;
+    mc->reRenderInv=TRUE;
+
+    return TRUE;
+   }
+  }
+  skip_num:
+ }
+ mc->reRenderInv=TRUE;
+ return FALSE;
+
 }
 
 
@@ -357,51 +414,5 @@ CDC *ShowHair(I64 hairID, I8 dir)
   break;
  }
 
-}
-
-
-U0 ComputeArmorOffsets(Actor *toRender, I64 dir,I64 *xOff, I64 *yOff)
-{
- // Create a value based on timer (cycle every 30 ticks)
- if(toRender->walking!=W_NOTWALKING){
-  F64 t = (world->timer % 30) / 30.0 * 2.0 * pi;
-  I64 groffset = ToI64(Sin(t) * 3.0); // values from -3 to +3
-  if(dir == DIR_RIGHT || dir == DIR_LEFT){
-   *xOff += (groffset/2);
-   *yOff += (groffset/2);
-  } else {
-   *yOff += groffset;
-  }
- }
-
- Director *task =FindDirective(toRender);  
- if(!task)
-  return;
- else{
-  *xOff += task->xAOff;
-  *yOff += task->yAOff;
- }
-}
-
-U0 OverlayArmor(CDC *dc, Actor *toRender)
-{
-
- //this is a switch statement to animate the armor based on
- //the world timer status
- I64 dir = GetDir(toRender);
-
- I64 yOff = 0;
- I64 xOff = 0;
- ComputeArmorOffsets(toRender, dir,&xOff,&yOff);
- CDC *armor = ShowBody(toRender->armor,dir);
- CDC *hair = ShowHair(toRender->hair,dir);
- CDC *hat = ShowHelm(toRender->hat,dir);
- GrBlot3(dc,0+xOff,0+yOff,0, armor);
- GrBlot3(dc,0+xOff,0+yOff,10,hair);
- GrBlot3(dc,0+xOff,0+yOff,0, hat);
-
- DCDel(armor); 
- DCDel(hair); 
- DCDel(hat); 
 }
 

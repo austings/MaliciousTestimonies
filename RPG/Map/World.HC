@@ -174,7 +174,7 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
  }
  player = p;
  mc->smoothScreenY = fmod(mc->smoothScreenY+camera->cameraOffSetY * world->timer, 480.0);
- mc->smoothScreenX = fmod(mc->smoothScreenX+camera->cameraOffSetX * world->timer, 480.0);
+ mc->smoothScreenX = fmod(mc->smoothScreenX+camera->cameraOffSetX * world->timer, 480.0);
  mc->tickWeather++;
  if(mc->tickWeather>W_T)
   mc->tickWeather=0;

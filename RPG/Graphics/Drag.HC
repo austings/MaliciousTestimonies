@@ -311,7 +311,7 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
              0,GetMenuSprite(2));
     }
    }
-   //GrBlot3(dc,0,0,10,RenderInventory(mc->lootTarget));
+   GrBlot3(dc,0,0,10,RenderInventory(mc->lootTarget));
    //Sprite3B(dc,460,280,0,GetMenuSprite(3));
 
 

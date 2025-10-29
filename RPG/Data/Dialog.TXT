@@ -17,9 +17,9 @@ ID	TEXT
 16	Greetings, traveller. I bring #from my homeland: fine, silk #garments for the royal chatun…#- touch them, see for yourself!       |
 17	Moo!                                                                                                                              |
 18	bwak bwak                                                                                                                         |
-19	[Generated Text]                                 
-20	                                      
-21	                                    
+19	[Prophet Generated Text]                                 
+20	[Druid Generated Text]                                      
+21	[Guest Generated Text]                                    
 22	 
 23	 
 24	 

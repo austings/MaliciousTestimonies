@@ -36,7 +36,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    DrawHealthMana(dc,player,i,j);
 
    //Dialog   
-   if(mc->talkieScene!=-1){
+   if(mc->talkieScene!=IT_NULL){
     mc->displayInventory=FALSE;
     Chatbox(mc->dialogName,dc,task,mc->talkieScene);
    }
@@ -44,7 +44,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    else if(mc->combatON){
      CombatDialogs(task, dc,p);
    }
-   ShowToolTips(dc);
+   ShowToolTips(dc);
 
    break;
    //character select

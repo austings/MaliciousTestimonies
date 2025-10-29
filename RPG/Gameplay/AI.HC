@@ -12,10 +12,12 @@
 
 //StatusEffects
 
-Bool HasStatus(Actor *a, U16 statusCode)
+Bool HasStatus(Actor *a, U16 statusCode)
 {
  if(a->status1 == statusCode)
  {
+  return TRUE;
+ }else if(a->status2 == statusCode) {
   return TRUE;
  }
  return FALSE;
@@ -23,13 +25,24 @@ Bool HasStatus(Actor *a, U16 statusCode)
 
 U0 AddStatus(Actor *a,U16 statusCode)
 {
-  a->status1 = statusCode;
+ switch(a->status1){
+  case NRML_STATUS:
+   a->status1 = statusCode;
+  break;
+  case DEAD_STATUS:
+   a->status2 = statusCode;
+  break;  
+  case WADE_STATUS:
+  case ATTK_STATUS:
+   a->status1= statusCode;
+  break;
+
+  
+
+ }
+
 }
 
-U0 RemoveStatus(Actor *a)
-{
-  a->status1 = NRML_STATUS;
-}
 
 U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
 {

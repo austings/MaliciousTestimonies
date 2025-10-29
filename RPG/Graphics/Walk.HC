@@ -244,7 +244,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
      task->cQueDirective =T1FISH;
     break;
     case T_LEVI:
-     task->cQueDirective = T2FISH;
+     task->cQueDirective = T2FISH;
     break;
     case T_EPHR:
      task->cQueDirective = T3FISH;

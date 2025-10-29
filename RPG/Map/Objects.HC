@@ -14,7 +14,7 @@ U0 GetItemScreenLoc(I64 invIDToFetch, I64 *x, I64 *y){
  {
   for(j=0;j<INVHEIGHT;j++)
   {
-   if(p->myInv->mtrx[j][i].occupied==invIDToFetch)
+   if(p->myInv->mtrx[j][i].occupied==invIDToFetch)
    { 
     *x = i*45+2+15;
     *y = j*42+310;
@@ -26,6 +26,16 @@ U0 GetItemScreenLoc(I64 invIDToFetch, I64 *x, I64 *y){
  please_clap:
 }
 
+U0 BuildChests(Inventory *inv, I64 id){
+  switch(id){
+   case CAMPCHEST:
+    AddItemToInv(inv,IT_POT);
+    AddItemToInv(inv,IT_POT);
+    AddItemToInv(inv,IT_POT);   
+   break; 
+
+  }
+}
 
 U0 ObjQueInit()
 {
@@ -33,11 +43,12 @@ U0 ObjQueInit()
  Object *listItem;
  Inventory *newInv;
  I64 i;
- for(i=0;i<MAX_CHESTS;i++){
+ for(i=CAMPCHEST;i<MAX_CHESTS;i++){
   listItem = CAlloc(sizeof(Object));
   listItem->objID = i;
   listItem->chestID = i; 
   newInv = MakeInventory();
+  BuildChests(newInv, i);
   listItem->myInv = newInv;
   QueIns(listItem,obj_que.last);
  }
@@ -45,21 +56,18 @@ U0 ObjQueInit()
 }
 
 
-Inventory *GrabChest(I64 chestID)
-{
+Inventory *GrabChest(I64 chestID){
  I64 i;
  Object *myObject= obj_que.next;
- for(i=0;i!=QueCnt(obj_que);i++)
- {
+ for(i=0;i!=QueCnt(obj_que);i++){
   if(myObject->chestID==chestID)
   {
    return myObject->myInv;
-   //break;
   }
   myObject = myObject->next;
  }
 
- return NULL;//player->myInv; 
+ return player->myInv; 
 }
 
 U0 FreeObjQue()

@@ -19,7 +19,7 @@ Cd(__DIR__);;
 // Loading Data Into Map
 #include "Gameplay/Item.HC";
 #include "Map/Actors.HC";
-#include "Gameplay/Markov/Markov.HC";
+#include "Gameplay/Markov/Markov.HC";
 #include "Map/Director.HC";
 #include "Map/Level.HC";
 #include "Gameplay/AI.HC";
@@ -27,6 +27,7 @@ Cd(__DIR__);;
 // Loading World
 #include "Globals.HC";
 #include "Dev/Dev.HC";
+#include "Gameplay/Equipment.HC";
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
 #include "Gameplay/Player.HC";
@@ -35,7 +36,7 @@ Cd(__DIR__);;
 // Loading Animations
 #include "Graphics/Walk.HC";
 #include "Graphics/Anim.HC";
-#include "Gameplay/Equipment.HC";
+#include "Graphics/Armor.HC";
 #include "Graphics/Buttons.HC";
 #include "Graphics/Menu.HC";
 #include "Graphics/Sidebar.HC";
@@ -66,7 +67,7 @@ U0 InitMenuControl()
  mc->cutsceneTarget=0;//switch cutscene frames
  mc->cutsceneTimer =0;
  mc->cutsceneIndex=0;
- mc->talkieScene = -1;//dialogID
+ mc->talkieScene = IT_NULL;//dialogID
  mc->dialogName = "???";//dialog actor name
 
  //display
@@ -105,7 +106,7 @@ U0 InitMenuControl()
 
  //chest
  mc->lootedSwitch=FALSE;
- mc->lootInv= MakeInventory();
+ mc->lootInv=NULL;// player->myInv;
  ObjQueInit;
 
  //combat

@@ -139,3 +139,10 @@ Inventory *MakeInventory()
  return newInv;
 }
 
+U0 FreeInventory(Inventory *inv)
+{
+ QueDel(inv->collection);
+ Free(inv->collection);
+ Free(inv);
+
+}

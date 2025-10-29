@@ -4,14 +4,12 @@
 U0 InteractCorpse(I64 npc)
 {
  if(mc->lootedSwitch==LOOTED){ //already looted
-  //mc->talkieScene = GetTalkie(13);//empty corpse message
  }
  else{
   if(mc->lootedSwitch==LOOTABLE){
    //mc->loot = "..........";
    switch(npc){
     case 6://wolf fang
-        //mc->loot = "wolf fang";
         AddItemToInventory(PLAYER,3);
         break;
         default:
@@ -19,7 +17,6 @@ U0 InteractCorpse(I64 npc)
    }
    mc->lootedSwitch=LOOTING;
   }
-     //mc->talkieScene = 12;  
  }
 
 }
@@ -47,8 +44,8 @@ U0 InteractActor(I64 npc)
 U0 InteractChest(I64 inv)
 {
  mc->lootedSwitch = TRUE;
- // mc->lootTarget = inv;
- GrabChest(inv);
+ mc->lootTarget = inv;
+ mc->lootInv =  GrabChest(inv);
 }
 
 U0 InteractTile(Actor *p, U8 dir,

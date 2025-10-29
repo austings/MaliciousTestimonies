@@ -11,6 +11,8 @@
 #define SV_MAKABEE              10 
 #define SV_MAKABEE_SHOP         16
 #define SV_GENERIC_START	26
+#define SV_PARTIER		33
+#define SV_U8_DRUID		36
 #define SV_GENERIC_END		37
 
 #define SV_MISS_FISH_EQUIP      7001

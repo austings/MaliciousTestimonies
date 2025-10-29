@@ -67,8 +67,9 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     {
      if(mc->isItemSelector){
       mc->isItem=TRUE;
-      PrintDevMessage("GERE",FALSE);
+      PrintDevMessage(MStrPrint("HERE %d",mc->prayerToCast));
       I64 itemID = RetrieveItemID(p,mc->prayerToCast);
+      PrintDevMessage(MStrPrint("HERE2 %d",itemID));
       RemoveItemLocID(mc->prayerToCast,TRUE);
       mc->prayerToCast = itemID; 
 
@@ -125,7 +126,7 @@ U0 AnyKey()
      mc->combatMenuSelection = CMS_ENE2;//move complete
      if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=PLAYER){
       player->currentHealth-=(ctp->ready->str);
-      RemoveStatus(ctp->ready);
+      AddStatus(ctp->ready,NRML_STATUS);
      }
      mc->turnIndex=0;
     }
@@ -155,7 +156,7 @@ U0 AutoTurnEnd()
     mc->combatMenuSelection = CMS_ENE2;//move complete
     if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=PLAYER){
      player->currentHealth-=(ctp->ready->str);
-     RemoveStatus(ctp->ready);
+     AddStatus(ctp->ready,NRML_STATUS);
     }
     mc->turnIndex=0;
    break;
@@ -245,7 +246,8 @@ U0 HandleMouseSideBar(I64 M_X, I64 M_Y, I64 i,I64 j){
  }else if(M_X>=450&&M_X<=480&&//inv x
           M_Y>=290&&M_Y<=310
           &&mc->displayInventory==TRUE){
-   mc->displayInventory=FALSE;          
+   mc->displayInventory=FALSE; 
+   mc->lootedSwitch=FALSE;         
  }
 
  //x button for submenus

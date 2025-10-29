@@ -1,20 +1,59 @@
 #define MAX_D 140
 U8 *DIALOG_FILE = MStrPrint("%s%s",DirCur,"/Data/Dialog.TXT"); 
 U8 *MARKOV_FILE = MStrPrint("%s%s",DirCur,"/Gameplay/Markov/Data.DD"); 
+U8 *MARKOV_FILE2 = MStrPrint("%s%s",DirCur,"/Gameplay/Markov/Druid.DD"); 
+U8 *MARKOV_FILE3 = MStrPrint("%s%s",DirCur,"/Gameplay/Markov/Guest.DD"); 
 
 I32 currLetter =-1,yInc=0,xInc=0,nIndex=0,n2Index=0;
 U8 myDialog[MAX_D];
 
 #define GENERATED_TEXT 19
+#define DRUID_TEXT 20
+#define GUEST_TEXT 21
 
 U0 DeserializeDialog(I64 textID){
  U8 *nameptr=myDialog;
   //id for sorting purpose only
   U8 id[8],*idptr=id;
 
- if(textID==GENERATED_TEXT)//generated text
+ if(textID>=GENERATED_TEXT)//generated text
  {
-  U8 *speech =MarkovGenerate(DocPut,MARKOV_FILE,25,"THE");  
+  U8 *startWord="The",*file = MARKOV_FILE;
+  U16 r = RandU16();
+  // 80% chance-returns a number from 0 to 65535 (inclusive).
+  // 80% of 65536 = 52428.8, so comparing like this
+  if (r < 0.40 * 65536) {
+    startWord = "The";
+  }
+  else if (r < 0.70 * 65536) {
+     startWord = "I";
+  }
+  else if (r < 0.85 * 65536) {
+     startWord = "You";
+  }
+  else if (r < 0.93 * 65536) {
+     startWord = "It";
+  }
+  else if (r < 0.98 * 65536) {
+     startWord = "That";
+  }
+  else {
+     startWord = "This";
+  }
+  switch(textID)
+  {
+   case DRUID_TEXT:
+   file =MARKOV_FILE2; 
+   break;
+   case GUEST_TEXT:
+   file =MARKOV_FILE3; 
+   break;
+   default:
+   file =MARKOV_FILE; 
+   break;  
+  }  
+  U8 *speech2 = MarkovGenerate(DocPut,file,25,startWord); 
+  U8 *speech = MStrPrint("%s %s",startWord,speech2); 
   I64 dialogLen = 0; 
   I64 strLen = StrLen(speech);
   for(dialogLen=0;dialogLen<strLen;dialogLen++){
@@ -24,7 +63,8 @@ U0 DeserializeDialog(I64 textID){
    }
   }
   myDialog[dialogLen] = '\0'; 
-
+  Free(speech);
+ 
  }else{
  
   U8 *fptr =FileRead(DIALOG_FILE);
@@ -92,7 +132,12 @@ I64 GetTalkie(I64 id){
    talkie = SV_MAKABEE_SHOP;
   break;
   case SV_GENERIC_START...SV_GENERIC_END:
-   talkie = 19;
+   if(id==SV_U8_DRUID)
+    talkie=DRUID_TEXT;
+   else if(id<=SV_PARTIER)
+    talkie=GUEST_TEXT;
+   else
+    talkie = GENERATED_TEXT;
   break; 
   default:
    talkie=1;
@@ -128,6 +173,9 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
 {
  I64 i,xInc=0,yInc=0;
  U8 c;
+ dc->color=WHITE;
+ I64 width = 25+StrLen(name)*12;
+ GrRect(dc,24,355,width,50);
  dc->color=BLACK;
  Sprite3B(dc,0,375,0,GetDialogBox);
  if(currLetter<MAX_D)

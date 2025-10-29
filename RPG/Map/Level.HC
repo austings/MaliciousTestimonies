@@ -3,7 +3,8 @@ U0 SerializeMatrix()
 
 }
 
-#define CAMPCHEST 7
+
+#define CAMPCHEST   7
 
 Matrix *MakeCastle(Matrix *toAdd){
 
@@ -141,7 +142,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,A_JEZEBEL,19,3);//jezebel
  SetMatrixNPC(toAdd,A_KING,18,3);//king
 
- SetMatrixNPC(toAdd,A_GUEST,19,6);//guest
+ SetMatrixNPC(toAdd,A_GUEST,16,6);//guest
  SetMatrixNPC(toAdd,A_GUEST2,20,6);//guest
  SetMatrixNPC(toAdd,A_GUEST3,18,7);//guest
  SetMatrixNPC(toAdd,A_GUEST4,23,5);//guest
