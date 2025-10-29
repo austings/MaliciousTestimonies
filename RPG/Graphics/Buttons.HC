@@ -121,14 +121,14 @@ U0 ReleaseSword()
 {
  if(mc->draggingItem->equip_slot!=EQ_SLOT_WEP){
   //this should just cancel the drag but its a bit more complicated than that
-  //AddItemToInventory(0,mc->draggingID);        
+  //AddItemToInventory(player->myInv,mc->draggingID);        
   //mc->draggingInv=FALSE; 
 
  }
  //switch from inv to sword, del from inv
  I64 equip =  GetNPC(0)->sword;
  if(equip!=0){
-  AddItemToInventory(0,GetNPC(0)->sword);
+  AddItemToInventory(player->myInv,GetNPC(0)->sword);
  }
  GetNPC(0)->sword =mc->draggingID;
 
@@ -140,7 +140,7 @@ U0 ReleaseSword()
 U0 ReleaseBody()
 {
  if(mc->draggingItem->equip_slot!=EQ_SLOT_BDY){
-  //AddItemToInventory(0,mc->draggingID);        
+  //AddItemToInventory(player-myInv,mc->draggingID);        
   //mc->draggingInv=FALSE; 
   return;
  }
@@ -148,7 +148,7 @@ U0 ReleaseBody()
  //switch from inv to body, del from inv
  I64 equip =  GetNPC(0)->armor;
  if(equip!=0){
-  AddItemToInventory(0,GetNPC(0)->armor);
+  AddItemToInventory(player->myInv,GetNPC(0)->armor);
  }
  GetNPC(0)->armor =mc->draggingID;
 
@@ -160,7 +160,7 @@ U0 ReleaseBody()
 U0 ReleaseHelm()
 {
  if(mc->draggingItem->equip_slot!=EQ_SLOT_HLM){
-  //AddItemToInventory(0,mc->draggingID);
+  //AddItemToInventory(player->myInv,mc->draggingID);
   //mc->draggingInv=FALSE; 
   return;
  }
@@ -168,7 +168,7 @@ U0 ReleaseHelm()
  //switch from inv to helm, del from inv
  I64 equip =  GetNPC(0)->hat;
  if(equip!=0){
-  AddItemToInventory(PLAYER,GetNPC(PLAYER)->hat);
+  AddItemToInventory(player->myInv,player->hat);
  }
  GetNPC(0)->hat =mc->draggingID;
 
@@ -179,7 +179,7 @@ U0 ReleaseHelm()
 U0 ReleaseRing()
 {
  if(mc->draggingItem->equip_slot!=EQ_SLOT_RNG){
-  //AddItemToInventory(0,mc->draggingID);       
+  //AddItemToInventory(player->myInv,mc->draggingID);       
   //mc->draggingInv=FALSE; 
   return;
  }         
@@ -187,7 +187,7 @@ U0 ReleaseRing()
  //switch from inv to helm, del from inv
  I64 equip =  GetNPC(0)->ring1;
  if(equip!=0){
-  AddItemToInventory(0,GetNPC(0)->ring1);
+  AddItemToInventory(player->myInv,player->ring1);
  }
  GetNPC(0)->ring1 =mc->draggingID;
 
@@ -201,9 +201,8 @@ Bool FillItemIfOnWater(I64 wlvl=0){
   switch(mc->draggingID){
    case IT_POT:
     RemoveItemLoc(mc->draggingItem,TRUE);
-    AddItemToInventory(PLAYER,IT_WPOT);
+    AddItemToInventory(player->myInv,IT_WPOT);
     mc->draggingInv=FALSE; 
-    PrintInventory;
     return TRUE;
    break;
   }
@@ -215,7 +214,7 @@ Bool FillItemIfOnWater(I64 wlvl=0){
 //mc->draggingItem = to 
 U0 CombineIfPossible(I64 pItem)
 {
- Item *item= RetrieveItem(PLAYER,pItem);
+ Item *item= RetrieveItem(player->myInv,pItem);
 
  switch(mc->draggingID)
  {
@@ -223,7 +222,7 @@ U0 CombineIfPossible(I64 pItem)
    if(item->id==IT_BULB){
     RemoveItemLocID(pItem,TRUE);
     RemoveItemLoc(mc->draggingItem,TRUE);
-    AddItemToInventory(PLAYER,IT_HPPOT);
+    AddItemToInventory(player->myInv,IT_HPPOT);
     mc->draggingInv=FALSE; 
 
    }
@@ -233,7 +232,7 @@ U0 CombineIfPossible(I64 pItem)
    {
     RemoveItemLocID(pItem,TRUE);
     RemoveItemLoc(mc->draggingItem,TRUE);
-    AddItemToInventory(PLAYER,IT_HPPOT);
+    AddItemToInventory(player->myInv,IT_HPPOT);
     mc->draggingInv=FALSE; 
 
    }
@@ -247,15 +246,15 @@ U0 CombineIfPossible(I64 pItem)
 //check if user click or release for each 'button' of inventory
 //i: inv width
 //j: inv height
-U0 InvDrag(I64 i, I64 j,I64 actor){
+U0 InvDrag(I64 i, I64 j,Inventory *myInv){
  Bool marked = FALSE;                 
  I8 occupied;
- occupied= GetNPC(actor)->myInv->mtrx[j][i].occupied;                 
+ occupied= myInv->mtrx[j][i].occupied;                 
  
  if(mc->draggingInv==FALSE){//start dragging
   if(occupied!=-1){//if there is an item underneath
-   mc->draggingID = RetrieveItemID(actor,occupied,TRUE);
-   mc->draggingItem = RetrieveItem(actor,occupied);
+   mc->draggingID = RetrieveItemID(myInv,occupied,TRUE);
+   mc->draggingItem = RetrieveItem(myInv,occupied);
    mc->draggingInv=TRUE;
   }
  }else{//release
@@ -271,8 +270,7 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
    for(itemW=0;itemW<invWMax;itemW++) {
     for(itemH=0;itemH<invHMax;itemH++) {
      I64 tempOccupied;
-     tempOccupied = 
-         GetNPC(actor)->myInv->mtrx[j+(itemH)][i+(itemW)].occupied;
+     tempOccupied = myInv->mtrx[j+(itemH)][i+(itemW)].occupied;
      if(tempOccupied!=-1&& tempOccupied!=mc->draggingItem->invID){
       marked=TRUE;break;
      }

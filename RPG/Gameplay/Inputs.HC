@@ -3,7 +3,7 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
  if(puin->len>0)
  {
   I64 pui = (PickUpItem(puin,0))->id;
-  if(!AddItemToInventory(PLAYER,pui)){
+  if(!AddItemToInventory(p->myInv,pui)){
    Play("ArE"); 
   } 
  }
@@ -29,7 +29,7 @@ U0 ObjectTrigger(Actor *p, MapNode *puin)
   break;
   case OBJ_POPPY:
    puin->idObj = OBJ_POPHV;
-   AddItemToInventory(PLAYER,IT_BULB);
+   AddItemToInventory(p->myInv,IT_BULB);
    //animate
    Play("ArE");
   break;
@@ -68,7 +68,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
      if(mc->isItemSelector){
       mc->isItem=TRUE;
       PrintDevMessage(MStrPrint("HERE %d",mc->prayerToCast));
-      I64 itemID = RetrieveItemID(p,mc->prayerToCast);
+      I64 itemID = RetrieveItemID(p->myInv,mc->prayerToCast);
       PrintDevMessage(MStrPrint("HERE2 %d",itemID));
       RemoveItemLocID(mc->prayerToCast,TRUE);
       mc->prayerToCast = itemID; 
@@ -338,7 +338,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
        M_X< (i+1)*45+2 &&
        M_Y>=(j*42)+310 &&
        M_Y< (j+1)*42+310&&!mc->prayerDragging){
-      InvDrag(i,j,PLAYER);
+      InvDrag(i,j,player->myInv);
 
      }//end inventory if
     }//end inventory height
@@ -364,7 +364,7 @@ U0 ShowToolTips(CDC *dc = gr.dc)
        camera->cursorX< (i+1)*45+2&&
        camera->cursorY>=(j*42)+310  &&
        camera->cursorY< (j+1)*42+310){
-     Item *item= RetrieveItem(PLAYER,
+     Item *item= RetrieveItem(player->myInv,
                   GetNPC(PLAYER)->myInv->mtrx[j][i].occupied);
      //TODOfix this defensive programming
      //inventory item not properly referenced/ old items removed

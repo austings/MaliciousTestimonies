@@ -173,7 +173,7 @@ U0 SongTask(MenuControl *mc, CTask *task, CDC *dc)
   //    goto loop;    
   // break;
    case CHATGPT_SONG:
-    Play("4CDEGEGAAFGA5C4BAGEEFG5C4BAGA5CDE4G");
+    Play("4CDEGEGAAFGA5C4BAGEEFG5C4BAGA5CDE4G");
    break;
   }
   loop:

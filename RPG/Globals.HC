@@ -16,7 +16,7 @@ CDirEntry *loadRoot;
 #define SIDEY 480
 
 #define MAX_WRITTEN_ACTORS 999999
-#define MAXACTORCOUNT	11 //on screen
+#define MAXACTORCOUNT	11 //on screen
 
 //Loaded Map
 class World

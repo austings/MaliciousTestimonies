@@ -10,7 +10,7 @@ U0 InteractCorpse(I64 npc)
    //mc->loot = "..........";
    switch(npc){
     case 6://wolf fang
-        AddItemToInventory(PLAYER,3);
+        AddItemToInventory(player->myInv,3);
         break;
         default:
         break;
@@ -41,8 +41,7 @@ U0 InteractActor(I64 npc)
  }
 }
 
-U0 InteractChest(I64 inv)
-{
+U0 InteractChest(I64 inv){
  mc->lootedSwitch = TRUE;
  mc->lootTarget = inv;
  mc->lootInv =  GrabChest(inv);
@@ -51,8 +50,7 @@ U0 InteractChest(I64 inv)
 U0 InteractTile(Actor *p, U8 dir,
                 I64 xOff=0, I64 yOff=0, 
                 I64 walkingSubFrameKey,
-                I64 walkingFrameKey)
-{
+                I64 walkingFrameKey){
  p->walkingSubFrame=walkingSubFrameKey;
 
  I64 iactX = p->x+xOff;
@@ -74,7 +72,6 @@ U0 InteractTile(Actor *p, U8 dir,
    }
   }   
   if(!CheckSolid(world->level,p->x+xOff,p->y+yOff,world->currentZ)||mc->clip){
-
    if(npc!=IT_NULL){
     if(p->id==PLAYER){
      InteractActor(npc);
@@ -131,8 +128,7 @@ U0 InteractTile(Actor *p, U8 dir,
 //use move actor on the new dir to move
 U0 MoveActor(Actor *p, U8 dir){
  //begin walk from idle
- if(p->walking==DIR_IDLE){
-  
+ if(p->walking==DIR_IDLE){  
   switch(dir){
   case DIR_LEFT://left
    InteractTile(p,dir,leftXOff,0,

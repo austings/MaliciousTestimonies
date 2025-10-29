@@ -75,7 +75,5 @@
 #define EFFFIRE 310
 #define EFFSCRATCH 320
 
-//Chest Ids
-#define CAMP_CHEST 1000000
 
 

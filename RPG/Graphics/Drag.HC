@@ -1,6 +1,6 @@
 
 
-U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
+U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer)
 {
  //fix to take item hOff/wOff
 
@@ -59,6 +59,8 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
   break;
 
  }
+ if(!isPlayer)
+  yoff = 0;
  GrBlot(target,x+xoff,y+yoff,render);
  DCDel(scratch);
 }
@@ -88,9 +90,9 @@ CDC *RenderInventory(Inventory *myInv,Bool isPlayer=TRUE){
      {
       listOfRenderedItems[renderListSize] = occupied;
       renderListSize++;
-      I64 currentItemID = RetrieveItemID(PLAYER,occupied); 
+      I64 currentItemID = RetrieveItemID(myInv,occupied,TRUE); 
       BlotItem(newInventoryRender, currentItemID,
-               i*camera->dividX,j*camera->dividY);    
+               i*camera->dividX,j*camera->dividY,isPlayer);    
      }
     }
    }
@@ -304,7 +306,7 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
              0,GetMenuSprite(2));
     }
    }
-   CDC *invR = RenderInventory(mc->lootInv);
+   CDC *invR = RenderInventory(mc->lootInv, FALSE);
    GrBlot3(dc,0,0,10,invR);
    DCDel(invR);
    //Sprite3B(dc,460,280,0,GetMenuSprite(3));
@@ -332,7 +334,7 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
    if(mc->draggingInv){
      BlotItem(dc,mc->draggingID,
               camera->cursorX+2-(mc->draggingItem->wOff),
-              camera->cursorY-270-(mc->draggingItem->hOff));
+              camera->cursorY-270-(mc->draggingItem->hOff),TRUE);
    } 
  }
 }

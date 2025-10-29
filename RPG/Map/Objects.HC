@@ -14,7 +14,7 @@ U0 GetItemScreenLoc(I64 invIDToFetch, I64 *x, I64 *y){
  {
   for(j=0;j<INVHEIGHT;j++)
   {
-   if(p->myInv->mtrx[j][i].occupied==invIDToFetch)
+   if(p->myInv->mtrx[j][i].occupied==invIDToFetch)
    { 
     *x = i*45+2+15;
     *y = j*42+310;
@@ -58,10 +58,12 @@ U0 ObjQueInit()
 
 Inventory *GrabChest(I64 chestID){
  I64 i;
+   
  Object *myObject= obj_que.next;
  for(i=0;i!=QueCnt(obj_que);i++){
-  if(myObject->chestID==chestID)
-  {
+  if(myObject->chestID==chestID){
+   PrintDevMessage(MStrPrint("chestID%d",myObject->chestID));
+   PrintInventory(myObject->myInv);
    return myObject->myInv;
   }
   myObject = myObject->next;
