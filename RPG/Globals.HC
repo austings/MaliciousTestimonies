@@ -126,10 +126,9 @@ class MenuControl{
   //inventory menus render
   I64 draggingID;//inventory mouse item
   Item *draggingItem;
-  CDC *inventoryRender;
 
   //submenu display toggles
-  Bool displayInventory,reRenderInv,draggingInv, 
+  Bool displayInventory,draggingInv, 
        displayStats,
        displayPrayers,prayerPage,prayerDragging,
        displayShop,

@@ -168,14 +168,12 @@ Bool AddItemToInv(Inventory *inv, I64 iID){
      }
     }
     item->invID = cnt;
-    mc->reRenderInv=TRUE;
 
     return TRUE;
    }
   }
   skip_num:
  }
- mc->reRenderInv=TRUE;
  return FALSE;
 
 }
@@ -214,14 +212,12 @@ Bool AddItemToInventory(I64 actorID, I64 itemID){
      }
     }
     item->invID = cnt;
-    mc->reRenderInv=TRUE;
 
     return TRUE;
    }
   }
   skip_num:
  }
- mc->reRenderInv=TRUE;
  return FALSE;
 
 }
@@ -262,7 +258,6 @@ U0 RemoveItemLoc(Item *item, Bool delete =FALSE){
   Free(item);
  }
  PrintInventory;
- mc->reRenderInv=TRUE;
 
 }
 
@@ -306,7 +301,6 @@ U0 RemoveItemLocID(I64 invID, Bool delete =FALSE)
  }
 
  PrintInventory;
- mc->reRenderInv=TRUE;
 
 }
 
@@ -356,7 +350,6 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
 
   }
  }
- mc->reRenderInv=TRUE;
 
 }
 

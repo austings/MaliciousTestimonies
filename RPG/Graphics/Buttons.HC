@@ -172,7 +172,6 @@ U0 ReleaseHelm()
  }
  GetNPC(0)->hat =mc->draggingID;
 
- mc->reRenderInv=TRUE;
  mc->draggingInv=FALSE; 
  RemoveItemLoc(mc->draggingItem,TRUE);                 
 
@@ -257,7 +256,6 @@ U0 InvDrag(I64 i, I64 j,I64 actor){
   if(occupied!=-1){//if there is an item underneath
    mc->draggingID = RetrieveItemID(actor,occupied,TRUE);
    mc->draggingItem = RetrieveItem(actor,occupied);
-   mc->reRenderInv=TRUE;
    mc->draggingInv=TRUE;
   }
  }else{//release

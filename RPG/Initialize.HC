@@ -97,12 +97,9 @@ U0 InitMenuControl()
  mc->prayerDragging=FALSE;
 
  //inventory
- mc->reRenderInv=TRUE;
  mc->draggingInv=FALSE;
  mc->draggingItem=MakeItem(0);
  mc->draggingID=0;
- mc->inventoryRender = DCNew(640,480);
- DCFill(mc->inventoryRender, TRANSPARENT);
 
  //chest
  mc->lootedSwitch=FALSE;

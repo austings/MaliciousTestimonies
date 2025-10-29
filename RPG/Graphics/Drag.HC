@@ -65,9 +65,6 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y)
 
  
 CDC *RenderInventory(Inventory *myInv,Bool isPlayer=TRUE){
-
- if(mc->reRenderInv)
- {
   I64 i,j,i2;
   CDC *newInventoryRender = DCNew(640,480);
   DCFill(newInventoryRender, TRANSPARENT);
@@ -98,13 +95,9 @@ CDC *RenderInventory(Inventory *myInv,Bool isPlayer=TRUE){
     }
    }
   }
-  Free(mc->inventoryRender); 
-  mc->inventoryRender = newInventoryRender;
-  mc->reRenderInv=FALSE;
   Free(listOfRenderedItems);
- }
  
- return mc->inventoryRender;
+ return newInventoryRender;
 
 }
 
@@ -311,7 +304,9 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
              0,GetMenuSprite(2));
     }
    }
-   GrBlot3(dc,0,0,10,RenderInventory(mc->lootTarget));
+   CDC *invR = RenderInventory(mc->lootInv);
+   GrBlot3(dc,0,0,10,invR);
+   DCDel(invR);
    //Sprite3B(dc,460,280,0,GetMenuSprite(3));
 
 
@@ -330,7 +325,9 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
              0,GetMenuSprite(2));
     }
    }
-   GrBlot3(dc,0,0,10,RenderInventory(p->myInv));
+   CDC *invP = RenderInventory(p->myInv);
+   GrBlot3(dc,0,0,10,invP);
+   DCDel(invP);
    Sprite3B(dc,460,280,0,GetMenuSprite(3));
    if(mc->draggingInv){
      BlotItem(dc,mc->draggingID,
