@@ -16,7 +16,7 @@ CDirEntry *loadRoot;
 #define SIDEY 480
 
 #define MAX_WRITTEN_ACTORS 999999
-#define MAXACTORCOUNT	11 //on screen
+#define MAXACTORCOUNT	11 //on screen
 
 //Loaded Map
 class World
@@ -124,7 +124,7 @@ class MenuControl{
   Bool isItem, isItemSelector;
 
   //inventory menus render
-  I64 draggingID;//inventory mouse item
+  I64 draggingID;//inventory mouse item
   Item *draggingItem;
 
   //submenu display toggles

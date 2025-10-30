@@ -356,16 +356,26 @@ U0 HandleRMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 U0 ShowToolTips(CDC *dc = gr.dc)
 {
  I64 i,j;
- if(mc->displayInventory){
+ Inventory *me;
+ if(mc->displayInventory||mc->lootedSwitch){
  //check inventory region
   for(i=0;i<INVWIDTH;i++){
    for(j=0;j<INVHEIGHT;j++){
-    if(camera->cursorX>=(i*45)+2    &&
+    Bool tipme = FALSE;
+    if(mc->lootedSwitch&& camera->cursorX>=(i*45)+2    &&
+       camera->cursorX< (i+1)*45+2&&
+       camera->cursorY>=(j*42)  &&
+       camera->cursorY< (j+1)*42){
+     tipme = TRUE;
+     me = mc->lootInv;
+    }
+    if(tipme||(camera->cursorX>=(i*45)+2    &&
        camera->cursorX< (i+1)*45+2&&
        camera->cursorY>=(j*42)+310  &&
-       camera->cursorY< (j+1)*42+310){
-     Item *item= RetrieveItem(player->myInv,
-                  GetNPC(PLAYER)->myInv->mtrx[j][i].occupied);
+       camera->cursorY< (j+1)*42+310)){
+     if(!tipme)
+      me = player->myInv;
+     Item *item= RetrieveItem(me,me->mtrx[j][i].occupied);
      //TODOfix this defensive programming
      //inventory item not properly referenced/ old items removed
      if(!item || !item->name ||StrCmp(item->name,"Bag")==0){break;}                 
@@ -387,8 +397,8 @@ U0 ShowToolTips(CDC *dc = gr.dc)
      GrRect3(dc,camera->cursorX+1,camera->cursorY+1,900,100,24+yinc);
      dc->color = LTBLUE;
      PrintLine(dc,item->name,camera->cursorX+2,camera->cursorY+2);
-     dc->color = YELLOW;
-     PrintLine(dc,MStrPrint("%d%s",item->value," Gold"),
+     dc->color = LTGRAY;
+     PrintLine(dc,MStrPrint("%d%s",item->value," Silver"),
                             camera->cursorX+2,camera->cursorY+12+2);
      dc->color = WHITE;
    

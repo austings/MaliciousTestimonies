@@ -96,7 +96,7 @@ class Item:CQue
   //equip slot determines equippable helm, body, ring, wep (or none)
   //id is the item id (generic)
   //invID is for differentiating the same item in players inv
-  //value refers to gold cost
+  //value refers to silver cost
   Bool usable, visible;
   //usable determines selection option from prayer menu 
   //visible is used to toggle item when dragging

@@ -60,7 +60,7 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer)
 
  }
  if(!isPlayer)
-  yoff = 0;
+  yoff = 10;
  GrBlot(target,x+xoff,y+yoff,render);
  DCDel(scratch);
 }
@@ -296,13 +296,13 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
  if(mc->lootedSwitch)//chest/merchant/corpse transfer
  {
    dc->color = BLACK;
-   GrRect3(dc,0,10,0,480,190);
+   GrRect3(dc,0,0,0,480,190);
    //background
    for(i=0;i<INVWIDTH;i++)
    {
     for(j=0;j<INVHEIGHT;j++)
     {   
-    Sprite3B(dc,i*camera->dividX+2,j*camera->dividY+10,
+    Sprite3B(dc,i*camera->dividX+2,j*camera->dividY,
              0,GetMenuSprite(2));
     }
    }

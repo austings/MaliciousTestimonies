@@ -145,7 +145,7 @@ U0 ReleaseBody()
   return;
  }
 
- //switch from inv to body, del from inv
+ //switch from inv to body, del from inv	
  I64 equip =  GetNPC(0)->armor;
  if(equip!=0){
   AddItemToInventory(player->myInv,GetNPC(0)->armor);
@@ -170,7 +170,7 @@ U0 ReleaseHelm()
  if(equip!=0){
   AddItemToInventory(player->myInv,player->hat);
  }
- GetNPC(0)->hat =mc->draggingID;
+ player->hat =mc->draggingID;
 
  mc->draggingInv=FALSE; 
  RemoveItemLoc(mc->draggingItem,TRUE);                 
