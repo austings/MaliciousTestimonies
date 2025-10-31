@@ -24,7 +24,7 @@ Matrix *MakeCastle(Matrix *toAdd){
     if(alt)
      SetMatrix(toAdd,BG_BROWN,i,j);
     else
-     SetMatrix(toAdd,BG_YELLOW,i,j);
+     SetMatrix(toAdd,BG_YELLOW,i,j);
     alt = !alt;
    }
   }
@@ -154,6 +154,12 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,A_GUEST10,41,17);//guest
  SetMatrixNPC(toAdd,A_GUEST11,4,19);//guest
  SetMatrixNPC(toAdd,A_GUEST12,51,18);//guest
+
+
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,19,26);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,18,24);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,26,25);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,24,29);
 
  SetMatrixNPC(toAdd,A_ELIJAH,23,25);//elijah
  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard

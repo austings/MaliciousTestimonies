@@ -175,10 +175,10 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
  U8 c;
  switch(textID){
   case 9:
-   GrBlot3(dc,300,200,0,P1S);//jez
+   GrBlot3(dc,316,180,0,P1S);//jez
   break;
   case 10:
-   GrBlot3(dc,280,200,0,P2S);//ahab
+   GrBlot3(dc,286,200,0,P2S);//ahab
   break;
   case 11:
    GrBlot3(dc,276,200,0,P3S);//eli

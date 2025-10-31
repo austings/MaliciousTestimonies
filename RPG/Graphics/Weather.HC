@@ -69,7 +69,7 @@ U0 PlayWeather2(CDC *dc, I64 i2, I64 j2, I64 i, I64 j,
 
  }
  if(!col)
-  Sprite3B(weatherLayer, finalX-140, ToI64(yBase), 0, GetLeaf); 
+  Sprite3B(weatherLayer, finalX-140, ToI64(yBase)+j2, 0, GetLeaf); 
  GrBlot3(dc,0,0,0,weatherLayer);
  DCDel(weatherLayer);
 
