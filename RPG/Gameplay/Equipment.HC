@@ -92,18 +92,16 @@ I64 GetDir(Actor *a)
 I64 *RetrieveItemID(Inventory *myInv, I64 index,  Bool select=FALSE){
  Item *toBeRetrieved = myInv->collection->next;
  I64 i;
- for(i=0;i<INVWIDTH*INVHEIGHT;i++){
-  if(toBeRetrieved->invID!=index)
-   toBeRetrieved = toBeRetrieved->next;
-  else
+ for(i=0;i<QueCnt(toBeRetrieved);i++){
+  toBeRetrieved = toBeRetrieved->next;
+  if(toBeRetrieved->invID==index)
    break;
  }
  if(select){//move to mouse
   toBeRetrieved->visible = FALSE;
   return toBeRetrieved->id;
  }
- if(toBeRetrieved->visible==TRUE)
-  return toBeRetrieved->id;
+ return toBeRetrieved->id;
 }
 
 
@@ -112,12 +110,11 @@ Item *RetrieveItem(Inventory *myInv, I64 index)
 {
  Item *toBeRetrieved = myInv->collection->next;
  I64 i;
- if(index<0) return toBeRetrieved;
- for(i=0;i<INVWIDTH*INVHEIGHT;i++)
- {
-  if(toBeRetrieved->invID!=index)
-   toBeRetrieved = toBeRetrieved->next;
-  else
+ if(index<=0) return toBeRetrieved;
+ for(i=0;i<QueCnt(toBeRetrieved);i++){
+  toBeRetrieved = toBeRetrieved->next;
+  PrintDevMessage(MStrPrint("%d%s",toBeRetrieved->invID,toBeRetrieved->name));
+  if(toBeRetrieved->invID==index)
    break;
  }
 

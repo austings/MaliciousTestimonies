@@ -139,6 +139,7 @@ U0 ReleaseSword()
 
 U0 ReleaseBody()
 {
+ PrintInventory(player->myInv);
  if(mc->draggingItem->equip_slot!=EQ_SLOT_BDY){
   //AddItemToInventory(player-myInv,mc->draggingID);        
   //mc->draggingInv=FALSE; 
@@ -153,7 +154,8 @@ U0 ReleaseBody()
  GetNPC(0)->armor =mc->draggingID;
 
  mc->draggingInv=FALSE; 
- RemoveItemLoc(mc->draggingItem,TRUE);                 
+ RemoveItemLoc(mc->draggingItem,TRUE);
+ PrintInventory(player->myInv);                 
 
 }
 
