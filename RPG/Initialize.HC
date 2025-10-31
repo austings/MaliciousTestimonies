@@ -37,7 +37,7 @@ Cd(__DIR__);;
 #include "Graphics/Walk.HC";
 #include "Graphics/Anim.HC";
 #include "Graphics/Armor.HC";
-#include "Graphics/Buttons.HC";
+#include "Graphics/Buttons.HC";
 #include "Graphics/Menu.HC";
 #include "Graphics/Sidebar.HC";
 #include "Graphics/Drag.HC";
@@ -98,6 +98,7 @@ U0 InitMenuControl()
 
  //inventory
  mc->draggingInv=FALSE;
+ mc->dragInvIsPlayer=TRUE;
  mc->draggingItem=MakeItem(0);
  mc->draggingID=0;
 

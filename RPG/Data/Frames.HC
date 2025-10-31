@@ -1,4 +1,4 @@
-#define MAX_ATTEMPTS 999999
+#define MAX_ATTEMPTS 999999
 //Walking Frames
 #define W_IDLEDOWN      0
 #define W_IDLEUP        1
@@ -660,3 +660,8 @@ static CDC* EFF416= FramePtr("EFF416");
 static CDC* EFF417= FramePtr("EFF417");
 static CDC* EFF418= FramePtr("EFF418");
 static CDC* EFF419= FramePtr("EFF419");
+
+//dialog
+static CDC* P3S= FramePtr("P3S");
+static CDC* P2S= FramePtr("P2S");
+static CDC* P1S= FramePtr("P1S");

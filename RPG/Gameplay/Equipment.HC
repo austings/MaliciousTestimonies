@@ -100,13 +100,15 @@ I64 *RetrieveItemID(Inventory *myInv, I64 index,  Bool select=FALSE){
  if(select){//move to mouse
   toBeRetrieved->visible = FALSE;
   return toBeRetrieved->id;
+ }else{  
+  toBeRetrieved->visible = TRUE;
+  return toBeRetrieved->id;
  }
- return toBeRetrieved->id;
 }
 
 
 //convert inv id to item
-Item *RetrieveItem(Inventory *myInv, I64 index)
+Item *RetrieveItem(Inventory *myInv, I64 index,Bool select=FALSE)
 {
  Item *toBeRetrieved = myInv->collection->next;
  I64 i;
@@ -116,6 +118,10 @@ Item *RetrieveItem(Inventory *myInv, I64 index)
   PrintDevMessage(MStrPrint("%d%s",toBeRetrieved->invID,toBeRetrieved->name));
   if(toBeRetrieved->invID==index)
    break;
+ }
+ if(select){//move to mouse
+  toBeRetrieved->visible = FALSE;
+  return toBeRetrieved;
  }
 
  return toBeRetrieved;
@@ -279,50 +285,59 @@ U0 RemoveItemLocID(I64 invID, Bool delete =FALSE)
 
 
 
-U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item)
+U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item, Inventory *myInv, Bool isPlayer)
 {
- Actor *p = GetNPC(0);
 
  I64 i,j,x,y;
-
+ Inventory *src = myInv;
+ Inventory *dest = myInv;
+ if(!mc->dragInvIsPlayer){//start merchant 
+  src = mc->lootInv;
+ }else {
+  src = player->myInv;
+ }
+ if(isPlayer){ 
+  dest  = myInv;
+ }else{
+  dest = mc->lootInv;
+ }
  //remove old loc
  for(i=0;i<INVWIDTH;i++)
  {
   for(j=0;j<INVHEIGHT;j++)
   {
-    if(p->myInv->mtrx[j][i].occupied==item->invID){  
+   if(src->mtrx[j][i].occupied==item->invID){  
      for(x=0;x<item->w;x++)
      {  
       for(y=0;y<item->h;y++)
       {
-       p->myInv->mtrx[j+y][i+x].occupied = IT_NULL;
+       src->mtrx[j+y][i+x].occupied = IT_NULL;
       }
      }
-
-    
-    }
-   
-      
+     goto move;    
+   }   
   }
  }
+ move:
  item->visible=TRUE;
  //add new loc
- for(i=0;i<INVWIDTH;i++)
- {
-  for(j=0;j<INVHEIGHT;j++)
-  {
-    if(i==newI&&j==newJ){
+ //for(i=0;i<INVWIDTH;i++)
+ //{
+ // for(j=0;j<INVHEIGHT;j++)
+ // {
+    //if(i==newI&&j==newJ){
      for(x=0;x<item->w;x++)
      {  
       for(y=0;y<item->h;y++)
       {
-       p->myInv->mtrx[j+y][i+x].occupied = item->invID;
+       dest->mtrx[newJ+y][newI+x].occupied = item->invID;
       }
      }
-    }
+    //}
 
-  }
- }
+ // }
+ //}
+ 
 
 }
 

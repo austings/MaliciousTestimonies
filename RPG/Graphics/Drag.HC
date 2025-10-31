@@ -90,9 +90,13 @@ CDC *RenderInventory(Inventory *myInv,Bool isPlayer=TRUE){
      {
       listOfRenderedItems[renderListSize] = occupied;
       renderListSize++;
-      I64 currentItemID = RetrieveItemID(myInv,occupied,TRUE); 
-      BlotItem(newInventoryRender, currentItemID,
-               i*camera->dividX,j*camera->dividY,isPlayer);    
+      I64 currentItemID = RetrieveItemID(myInv,occupied);
+      //might glitch if two same items in the same spot
+      //if(mc->draggingID!=currentItemID&&mc->draggingItem->invID!=occupied){
+       //I64 currentItemID= currentItem->id; 
+       BlotItem(newInventoryRender, currentItemID,
+               i*camera->dividX,j*camera->dividY,isPlayer);
+      //}    
      }
     }
    }

@@ -31,7 +31,7 @@ CDC *DCScaled(CDC* src, F64 scale_x, F64 scale_y) {
     CDC* dst = DCNew(new_width, new_height);
 
     I64 x, y;
-    for (y = 0; y < new_height; y++) {
+    for (y = 0; y < new_height; y++) {
         for (x = 0; x < new_width; x++) {
             // Nearest-neighbor scaling
             I64 src_x = (I64)(x / scale_x);

@@ -16,7 +16,7 @@ U0 InitImage(U8 *filename,F64 scale)
   I64 i;
   glbl_scale=scale;
   for (i=0;i<DC_NUM;i++)
-    cafe_dc[i]=BMPRead(filename,FALSE);
+    cafe_dc[i]=BMPRead(filename,TRUE);
 }
 
 U0 CleanUpImage()

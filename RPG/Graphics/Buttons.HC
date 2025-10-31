@@ -248,7 +248,7 @@ U0 CombineIfPossible(I64 pItem)
 //check if user click or release for each 'button' of inventory
 //i: inv width
 //j: inv height
-U0 InvDrag(I64 i, I64 j,Inventory *myInv){
+U0 InvDrag(I64 i, I64 j,Inventory *myInv,Bool isPlayer=TRUE){
  Bool marked = FALSE;                 
  I8 occupied;
  occupied= myInv->mtrx[j][i].occupied;                 
@@ -257,6 +257,7 @@ U0 InvDrag(I64 i, I64 j,Inventory *myInv){
   if(occupied!=-1){//if there is an item underneath
    mc->draggingID = RetrieveItemID(myInv,occupied,TRUE);
    mc->draggingItem = RetrieveItem(myInv,occupied);
+   mc->dragInvIsPlayer = isPlayer;
    mc->draggingInv=TRUE;
   }
  }else{//release
@@ -269,6 +270,7 @@ U0 InvDrag(I64 i, I64 j,Inventory *myInv){
    U8 itemW, itemH;
    U8 invHMax= mc->draggingItem->h;
    U8 invWMax = mc->draggingItem->w;
+   mc->draggingItem->visible=TRUE;
    for(itemW=0;itemW<invWMax;itemW++) {
     for(itemH=0;itemH<invHMax;itemH++) {
      I64 tempOccupied;
@@ -284,7 +286,7 @@ U0 InvDrag(I64 i, I64 j,Inventory *myInv){
    }
   }
   if(!marked){
-   ChangeItemLoc(i, j, mc->draggingItem);                 
+   ChangeItemLoc(i, j, mc->draggingItem,myInv,isPlayer);                 
    mc->draggingInv=FALSE; 
   }
  }//end release

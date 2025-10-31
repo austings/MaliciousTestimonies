@@ -124,7 +124,8 @@ class MenuControl{
   Bool isItem, isItemSelector;
 
   //inventory menus render
-  I64 draggingID;//inventory mouse item
+  I64 draggingID;//inventory mouse item
+  Bool dragInvIsPlayer;//original inv
   Item *draggingItem;
 
   //submenu display toggles

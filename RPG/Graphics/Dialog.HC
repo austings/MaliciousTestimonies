@@ -171,13 +171,24 @@ U0 MerchantMenu(CDC *dc){
 //textID = mc->talkieScene = Dialog.TXT
 U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
 {
- I64 i,xInc=0,yInc=0;
+ I64 i,xInc=3,yInc=0;
  U8 c;
+ switch(textID){
+  case 9:
+   GrBlot3(dc,300,200,0,P1S);//jez
+  break;
+  case 10:
+   GrBlot3(dc,280,200,0,P2S);//ahab
+  break;
+  case 11:
+   GrBlot3(dc,276,200,0,P3S);//eli
+  break;
+ }
  dc->color=WHITE;
  I64 width = 25+StrLen(name)*12;
  GrRect(dc,24,355,width,50);
  dc->color=BLACK;
- Sprite3B(dc,0,375,0,GetDialogBox);
+ Sprite3B(dc,3,375,0,GetDialogBox);
  if(currLetter<MAX_D)
    currLetter++;
 
@@ -193,13 +204,14 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
   if(c=='#'){
    c = myDialog[++i];
    yInc+=16;
-   xInc=0;
+   xInc=3;
   }
   GrChar(dc,c,6+xInc,386+yInc,2);
   xInc+=14;
    
  }
  PrintLine(dc,name,26,360,2);
+
 
 }
 
