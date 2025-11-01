@@ -62,8 +62,6 @@ Inventory *GrabChest(I64 chestID){
  Object *myObject= obj_que.next;
  for(i=0;i!=QueCnt(obj_que);i++){
   if(myObject->chestID==chestID){
-   PrintDevMessage(MStrPrint("chestID%d",myObject->chestID));
-   PrintInventory(myObject->myInv);
    return myObject->myInv;
   }
   myObject = myObject->next;

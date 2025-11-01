@@ -265,7 +265,6 @@ U0 InvDrag(I64 i, I64 j,Inventory *myInv,Bool isPlayer=TRUE){
   if(occupied!=-1&&occupied!=mc->draggingItem->invID){//continue drag
    marked = TRUE;
    CombineIfPossible(occupied);
-
   }else{//if open space, drop and release w=1 h=2
    U8 itemW, itemH;
    U8 invHMax= mc->draggingItem->h;
@@ -286,7 +285,7 @@ U0 InvDrag(I64 i, I64 j,Inventory *myInv,Bool isPlayer=TRUE){
    }
   }
   if(!marked){
-   ChangeItemLoc(i, j, mc->draggingItem,myInv,isPlayer);                 
+   ChangeItemLoc(i, j, mc->draggingItem, myInv, isPlayer);                 
    mc->draggingInv=FALSE; 
   }
  }//end release

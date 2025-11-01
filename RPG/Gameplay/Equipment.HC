@@ -1,5 +1,4 @@
-U0 PrintInventory(Inventory *myInv)
-{
+U0 PrintInventory(Inventory *myInv){
  U8 *str1 = MStrPrint("%d %d %d %d %d %d %d %d %d %d %d",
     myInv->mtrx[0][0].occupied, myInv->mtrx[0][1].occupied, myInv->mtrx[0][2].occupied,
     myInv->mtrx[0][3].occupied, myInv->mtrx[0][4].occupied, myInv->mtrx[0][5].occupied,
@@ -24,7 +23,6 @@ U0 PrintInventory(Inventory *myInv)
     myInv->mtrx[3][6].occupied, myInv->mtrx[3][7].occupied, myInv->mtrx[3][8].occupied,
     myInv->mtrx[3][9].occupied, myInv->mtrx[3][10].occupied);
 
-
  PrintDevMessage(str1);
  PrintDevMessage(str2);
  PrintDevMessage(str3);
@@ -33,16 +31,13 @@ U0 PrintInventory(Inventory *myInv)
 }
 
 //convert walk animation frame to cardinal direction
-I64 GetDir(Actor *a)
-{
- if(a->dir==DELIMITER)
- {
+I64 GetDir(Actor *a){
+ if(a->dir==DELIMITER){
   U8 walkDir = a->walking;
   U8 subWalk = a->walkingSubFrame;
   switch(walkDir){
    case W_NOTWALKING:
-    switch(subWalk)
-    {
+    switch(subWalk){
      case W_IDLEDOWN:
       return DIR_DOWN;
      break; 
@@ -83,11 +78,11 @@ I64 GetDir(Actor *a)
    break;
   }
   return DIR_DOWN;
-
  }else{
   return a->dir;
  }
 }
+
 //convert inv id to item id
 I64 *RetrieveItemID(Inventory *myInv, I64 index,  Bool select=FALSE){
  Item *toBeRetrieved = myInv->collection->next;
@@ -106,16 +101,13 @@ I64 *RetrieveItemID(Inventory *myInv, I64 index,  Bool select=FALSE){
  }
 }
 
-
 //convert inv id to item
-Item *RetrieveItem(Inventory *myInv, I64 index,Bool select=FALSE)
-{
+Item *RetrieveItem(Inventory *myInv, I64 index,Bool select=FALSE){
  Item *toBeRetrieved = myInv->collection->next;
  I64 i;
  if(index<=0) return toBeRetrieved;
  for(i=0;i<QueCnt(toBeRetrieved);i++){
   toBeRetrieved = toBeRetrieved->next;
-  PrintDevMessage(MStrPrint("%d%s",toBeRetrieved->invID,toBeRetrieved->name));
   if(toBeRetrieved->invID==index)
    break;
  }
@@ -123,7 +115,6 @@ Item *RetrieveItem(Inventory *myInv, I64 index,Bool select=FALSE)
   toBeRetrieved->visible = FALSE;
   return toBeRetrieved;
  }
-
  return toBeRetrieved;
 }
 
@@ -162,7 +153,6 @@ Bool AddItemToInv(Inventory *inv, I64 iID){
  return FALSE;
 
 }
-
 
 Bool AddItemToInventory(Inventory *myInv, I64 itemID){
  I64 i,j,x,y,area;
@@ -244,9 +234,7 @@ U0 RemoveItemLoc(Item *item, Bool delete =FALSE){
 
 //item is a invID
 //removes inventory item by invID reference
-U0 RemoveItemLocID(I64 invID, Bool delete =FALSE)
-{
-
+U0 RemoveItemLocID(I64 invID, Bool delete =FALSE){
  Actor *p = GetNPC(PLAYER);
 
  I64 i,j;
@@ -278,16 +266,14 @@ U0 RemoveItemLocID(I64 invID, Bool delete =FALSE)
 
   QueRem(torm);
   Free(torm);
-
  }
 
 }
 
 
 
-U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item, Inventory *myInv, Bool isPlayer)
-{
-
+U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item, 
+                 Inventory *myInv, Bool isPlayer){
  I64 i,j,x,y;
  Inventory *src = myInv;
  Inventory *dest = myInv;
@@ -302,43 +288,30 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item, Inventory *myInv, Bool isPlayer)
   dest = mc->lootInv;
  }
  //remove old loc
- for(i=0;i<INVWIDTH;i++)
- {
-  for(j=0;j<INVHEIGHT;j++)
-  {
+ for(i=0;i<INVWIDTH;i++){
+  for(j=0;j<INVHEIGHT;j++){
    if(src->mtrx[j][i].occupied==item->invID){  
-     for(x=0;x<item->w;x++)
-     {  
-      for(y=0;y<item->h;y++)
-      {
-       src->mtrx[j+y][i+x].occupied = IT_NULL;
-      }
+    for(x=0;x<item->w;x++){  
+     for(y=0;y<item->h;y++){
+      src->mtrx[j+y][i+x].occupied = IT_NULL;
      }
-     goto move;    
+    }
+    goto move;    
    }   
   }
  }
  move:
- item->visible=TRUE;
- //add new loc
- //for(i=0;i<INVWIDTH;i++)
- //{
- // for(j=0;j<INVHEIGHT;j++)
- // {
-    //if(i==newI&&j==newJ){
-     for(x=0;x<item->w;x++)
-     {  
-      for(y=0;y<item->h;y++)
-      {
-       dest->mtrx[newJ+y][newI+x].occupied = item->invID;
-      }
-     }
-    //}
-
- // }
- //}
- 
-
+ if((!mc->dragInvIsPlayer&&isPlayer)||
+    (mc->dragInvIsPlayer&&!isPlayer)){
+  AddItemToInventory(dest,item->id);
+ }else{
+  item->visible=TRUE;
+  for(x=0;x<item->w;x++){  
+   for(y=0;y<item->h;y++){
+    dest->mtrx[newJ+y][newI+x].occupied = item->invID;
+   }
+  }
+ }
 }
 
 

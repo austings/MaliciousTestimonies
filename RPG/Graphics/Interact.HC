@@ -1,8 +1,7 @@
 
 //InteractCorpse
 //param npc- the npc id of the corpse
-U0 InteractCorpse(I64 npc)
-{
+U0 InteractCorpse(I64 npc){
  if(mc->lootedSwitch==LOOTED){ //already looted
  }
  else{
@@ -23,8 +22,7 @@ U0 InteractCorpse(I64 npc)
 
 //InteractActor
 //param npc- the npc id of the actor player is interacting with
-U0 InteractActor(I64 npc)
-{
+U0 InteractActor(I64 npc){
  Actor *aAtLoc= GetNPC(npc);
  if(aAtLoc->ai_script==1&&aAtLoc->status1!=DEAD_STATUS) {//combat
   mc->combatON=TRUE;
@@ -99,10 +97,11 @@ U0 InteractTile(Actor *p, U8 dir,
    p->walking=walkingFrameKey;
    p->walkingSubFrame=0;
 
+   //TODO: UPDATE ON WORLD TICK?
    //update model
    RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
    SetTensorNPC(world->level,0,p->x+xOff,p->y+yOff,world->currentZ);
-   UpdateActorCoords(0,p->x+xOff,p->y+yOff); 
+   UpdateActorCoords(PLAYER,p->x+xOff,p->y+yOff); 
    }
   }
  } 

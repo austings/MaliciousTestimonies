@@ -1,40 +1,39 @@
 
 
 U0 ReDrawWorld(CDC *dc, I64 i, I64 j){
-  for(i=-1;i<12;i++){
-    if(camera->topLR+i<wX&&camera->topLR+i>=0){
-     for(j=-1;j<12;j++){
-      if(camera->topUD+j<wY&&camera->topUD+j>=0){
-       I16 c =  GetTensor(world->level,camera->topLR+i,camera->topUD+j,world->currentZ);
-       dc->color = GetBG(c);
-       GrRect3(dc,i*camera->dividX+camera->cameraOffSetX, 
-                j*camera->dividY+camera->cameraOffSetY, -1,
-                camera->dividX, camera->dividY);
-       if(c>BG_LT_GRAY){
-        switch(c){
-        case BG_DK_GRAY:
-         Sprite3B(dc,i*camera->dividX+camera->cameraOffSetX,
-                  j*camera->dividY+camera->cameraOffSetY,0,GetWall1());
-        break;
-        case BG_LT_RED:
-         Sprite3B(dc,i*camera->dividX+camera->cameraOffSetX,
-                  j*camera->dividY+camera->cameraOffSetY,0,GetCarpet());
-        break;
-        case BG_ROCK_WALL:
-         Sprite3B(dc,i*camera->dividX+camera->cameraOffSetX,
-                  j*camera->dividY+camera->cameraOffSetY,0,GetRockWall());
-        break;
-        case BG_BUSH_WALL:
-        Sprite3B(dc,i*camera->dividX+camera->cameraOffSetX,
-                  j*camera->dividY+camera->cameraOffSetY,0,GetBushWall());
- 
-        break;
-        } 
-       }
-      }
+ for(i=-1;i<12;i++){
+  if(camera->topLR+i<wX&&camera->topLR+i>=0){
+   I64 screenX = i*camera->dividX+camera->cameraOffSetX;
+   for(j=-1;j<12;j++){
+    if(camera->topUD+j<wY&&camera->topUD+j>=0){
+     I64 screenY = j*camera->dividY+camera->cameraOffSetY;
+     I16 c = GetTensor(world->level,camera->topLR+i,camera->topUD+j,world->currentZ);
+     dc->color = GetBG(c);
+     GrRect3(dc,screenX, screenY, -1, camera->dividX, camera->dividY);
+     if(c>BG_LT_GRAY){
+      switch(c){
+       case BG_DK_GRAY:
+        Sprite3B(dc,screenX,screenY,0,GetWall1());
+       break;
+       case BG_LT_RED:
+        Sprite3B(dc,screenX,screenY,0,GetCarpet());
+       break;
+       case BG_ROCK_WALL:
+        Sprite3B(dc,screenX,screenY,0,GetRockWall());
+       break;
+       case BG_BUSH_WALL:
+        Sprite3B(dc,screenX,screenY,0,GetBushWall());
+       break;
+       case BG_GRASS:
+        Sprite3B(dc, screenX+5, screenY, 0, GetPlant(OBJ_GRASSL));
+        Sprite3B(dc, screenX+10, screenY, 0, GetPlant(OBJ_GRASSR));
+       break;
+      } 
      }
     }
    }
+  }
+ }
 
 }
 
@@ -123,6 +122,10 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
    Sprite3(dc, screenX+5, screenY-54, 10, GetOliveTree(IT_OLIVEBRANCH));
    Sprite3(dc, screenX-48, screenY-42, 10, GetOliveTree(TILETRUNK));
   break; 
+  case OBJ_GRASSF:
+   Sprite3(dc, screenX-5, screenY, 0, GetPlant(OBJ_GRASSL));
+   Sprite3(dc, screenX, screenY, 00, GetPlant(OBJ_GRASSR));
+  break;
   default:
    Sprite3(dc, screenX, screenY, 10, GetFurniture(obj));
   break;

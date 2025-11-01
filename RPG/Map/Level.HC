@@ -38,6 +38,15 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixItem(toAdd,IT_HELM,5,8);
  SetMatrixItem(toAdd,IT_SHIRT,4,8);
 
+
+ SetMatrix(toAdd,BG_GRASS,5,4);//,FALSE);
+ SetMatrix(toAdd,BG_GRASS,5,3);//,FALSE);
+ SetMatrix(toAdd,BG_GRASS,3,4);//,FALSE);
+ SetMatrix(toAdd,BG_GRASS,3,3);//,FALSE);
+ SetMatrix(toAdd,BG_GRASS,4,4);//,FALSE);
+ SetMatrix(toAdd,BG_GRASS,4,3);//,FALSE);
+
+
  SetMatrixObj(toAdd,OBJ_OLIVETREE,3,8);
 
  //rock walls
@@ -157,7 +166,7 @@ Matrix *MakeCastle(Matrix *toAdd){
 
 
  SetMatrixObj(toAdd,OBJ_OLIVETREE,19,26);
- SetMatrixObj(toAdd,OBJ_OLIVETREE,18,24);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,18,24);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,26,25);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,24,29);
 

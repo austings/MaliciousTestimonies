@@ -67,9 +67,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     {
      if(mc->isItemSelector){
       mc->isItem=TRUE;
-      PrintDevMessage(MStrPrint("HERE %d",mc->prayerToCast));
       I64 itemID = RetrieveItemID(p->myInv,mc->prayerToCast);
-      PrintDevMessage(MStrPrint("HERE2 %d",itemID));
       RemoveItemLocID(mc->prayerToCast,TRUE);
       mc->prayerToCast = itemID; 
 
@@ -297,8 +295,7 @@ U0 HandleMouseEquipRelease(I64 M_X, I64 M_Y, I64 i, I64 j)
  }
 }
 
-U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
-{ 
+U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){ 
  //Begin SideBar
  HandleMouseSideBar(M_X,M_Y,i,j);
  //End SideBar
@@ -324,7 +321,6 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
        M_Y>=(j*42) &&
        M_Y< (j+1)*42&&!mc->prayerDragging){
       InvDrag(i,j,mc->lootInv,FALSE);
-
      }//end inventory if
     }//end inventory height
    }//end inventory width

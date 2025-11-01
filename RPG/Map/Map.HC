@@ -87,7 +87,9 @@ static CDC* ITEM050= FramePtr("ITEM050");
 #define BG_LT_RED	18
 #define BG_ROCK_WALL    19
 #define BG_BUSH_WALL    20
+#define BG_GRASS        21
 #define SOLID_BG_GREEN	110
+
 class Item:CQue
 {
   U8* name;
@@ -160,6 +162,7 @@ U8 *GetBG(I64 id)
    case BG_BUSH_WALL:
    case SOLID_BG_GREEN:
    case BG_GREEN:
+   case BG_GRASS:
     color = GREEN;
    break;
    case BG_BLUE:
