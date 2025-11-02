@@ -263,11 +263,9 @@ U0 RemoveItemLocID(I64 invID, Bool delete =FALSE){
    cur = cur->next;
   }
   p->myInv->count--; 
-
   QueRem(torm);
   Free(torm);
  }
-
 }
 
 
@@ -277,16 +275,19 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item,
  I64 i,j,x,y;
  Inventory *src = myInv;
  Inventory *dest = myInv;
+
  if(!mc->dragInvIsPlayer){//start merchant 
   src = mc->lootInv;
  }else {
   src = player->myInv;
  }
+
  if(isPlayer){ 
   dest  = myInv;
  }else{
   dest = mc->lootInv;
  }
+
  //remove old loc
  for(i=0;i<INVWIDTH;i++){
   for(j=0;j<INVHEIGHT;j++){
@@ -300,9 +301,12 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item,
    }   
   }
  }
+
  move:
  if((!mc->dragInvIsPlayer&&isPlayer)||
     (mc->dragInvIsPlayer&&!isPlayer)){
+  I64 value = item->value;
+
   AddItemToInventory(dest,item->id);
  }else{
   item->visible=TRUE;

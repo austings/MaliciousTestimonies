@@ -496,6 +496,7 @@ U0 CheckAnimQueue(CDC *dc,I64 y){
                   
            
 U0 DrawDead(CDC *dc, Actor *a){
+// PrintDevMessage("GAR",FALSE);
  switch(a->face){
   case 0...T_BENJ:
    AddDirective(T1DIE,a);

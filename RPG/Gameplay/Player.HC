@@ -6,19 +6,17 @@ U0 LvlUp(Actor *a)
   a->maxExp = Pow(0.05*a->lvl,4)+Pow(2*a->lvl,3)
                       +Pow(5*a->lvl,2)+10*a->lvl+3; 
 }
+
 U0 RemoveMana(Actor *a, I64 magnitude)
 {
   IndicatorText(a->x,a->y,magnitude,"Spirit");
-  if(a->currentMana<=magnitude)
-  {
+  if(a->currentMana<=magnitude){
     a->currentMana=0;
   }
   else
   {
    a->currentMana = a->currentMana- magnitude;
-
-   if(a->currentMana>a->mana)
-   {
+   if(a->currentMana>a->mana){
     a->currentMana=a->mana;
    }
   }
@@ -27,21 +25,17 @@ U0 RemoveMana(Actor *a, I64 magnitude)
 
 U0 RemoveHealth(Actor *a, I64 magnitude)
 {
-  IndicatorText(a->x,a->y,magnitude,"Health");
-  if(a->currentHealth<=magnitude)
-  {
-    a->currentHealth=0;
-    AddStatus(a,DEAD_STATUS);
+ IndicatorText(a->x,a->y,magnitude,"Health");
+ if(a->currentHealth<=magnitude){
+  a->currentHealth=0;
+  AddStatus(a,DEAD_STATUS);
+ }
+ else{
+  a->currentHealth = a->currentHealth - magnitude;
+  if(a->currentHealth>a->health){
+   a->currentHealth = a->health;
   }
-  else
-  {
-    a->currentHealth = a->currentHealth - magnitude;
-    if(a->currentHealth>a->health)
-    {
-     a->currentHealth = a->health;
-    }
-
-  } 
+ } 
 }
 
 U0 AddHealth(Actor *a,I64 magnitude)
@@ -80,10 +74,8 @@ U0 InitActors(I64 currentZ)
 	         5,5,5,5,0));//player
 
   ResetNPCC;
-  while(GetNPCC!=10)
-  {
-   switch(currentZ)
-   {
+  while(GetNPCC!=10){
+   switch(currentZ){
      case 0://town level
      ReadNPC(1);
      ReadNPC(2);
@@ -115,8 +107,7 @@ U0 FreeActor(I64 id)
 
 I64 InvNPCCount(Actor *a)
 {
-  switch(a->id)
-  {
+  switch(a->id){
    case 0:
     return QueCnt(a->myInv->collection);
     break;

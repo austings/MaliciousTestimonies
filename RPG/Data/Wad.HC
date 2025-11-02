@@ -251,6 +251,30 @@ U32 class CRGB {
 
 static U8 *doom_palette_dithered=NULL;
 
+F64 ToLinear(F64 c) {
+    F64 x = c/255.0;
+    F64 y;
+    if (x <= 0.04045) {
+        y = x / 12.92;
+    } else {
+        y = Pow((x + 0.055) / 1.055, 2.4);
+    }
+    return y;
+}
+
+F64 ToSRGB(F64 x) {
+    F64 v;
+    if (x <= 0.0031308) {
+        v = x * 12.92;
+    } else {
+        v = 1.055 * Pow(x, 1.0 / 2.4) - 0.055;
+    }
+    v = v * 255.0;
+    if (v < 0.0) v = 0.0;
+    if (v > 255.0) v = 255.0;
+    return v;
+}
+
 U8 *DitherPalette(CRGB *data) {
   U8 *ret=MAlloc(16*16);
   CBGR48 palette48[16*16];
@@ -268,6 +292,14 @@ U8 *DitherPalette(CRGB *data) {
   }
   for(y=1;y!=16;y++) {
     for(x=1;x!=16;x++) {
+     //perceptual interpolation
+     //F64 r = (ToLinear(normal[x].r) + ToLinear(normal[y].r)) * 0.5;
+     //F64 g = (ToLinear(normal[x].g) + ToLinear(normal[y].g)) * 0.5;
+     //F64 b = (ToLinear(normal[x].b) + ToLinear(normal[y].b)) * 0.5;
+
+     //normal[x+y*16].r = ToSRGB(r);
+     //normal[x+y*16].g = ToSRGB(g);
+     //normal[x+y*16].b = ToSRGB(b);
       normal[x+y*16].r=ToF64(normal[x].r+normal[y].r)/2;
       normal[x+y*16].g=ToF64(normal[x].g+normal[y].g)/2;
       normal[x+y*16].b=ToF64(normal[x].b+normal[y].b)/2;
@@ -277,12 +309,24 @@ U8 *DitherPalette(CRGB *data) {
     for(y=0;y!=16;y++) {
       cur_pixel=data[x+y*16];
       best_color=0;
-      best_dist=1e100;
+      best_dist=1e100;
       if(!cur_pixel.a||!(cur_pixel.g<20&&cur_pixel.r<20&&cur_pixel.b))  {
         for(canidate=0;canidate!=16*16;canidate++) {
-	  dist=Sqrt(Sqr(normal[canidate].r-cur_pixel.r)+
-	        Sqr(normal[canidate].g-cur_pixel.g)+
-	        Sqr(normal[canidate].b-cur_pixel.b));
+         F64 r1 = ToLinear(normal[canidate].r);
+         F64 g1 = ToLinear(normal[canidate].g);
+         F64 b1 = ToLinear(normal[canidate].b);
+
+         F64 r2 = ToLinear(cur_pixel.r);
+         F64 g2 = ToLinear(cur_pixel.g);
+         F64 b2 = ToLinear(cur_pixel.b);
+
+         F64 dr = r1 - r2;
+         F64 dg = g1 - g2;
+         F64 db = b1 - b2;
+         dist = dr*dr + dg*dg + db*db;	 
+      // dist=Sqrt(Sqr(normal[canidate].r-cur_pixel.r)+
+	 //       Sqr(normal[canidate].g-cur_pixel.g)+
+	 //       Sqr(normal[canidate].b-cur_pixel.b));
 	  if(dist<best_dist) {
 	    best_dist=dist;
 	    best_color=canidate;

@@ -9,14 +9,14 @@ U8 myDialog[MAX_D];
 
 #define GENERATED_TEXT 19
 #define DRUID_TEXT 20
-#define GUEST_TEXT 21
+#define GUEST_TEXT -2
 
 U0 DeserializeDialog(I64 textID){
  U8 *nameptr=myDialog;
   //id for sorting purpose only
   U8 id[8],*idptr=id;
 
- if(textID>=GENERATED_TEXT)//generated text
+ if(textID>=GENERATED_TEXT||textID<GUEST_TEXT)//generated text
  {
   U8 *startWord="The",*file = MARKOV_FILE;
   U16 r = RandU16();
@@ -45,7 +45,7 @@ U0 DeserializeDialog(I64 textID){
    case DRUID_TEXT:
    file =MARKOV_FILE2; 
    break;
-   case GUEST_TEXT:
+   case -39...GUEST_TEXT:
    file =MARKOV_FILE3; 
    break;
    default:
@@ -96,6 +96,7 @@ U0 GetDialogMsg(U8 textID)
    DeserializeDialog(textID);
 }
 
+
 I64 GetTalkie(I64 id){
  I64 talkie =0;
  switch(id){
@@ -135,7 +136,7 @@ I64 GetTalkie(I64 id){
    if(id==SV_U8_DRUID)
     talkie=DRUID_TEXT;
    else if(id<=SV_PARTIER)
-    talkie=GUEST_TEXT;
+    talkie=GUEST_TEXT-id;//-2-37
    else
     talkie = GENERATED_TEXT;
   break; 
@@ -174,14 +175,62 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
  I64 i,xInc=3,yInc=0;
  U8 c;
  switch(textID){
+    case -28:
+     GrBlot3(dc,286,180,0,P4S);//bridesmaid
+    break;
+    case -29:
+     GrBlot3(dc,286,180,0,P6S);//groomsman
+    break;   
+    case -30:
+     GrBlot3(dc,286,180,0,P15S);//crybaby
+    break;    
+    case -31:
+     GrBlot3(dc,286,180,0,P12S);//ethbaal
+    break;    
+    case -32:
+     GrBlot3(dc,286,180,0,P11S);//drunk
+    break;    
+    case -33:
+     GrBlot3(dc,286,180,0,P13S);//fat man
+    break;    
+    case -34:
+     GrBlot3(dc,286,180,0,P14S);//fancy lady
+    break;    
+    case -35:
+     GrBlot3(dc,286,180,0,P16S);//smug guy
+    break;    
+    case -36:
+     GrBlot3(dc,286,180,0,P7S);//dirty
+    break;    
+    case -37:
+     GrBlot3(dc,286,180,0,P6S);//sweaty
+    break;    
+    case -38:
+     GrBlot3(dc,286,180,0,P17S);//not used
+    break;
+    case -39:
+     GrBlot3(dc,286,180,0,P13S);//fat man
+    break;
+  case 2:
+   GrBlot3(dc,286,180,0,P10S);//guard
+  break;
+  case 3:
+   GrBlot3(dc,286,180,0,P9S);//captain
+  break;
   case 9:
-   GrBlot3(dc,316,180,0,P1S);//jez
+   GrBlot3(dc,286,180,0,P1S);//jez
   break;
   case 10:
-   GrBlot3(dc,286,200,0,P2S);//ahab
+   GrBlot3(dc,286,180,0,P2S);//ahab
   break;
   case 11:
-   GrBlot3(dc,276,200,0,P3S);//eli
+   GrBlot3(dc,276,180,0,P3S);//eli
+  break;
+  case SV_MAKABEE_SHOP:
+   GrBlot3(dc,276,180,0,P5S);//shamir
+  break;
+  case DRUID_TEXT:
+   GrBlot3(dc,276,180,0,P17S);//pious
   break;
  }
  dc->color=WHITE;

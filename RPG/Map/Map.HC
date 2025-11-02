@@ -94,7 +94,7 @@ class Item:CQue
 {
   U8* name;
   //name appears in tooltip
-  I16 equip_slot, id, invID,value;
+  I16 equip_slot, id, invID, value;
   //equip slot determines equippable helm, body, ring, wep (or none)
   //id is the item id (generic)
   //invID is for differentiating the same item in players inv

@@ -110,22 +110,20 @@ U0 TickTile(I64 i,I64 j, Actor *p)
 {
  if(camera->topLR+i<wY&&camera->topLR+i>=0){
   I64 screenX = i*camera->dividX+camera->cameraOffSetX;
-
   I64 obj= GetTensorObj(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
   I64 npc =GetTensorNPC(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);
   I64 wlvl= GetTensorWaterLevel(world->level,
               camera->topLR+i,camera->topUD+j,world->currentZ);     
-  if(npc!=-1){
+  if(npc!=IT_NULL){
    Actor *toUpdate = GetNPC(npc);    
    if(npc!=PLAYER){
     if(mc->combatON==FALSE   && 
-    toUpdate->ai_script==AI_DEFAULT&&
-    toUpdate->status1!=DEAD_STATUS && //(enemy)
-    Abs((p->x)-(toUpdate->x))<=AGGRO_DIS&& //(aggro distance)
-    Abs((p->y)-(toUpdate->y))<=AGGRO_DIS  )
-    {
+     toUpdate->ai_script==AI_DEFAULT&&
+     toUpdate->status1!=DEAD_STATUS && //(enemy)
+     Abs((p->x)-(toUpdate->x))<=AGGRO_DIS&& //(aggro distance)
+     Abs((p->y)-(toUpdate->y))<=AGGRO_DIS  ){
      CombatQueInit(toUpdate);
     }
    }

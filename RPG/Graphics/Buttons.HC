@@ -257,6 +257,7 @@ U0 InvDrag(I64 i, I64 j,Inventory *myInv,Bool isPlayer=TRUE){
   if(occupied!=-1){//if there is an item underneath
    mc->draggingID = RetrieveItemID(myInv,occupied,TRUE);
    mc->draggingItem = RetrieveItem(myInv,occupied);
+   mc->draggingItem->visible = FALSE;
    mc->dragInvIsPlayer = isPlayer;
    mc->draggingInv=TRUE;
   }

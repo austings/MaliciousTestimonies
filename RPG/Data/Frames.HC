@@ -662,6 +662,21 @@ static CDC* EFF418= FramePtr("EFF418");
 static CDC* EFF419= FramePtr("EFF419");
 
 //dialog
+//static CDC* P18S= FramePtr("P18S");
+static CDC* P17S= FramePtr("P17S");
+static CDC* P16S= FramePtr("P16S");
+static CDC* P15S= FramePtr("P15S");
+static CDC* P14S= FramePtr("P14S");
+static CDC* P13S= FramePtr("P13S");
+static CDC* P12S= FramePtr("P12S");
+static CDC* P11S= FramePtr("P11S");
+static CDC* P10S= FramePtr("P10S");
+static CDC* P9S= FramePtr("P9S");
+static CDC* P8S= FramePtr("P8S");
+static CDC* P7S= FramePtr("P7S");
+static CDC* P6S= FramePtr("P6S");
+static CDC* P5S= FramePtr("P5S");
+static CDC* P4S= FramePtr("P4S");
 static CDC* P3S= FramePtr("P3S");
 static CDC* P2S= FramePtr("P2S");
 static CDC* P1S= FramePtr("P1S");

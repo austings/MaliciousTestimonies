@@ -1,16 +1,13 @@
 
 
-U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer)
-{
+U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
  //fix to take item hOff/wOff
-
  CDC *render;
  CDC *scratch = DCNew(100,100);
  DCFill(scratch, TRANSPARENT);
 
  I64 yoff=270, xoff=-2; 
- switch(itemID)
- {
+ switch(itemID){
   case IT_FIST:
   //not visible 
    render = scratch; 
@@ -67,41 +64,38 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer)
 
  
 CDC *RenderInventory(Inventory *myInv,Bool isPlayer=TRUE){
-  I64 i,j,i2;
-  CDC *newInventoryRender = DCNew(640,480);
-  DCFill(newInventoryRender, TRANSPARENT);
-  //items
-  U8 *listOfRenderedItems = CAlloc(sizeof(I64)*(INVWIDTH*INVHEIGHT));
-  U16 renderListSize = 0;
-  for(i=0;i<INVWIDTH;i++)
-  {
-   for(j=0;j<INVHEIGHT;j++)
-   {
-    I8 occupied= myInv->mtrx[j][i].occupied;
-    if(occupied!=IT_NULL)
-    {
-     Bool alreadyScanned = FALSE;
-     for(i2=0;i2<renderListSize;i2++)
-     {
+ I64 i,j,i2;
+ CDC *newInventoryRender = DCNew(640,480);
+ DCFill(newInventoryRender, TRANSPARENT);
+ //items
+ U8 *listOfRenderedItems = CAlloc(sizeof(I64)*(INVWIDTH*INVHEIGHT));
+ U16 renderListSize = 0;
+ for(i=0;i<INVWIDTH;i++){
+  for(j=0;j<INVHEIGHT;j++){
+   I8 occupied= myInv->mtrx[j][i].occupied;
+   if(occupied!=IT_NULL){
+    Bool alreadyScanned = FALSE;
+    for(i2=0;i2<renderListSize;i2++){
       if(occupied ==listOfRenderedItems[i2])
        alreadyScanned=TRUE;
-     }
-     if(!alreadyScanned)
-     {
-      listOfRenderedItems[renderListSize] = occupied;
-      renderListSize++;
-      I64 currentItemID = RetrieveItemID(myInv,occupied);
-      //might glitch if two same items in the same spot
-      //if(mc->draggingID!=currentItemID&&mc->draggingItem->invID!=occupied){
-       //I64 currentItemID= currentItem->id; 
-       BlotItem(newInventoryRender, currentItemID,
+    }
+    if(!alreadyScanned){
+     listOfRenderedItems[renderListSize] = occupied;
+     renderListSize++;
+     Item *ito =RetrieveItem(myInv,occupied);
+     if(ito->visible){
+      I64 currentItemID = ito->id;
+     //might glitch if two same items in the same spot
+     //if(mc->draggingID!=currentItemID&&mc->draggingItem->invID!=occupied){
+     //I64 currentItemID= currentItem->id; 
+      BlotItem(newInventoryRender, currentItemID,
                i*camera->dividX,j*camera->dividY,isPlayer);
-      //}    
-     }
+     }    
     }
    }
   }
-  Free(listOfRenderedItems);
+ }
+ Free(listOfRenderedItems);
  
  return newInventoryRender;
 
