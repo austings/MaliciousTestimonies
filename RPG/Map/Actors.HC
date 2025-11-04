@@ -311,7 +311,7 @@ Actor *GetNPC(I64 id)
 #define A_OX_CART 07
 #define A_FOWL 08
 #define A_WD2 09 //wild dog
-#define A_MAKABEE 10 
+#define A_SHAMIR 10 
 #define A_WD3 11
 #define A_WD4 12
 #define A_WD5 13

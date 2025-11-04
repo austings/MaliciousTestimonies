@@ -129,8 +129,8 @@ I64 GetTalkie(I64 id){
   case SV_FOWL://fowl
    talkie = 18;
   break;
-  case 10://SV_MAKABEE://shop
-   talkie = SV_MAKABEE_SHOP;
+  case SV_SHAMIR://shop
+   talkie = SV_SHAMIR_SHOP;
   break;
   case SV_GENERIC_START...SV_GENERIC_END:
    if(id==SV_U8_DRUID)
@@ -155,14 +155,27 @@ U0 ClearDialog()
 
 Bool MerchantList(I64 textID)
 {
- if(textID==SV_MAKABEE_SHOP)
+ if(textID==SV_SHAMIR_SHOP)
  {
   return TRUE;
  }
  return FALSE;
 }
 
-U0 MerchantMenu(CDC *dc){
+U0 MerchantMenu(CDC *dc, I64 selection){
+ Sprite3B(dc,150,DIALOG_BOX_Y-52,0,GetDialogBox(2));
+ PrintLine(dc,"Trade",158,DIALOG_BOX_Y-42,2);
+ PrintLine(dc,"Leave",158,DIALOG_BOX_Y-20,2);
+
+ switch(selection)
+ {
+  case CMS_MOVE:
+   Sprite3B(dc,238,DIALOG_BOX_Y-42,0,GetCross);
+  break;
+  case CMS_STRIKE:
+   Sprite3B(dc,238,DIALOG_BOX_Y-20,0,GetCross);
+  break; 
+ }
 
 }
 
@@ -226,7 +239,7 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
   case 11:
    GrBlot3(dc,276,180,0,P3S);//eli
   break;
-  case SV_MAKABEE_SHOP:
+  case SV_SHAMIR_SHOP:
    GrBlot3(dc,276,180,0,P5S);//shamir
   break;
   case DRUID_TEXT:
@@ -242,13 +255,12 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
    currLetter++;
 
  if(MerchantList(textID))
-  MerchantMenu(dc);
+  MerchantMenu(dc,mc->combatMenuSelection);
  
  
  GetDialogMsg(textID);
 
- for(i=0;i<currLetter;i++)
- {
+ for(i=0;i<currLetter;i++){
   c = myDialog[i];
   if(c=='#'){
    c = myDialog[++i];
@@ -256,8 +268,7 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
    xInc=3;
   }
   GrChar(dc,c,6+xInc,386+yInc,2);
-  xInc+=14;
-   
+  xInc+=14;   
  }
  PrintLine(dc,name,26,360,2);
 

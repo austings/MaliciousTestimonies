@@ -43,7 +43,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrix(toAdd,BG_GRASS,5,3);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,3,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,3,3);//,FALSE);
- SetMatrix(toAdd,BG_GRASS,4,4);//,FALSE);
+ SetMatrix(toAdd,BG_GRASS,4,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,4,3);//,FALSE);
 
 
@@ -202,7 +202,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  
  SetMatrixNPC(toAdd,A_OX_CART,1,21);
  FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
- SetMatrixNPC(toAdd,A_MAKABEE,6,19);
+ SetMatrixNPC(toAdd,A_SHAMIR,6,19);
  SetMatrixNPC(toAdd,A_FOWL,22,22);
  //SetMatrixNPC(toAdd,21,20,24);
  //SetMatrixNPC(toAdd,22,21,25);

@@ -8,8 +8,8 @@
 #define SV_WOLF1                6
 #define SV_COW                  7
 #define SV_FOWL                 8
-#define SV_MAKABEE              10 
-#define SV_MAKABEE_SHOP         16
+#define SV_SHAMIR              10 
+#define SV_SHAMIR_SHOP         16
 #define SV_GENERIC_START	26
 #define SV_PARTIER		33
 #define SV_U8_DRUID		36

@@ -40,7 +40,16 @@ U0 KeyEnter(Actor *p, MapNode *puin)
 {
  if(mc->displayDev)
  {DevKeyEnter(); }
- else if(mc->combatON){
+ else if(MerchantList(mc->talkieScene)){
+  switch(mc->combatMenuSelection){
+   case CMS_MOVE://move
+   //todo show tradewindow
+    break;
+   case CMS_STRIKE://strike
+    mc->talkieScene = IT_NULL; 
+    break;
+  }
+ } else if(mc->combatON){
   switch(mc->combatMenuSelection){
    case CMS_MOVE://move
     mc->combatMenuSelection =CS_MOVE; 
@@ -99,15 +108,36 @@ U0 KeyEnter(Actor *p, MapNode *puin)
 U0 KeyArrow(Actor *p)
 { //corresponds to DIR left, right, up, down
  SetActorDir(p,DELIMITER);//in progress
- if(!mc->combatON){
-  if(p->walking==W_NOTWALKING){
-   MoveActor(p,keys.pressed);
+
+ if(mc->talkieScene==IT_NULL){
+  if(mc->combatON){
+   CombatTurnArrows(p);
   }
+  else
+  {
+   if(p->walking==W_NOTWALKING){
+    MoveActor(p,keys.pressed);
+   }
+  }
+ } else if(MerchantList(mc->talkieScene)){
+  switch(mc->combatMenuSelection){
+   case CMS_MOVE:
+    if(keys.pressed==DIR_UP){mc->combatMenuSelection=CMS_STRIKE;}
+    else if(keys.pressed==DIR_DOWN){mc->combatMenuSelection++;}
+  break;
+  case CMS_STRIKE:
+   if(keys.pressed==DIR_DOWN){
+    mc->combatMenuSelection=CMS_MOVE;
+   }
+   else if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+  break;
+
+  }
+ } else if(p->walking==W_NOTWALKING){
+  MoveActor(p,keys.pressed);
  }
- else{ 
-  CombatTurnArrows(p);     
- } 
-}
+} 
+
 
 U0 KeyEsc()
 {
