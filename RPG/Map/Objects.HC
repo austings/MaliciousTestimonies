@@ -29,9 +29,9 @@ U0 GetItemScreenLoc(I64 invIDToFetch, I64 *x, I64 *y){
 U0 BuildChests(Inventory *inv, I64 id){
   switch(id){
    case CAMPCHEST:
-    AddItemToInv(inv,IT_POT);
-    AddItemToInv(inv,IT_POT);
-    AddItemToInv(inv,IT_POT);   
+    AddItemToInventory(inv,IT_POT);
+    AddItemToInventory(inv,IT_POT);
+    AddItemToInventory(inv,IT_POT);   
    break; 
 
   }

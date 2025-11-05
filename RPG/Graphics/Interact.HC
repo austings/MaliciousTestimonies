@@ -28,7 +28,8 @@ U0 InteractActor(I64 npc){
   mc->combatON=TRUE;
  }
  else{
-  mc->dialogName = aAtLoc->name;  
+  mc->dialogName = aAtLoc->name;
+  mc->dialogID = npc;  
   if(aAtLoc->status1==DEAD_STATUS){
    InteractCorpse(npc);
   }
@@ -41,8 +42,7 @@ U0 InteractActor(I64 npc){
 
 U0 InteractChest(I64 inv){
  mc->lootedSwitch = TRUE;
- mc->lootTarget = inv;
- mc->lootInv =  GrabChest(inv);
+ mc->lootInv =  GrabChest(inv);
 }
 
 U0 InteractTile(Actor *p, U8 dir,

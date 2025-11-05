@@ -44,11 +44,14 @@ U0 KeyEnter(Actor *p, MapNode *puin)
   switch(mc->combatMenuSelection){
    case CMS_MOVE://move
    //todo show tradewindow
+    mc->talkieScene = IT_NULL;
+    mc->lootedSwitch = TRUE;
+    mc->lootInv = GetNPC(mc->dialogID)->myInv;
     break;
    case CMS_STRIKE://strike
     mc->talkieScene = IT_NULL; 
     break;
-  }
+  }
  } else if(mc->combatON){
   switch(mc->combatMenuSelection){
    case CMS_MOVE://move

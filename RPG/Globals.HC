@@ -101,12 +101,11 @@ class MenuControl{
   I64 cutsceneTimer,cutsceneIndex;
 
   //Dialog
-  I64 talkieScene;//dialogID
+  I64 talkieScene,dialogID;//textID,actorID
   U8* dialogName;//dialog actor name
 
   //Looting
   Bool lootedSwitch;//true/false open gui
-  I64 lootTarget;//foreign key
   Inventory *lootInv;//inv object
 
   //combat preferences

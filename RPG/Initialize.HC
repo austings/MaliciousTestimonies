@@ -23,10 +23,11 @@ Cd(__DIR__);;
 #include "Map/Director.HC";
 #include "Map/Level.HC";
 #include "Gameplay/AI.HC";
-
-// Loading World
 #include "Globals.HC";
 #include "Dev/Dev.HC";
+#include "Dev/Deserialize.HC";
+
+// Loading World
 #include "Gameplay/Equipment.HC";
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
@@ -69,6 +70,7 @@ U0 InitMenuControl()
  mc->cutsceneIndex=0;
  mc->talkieScene = IT_NULL;//dialogID
  mc->dialogName = "???";//dialog actor name
+ mc->dialogID = 0;
 
  //display
  mc->displayInventory=FALSE;

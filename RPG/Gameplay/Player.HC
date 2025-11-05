@@ -1,4 +1,5 @@
 
+
 U0 LvlUp(Actor *a)
 {
   a->exp = a->exp - a->maxExp;
