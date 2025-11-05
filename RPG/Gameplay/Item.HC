@@ -73,7 +73,7 @@ Item *MakeItem(I64 id){
   build->value = 25;
   break;
   case IT_SHIRT:
-  build->name = "Common Shirt";
+  build->name = "Brown Tunic";
   build->w=2,build->h=3;
   build->hOff=32;
   build->equip_slot=EQ_SLOT_BDY;
@@ -112,6 +112,43 @@ Item *MakeItem(I64 id){
   build->value =10;
   build->v1="HP+25";
   break;
+  case IT_SHIRTR:
+  build->name = "Red Tunic";
+  build->w=2,build->h=3;
+  build->hOff=32;
+  build->equip_slot=EQ_SLOT_BDY;
+  build->v1="HP+10";
+  build->v2="SP+10";
+  build->value = 5;
+  break;
+  case IT_SHIRTG:
+  build->name = "Green Tunic";
+  build->w=2,build->h=3;
+  build->hOff=32;
+  build->equip_slot=EQ_SLOT_BDY;
+  build->v1="HP+10";
+  build->v2="SP+10";
+  build->value = 5;
+  break;
+  case IT_SHIRTB:
+  build->name = "Blue Tunic";
+  build->w=2,build->h=3;
+  build->hOff=32;
+  build->equip_slot=EQ_SLOT_BDY;
+  build->v1="HP+10";
+  build->v2="SP+10";
+  build->value = 5;
+  break;
+  case IT_SHIRTP:
+  build->name = "Purple Tunic";
+  build->w=2,build->h=3;
+  build->hOff=32;
+  build->equip_slot=EQ_SLOT_BDY;
+  build->v1="HP+10";
+  build->v2="SP+10";
+  build->value = 5;
+  break;
+
  }
  return build;
 }

@@ -49,7 +49,9 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
  CDC *scratch = DCNew(100,100);
  DCFill(scratch,TRANSPARENT);
 
+
  for(l=0;l<mn->len;l++){
+  Bool recolor = FALSE;
   CDC *endRender = NULL; 
   I64 item = (GetItem(mn,l))->id;
   switch(item){
@@ -68,6 +70,13 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
    break;
    case IT_SHIRT:
     endRender = ITEM6;
+    break;
+   case IT_SHIRTR:
+   case IT_SHIRTG:
+   case IT_SHIRTB:
+   case IT_SHIRTP:
+    endRender = ITEM6;
+    recolor = TRUE;
    break;
    case IT_POT:
    case IT_WPOT:
@@ -80,6 +89,30 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
   GrBlot3(dc,i*camera->dividX+camera->cameraOffSetX,
              j*camera->dividY+camera->cameraOffSetY,
              10,endRender);
+
+  if(recolor){
+   switch(item){
+    start:
+     case IT_SHIRTR:
+      dc->color = RED;
+     break;
+     case IT_SHIRTG:
+      dc->color = GREEN;
+     break;
+     case IT_SHIRTB:
+      dc->color = BLUE;
+     break;
+     case IT_SHIRTP:
+      dc->color = PURPLE;
+     break;
+    end:
+     GrFloodFill(i*camera->dividX+camera->cameraOffSetX+20,
+                 j*camera->dividY+camera->cameraOffSetY+18,FALSE);
+     GrFloodFill(i*camera->dividX+camera->cameraOffSetX+30,
+                 j*camera->dividY+camera->cameraOffSetY+18,FALSE);
+   }
+  }
+
  }
  DCDel(scratch); 
 

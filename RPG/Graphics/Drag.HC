@@ -179,7 +179,11 @@ CDC *RenderEquipment(Actor *player){
   if(wepn>IT_FIST)
   {
    switch(wepn){
-    case IT_SHIRT://Cloth   
+    case IT_SHIRT://Cloth
+    case IT_SHIRTR:
+    case IT_SHIRTG: 
+    case IT_SHIRTB: 
+    case IT_SHIRTP:   
      GrBlot3(completeMenu,60,
              159,0,DCScaled(ITEM6I,.9,.9));
      break;

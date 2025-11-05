@@ -180,20 +180,22 @@ Actor *DeserializeNPC(I64 npcid)
   for(i=0;i<15;i++)
    p->name[i] = nameptr[i];//null term..?
 
-  if(Str2I64(inv1)!=0)
-   AddItemToInventory(p->myInv,inv1);
+  if(Str2I64(inv1)!=0){
+   PrintDevMessage(inv1,FALSE);
+   AddItemToInventory(p->myInv,Str2I64(inv1));
+  }
 
   if(Str2I64(inv2)!=0)
-   AddItemToInventory(p->myInv,inv2);
+   AddItemToInventory(p->myInv,Str2I64(inv2));
 
   if(Str2I64(inv3)!=0)
-   AddItemToInventory(p->myInv,inv3);
+   AddItemToInventory(p->myInv,Str2I64(inv3));
 
   if(Str2I64(inv4)!=0)
-   AddItemToInventory(p->myInv,inv4);
+   AddItemToInventory(p->myInv,Str2I64(inv4));
 
   if(Str2I64(inv5)!=0)
-   AddItemToInventory(p->myInv,inv5);
+   AddItemToInventory(p->myInv,Str2I64(inv5));
 
   Free(fptr);
   return p;

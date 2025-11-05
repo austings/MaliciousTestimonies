@@ -46,6 +46,10 @@ U0 KeyEnter(Actor *p, MapNode *puin)
    //todo show tradewindow
     mc->talkieScene = IT_NULL;
     mc->lootedSwitch = TRUE;
+    PrintDevMessage("SHAMIR",FALSE);
+
+    PrintInventory(GetNPC(mc->dialogID)->myInv);
+
     mc->lootInv = GetNPC(mc->dialogID)->myInv;
     break;
    case CMS_STRIKE://strike

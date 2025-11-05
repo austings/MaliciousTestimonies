@@ -23,7 +23,7 @@ Item *RetrieveItem(Inventory *myInv, I64 index,Bool select=FALSE){
  I64 i;
  if(index<=0) return toBeRetrieved;
  for(i=0;i<QueCnt(toBeRetrieved);i++){
-  toBeRetrieved = toBeRetrieved->next;
+  toBeRetrieved = toBeRetrieved->next;
   if(toBeRetrieved->invID==index)
    break;
  }
@@ -170,6 +170,34 @@ CDC *ShowBody(I64 armor,I64 dir )
  { 
   case IT_SHIRT:
    Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+  break;
+  case IT_SHIRTR:
+   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+   armorPiece->color=RED;
+   GrFloodFill(armorPiece,17,26,TRUE); 
+   GrFloodFill(armorPiece,28,27,TRUE);
+   GrFloodFill(armorPiece,18,41,TRUE);       
+  break;
+  case IT_SHIRTG:
+   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+   armorPiece->color=GREEN;
+   GrFloodFill(armorPiece,17,26,TRUE); 
+   GrFloodFill(armorPiece,28,27,TRUE);
+   GrFloodFill(armorPiece,18,41,TRUE);       
+  break;
+  case IT_SHIRTB:
+   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+   armorPiece->color=BLUE;
+   GrFloodFill(armorPiece,17,26,TRUE); 
+   GrFloodFill(armorPiece,28,27,TRUE);
+   GrFloodFill(armorPiece,18,41,TRUE);       
+  break;
+  case IT_SHIRTP:
+   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+   armorPiece->color=PURPLE;
+   GrFloodFill(armorPiece,17,26,TRUE); 
+   GrFloodFill(armorPiece,28,27,TRUE);
+   GrFloodFill(armorPiece,18,41,TRUE);       
   break;
  }
  return armorPiece;
