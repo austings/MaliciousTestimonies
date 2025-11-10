@@ -160,6 +160,26 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item,
 }
 
 
+U0 RecolorShirt(CDC *ap, I64 dir)
+{
+ if(dir!=DIR_LEFT){
+  GrFloodFill(ap,27,46,FALSE);//right downdir, left rightdir
+  if(dir==DIR_RIGHT)
+  {
+  GrFloodFill(ap,41,46,FALSE);//right rightdir   
+  }
+ }
+ else{
+  GrFloodFill(ap,30,46,FALSE);//right part of shirt
+  GrFloodFill(ap,24,46,FALSE);//left part of shirt  
+ }
+ if(dir==DIR_DOWN){ 
+  GrFloodFill(ap,38,46,FALSE);//right downdir part of shirt
+ }
+ //pants
+ GrFloodFill(ap,38,66,FALSE);
+
+}
 
 
 CDC *ShowBody(I64 armor,I64 dir )
@@ -169,35 +189,27 @@ CDC *ShowBody(I64 armor,I64 dir )
  switch(armor)
  { 
   case IT_SHIRT:
-   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+   Sprite3B(armorPiece,10,20,0,GetClothArmor(dir));
   break;
   case IT_SHIRTR:
-   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+   Sprite3B(armorPiece,10,20,0,GetClothArmor(dir));
    armorPiece->color=RED;
-   GrFloodFill(armorPiece,17,26,TRUE); 
-   GrFloodFill(armorPiece,28,27,TRUE);
-   GrFloodFill(armorPiece,18,41,TRUE);       
+   RecolorShirt(armorPiece,dir); 
   break;
   case IT_SHIRTG:
-   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+   Sprite3B(armorPiece,10,20,0,GetClothArmor(dir));
    armorPiece->color=GREEN;
-   GrFloodFill(armorPiece,17,26,TRUE); 
-   GrFloodFill(armorPiece,28,27,TRUE);
-   GrFloodFill(armorPiece,18,41,TRUE);       
+   RecolorShirt(armorPiece,dir); 
   break;
   case IT_SHIRTB:
-   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+   Sprite3B(armorPiece,10,20,0,GetClothArmor(dir));
    armorPiece->color=BLUE;
-   GrFloodFill(armorPiece,17,26,TRUE); 
-   GrFloodFill(armorPiece,28,27,TRUE);
-   GrFloodFill(armorPiece,18,41,TRUE);       
+   RecolorShirt(armorPiece,dir); 
   break;
   case IT_SHIRTP:
-   Sprite3B(armorPiece,10,20,10,GetClothArmor(dir));
+   Sprite3B(armorPiece,10,20,0,GetClothArmor(dir));
    armorPiece->color=PURPLE;
-   GrFloodFill(armorPiece,17,26,TRUE); 
-   GrFloodFill(armorPiece,28,27,TRUE);
-   GrFloodFill(armorPiece,18,41,TRUE);       
+   RecolorShirt(armorPiece,dir); 
   break;
  }
  return armorPiece;

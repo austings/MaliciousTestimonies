@@ -44,7 +44,15 @@ static CDC*             ITEM5I= FramePtr("ARMR012");
 
 #define IT_SHIRT        6
 static CDC*             ITEM6= FramePtr("ITEM044");
+static CDC*             ITEM6R= FramePtr("ITEM044R");
+static CDC*             ITEM6G= FramePtr("ITEM044G");
+static CDC*             ITEM6B= FramePtr("ITEM044B");
+static CDC*             ITEM6P= FramePtr("ITEM044P");
 static CDC*             ITEM6I= FramePtr("CLOT012");
+static CDC*             ITEM6IR= FramePtr("CLOT012R");
+static CDC*             ITEM6IG= FramePtr("CLOT012G");
+static CDC*             ITEM6IB= FramePtr("CLOT012B");
+static CDC*             ITEM6IP= FramePtr("CLOT012P");
 
 #define IT_BULB 	7
 static CDC*		ITEM7=DCNew(100,100); //poppy bulb

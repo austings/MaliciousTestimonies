@@ -31,10 +31,29 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
    yoff=312;
    xoff=8;
   break;
-  case IT_SHIRT://regular shirt
-   render = DCScaled(ITEM6I,.9,.9);
-   yoff=312;
-  break;
+   start:
+   case IT_SHIRT://regular shirt
+    render = DCScaled(ITEM6I,.9,.9);
+    yoff=312;
+   break;
+   case IT_SHIRTR:
+    render = DCScaled(ITEM6IR,.9,.9);
+    yoff=312;
+   break;
+   case IT_SHIRTB:
+    render = DCScaled(ITEM6IB,.9,.9);
+    yoff=312;
+   break;
+   case IT_SHIRTG:
+    render = DCScaled(ITEM6IG,.9,.9);
+    yoff=312;
+   break;
+   case IT_SHIRTP:
+    render = DCScaled(ITEM6IP,.9,.9);
+    yoff=312;
+   break;
+   end:
+   break;
   case IT_BULB://poppy
    render = ITEM7I;
    yoff = 300;
@@ -180,12 +199,24 @@ CDC *RenderEquipment(Actor *player){
   {
    switch(wepn){
     case IT_SHIRT://Cloth
-    case IT_SHIRTR:
-    case IT_SHIRTG: 
-    case IT_SHIRTB: 
-    case IT_SHIRTP:   
      GrBlot3(completeMenu,60,
              159,0,DCScaled(ITEM6I,.9,.9));
+     break;
+    case IT_SHIRTR:
+     GrBlot3(completeMenu,60,
+             159,0,DCScaled(ITEM6IR,.9,.9));
+     break;
+    case IT_SHIRTG: 
+     GrBlot3(completeMenu,60,
+             159,0,DCScaled(ITEM6IG,.9,.9));
+     break;
+    case IT_SHIRTB: 
+     GrBlot3(completeMenu,60,
+             159,0,DCScaled(ITEM6IB,.9,.9));
+     break;
+    case IT_SHIRTP:   
+     GrBlot3(completeMenu,60,
+             159,0,DCScaled(ITEM6IP,.9,.9));
      break;
    }
   }

@@ -309,7 +309,7 @@ U8 *DitherPalette(CRGB *data) {
     for(y=0;y!=16;y++) {
       cur_pixel=data[x+y*16];
       best_color=0;
-      best_dist=1e100;
+      best_dist=1e100;
       if(!cur_pixel.a||!(cur_pixel.g<20&&cur_pixel.r<20&&cur_pixel.b))  {
         for(canidate=0;canidate!=16*16;canidate++) {
          F64 r1 = ToLinear(normal[canidate].r);
