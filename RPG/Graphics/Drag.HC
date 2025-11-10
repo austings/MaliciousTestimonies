@@ -7,6 +7,7 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
  DCFill(scratch, TRANSPARENT);
 
  I64 yoff=270, xoff=-2; 
+ Bool rescale = FALSE;
  switch(itemID){
   case IT_FIST:
   //not visible 
@@ -28,10 +29,12 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
   break;
   case IT_HELM://iron helm
    render = DCScaled(ITEM5I,.5,.5);
+   rescale = TRUE;
    yoff=312;
    xoff=8;
   break;
    start:
+   rescale = TRUE;
    case IT_SHIRT://regular shirt
     render = DCScaled(ITEM6I,.9,.9);
     yoff=312;
@@ -79,6 +82,8 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
   yoff = 10;
  GrBlot(target,x+xoff,y+yoff,render);
  DCDel(scratch);
+ if(rescale)
+  DCDel(render);
 }
 
  
@@ -196,28 +201,38 @@ CDC *RenderEquipment(Actor *player){
   //armr
   wepn = GetNPC(0)->armor;
   if(wepn>IT_FIST)
-  {
+  {    CDC *render;
+ 
    switch(wepn){
-    case IT_SHIRT://Cloth
+    start:
+     case IT_SHIRT://Cloth
+     render = DCScaled(ITEM6I,.9,.9);
      GrBlot3(completeMenu,60,
-             159,0,DCScaled(ITEM6I,.9,.9));
+             159,0,render);
      break;
-    case IT_SHIRTR:
+     case IT_SHIRTR:
+     render = DCScaled(ITEM6IR,.9,.9);
      GrBlot3(completeMenu,60,
-             159,0,DCScaled(ITEM6IR,.9,.9));
+             159,0,render);
      break;
-    case IT_SHIRTG: 
+     case IT_SHIRTG:
+     render =DCScaled(ITEM6IG,.9,.9);  
      GrBlot3(completeMenu,60,
-             159,0,DCScaled(ITEM6IG,.9,.9));
+             159,0,render);
      break;
-    case IT_SHIRTB: 
+     case IT_SHIRTB:
+     render = DCScaled(ITEM6IB,.9,.9); 
      GrBlot3(completeMenu,60,
-             159,0,DCScaled(ITEM6IB,.9,.9));
+             159,0,render);
      break;
-    case IT_SHIRTP:   
+     case IT_SHIRTP:
+     render = DCScaled(ITEM6IP,.9,.9);   
      GrBlot3(completeMenu,60,
-             159,0,DCScaled(ITEM6IP,.9,.9));
+             159,0,render);
      break;
+    end:
+     DCDel(render);
+    break;
    }
   }
    

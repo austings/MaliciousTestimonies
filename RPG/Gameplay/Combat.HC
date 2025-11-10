@@ -108,7 +108,7 @@ U0 CombatTurnArrows(Actor *p)
   // if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
   break;
   case CS_MOVE: 
-   if(p->currentMana>=MOVEMENT_COST){
+   if(p->currentMana>=MOVEMENT_COST){
     if(p->walking==W_NOTWALKING){
      MoveActor(p,keys.pressed);
      RemoveMana(p,MOVEMENT_COST);
