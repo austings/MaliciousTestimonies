@@ -148,15 +148,26 @@ U0 SetVector(Vector *v,F64 d,I32 i)
 {
 
  v->data[i]->bg = d; 
- if(d==BG_ROCK_WALL||d==BG_DK_GRAY||
-    d==SOLID_BG_GREEN||d==BG_BUSH_WALL)
-  v->data[i]->isSolid=TRUE;
 
- if(d==BG_CYAN)
-  v->data[i]->waterLvl=3;
-
- if(d==BG_BLUE)
-  v->data[i]->waterLvl=3;
+ switch(d)
+ {
+  case BG_ROCK_WALL:
+  case BG_DK_GRAY:
+  case SOLID_BG_GREEN:
+  case BG_BUSH_WALL:
+   v->data[i]->isSolid=TRUE;
+   v->data[i]->waterLvl=0;
+  break;
+  case BG_CYAN:
+  case BG_BLUE:
+   v->data[i]->isSolid=FALSE;
+   v->data[i]->waterLvl=3;
+  break;
+  default:
+   v->data[i]->isSolid=FALSE;
+   v->data[i]->waterLvl=0;
+  break;
+ }
 
 }
 

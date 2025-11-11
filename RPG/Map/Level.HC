@@ -6,6 +6,34 @@ U0 SerializeMatrix()
 
 #define CAMPCHEST   7
 
+U0 BuildHouse(Matrix *toAdd, I64 startX, I64 endX, 
+              I64 startY, I64 endY, I64 door){
+ //begin blank house
+ I64 i,j;
+ //four walls 
+ for(i=startX;i<=endX;i++){
+   SetMatrix(toAdd,BG_DK_GRAY,i,startY);//back wall
+   SetMatrix(toAdd,BG_DK_GRAY,i,endY);//south wall
+ }
+ for(i=startY;i<=endY;i++){
+  if(i==door){
+   SetMatrix(toAdd,BG_LT_RED,startX,i);
+   SetMatrix(toAdd,BG_DK_GRAY,endX,i);//right wall
+
+  }
+  else{
+   SetMatrix(toAdd,BG_DK_GRAY,startX,i);//left entrance wall   
+   SetMatrix(toAdd,BG_DK_GRAY,endX,i);//right wall
+  }
+ }
+ //floor
+ for(i=startX+1;i<endX;i++){
+  for(j=startY+1;j<endY;j++){
+    SetMatrix(toAdd,BG_LT_RED,i,j);
+  }
+ }
+}
+
 Matrix *MakeCastle(Matrix *toAdd){
 
  I64 i,j;
@@ -77,7 +105,7 @@ Matrix *MakeCastle(Matrix *toAdd){
    SetMatrix(toAdd,BG_DK_GRAY,26,i);
  }
  for(i=12;i<26;i++){     //entrance wall
-   if(i!=18&&i!=19&&i)
+   if(i!=18&&i!=19)
     SetMatrix(toAdd,BG_DK_GRAY,i,14);
    else
     SetMatrix(toAdd,BG_LT_RED,i,14);
@@ -165,8 +193,8 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,A_GUEST12,51,18);//guest
 
 
- SetMatrixObj(toAdd,OBJ_OLIVETREE,19,26);
- SetMatrixObj(toAdd,OBJ_OLIVETREE,18,24);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,14,23);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,9,20);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,26,25);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,24,29);
 
@@ -212,6 +240,7 @@ Matrix *MakeCastle(Matrix *toAdd){
 
  //beach
  SetMatrixItem(toAdd,IT_HARPOON,5,23);
+
  //water and sand
  for(i=0;i<50;i++){
    for(j=22;j<34;j++)
@@ -226,8 +255,7 @@ Matrix *MakeCastle(Matrix *toAdd){
         (i>14&&j<30)||((i==9||i==10||i>14)&&j==30)||(j==31&&i>7&&i<11)||
         (i>7&&i<12&&j==32)||(i>3&&i<12&&j==33)||
         ((i<12||(i>19&&i<35)||(i>43))&&j==34)||(j==35&&(i<13||i>17)))
-     {//||((i>7&&i<11)||(i>14&&i<26)||(i>33&&i<46)&&j==31)
-      //(i>0&&j==23)||
+     {
       //leave as grass
 
      }
@@ -238,6 +266,19 @@ Matrix *MakeCastle(Matrix *toAdd){
     }
    }
  }
+
+ //bridge to castle
+ for(i=18;i<20;i++){
+   for(j=15;j<100;j++){
+    SetMatrix(toAdd,BG_LT_GRAY,i,j);
+   }
+ }
+ for(j=30;j<35;j++){
+  SetMatrix(toAdd,BG_DK_GRAY,17,j);
+  SetMatrix(toAdd,BG_DK_GRAY,20,j);
+ }
+
+
  //add dock
  SetMatrix(toAdd,BG_BROWN,6,25);
  SetMatrix(toAdd,BG_BROWN,6,26);
@@ -246,13 +287,18 @@ Matrix *MakeCastle(Matrix *toAdd){
  //FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);
  //TODO fix flip matrix doesnt work for some reason so i made this
  //alternative grass. 
- SetMatrix(toAdd,SOLID_BG_GREEN,5,21);
+ SetMatrix(toAdd,SOLID_BG_GREEN,5,21);
  SetMatrix(toAdd,SOLID_BG_GREEN,2,21);
  SetMatrix(toAdd,SOLID_BG_GREEN,3,21);
  SetMatrix(toAdd,SOLID_BG_GREEN,4,21);
 
+ //begin blacksmith
+ //four walls
+ BuildHouse(toAdd,23,30,40,50,45); 
+ BuildHouse(toAdd,23,32,54,60,56); 
+ BuildHouse(toAdd,24,31,64,70,69); 
+ BuildHouse(toAdd,24,31,73,79,78); 
 
-
-  return toAdd;
+ return toAdd;
  
 }
