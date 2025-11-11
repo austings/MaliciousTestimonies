@@ -1,40 +1,3 @@
-U0 PickUpItemTrigger(Actor *p, MapNode *puin)
-{
- if(puin->len>0)
- {
-  I64 pui = (PickUpItem(puin,0))->id;
-  if(!AddItemToInventory(p->myInv,pui)){
-   Play("ArE"); 
-  } 
- }
-
-}
-
-U0 ObjectTrigger(Actor *p, MapNode *puin)
-{
- I64 pui = puin->idObj;
- switch(pui)
- {
-  case SP_FISHING_SPOT:
-   if(p->sword==IT_HARPOON)
-   {
-    FishingHoleTrigger(p); Play("ArE");
-   }
-   else
-   {
-    mc->dialogName = "Missing Proper Weapon";
-    mc->talkieScene = GetTalkie(SV_MISS_FISH_EQUIP);
-
-   }
-  break;
-  case OBJ_POPPY:
-   puin->idObj = OBJ_POPHV;
-   AddItemToInventory(p->myInv,IT_BULB);
-   //animate
-   Play("ArE");
-  break;
- } 
-}
 
 U0 KeyEnter(Actor *p, MapNode *puin)
 {
@@ -353,8 +316,8 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){
   if(mc->lootedSwitch){
    for(i=0;i<INVWIDTH;i++){
     for(j=0;j<INVHEIGHT;j++){
-     if(M_X>=(i*45)+2   &&
-       M_X< (i+1)*45+2 &&
+     if(M_X>=(i*43)+2   &&
+       M_X< (i+1)*43+2 &&
        M_Y>=(j*42) &&
        M_Y< (j+1)*42&&!mc->prayerDragging){
       InvDrag(i,j,mc->lootInv,FALSE);
@@ -367,8 +330,8 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){
    //check inventory region
    for(i=0;i<INVWIDTH;i++){
     for(j=0;j<INVHEIGHT;j++){
-     if(M_X>=(i*45)+2   &&
-       M_X< (i+1)*45+2 &&
+     if(M_X>=(i*43)+2   &&
+       M_X< (i+1)*43+2 &&
        M_Y>=(j*42)+310 &&
        M_Y< (j+1)*42+310&&!mc->prayerDragging){
       InvDrag(i,j,player->myInv,TRUE);
@@ -395,15 +358,15 @@ U0 ShowToolTips(CDC *dc = gr.dc)
   for(i=0;i<INVWIDTH;i++){
    for(j=0;j<INVHEIGHT;j++){
     Bool tipme = FALSE;
-    if(mc->lootedSwitch&& camera->cursorX>=(i*45)+2    &&
-       camera->cursorX< (i+1)*45+2&&
+    if(mc->lootedSwitch&& camera->cursorX>=(i*43)+2    &&
+       camera->cursorX< (i+1)*43+2&&
        camera->cursorY>=(j*42)  &&
        camera->cursorY< (j+1)*42){
      tipme = TRUE;
      me = mc->lootInv;
     }
-    if(tipme||(camera->cursorX>=(i*45)+2    &&
-       camera->cursorX< (i+1)*45+2&&
+    if(tipme||(camera->cursorX>=(i*43)+2    &&
+       camera->cursorX< (i+1)*43+2&&
        camera->cursorY>=(j*42)+310  &&
        camera->cursorY< (j+1)*42+310)){
      if(!tipme)

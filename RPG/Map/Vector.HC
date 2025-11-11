@@ -146,7 +146,6 @@ U0 ReplaceVector(Vector *v1, Vector *v2)
 //Set Vector v at data position i to value d
 U0 SetVector(Vector *v,F64 d,I32 i)
 {
-
  v->data[i]->bg = d; 
 
  switch(d)
@@ -164,7 +163,6 @@ U0 SetVector(Vector *v,F64 d,I32 i)
    v->data[i]->waterLvl=3;
   break;
   default:
-   v->data[i]->isSolid=FALSE;
    v->data[i]->waterLvl=0;
   break;
  }

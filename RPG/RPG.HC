@@ -20,11 +20,12 @@ U0 DrawIt(CTask *task, CDC *dc){
    {
     WorldTick(i,j,p);
     world->timer = 0;
+
    }
-   //Draw world and one column and row extra for either side        
+   //Draw world and extra for preload on either side        
    ReDrawWorld(dc,i,j);
    DrawActorsAndItems(dc,p,i,j,l); // former leak
-
+  
    //Keyboard
    HandleKeyboard(p,pin);
    StartCameraPan(dc,p);   

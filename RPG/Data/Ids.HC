@@ -37,7 +37,7 @@
 #define T1READY 8//"T1Ready"
 #define T2READY 9//"T2Ready"
 #define T3READY 10//"T3Ready"
-#define T4READY 11//"T4Ready"
+#define T4READY 11//"T4Ready"
 
 #define T1DAGGER 12
 #define T2DAGGER 13

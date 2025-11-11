@@ -148,6 +148,30 @@ Item *MakeItem(I64 id){
   build->v2="SP+10";
   build->value = 5;
   break;
+  case IT_SHEKEL:
+  build->name = "Silver Shekel";
+  build->w=1,build->h=1;
+  build->hOff=32;//,build->wOff=-12;
+  build->value = 1;
+  break;
+  case IT_SHEKEL2:
+  build->name = "Silver Shekels";
+  build->w=1,build->h=1;
+  build->hOff=32;//,build->wOff=-12;
+  build->value = 2;
+  break;
+  case IT_SHEKEL10:
+  build->name = "Bag of Silver";
+  build->w=2,build->h=1;
+  build->hOff=32;//;
+  build->value = 10;
+  break;
+  case IT_SHEKEL100:
+  build->name = "Chest of Silver";
+  build->w=2,build->h=2;
+  build->hOff=32;//,build->wOff=4;
+  build->value = 100;
+  break;
 
  }
  return build;

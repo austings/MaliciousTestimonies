@@ -76,6 +76,15 @@ static CDC*		ITEM10I=DCNew(100,100);
 #define IT_SHIRTB       14
 #define IT_SHIRTP       15
 
+#define IT_SHEKEL       16
+static CDC*             ITEM16= FramePtr("ITEM205");
+#define IT_SHEKEL2      17
+static CDC*             ITEM17= FramePtr("ITEM071");
+#define IT_SHEKEL10     18
+static CDC*             ITEM18= FramePtr("ITEM147");
+#define IT_SHEKEL100    19
+static CDC*             ITEM19= FramePtr("ITEM095");
+
 //special
 #define SP_FISHING_SPOT 999
 static CDC*		SPECIAL1 = FramePtr("EFF075");//special point

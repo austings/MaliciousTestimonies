@@ -302,7 +302,7 @@ U8 *DitherPalette(CRGB *data) {
      //normal[x+y*16].b = ToSRGB(b);
       normal[x+y*16].r=ToF64(normal[x].r+normal[y].r)/2;
       normal[x+y*16].g=ToF64(normal[x].g+normal[y].g)/2;
-      normal[x+y*16].b=ToF64(normal[x].b+normal[y].b)/2;
+      normal[x+y*16].b=ToF64(normal[x].b+normal[y].b)/2;
     }
   }
   for(x=0;x!=16;x++) {

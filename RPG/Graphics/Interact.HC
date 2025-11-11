@@ -1,3 +1,40 @@
+U0 PickUpItemTrigger(Actor *p, MapNode *puin)
+{
+ if(puin->len>0)
+ {
+  I64 pui = (PickUpItem(puin,0))->id;
+  if(!AddItemToInventory(p->myInv,pui)){
+   Play("ArE"); 
+  } 
+ }
+
+}
+
+U0 ObjectTrigger(Actor *p, MapNode *puin)
+{
+ I64 pui = puin->idObj;
+ switch(pui)
+ {
+  case SP_FISHING_SPOT:
+   if(p->sword==IT_HARPOON)
+   {
+    FishingHoleTrigger(p); Play("ArE");
+   }
+   else
+   {
+    mc->dialogName = "Missing Proper Weapon";
+    mc->talkieScene = GetTalkie(SV_MISS_FISH_EQUIP);
+
+   }
+  break;
+  case OBJ_POPPY:
+   puin->idObj = OBJ_POPHV;
+   AddItemToInventory(p->myInv,IT_BULB);
+   //animate
+   Play("ArE");
+  break;
+ } 
+}
 
 //InteractCorpse
 //param npc- the npc id of the corpse
@@ -42,7 +79,7 @@ U0 InteractActor(I64 npc){
 
 U0 InteractChest(I64 inv){
  mc->lootedSwitch = TRUE;
- mc->lootInv =  GrabChest(inv);
+ mc->lootInv =  GrabChest(inv);
 }
 
 U0 InteractTile(Actor *p, U8 dir,
@@ -64,6 +101,9 @@ U0 InteractTile(Actor *p, U8 dir,
     case OBJ_CHEST:
      I64 inv = GetTensorInv(world->level,iactX,iactY,world->currentZ);
      InteractChest(inv);
+    break;
+    case OBJ_TABLE:
+     PickUpItemTrigger(p,GetTensorItem(world->level,iactX,iactY,world->currentZ));
     break;
    }
   }   

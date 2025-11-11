@@ -25,7 +25,7 @@ Cd(__DIR__);;
 #include "Gameplay/AI.HC";
 #include "Globals.HC";
 #include "Dev/Dev.HC";
-#include "Dev/Deserialize.HC";
+#include "Dev/Deserialize.HC";
 
 // Loading World
 #include "Gameplay/Equipment.HC";
@@ -42,6 +42,7 @@ Cd(__DIR__);;
 #include "Graphics/Menu.HC";
 #include "Graphics/Sidebar.HC";
 #include "Graphics/Drag.HC";
+#include "Gameplay/Fishing.HC";
 #include "Graphics/Interact.HC";
 #include "Music.HC";
 #include "Graphics/Attacks.HC";
@@ -52,7 +53,6 @@ Cd(__DIR__);;
 #include "Graphics/Draw.HC";
 
 // Loading Skills
-#include "Gameplay/Fishing.HC";
 #include "Gameplay/Inputs.HC";
 
 // Finalize World

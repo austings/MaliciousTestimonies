@@ -88,11 +88,23 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
    case IT_HPPOT:
     endRender = ITEM10;
    break;
+   case IT_SHEKEL:
+    endRender = ITEM16;
+   break;
+   case IT_SHEKEL2:
+    endRender = ITEM17;
+   break;
+   case IT_SHEKEL10:
+    endRender = ITEM18;
+   break;
+   case IT_SHEKEL100:
+    endRender = ITEM19;
+   break;
    default:
     break;
   }
   GrBlot3(dc,i*camera->dividX+camera->cameraOffSetX,
-             j*camera->dividY+camera->cameraOffSetY,
+             j*camera->dividY+camera->cameraOffSetY-6,
              10,endRender);
 
  }
@@ -104,16 +116,13 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
 U0 DrawObjsOnLayer(CDC *dc, I64 obj, 
                    I64 screenX, I64 screenY, Actor *p)
 {
- switch(obj)
- {
+ switch(obj){
   case OBJ_WOOD:
    Sprite3(dc,screenX, screenY,20,GetFurniture(obj));
-   if(!HasDirective(EFFFIRE,p))
-   {
+   if(!HasDirective(EFFFIRE,p)){
     AddDirective(EFFFIRE,p,screenX-32,screenY-25);
    }
-   else
-   {
+   else{
     UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30);
    }
   break;

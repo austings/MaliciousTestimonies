@@ -71,7 +71,24 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
   break;
   case IT_HPPOT:
    render = ITEM10I;
-   yoff = 315; xoff=12;//
+   yoff = 315; xoff=12;
+  break;
+  case IT_SHEKEL:
+   render = ITEM16;
+   yoff = 296; 
+  break;
+  case IT_SHEKEL2:
+   render = ITEM17;
+   yoff = 298;
+  break;
+  case IT_SHEKEL10:
+   render = ITEM18;
+   yoff = 296; xoff=24;
+  break;
+  case IT_SHEKEL100:
+   rescale = TRUE;
+   render = DCScaled(ITEM19,1.2,1.2);
+   yoff = 308; xoff=16;
   break;
   default:
    render = scratch;
@@ -202,7 +219,7 @@ CDC *RenderEquipment(Actor *player){
   wepn = GetNPC(0)->armor;
   if(wepn>IT_FIST)
   {    CDC *render;
- 
+ 
    switch(wepn){
     start:
      case IT_SHIRT://Cloth

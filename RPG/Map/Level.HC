@@ -30,6 +30,10 @@ U0 BuildHouse(Matrix *toAdd, I64 startX, I64 endX,
  for(i=startX+1;i<endX;i++){
   for(j=startY+1;j<endY;j++){
     SetMatrix(toAdd,BG_LT_RED,i,j);
+   if(i%3)
+    SetMatrixItem(toAdd,IT_SHEKEL,i,j);
+   if(i%4&&!(i%3))
+    SetMatrixItem(toAdd,IT_SHEKEL2,i,j);
   }
  }
 }
@@ -66,14 +70,14 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixItem(toAdd,IT_HELM,5,8);
  SetMatrixItem(toAdd,IT_SHIRT,4,8);
 
-
+ /*
  SetMatrix(toAdd,BG_GRASS,5,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,5,3);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,3,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,3,3);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,4,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,4,3);//,FALSE);
-
+ */
 
  SetMatrixObj(toAdd,OBJ_OLIVETREE,3,8);
 
@@ -127,6 +131,12 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixObj(toAdd,OBJ_TABLE,23,1);
  SetMatrixObj(toAdd,OBJ_TABLE,23,4);
  SetMatrixObj(toAdd,OBJ_TABLE,23,7);
+ SetMatrixItem(toAdd,IT_POT,14,1);
+ SetMatrixItem(toAdd,IT_POT,14,4);
+ SetMatrixItem(toAdd,IT_POT,14,7);
+ SetMatrixItem(toAdd,IT_POT,23,1);
+ SetMatrixItem(toAdd,IT_POT,23,4);
+ SetMatrixItem(toAdd,IT_POT,23,7);
 
  SetMatrixObj(toAdd,OBJ_THRONE,18,2);
  SetMatrixObj(toAdd,OBJ_THRONE,19,2);
@@ -287,14 +297,19 @@ Matrix *MakeCastle(Matrix *toAdd){
  //FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);
  //TODO fix flip matrix doesnt work for some reason so i made this
  //alternative grass. 
- SetMatrix(toAdd,SOLID_BG_GREEN,5,21);
+ SetMatrix(toAdd,SOLID_BG_GREEN,5,21);
  SetMatrix(toAdd,SOLID_BG_GREEN,2,21);
  SetMatrix(toAdd,SOLID_BG_GREEN,3,21);
  SetMatrix(toAdd,SOLID_BG_GREEN,4,21);
 
  //begin blacksmith
  //four walls
- BuildHouse(toAdd,23,30,40,50,45); 
+ BuildHouse(toAdd,23,30,40,50,45);
+ SetMatrixObj(toAdd,OBJ_TABLE,24,35);
+ SetMatrixObj(toAdd,OBJ_TABLE,21,35);
+ SetMatrixItem(toAdd,IT_SHEKEL10,24,35);
+ SetMatrixItem(toAdd,IT_SHEKEL100,21,35);
+ 
  BuildHouse(toAdd,23,32,54,60,56); 
  BuildHouse(toAdd,24,31,64,70,69); 
  BuildHouse(toAdd,24,31,73,79,78); 
