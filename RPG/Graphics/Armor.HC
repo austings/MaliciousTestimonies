@@ -44,4 +44,3 @@ U0 OverlayArmor(CDC *dc, Actor *toRender)
  DCDel(hat); 
 }
 
-

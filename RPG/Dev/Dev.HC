@@ -100,7 +100,7 @@ U0 DevKeyEnter(){
 
  if(StrCmp(devc.line0,"noclip")==0)
  {
-  if(mc->clip)
+  if(mc->clip)
    mc->clip=FALSE;
   else
    mc->clip=TRUE;

@@ -30,10 +30,6 @@ U0 BuildHouse(Matrix *toAdd, I64 startX, I64 endX,
  for(i=startX+1;i<endX;i++){
   for(j=startY+1;j<endY;j++){
     SetMatrix(toAdd,BG_LT_RED,i,j);
-   if(i%3)
-    SetMatrixItem(toAdd,IT_SHEKEL,i,j);
-   if(i%4&&!(i%3))
-    SetMatrixItem(toAdd,IT_SHEKEL2,i,j);
   }
  }
 }
@@ -67,7 +63,6 @@ Matrix *MakeCastle(Matrix *toAdd){
  
  //Items
  SetMatrixItem(toAdd,IT_DAGGER,3,2);
- SetMatrixItem(toAdd,IT_HELM,5,8);
  SetMatrixItem(toAdd,IT_SHIRT,4,8);
 
  /*
@@ -149,11 +144,6 @@ Matrix *MakeCastle(Matrix *toAdd){
    }
  }
 
- //poppy start test
- SetMatrixItem(toAdd,IT_POT,8,2);
- SetMatrixItem(toAdd,IT_WPOT,8,3);
- SetMatrixItem(toAdd,IT_HPPOT,8,4);
-
  SetMatrixObj(toAdd,OBJ_POPPY,10,2,FALSE);
  SetMatrixObj(toAdd,OBJ_POPPY,10,4,FALSE);
  SetMatrixObj(toAdd,OBJ_POPPY,10,6,FALSE);
@@ -197,10 +187,10 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,A_GUEST6,19,8);//guest
  SetMatrixNPC(toAdd,A_GUEST7,16,8);//guest
  SetMatrixNPC(toAdd,A_GUEST8,21,8);//guest
- SetMatrixNPC(toAdd,A_GUEST9,35,17);//guest
- SetMatrixNPC(toAdd,A_GUEST10,41,17);//guest
- SetMatrixNPC(toAdd,A_GUEST11,4,19);//guest
- SetMatrixNPC(toAdd,A_GUEST12,51,18);//guest
+ SetMatrixNPC(toAdd,A_GUEST9,35,17);//villager
+ SetMatrixNPC(toAdd,A_GUEST10,41,17);//villager
+ SetMatrixNPC(toAdd,A_GUEST11,4,19);//druid
+ SetMatrixNPC(toAdd,A_GUEST12,51,18);//villager
 
 
  SetMatrixObj(toAdd,OBJ_OLIVETREE,14,23);
@@ -211,6 +201,9 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,A_ELIJAH,23,25);//elijah
  SetMatrixNPC(toAdd,A_GUARD,20,15);//guard
  SetMatrixNPC(toAdd,A_CAPTAIN,17,15);//captain
+ SetMatrixObj(toAdd,OBJ_WFRAME,16,15);
+ SetMatrixObj(toAdd,OBJ_WFRAME,21,15);
+
  SetMatrixNPC(toAdd,6,8,8);//wild dog
  SetMatrixNPC(toAdd,9,90,90);//wild dog
  SetMatrixNPC(toAdd,11,6,13);//wild dog
@@ -241,6 +234,9 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,A_OX_CART,1,21);
  FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
  SetMatrixNPC(toAdd,A_SHAMIR,6,19);
+ SetMatrixObj(toAdd,OBJ_BARREL,4,20);
+ SetMatrixObj(toAdd,OBJ_BARREL,3,19);
+
  SetMatrixNPC(toAdd,A_FOWL,22,22);
  //SetMatrixNPC(toAdd,21,20,24);
  //SetMatrixNPC(toAdd,22,21,25);
@@ -305,10 +301,14 @@ Matrix *MakeCastle(Matrix *toAdd){
  //begin blacksmith
  //four walls
  BuildHouse(toAdd,23,30,40,50,45);
- SetMatrixObj(toAdd,OBJ_TABLE,24,35);
- SetMatrixObj(toAdd,OBJ_TABLE,21,35);
- SetMatrixItem(toAdd,IT_SHEKEL10,24,35);
- SetMatrixItem(toAdd,IT_SHEKEL100,21,35);
+ SetMatrixObj(toAdd,OBJ_TABLE,25,41);
+ SetMatrixObj(toAdd,OBJ_TABLE,28,41);
+ SetMatrixItem(toAdd,IT_SHEKEL10,25,41);
+ SetMatrixItem(toAdd,IT_SHEKEL2,28,41);
+ SetMatrixObj(toAdd,OBJ_BARREL,22,43);
+ SetMatrixObj(toAdd,OBJ_BARREL,22,42);
+ SetMatrixObj(toAdd,OBJ_WBARREL,31,49);
+
  
  BuildHouse(toAdd,23,32,54,60,56); 
  BuildHouse(toAdd,24,31,64,70,69); 

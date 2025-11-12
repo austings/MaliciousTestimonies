@@ -13,7 +13,8 @@ class Animation:CQue{
 class Director:CQue{
  I64 cQueDirective;
  I32 animIndex;//cur pos in anim
- I64 x, y, z, xAOff, yAOff; //x/y/z to render; x/y armor frame Offset
+ I64 x, y, z, xAOff, yAOff,tileX,tileY; 
+  //x/y/z to render; x/y armor frame Offset; hometile X/Y
  Bool flip, isEffect;
  Actor *a;
 } direct;
@@ -34,7 +35,7 @@ U0 ResetDirective(Director *task){
 U0 FreeTask(Director *task){
  QueRem(task);
  Free(task);
-}
+}
 
 Director *HasAnyDirective(Actor *a){
  Director *task = direct.next;

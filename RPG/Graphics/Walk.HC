@@ -162,12 +162,14 @@ CDC *GetWalkAnimation(Actor *a, CDC *completeActor){
  return completeActor; 
 }
 
-Bool HasDirective(I64 directive,Actor *a){
+Bool HasDirective(I64 directive,Actor *a,
+                  I64 tX=DELIMITER, I64 tY=DELIMITER){
  Director *task = direct.next;
  I64 i =0; Bool free=FALSE;
  for(i=0;i!=QueCnt(direct);i++){
   if(task->cQueDirective==directive){
-   if(task->a->id==a->id){
+   if(task->a->id==a->id&&
+     ((task->tileX==tX&&task->tileY==tY)||tX==DELIMITER)){
     free = TRUE;
     break;
    }
@@ -194,12 +196,14 @@ Director *FindDirective(Actor *a){
 //paramaeters screen x y z to be updated
 //explicitRemoval takes it out of director queue
 Bool UpdateDirective(I64 directive,Actor *p,
-                     I64 x, I64 y, I64 z,Bool explicitRemoval=FALSE){
+                     I64 x, I64 y, I64 z,Bool explicitRemoval=FALSE,
+                     I64 tX=DELIMITER,I64 tY=DELIMITER){
  Director *task = direct.next;
  I64 i =0; Bool free=FALSE;
  for(i=0;i!=QueCnt(direct);i++){
   if(task->cQueDirective==directive){
-   if(task->a->id==p->id){
+   if(task->a->id==p->id&&
+     ((task->tileX==tX&&task->tileY==tY)||tX==DELIMITER)){
     if(p->status1==DEAD_STATUS||explicitRemoval){ //update if actor dies mid animate
      ResetDirective(task);
      return FALSE;
@@ -207,20 +211,23 @@ Bool UpdateDirective(I64 directive,Actor *p,
     task->x = x; task->y = y; task->z = z;
     free = TRUE;
    }
-   break;
   }
   task = task->next;
  }
  return free; 
 }
 
-Director *InitDirective(Actor *p, I64 sX, I64 sY){
+Director *InitDirective(Actor *p, I64 sX, I64 sY,I64 tX, I64 tY){
  
  Director *task = MAlloc(sizeof(Director));
- task->x = p->screenX;task->y = p->screenY;
- task->xAOff = 0;
- task->yAOff = 0;
- if(sX!=DELIMITER){task->x = sX; task->y = sY;}
+
+ task->xAOff = 0;//=screenX (no offset by default)
+ task->yAOff = 0;//=screenY
+ if(tX!=DELIMITER){task->tileX = tX; task->tileY = tY;}else{
+  task->tileX = p->x;task->tileY = p->y;
+ }
+ if(sX!=DELIMITER){task->x = sX; task->y = sY;}else{
+  task->x = p->screenX;task->y = p->screenY;}
 
  task->a = p;
  task->animIndex = 0;
@@ -231,8 +238,9 @@ Director *InitDirective(Actor *p, I64 sX, I64 sY){
 
 //sX,sY optional; use p for x and y by default
 U0 AddDirective(I64 directive, Actor *p,//npc must own animation
-                I64 sX=DELIMITER,I64 sY=DELIMITER){
- Director *task = InitDirective(p,sX,sY);
+                I64 sX=DELIMITER,I64 sY=DELIMITER,
+                I64 tX=DELIMITER,I64 tY=DELIMITER){
+ Director *task = InitDirective(p,sX,sY,tX,tY);
  Bool isEffect = FALSE;
  //sometimes we reference t1fish directive 
  //as general trigger without checking face
@@ -338,6 +346,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   case EFFFISH:
   case EFFFIRE:
   case EFFSCRATCH:
+  case EFFBANNER:
    task->cQueDirective = directive;
    isEffect = TRUE;
    task->isEffect = isEffect;

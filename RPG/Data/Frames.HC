@@ -44,7 +44,7 @@ static CDC* AAE18= FramePtr("AAE18");
 static CDC* AAE19= FramePtr("AAE19");
 static CDC* AAE20= FramePtr("AAE20");
 static CDC* AAE21= FramePtr("AAE21");
-static CDC* AAE22= FramePtr("AAE22");
+static CDC* AAE22= FramePtr("AAE22");
 static CDC* AAE23= FramePtr("AAE23");
 static CDC* AAE24= FramePtr("AAE24");
 static CDC* AAE25= FramePtr("AAE25");
@@ -660,6 +660,9 @@ static CDC* EFF416= FramePtr("EFF416");
 static CDC* EFF417= FramePtr("EFF417");
 static CDC* EFF418= FramePtr("EFF418");
 static CDC* EFF419= FramePtr("EFF419");
+static CDC* EFF420= FramePtr("EFF420");
+static CDC* EFF421= FramePtr("EFF421");
+static CDC* EFF422= FramePtr("EFF422");
 
 //dialog
 //static CDC* P18S= FramePtr("P18S");

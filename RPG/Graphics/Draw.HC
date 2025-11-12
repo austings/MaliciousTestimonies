@@ -114,16 +114,17 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
 
 
 U0 DrawObjsOnLayer(CDC *dc, I64 obj, 
-                   I64 screenX, I64 screenY, Actor *p)
+                   I64 screenX, I64 screenY, Actor *p,
+                   I64 tileX, I64 tileY)
 {
  switch(obj){
   case OBJ_WOOD:
    Sprite3(dc,screenX, screenY,20,GetFurniture(obj));
-   if(!HasDirective(EFFFIRE,p)){
-    AddDirective(EFFFIRE,p,screenX-32,screenY-25);
+   if(!HasDirective(EFFFIRE,p,tileX,tileY)){
+    AddDirective(EFFFIRE,p,screenX-32,screenY-25,tileX,tileY);
    }
    else{
-    UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30);
+    UpdateDirective(EFFFIRE,p,screenX-32,screenY-25,30,FALSE,tileX,tileY);
    }
   break;
   case SP_FISHING_SPOT:
@@ -149,6 +150,17 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
   case OBJ_GRASSF:
    Sprite3(dc, screenX-5, screenY, 0, GetPlant(OBJ_GRASSL));
    Sprite3(dc, screenX, screenY, 00, GetPlant(OBJ_GRASSR));
+  break;
+  case OBJ_WFRAME:
+   Sprite3(dc,screenX-6, screenY-32,20,GetFurniture(obj));
+   if(!HasDirective(EFFBANNER,p,tileX,tileY)){
+    PrintDevMessage("ADDING",FALSE);
+    AddDirective(EFFBANNER,p,screenX-8,screenY-72,tileX,tileY);
+   }
+   else{
+    UpdateDirective(EFFBANNER,p,screenX-8,screenY-72,30,FALSE,tileX,tileY);
+   }
+
   break;
   default:
    Sprite3(dc, screenX, screenY, 10, GetFurniture(obj));
@@ -226,6 +238,8 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
  I64 screenY = camera->dividY+camera->cameraOffSetY;
  I64 screenX = i*camera->dividX+camera->cameraOffSetX;
 
+ I64 tileX=0;
+ I64 tileY=0;
 
  I64 RenderHLowerBound = -1;
  I64 RenderHUpperBound = 14;
@@ -235,19 +249,21 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
 
  for(j=RenderHLowerBound;j<RenderHUpperBound;j++){
   if(camera->topUD+j<wX&&camera->topUD+j>=0){
-   screenY = j*camera->dividY+camera->cameraOffSetY; 
+   screenY = j*camera->dividY+camera->cameraOffSetY;
+   tileY = camera->topUD+j;  
    for(i=RenderWLowerBound;i<RenderWUpperBound;i++){
     if(camera->topLR+i<wY&&camera->topLR+i>=0){
+     tileX =  camera->topLR+i; 
      screenX = i*camera->dividX+camera->cameraOffSetX;
 
      I16 c =  GetTensor(world->level,camera->topLR+i,camera->topUD+j,world->currentZ);    
     
      I64 obj= GetTensorObj(world->level,
-              camera->topLR+i,camera->topUD+j,world->currentZ);     
+              tileX,tileY,world->currentZ);     
      I64 npc= GetTensorNPC(world->level,
-              camera->topLR+i,camera->topUD+j,world->currentZ);     
+              tileX,tileY,world->currentZ);     
      I64 wlvl= GetTensorWaterLevel(world->level,
-              camera->topLR+i,camera->topUD+j,world->currentZ);     
+               tileX,tileY,world->currentZ);     
     
 
      if ((j-(-1))%4 == 0 && (i-(-4))%4== 0 &&c<BG_LT_GRAY ) {
@@ -265,7 +281,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
  
 
      if(obj!=IT_NULL)
-      DrawObjsOnLayer(dc,obj,screenX,screenY,p);
+      DrawObjsOnLayer(dc,obj,screenX,screenY,p,tileX,tileY);
  
      DrawItemsOnLayer(dc,i,j,l);
      if(npc!=IT_NULL)
@@ -275,7 +291,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
     }//if too large x
    }//for x
    if(j<RenderHUpperBound-2)
-    CheckAnimQueue(dc,screenY);//compute animations by row 
+    CheckAnimQueue(dc,screenY,tileY);//compute animations by row 
   }//if too large y
  }//for y
 

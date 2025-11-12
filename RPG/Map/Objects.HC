@@ -31,7 +31,8 @@ U0 BuildChests(Inventory *inv, I64 id){
    case CAMPCHEST:
     AddItemToInventory(inv,IT_POT);
     AddItemToInventory(inv,IT_POT);
-    AddItemToInventory(inv,IT_POT);   
+    AddItemToInventory(inv,IT_POT);
+    AddItemToInventory(inv,IT_SHIRT);   
    break; 
 
   }

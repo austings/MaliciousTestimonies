@@ -9,7 +9,7 @@ ID	TEXT
 8	Hello, I am Hiel. To rebuild Jericho, we need each noble to commit 50 wood and 50 stone. Please go in the forest and recover some.|
 9	I thank you for being here with#us on this special day. Please,#enjoy all the festivities!                                        |
 10	Enjoy the rest of the#celebration. When you are ready,#go see Hiel outside the #city gate.                                        |
-11	Good morning. Yahweh be praised.                                                                                                  |
+11	A war is brewing. Yahweh save us...                                                                                                  |
 12	You scavenge the %s#as a memento of the moment 	                                                                                  |
 13	There is nothing left #on the corpse.                                                                                             |
 14	You loot the %s's #%s.                                                                                                            |
@@ -19,7 +19,7 @@ ID	TEXT
 18	bwak bwak                                                                                                                         |
 19	[Prophet Generated Text]                                 
 20	[Druid Generated Text]                                      
-21	[Guest Generated Text]                                    
+21	[Guest Generated Text]                                    
 22	 
 23	 
 24	 
