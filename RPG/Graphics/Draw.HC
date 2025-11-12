@@ -154,7 +154,6 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
   case OBJ_WFRAME:
    Sprite3(dc,screenX-6, screenY-32,20,GetFurniture(obj));
    if(!HasDirective(EFFBANNER,p,tileX,tileY)){
-    PrintDevMessage("ADDING",FALSE);
     AddDirective(EFFBANNER,p,screenX-8,screenY-72,tileX,tileY);
    }
    else{
@@ -162,6 +161,11 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
    }
 
   break;
+  case OBJ_CROOFNE:
+  case OBJ_CROOFNW:
+  case OBJ_CROOFSE:
+  case OBJ_CROOFSW:
+   break;
   default:
    Sprite3(dc, screenX, screenY, 10, GetFurniture(obj));
   break;
@@ -225,12 +229,71 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
 
  Bool isHighlight =FALSE;  
  isHighlight = CheckTarget(toRender);
- CDC *drawnActor = GetActorAnimationJob(toRender,wlvl);//leak     
+ CDC *drawnActor = GetActorAnimationJob(toRender,wlvl);     
  RenderCharacter(dc,toRender->screenX,toRender->screenY,
                  10, drawnActor, isHighlight);
  DCDel(drawnActor);
  //Free(toRender);
-}   
+}
+
+U0 SwitchRoofs(CDC *dc, Actor *p, I64 obj, I64 screenX, I64 screenY,
+               I64 tileX, I64 tileY )
+{
+ I64 roofXSize =0;
+ I64 roofYSize =0;
+ switch(obj){
+  case 0:
+   break;
+  start:
+   roofXSize = 28;
+   roofYSize = 12;
+   case OBJ_CROOFNE:
+    if(p->x<tileX)
+     break;
+
+    GrBlot3(dc,screenX-(42*roofXSize),screenY,0,ROOF001);
+   break;
+   case OBJ_CROOFNW:
+    if(p->x>tileX&&p->y>tileY &&p->x<tileX+roofXSize&&p->y<tileY+roofYSize)
+     break;
+
+    GrBlot3(dc,screenX-(42*5),screenY,0,ROOF001);
+   break;
+   case OBJ_CROOFSW:
+    if(p->x>tileX&&p->y<tileY)
+     break;
+    GrBlot3(dc,screenX-(42*5),screenY-(42*roofYSize),0,ROOF001);
+   break;
+   case OBJ_CROOFSE:
+    if(p->x<tileX&&p->y<tileY)
+     break;
+    GrBlot3(dc,screenX-(42*roofXSize),screenY-(42*roofYSize),0,ROOF001);
+   break;
+  end:
+  break;
+ }
+
+}
+   
+U0 DrawRoofs(CDC *dc, Actor *p, I64 i, I64 j){
+ I64 screenY = camera->dividY+camera->cameraOffSetY;
+ I64 screenX = i*camera->dividX+camera->cameraOffSetX;
+
+ for(j=0;j<wY;j++){
+  screenY = (j*camera->dividY)-((p->y+5)*camera->dividY)+camera->cameraOffSetY;  
+  for(i=0;i<wX;i++){ 
+   screenX = (i*camera->dividX)-((p->x+5)*camera->dividX)+camera->cameraOffSetX;
+    
+   I64 obj= GetTensorObj(world->level,i,j,world->currentZ); 
+     
+   if(obj!=IT_NULL){
+      SwitchRoofs(dc,p,obj,screenX,screenY,i,j);    
+   }          
+  }
+ }
+
+}
+
 
 
 U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)

@@ -224,7 +224,7 @@ Director *InitDirective(Actor *p, I64 sX, I64 sY,I64 tX, I64 tY){
  task->xAOff = 0;//=screenX (no offset by default)
  task->yAOff = 0;//=screenY
  if(tX!=DELIMITER){task->tileX = tX; task->tileY = tY;}else{
-  task->tileX = p->x;task->tileY = p->y;
+  task->tileX = DELIMITER;task->tileY = DELIMITER;
  }
  if(sX!=DELIMITER){task->x = sX; task->y = sY;}else{
   task->x = p->screenX;task->y = p->screenY;}

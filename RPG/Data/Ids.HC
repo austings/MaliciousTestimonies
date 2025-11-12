@@ -29,7 +29,7 @@
 #define T3FISH 2//"T3Fish"
 #define T4FISH 3//"T4Fish"
 
-#define T1PUNCH 4//"T1Punch"
+#define T1PUNCH 4//"T1Punch"
 #define T2PUNCH 5//"T2Punch"
 #define T3PUNCH 6//"T3Punch"
 #define T4PUNCH 7//"T4Punch"

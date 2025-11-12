@@ -664,6 +664,9 @@ static CDC* EFF420= FramePtr("EFF420");
 static CDC* EFF421= FramePtr("EFF421");
 static CDC* EFF422= FramePtr("EFF422");
 
+static CDC* ROOF001= FramePtr("ROOF001");
+
+
 //dialog
 //static CDC* P18S= FramePtr("P18S");
 static CDC* P17S= FramePtr("P17S");

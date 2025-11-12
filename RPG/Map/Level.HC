@@ -90,6 +90,11 @@ Matrix *MakeCastle(Matrix *toAdd){
 
  }  
 
+// SetMatrixObj(toAdd,OBJ_CROOFNE,26,0);
+ //SetMatrixObj(toAdd,OBJ_CROOFNW,11,0);
+// SetMatrixObj(toAdd,OBJ_CROOFSW,11,14);
+// SetMatrixObj(toAdd,OBJ_CROOFSE,26,14);
+
  //begin castle
  //four walls 
  for(i=11;i<27;i++){

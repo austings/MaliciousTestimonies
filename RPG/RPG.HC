@@ -25,6 +25,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    //Draw world and extra for preload on either side        
    ReDrawWorld(dc,i,j);
    DrawActorsAndItems(dc,p,i,j,l); // former leak
+   DrawRoofs(dc,p,i,j);
   
    //Keyboard
    HandleKeyboard(p,pin);

@@ -275,6 +275,7 @@ F64 ToSRGB(F64 x) {
     return v;
 }
 
+//modified dither palette
 U8 *DitherPalette(CRGB *data) {
   U8 *ret=MAlloc(16*16);
   CBGR48 palette48[16*16];
@@ -302,7 +303,7 @@ U8 *DitherPalette(CRGB *data) {
      //normal[x+y*16].b = ToSRGB(b);
       normal[x+y*16].r=ToF64(normal[x].r+normal[y].r)/2;
       normal[x+y*16].g=ToF64(normal[x].g+normal[y].g)/2;
-      normal[x+y*16].b=ToF64(normal[x].b+normal[y].b)/2;
+      normal[x+y*16].b=ToF64(normal[x].b+normal[y].b)/2;
     }
   }
   for(x=0;x!=16;x++) {
@@ -351,7 +352,7 @@ CDC *PaletteizeImage(I64 w,I64 h,U8 *dith_data) {
         ret->color=*dith_data&0xf;
         GrPlot(ret,x*2,y*2);
         GrPlot(ret,x*2+1,y*2+1);
-        ret->color=*dith_data>>4;
+        ret->color=*dith_data>>4;
         GrPlot(ret,x*2+1,y*2);
         GrPlot(ret,x*2,y*2+1);
       }
