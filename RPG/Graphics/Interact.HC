@@ -114,7 +114,6 @@ U0 InteractTile(Actor *p, U8 dir,
     }    
    }else{
    //clear any dialog 
-   mc->talkieScene = IT_NULL;
    ClearDialog;
    //check for loot
    if(mc->lootedSwitch==LOOTING){

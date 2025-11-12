@@ -240,7 +240,7 @@ Bool AddItemToInventory(Inventory *myInv, I64 itemID){
      I64 cv = myInv->mtrx[j+y][i+x].occupied;
      if(purse!=NULL){
       if(purse->oldShek!=NULL){
-       if(cv<0||cv==purse->oldShek->invID)
+       if(cv<0||cv==purse->oldShek->invID)
         area++;
       }else {goto norm;}
      }else{
@@ -409,7 +409,6 @@ Actor *DeserializeNPC(I64 npcid)
    p->name[i] = nameptr[i];//null term..?
 
   if(Str2I64(inv1)!=0){
-   PrintDevMessage(inv1,FALSE);
    AddItemToInventory(p->myInv,Str2I64(inv1));
   }
 

@@ -63,14 +63,13 @@ Matrix *MakeCastle(Matrix *toAdd){
  
  //Items
  SetMatrixItem(toAdd,IT_DAGGER,3,2);
- SetMatrixItem(toAdd,IT_SHIRT,4,8);
 
  /*
  SetMatrix(toAdd,BG_GRASS,5,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,5,3);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,3,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,3,3);//,FALSE);
- SetMatrix(toAdd,BG_GRASS,4,4);//,FALSE);
+ SetMatrix(toAdd,BG_GRASS,4,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,4,3);//,FALSE);
  */
 
@@ -91,7 +90,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  }  
 
 // SetMatrixObj(toAdd,OBJ_CROOFNE,26,0);
- //SetMatrixObj(toAdd,OBJ_CROOFNW,11,0);
+ //SetMatrixObj(toAdd,OBJ_CROOFNW,11,0);
 // SetMatrixObj(toAdd,OBJ_CROOFSW,11,14);
 // SetMatrixObj(toAdd,OBJ_CROOFSE,26,14);
 

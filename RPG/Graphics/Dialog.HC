@@ -32,13 +32,13 @@ U0 DeserializeDialog(I64 textID){
      startWord = "You";
   }
   else if (r < 0.93 * 65536) {
-     startWord = "It";
+     startWord = "Do";
   }
   else if (r < 0.98 * 65536) {
      startWord = "That";
   }
   else {
-     startWord = "This";
+     startWord = "And";
   }
   switch(textID)
   {
@@ -149,7 +149,11 @@ I64 GetTalkie(I64 id){
 
 U0 ClearDialog()
 {
+ I64 i;
+ mc->talkieScene = IT_NULL;
  currLetter =-1;yInc=0;xInc=0;nIndex=0;n2Index=0;
+ for(i=0;i<MAX_D;i++)
+  myDialog[i] = '';
 }
 
 
