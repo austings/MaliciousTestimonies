@@ -7,13 +7,27 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j){
    for(j=-1;j<12;j++){
     if(camera->topUD+j<wY&&camera->topUD+j>=0){
      I64 screenY = j*camera->dividY+camera->cameraOffSetY;
-     I16 c = GetTensor(world->level,camera->topLR+i,camera->topUD+j,world->currentZ);
+     I64 tileX = camera->topLR+i;
+     I64 tileY = camera->topUD+j;
+     I16 c = GetTensor(world->level,tileX,tileY,world->currentZ);
      dc->color = GetBG(c);
      GrRect3(dc,screenX, screenY, -1, camera->dividX, camera->dividY);
      if(c>=BG_LT_GRAY){
       switch(c){
        case BG_LT_GRAY:
         Sprite3B(dc,screenX,screenY,0,GetRoad);
+        I16 c2 = GetTensor(world->level,tileX,Max(tileY-1,0),world->currentZ);
+        if(c2==BG_GREEN)
+         Sprite3B(dc,screenX,screenY,0,GetTransition(DIR_UP));
+        c2 = GetTensor(world->level,tileX,Min(tileY+1,wY),world->currentZ);
+        if(c2==BG_GREEN)
+         Sprite3B(dc,screenX,screenY,0,GetTransition(DIR_DOWN));
+        c2 = GetTensor(world->level,Max(tileX-1,0),tileY,world->currentZ);
+        if(c2==BG_GREEN)
+         Sprite3B(dc,screenX,screenY,0,GetTransition(DIR_LEFT));
+        c2 = GetTensor(world->level,Min(tileX+1,wX),tileY,world->currentZ);
+        if(c2==BG_GREEN)
+         Sprite3B(dc,screenX,screenY,0,GetTransition(DIR_RIGHT));
        break;
        case BG_DK_GRAY:
         Sprite3B(dc,screenX,screenY,0,GetWall1);
@@ -163,6 +177,15 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
     UpdateDirective(EFFBANNER,p,screenX-8,screenY-72,30,FALSE,tileX,tileY);
    }
 
+  break;
+  case OBJ_STALL:
+   GrBlot3(dc,screenX-72,screenY-72,10,CLUT004);
+  break;
+  case OBJ_FORGE:
+    GrBlot3(dc,screenX-32,screenY-64,10,CLUT005);
+  break;
+  case OBJ_BED1:
+    GrBlot3(dc,screenX-6,screenY-16,10,CLUT001);
   break;
   case OBJ_CROOFNE:
   case OBJ_CROOFNW:

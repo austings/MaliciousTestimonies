@@ -660,11 +660,27 @@ static CDC* EFF416= FramePtr("EFF416");
 static CDC* EFF417= FramePtr("EFF417");
 static CDC* EFF418= FramePtr("EFF418");
 static CDC* EFF419= FramePtr("EFF419");
-static CDC* EFF420= FramePtr("EFF420");
+static CDC* EFF420= FramePtr("EFF420");
 static CDC* EFF421= FramePtr("EFF421");
 static CDC* EFF422= FramePtr("EFF422");
 
-static CDC* ROOF001= FramePtr("ROOF001");
+//roofs
+static CDC* ROOF001= FramePtr("ROOF001");
+
+//clutter
+static CDC* CLUT000= FramePtr("CLUT000");
+static CDC* CLUT001= FramePtr("CLUT001");
+static CDC* CLUT002= FramePtr("CLUT002");
+static CDC* CLUT003= FramePtr("CLUT003");
+static CDC* CLUT004= FramePtr("CLUT004");
+static CDC* CLUT005= FramePtr("CLUT005");
+
+//grass
+static CDC* GRASS001= FramePtr("GRASS001");
+static CDC* GRASS001= FramePtr("GRASS002");
+static CDC* GRASS001= FramePtr("GRASS003");
+static CDC* GRASS001= FramePtr("GRASS004");
+static CDC* GRASS001= FramePtr("GRASS005");
 
 
 //dialog

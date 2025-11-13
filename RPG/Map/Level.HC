@@ -69,7 +69,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrix(toAdd,BG_GRASS,5,3);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,3,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,3,3);//,FALSE);
- SetMatrix(toAdd,BG_GRASS,4,4);//,FALSE);
+ SetMatrix(toAdd,BG_GRASS,4,4);//,FALSE);
  SetMatrix(toAdd,BG_GRASS,4,3);//,FALSE);
  */
 
@@ -196,7 +196,6 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,A_GUEST11,4,19);//druid
  SetMatrixNPC(toAdd,A_GUEST12,51,18);//villager
 
-
  SetMatrixObj(toAdd,OBJ_OLIVETREE,14,23);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,9,20);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,26,25);
@@ -221,19 +220,16 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,19,45,7);//wild dog
  SetMatrixNPC(toAdd,20,47,9);//wild dog
 
-
-
-
  //sw poppy field
- SetMatrixObj(toAdd,OBJ_OLIVETREE,5,36);
- SetMatrixObj(toAdd,OBJ_OLIVETREE,12,36);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,5,36);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,11,46);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,4,45);
- SetMatrixObj(toAdd,OBJ_OLIVETREE,13,45);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,9,33);
 
  SetMatrixObj(toAdd,OBJ_POPPY,5,37,FALSE);
  SetMatrixObj(toAdd,OBJ_POPPY,8,38,FALSE);
- SetMatrixObj(toAdd,OBJ_POPPY,10,37,FALSE);
- SetMatrixObj(toAdd,OBJ_POPPY,13,38,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,4,39,FALSE);
+ SetMatrixObj(toAdd,OBJ_POPPY,2,38,FALSE);
  
  SetMatrixNPC(toAdd,A_OX_CART,1,21);
  FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
@@ -245,16 +241,14 @@ Matrix *MakeCastle(Matrix *toAdd){
  //SetMatrixNPC(toAdd,21,20,24);
  //SetMatrixNPC(toAdd,22,21,25);
  //SetMatrixNPC(toAdd,23,19,19);
- //SetMatrixNPC(toAdd,24,19,25);
-  
+ //SetMatrixNPC(toAdd,24,19,25);  
 
  //beach
  SetMatrixItem(toAdd,IT_HARPOON,5,23);
 
  //water and sand
  for(i=0;i<50;i++){
-   for(j=22;j<34;j++)
-   {
+   for(j=22;j<34;j++){
     if((i<4&&j==22)||(i<6&&i>0&&j==23)||(i>2&&i<13&&j==24)||
        (i>4&&i<14&&j==25)||(i>12&&i<16&&j==26)||(i==15&&(j==27||j==28)))
     {
@@ -269,8 +263,7 @@ Matrix *MakeCastle(Matrix *toAdd){
       //leave as grass
 
      }
-     else
-     {
+     else{
       SetMatrix(toAdd,BG_CYAN,i,j);//water
      }
     }
@@ -287,30 +280,64 @@ Matrix *MakeCastle(Matrix *toAdd){
   SetMatrix(toAdd,BG_DK_GRAY,17,j);
   SetMatrix(toAdd,BG_DK_GRAY,20,j);
  }
+ 
 
-
- //add dock
+ //fishing area
  SetMatrix(toAdd,BG_BROWN,6,25);
  SetMatrix(toAdd,BG_BROWN,6,26);
  SetMatrixObj(toAdd,SP_FISHING_SPOT,6,26,FALSE);
- //FlipMatrixSolid(toAdd,3,21);
- //FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);
+ FlipMatrixSolid(toAdd,2,21);  FlipMatrixSolid(toAdd,3,21);
+ FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);
  //TODO fix flip matrix doesnt work for some reason so i made this
- //alternative grass. 
+ //alternative grass.
+ /* 
  SetMatrix(toAdd,SOLID_BG_GREEN,5,21);
  SetMatrix(toAdd,SOLID_BG_GREEN,2,21);
  SetMatrix(toAdd,SOLID_BG_GREEN,3,21);
  SetMatrix(toAdd,SOLID_BG_GREEN,4,21);
+*/
+ //market area
+ for(i=12;i<18;i++){
+  for(j=35;j<41;j++){
+   SetMatrix(toAdd,BG_LT_GRAY,i,j);
+  }
+ }
+ SetMatrixObj(toAdd,OBJ_STALL,13,35);
+ FlipMatrixSolid(toAdd,13,24);  //FlipMatrixSolid(toAdd,13,25);
+ FlipMatrixSolid(toAdd,14,25);  FlipMatrixSolid(toAdd,14,24);
+ FlipMatrixSolid(toAdd,15,25);  FlipMatrixSolid(toAdd,15,24);
+
+ SetMatrixObj(toAdd,OBJ_WFRAME,15,35);
+ SetMatrixObj(toAdd,OBJ_BARREL,3,19);
+ SetMatrixObj(toAdd,OBJ_BARREL,14,39);
+ SetMatrixObj(toAdd,OBJ_BARREL,15,39);
+ SetMatrixObj(toAdd,OBJ_WBARREL,15,40);
+
+// SetMatrixObj(toAdd,OBJ_STALL,25,41);
+// SetMatrixObj(toAdd,OBJ_STALL,28,41);
+
 
  //begin blacksmith
+ //forge area 
+ SetMatrix(toAdd,BG_LT_GRAY,20,45);
+ SetMatrix(toAdd,BG_LT_GRAY,21,45);
+ SetMatrix(toAdd,BG_LT_GRAY,22,45); 
+ SetMatrix(toAdd,BG_LT_GRAY,22,44);
+ SetMatrixObj(toAdd,OBJ_FORGE,21,42);
+ SetMatrix(toAdd,BG_LT_GRAY,22,43);
+ SetMatrix(toAdd,BG_LT_GRAY,22,42);
+ SetMatrix(toAdd,BG_LT_GRAY,21,43);
+ SetMatrix(toAdd,BG_LT_GRAY,21,42);
+
  //four walls
  BuildHouse(toAdd,23,30,40,50,45);
  SetMatrixObj(toAdd,OBJ_TABLE,25,41);
+ SetMatrixObj(toAdd,OBJ_BED1,26,41);
  SetMatrixObj(toAdd,OBJ_TABLE,28,41);
  SetMatrixItem(toAdd,IT_SHEKEL10,25,41);
  SetMatrixItem(toAdd,IT_SHEKEL2,28,41);
- SetMatrixObj(toAdd,OBJ_BARREL,22,43);
- SetMatrixObj(toAdd,OBJ_BARREL,22,42);
+ SetMatrixObj(toAdd,OBJ_BARREL,22,48);
+ SetMatrixObj(toAdd,OBJ_BARREL,22,47);
  SetMatrixObj(toAdd,OBJ_WBARREL,31,49);
 
  

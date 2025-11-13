@@ -490,6 +490,8 @@ U0 InitializeAnimator(){
 U0 CheckAnimQueue(CDC *dc,I64 y,I64 ty){
  Director *task = direct.next;
  I64 i=0;
+ U8 *d = MStrPrint("CNT%d\n",QueCnt(direct));
+ PrintDevMessage(d);
  while (task != &direct) { //for(i=0;i!=QueCnt(direct);i++){
   if(task->cQueDirective!=NoDirective){
    //estimate this task row to account for drawing offsets
