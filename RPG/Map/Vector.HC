@@ -126,7 +126,7 @@ Bool *GetVectorSolid(Vector *v, I64 index)
 }
 
 //Repalce Vector v1 data to value v2
-U0 ReplaceVector(Vector *v1, Vector *v2)
+U0 CopyVector(Vector *v1, Vector *v2)
 {
  I64 i;
  if(v1->size != v2->size)
@@ -137,7 +137,7 @@ U0 ReplaceVector(Vector *v1, Vector *v2)
  {
   for(i=0;i<v1->size;i++)
   {
-   v1->data[i]->bg = v2->data[i]->bg;
+   v1->data[i] = v2->data[i];
   }
  }
 }
@@ -166,7 +166,6 @@ U0 SetVector(Vector *v,F64 d,I32 i)
    v->data[i]->waterLvl=0;
   break;
  }
-
 }
 
 //flip Vector v solidity at data position i 

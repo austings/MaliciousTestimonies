@@ -105,6 +105,7 @@ U0 InteractTile(Actor *p, U8 dir,
      InteractChest(inv);
     break;
     case OBJ_TABLE:
+    case OBJ_STALL:
      PickUpItemTrigger(p,GetTensorItem(world->level,iactX,iactY,world->currentZ));
     break;
    }

@@ -80,11 +80,8 @@ U0 SetMatrixVector(Matrix *m,Vector *d, I64 row)
 
   }  
 
-  for(i=0;i<d->size;i++)
-  {
-   SetVector(m->data,GetVector(d,i),i);
+  CopyVector(m->data,d);
 
-  }
  }
  catch{
    "Matrix Vector Location Out of Range";

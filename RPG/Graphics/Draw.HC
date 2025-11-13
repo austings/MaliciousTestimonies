@@ -54,10 +54,12 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j){
 
 }
 
+//obj is relevent if we need to shift rendering
+//such as in the case of a stall on this tile
 //i - x coordinate of node
 //j - y coordinate of node
 //l - size of item array on layer (multidraw)
-U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
+U0 DrawItemsOnLayer(CDC *dc,I64 obj, I64 i,I64 j,I64 l)
 {
 
  MapNode *mn = GetTensorItem(world->level,
@@ -66,6 +68,10 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
  CDC *scratch = DCNew(100,100);
  DCFill(scratch,TRANSPARENT);
 
+ I64 yOffset = 0;
+ if(obj==OBJ_STALL)
+  yOffset = -32;
+  
 
  for(l=0;l<mn->len;l++){
   Bool recolor = FALSE;
@@ -121,7 +127,7 @@ U0 DrawItemsOnLayer(CDC *dc, I64 i,I64 j,I64 l)
     break;
   }
   GrBlot3(dc,i*camera->dividX+camera->cameraOffSetX,
-             j*camera->dividY+camera->cameraOffSetY-6,
+             j*camera->dividY+camera->cameraOffSetY-6+yOffset,
              10,endRender);
 
  }
@@ -179,7 +185,7 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
 
   break;
   case OBJ_STALL:
-   GrBlot3(dc,screenX-72,screenY-72,10,CLUT004);
+   GrBlot3(dc,screenX-72,screenY-124,10,CLUT004);
   break;
   case OBJ_FORGE:
     GrBlot3(dc,screenX-32,screenY-64,10,CLUT005);
@@ -372,7 +378,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
      if(obj!=IT_NULL)
       DrawObjsOnLayer(dc,obj,screenX,screenY,p,tileX,tileY);
  
-     DrawItemsOnLayer(dc,i,j,l);
+     DrawItemsOnLayer(dc,obj,i,j,l);
      if(npc!=IT_NULL)
       DrawActorsOnLayer(dc,npc,i,j,p,screenX,screenY,wlvl); 
      

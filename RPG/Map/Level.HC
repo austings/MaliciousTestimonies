@@ -221,7 +221,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,20,47,9);//wild dog
 
  //sw poppy field
- SetMatrixObj(toAdd,OBJ_OLIVETREE,5,36);
+ SetMatrixObj(toAdd,OBJ_OLIVETREE,5,36);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,11,46);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,4,45);
  SetMatrixObj(toAdd,OBJ_OLIVETREE,9,33);
@@ -232,7 +232,9 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixObj(toAdd,OBJ_POPPY,2,38,FALSE);
  
  SetMatrixNPC(toAdd,A_OX_CART,1,21);
- FlipMatrixSolid(toAdd,0,0);  FlipMatrixSolid(toAdd,1,1);
+ FlipMatrixSolid(toAdd,2,21);  FlipMatrixSolid(toAdd,3,21);
+ FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);
+
  SetMatrixNPC(toAdd,A_SHAMIR,6,19);
  SetMatrixObj(toAdd,OBJ_BARREL,4,20);
  SetMatrixObj(toAdd,OBJ_BARREL,3,19);
@@ -286,8 +288,6 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrix(toAdd,BG_BROWN,6,25);
  SetMatrix(toAdd,BG_BROWN,6,26);
  SetMatrixObj(toAdd,SP_FISHING_SPOT,6,26,FALSE);
- FlipMatrixSolid(toAdd,2,21);  FlipMatrixSolid(toAdd,3,21);
- FlipMatrixSolid(toAdd,4,21);  FlipMatrixSolid(toAdd,5,21);
  //TODO fix flip matrix doesnt work for some reason so i made this
  //alternative grass.
  /* 
@@ -302,12 +302,10 @@ Matrix *MakeCastle(Matrix *toAdd){
    SetMatrix(toAdd,BG_LT_GRAY,i,j);
   }
  }
- SetMatrixObj(toAdd,OBJ_STALL,13,35);
- FlipMatrixSolid(toAdd,13,24);  //FlipMatrixSolid(toAdd,13,25);
- FlipMatrixSolid(toAdd,14,25);  FlipMatrixSolid(toAdd,14,24);
- FlipMatrixSolid(toAdd,15,25);  FlipMatrixSolid(toAdd,15,24);
-
- SetMatrixObj(toAdd,OBJ_WFRAME,15,35);
+ SetMatrixObj(toAdd,OBJ_STALL,13,36);
+ SetMatrixItem(toAdd,IT_HELM,13,36);
+ FlipMatrixSolid(toAdd,12,36);  FlipMatrixSolid(toAdd,14,36);
+ SetMatrixObj(toAdd,OBJ_WFRAME,16,35);
  SetMatrixObj(toAdd,OBJ_BARREL,3,19);
  SetMatrixObj(toAdd,OBJ_BARREL,14,39);
  SetMatrixObj(toAdd,OBJ_BARREL,15,39);
@@ -324,6 +322,8 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrix(toAdd,BG_LT_GRAY,22,45); 
  SetMatrix(toAdd,BG_LT_GRAY,22,44);
  SetMatrixObj(toAdd,OBJ_FORGE,21,42);
+ FlipMatrixSolid(toAdd,20,42);  FlipMatrixSolid(toAdd,22,42);
+
  SetMatrix(toAdd,BG_LT_GRAY,22,43);
  SetMatrix(toAdd,BG_LT_GRAY,22,42);
  SetMatrix(toAdd,BG_LT_GRAY,21,43);
@@ -333,6 +333,8 @@ Matrix *MakeCastle(Matrix *toAdd){
  BuildHouse(toAdd,23,30,40,50,45);
  SetMatrixObj(toAdd,OBJ_TABLE,25,41);
  SetMatrixObj(toAdd,OBJ_BED1,26,41);
+ FlipMatrixSolid(toAdd,26,42);  FlipMatrixSolid(toAdd,27,42);
+ FlipMatrixSolid(toAdd,27,41); 
  SetMatrixObj(toAdd,OBJ_TABLE,28,41);
  SetMatrixItem(toAdd,IT_SHEKEL10,25,41);
  SetMatrixItem(toAdd,IT_SHEKEL2,28,41);

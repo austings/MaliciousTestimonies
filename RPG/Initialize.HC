@@ -151,7 +151,7 @@ U0 Init(){ //world
  SetVector(worldSz,wX,0);
  SetVector(worldSz,wY,1);
  SetVector(worldSz,wZ,2);
- world->level = CreateTensor(worldSz);
+ world->level = CreateTensor(worldSz);
  world->timer = 0; 
  InitActors(0);
  InitMenuControl;

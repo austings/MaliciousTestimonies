@@ -269,6 +269,7 @@ Matrix *GetMatrixFromTensor(Tensor3D *t,I64 z)
 
 }
 
+//Set Matrix for Tensor at z dimension
 U0 SMFT(Tensor3D *t,Matrix *m,I64 z)
 {
   Vector *v = t->shape;
