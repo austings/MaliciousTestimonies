@@ -10,19 +10,22 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j){
      I16 c = GetTensor(world->level,camera->topLR+i,camera->topUD+j,world->currentZ);
      dc->color = GetBG(c);
      GrRect3(dc,screenX, screenY, -1, camera->dividX, camera->dividY);
-     if(c>BG_LT_GRAY){
+     if(c>=BG_LT_GRAY){
       switch(c){
+       case BG_LT_GRAY:
+        Sprite3B(dc,screenX,screenY,0,GetRoad);
+       break;
        case BG_DK_GRAY:
-        Sprite3B(dc,screenX,screenY,0,GetWall1());
+        Sprite3B(dc,screenX,screenY,0,GetWall1);
        break;
        case BG_LT_RED:
-        Sprite3B(dc,screenX,screenY,0,GetCarpet());
+        Sprite3B(dc,screenX,screenY,0,GetCarpet);
        break;
        case BG_ROCK_WALL:
-        Sprite3B(dc,screenX,screenY,0,GetRockWall());
+        Sprite3B(dc,screenX,screenY,0,GetRockWall);
        break;
        case BG_BUSH_WALL:
-        Sprite3B(dc,screenX,screenY,0,GetBushWall());
+        Sprite3B(dc,screenX,screenY,0,GetBushWall);
        break;
        case BG_GRASS:
         Sprite3B(dc, screenX+5, screenY, 0, GetPlant(OBJ_GRASSL));
