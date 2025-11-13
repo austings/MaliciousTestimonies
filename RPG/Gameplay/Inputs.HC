@@ -109,8 +109,8 @@ U0 KeyEsc()
 {
 
 }
-U0 AnyKey()
-{
+U0 AnyKey(){
+ Actor *player = GetPlayer(PLAYER);
  if(mc->combatMenuStage==STAGE_1)//enemy turn
  {
   switch(mc->combatMenuSelection)
@@ -149,7 +149,7 @@ U0 AutoTurnEnd()
    case CMS_ENE1:
     mc->combatMenuSelection = CMS_ENE2;//move complete
     if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=PLAYER){
-     player->currentHealth-=(ctp->ready->str);
+     GetPlayer()->currentHealth-=(ctp->ready->str);
      AddStatus(ctp->ready,NRML_STATUS);
     }
     mc->turnIndex=0;
@@ -296,6 +296,8 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){
  HandleMouseSideBar(M_X,M_Y,i,j);
  //End SideBar
 
+ Actor *player = GetPlayer;
+
  //Begin GameArea
  if(M_X>=0&&M_X<480&&
     M_Y>=0&&M_Y<480)
@@ -349,6 +351,7 @@ U0 ShowToolTips(CDC *dc = gr.dc)
 {
  I64 i,j;
  Inventory *me;
+ Actor *player = GetPlayer;
  if(mc->displayInventory||mc->lootedSwitch){
  //check inventory region
   for(i=0;i<INVWIDTH;i++){

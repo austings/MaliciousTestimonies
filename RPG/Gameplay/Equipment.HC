@@ -9,7 +9,7 @@ U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item,
  if(!mc->dragInvIsPlayer){//start merchant 
   src = mc->lootInv;
  }else {
-  src = player->myInv;
+  src = GetPlayer()->myInv;
  }
 
  if(isPlayer){ 

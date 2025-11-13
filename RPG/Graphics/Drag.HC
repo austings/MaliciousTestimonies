@@ -173,7 +173,7 @@ CDC *RenderEquipment(Actor *player){
   Sprite3B(completeMenu,8+camera->dividX,25+camera->dividY,10,GetMenuSprite(2));
   PrintLine(completeMenu,a,26,60);
   //hat
-  I64 wepn = GetNPC(0)->hat;
+  I64 wepn = GetPlayer()->hat;
   if(wepn>IT_FIST)
   {
    switch(wepn){
@@ -191,7 +191,7 @@ CDC *RenderEquipment(Actor *player){
   Sprite3B(completeMenu,8,116+3*camera->dividY,10,GetMenuSprite(2));
   PrintLine(completeMenu,b,14,180);
   //wepn
-  wepn = GetNPC(0)->sword;
+  wepn = GetPlayer()->sword;
   if(wepn>IT_FIST)
   {
    switch(wepn){
@@ -216,7 +216,7 @@ CDC *RenderEquipment(Actor *player){
  
   PrintLine(completeMenu,c,75,190);
   //armr
-  wepn = GetNPC(0)->armor;
+  wepn = GetPlayer()->armor;
   if(wepn>IT_FIST)
   {    CDC *render;
  

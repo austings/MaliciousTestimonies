@@ -242,7 +242,7 @@ U0 LoadGame(U8 *file)
       ptr+=sizeof(U8); bytesRead+=sizeof(U8);
       //MemCpy(&(newSave->player->myInv->maxWeight),ptr,sizeof(I32)); 
       //ptr+=sizeof(I32); bytesRead+=sizeof(I32);
-      SetNPC(MakeActor(newSave->player->id,
+     /* SetNPC(MakeActor(newSave->player->id,
       newSave->player->tribe,
       newSave->player->hair,
       newSave->player->face, 
@@ -256,7 +256,7 @@ U0 LoadGame(U8 *file)
       newSave->player->int,
       newSave->player->con,
       newSave->player->wis,
-      newSave->player->ai_script));
+      newSave->player->ai_script));*/
       ptr-=bytesRead; bytesRead=0;
       i++;
       step++;

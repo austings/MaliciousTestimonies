@@ -111,7 +111,7 @@ U0 GatherSelections()
  
  //add any usables
 
- Item *candidate = (GetNPC(0))->myInv->collection->next;
+ Item *candidate = GetPlayer()->myInv->collection->next;
  for(i=0;i<INVWIDTH*INVHEIGHT;i++)
  {
   if(candidate->usable)

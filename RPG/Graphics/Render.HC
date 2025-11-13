@@ -121,7 +121,7 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file
   CombatTurn *ctn;
   // Limit for one
   ctn = CAlloc(sizeof(CombatTurn));
-  ctn->ready = GetNPC(PLAYER); 
+  ctn->ready = GetPlayer; 
   //AddDirective(T1READY,ctn->ready);
   QueIns(ctn,combatCQue.last);
 

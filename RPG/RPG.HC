@@ -10,11 +10,11 @@ U0 DrawIt(CTask *task, CDC *dc){
    break;
   //Main Game
   case 1:
-   Actor *p = GetNPC(PLAYER);
+   Actor *p = GetPlayer(PLAYER);
    MapNode *pin = GetTensorItem(world->level,
                     p->x,p->y,world->currentZ);
 
-
+   
    world->timer = world->timer + FRAMERULE;
    if(world->timer>=FRAMERULE_CAP)
    {
@@ -22,21 +22,24 @@ U0 DrawIt(CTask *task, CDC *dc){
     world->timer = 0;
 
    }
+   
    //Draw world and extra for preload on either side        
    ReDrawWorld(dc,i,j);
-   DrawActorsAndItems(dc,p,i,j,l); // former leak
+   DrawActorsAndItems(dc,p,i,j,l); // former leak
+
    DrawRoofs(dc,p,i,j);
   
    //Keyboard
    HandleKeyboard(p,pin);
    StartCameraPan(dc,p);   
    //Game Menus
+   
    RPGSideBar(dc);
    RenderMenus(dc,p);
    RPGInvLogic(i,j,dc,p);
    DragPrayer(dc);
-   DrawHealthMana(dc,player,i,j);
-
+   DrawHealthMana(dc,p,i,j);
+   
    //Dialog   
    if(mc->talkieScene!=IT_NULL){
     mc->displayInventory=FALSE;
@@ -48,6 +51,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    }
    ShowToolTips(dc);
 
+   
    break;
    //character select
    case 2:
@@ -236,10 +240,11 @@ while(TRUE){
       }
       ResetCurrLetter;
       mc->cutsceneTarget=0;
-      SetNPC(MakeActor(0,tribe,GetSelectedStats(1),GetSelectedStats(2), 
+      FreeActor(GetPlayer);
+      QueIns(MakeActor(0,tribe,GetSelectedStats(1),GetSelectedStats(2), 
                        0,0,0,0,
                        5,5,
-		       str,int,con,wis,0));
+		       str,int,con,wis,0),actors->last);
       mc->currentMenu=1;
       mc->currentSong=0;
      }

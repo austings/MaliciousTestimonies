@@ -324,7 +324,7 @@ F64 fmod(F64 x, F64 y){
 U0 ProceduralAnimateArc(CDC *dc, Director *task){
  task->a->visible = TRUE;  
  task->z++;
-  
+ Actor *player = GetPlayer; 
  // Timing
  F64 duration = 32.0;  // one full travel forward or backward
  F64 cycle = fmod(task->z / duration, 2.0); 
@@ -490,8 +490,6 @@ U0 InitializeAnimator(){
 U0 CheckAnimQueue(CDC *dc,I64 y,I64 ty){
  Director *task = direct.next;
  I64 i=0;
- U8 *d = MStrPrint("CNT%d\n",QueCnt(direct));
- PrintDevMessage(d);
  while (task != &direct) { //for(i=0;i!=QueCnt(direct);i++){
   if(task->cQueDirective!=NoDirective){
    //estimate this task row to account for drawing offsets

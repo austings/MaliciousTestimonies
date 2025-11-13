@@ -9,7 +9,7 @@ class Object:CQue{
 
 U0 GetItemScreenLoc(I64 invIDToFetch, I64 *x, I64 *y){
  I64 i,j; 
- Actor *p = GetNPC(0);
+ Actor *p = GetPlayer;
  for(i=0;i<INVWIDTH;i++)
  {
   for(j=0;j<INVHEIGHT;j++)
@@ -59,7 +59,6 @@ U0 ObjQueInit()
 
 Inventory *GrabChest(I64 chestID){
  I64 i;
-   
  Object *myObject= obj_que.next;
  for(i=0;i!=QueCnt(obj_que);i++){
   if(myObject->chestID==chestID){
@@ -67,7 +66,7 @@ Inventory *GrabChest(I64 chestID){
   }
   myObject = myObject->next;
  }
-
+ Actor *player = GetPlayer;  
  return player->myInv; 
 }
 

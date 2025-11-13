@@ -39,6 +39,8 @@ U0 ObjectTrigger(Actor *p, MapNode *puin)
 //InteractCorpse
 //param npc- the npc id of the corpse
 U0 InteractCorpse(I64 npc){
+
+ Actor *player = GetPlayer;
  if(mc->lootedSwitch==LOOTED){ //already looted
  }
  else{

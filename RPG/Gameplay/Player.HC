@@ -54,6 +54,7 @@ U0 UpdateActorCoords(I64 id, U64 x, U64 y)
   switch(id)
   {
    case 0:
+    Actor *player = GetPlayer;
     player->x = x;
     player->y = y;
     break;
@@ -67,54 +68,35 @@ U0 UpdateActorCoords(I64 id, U64 x, U64 y)
 
 
 
-U0 InitActors(I64 currentZ)
-{
-  SetNPC(MakeActor(1,0,0,0, 
+U0 InitActors(I64 currentZ){
+ actors = MAlloc(sizeof(Actor));
+ QueInit(actors);
+ Actor *newPlayer = MakeActor(0,0,0,0, 
 	         0,0,0,0,
 	         0,0,
-	         5,5,5,5,0));//player
-
-  ResetNPCC;
-  while(GetNPCC!=10){
-   switch(currentZ){
-     case 0://town level
-     ReadNPC(1);
-     ReadNPC(2);
-     ReadNPC(3);
-     ReadNPC(4);
-     ReadNPC(5);
-     ReadNPC(6);
-     ReadNPC(7);
-     ReadNPC(8);
-     ReadNPC(9);
-     ReadNPC(10);
-     break;
-   }
-  }
+	         5,5,5,5,0));//new player
+ loaded++;
+ QueIns(newPlayer,actors->last);
 
 }
 
-
-U0 FreeActor(I64 id)
-{
- Actor *a= GetNPC(id);
- QueDel(&(a->myInv->collection));
- Free(&(a->myInv->collection));
- Free(&(a->myInv));
- Free(&(a));
+U0 FreeActor(Actor *a){
+ FreeInventory(a->myInv);
+ QueRem(a);
+ Free(a);
 }
 
-//Inventory
 
-I64 InvNPCCount(Actor *a)
-{
-  switch(a->id){
-   case 0:
-    return QueCnt(a->myInv->collection);
-    break;
-   case 1:
-    break;
-  }
-  return 0;
+U0 ClearActors(){
+ I64 i;
+ Actor *rm = actors->next;
+ while(rm != actors){
+  Actor *temp = rm;
+  rm = rm->next;
+  FreeActor(temp);
+ }
+ QueDel(actors);
+ Free(actors);
+ loaded = 0;
 }
 

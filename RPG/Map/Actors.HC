@@ -1,4 +1,4 @@
-class Actor{
+class Actor:CQue{
 
   //persistent
   U8 name[15];
@@ -26,10 +26,7 @@ class Actor{
 
 };
 
-Actor *player;
-Actor *loaded1,*loaded2,*loaded3,
-*loaded4,*loaded5,*loaded6,*loaded7,
-*loaded8,*loaded9,*loaded10;
+Actor *actors;
 U8 loaded = 0;
 
 U8 *ACTOR_FILE = MStrPrint("%s%s",DirCur,"/Data/Actor.TXT");
@@ -80,7 +77,6 @@ U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  return me;
 
 }
-
 
 
 //FACE CODES
@@ -253,4 +249,14 @@ I64 DetermineDirection(Actor *startA, I64 tX, I64 tY)
     }
 
     return dir;
+}
+
+
+Actor *GetPlayer(I64 id=PLAYER){
+ Actor *fetch = actors->next;
+ while(fetch != actors){
+  if(fetch->id==id)
+   return fetch;
+  fetch = fetch->next;
+ }
 }

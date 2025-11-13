@@ -228,7 +228,7 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
  if(isPlayer||(!isAnimated)){
   GetActorScreenX(toRender,npcOffX,i,isPlayer);
   GetActorScreenY(toRender,npcOffY,j,isPlayer);
- }else if(isAnimated&&GetNPC(PLAYER)->walking!=DIR_IDLE){
+ }else if(isAnimated&&GetPlayer()->walking!=DIR_IDLE){
   if(mc->combatON==FALSE){
    UpdateDirective(BOUNCE,toRender,    
    GetActorScreenX(toRender,npcOffX,i,isPlayer),

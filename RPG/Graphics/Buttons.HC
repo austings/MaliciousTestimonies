@@ -119,6 +119,7 @@ U0 PrayerFilters(I64 M_X, I64 M_Y,I64 i, I64 j)
 
 U0 ReleaseSword()
 {
+ Actor *player = GetPlayer;
  if(mc->draggingItem->equip_slot!=EQ_SLOT_WEP){
   //this should just cancel the drag but its a bit more complicated than that
   //AddItemToInventory(player->myInv,mc->draggingID);        
@@ -126,11 +127,11 @@ U0 ReleaseSword()
 
  }
  //switch from inv to sword, del from inv
- I64 equip =  GetNPC(0)->sword;
+ I64 equip =  player->sword;
  if(equip!=0){
-  AddItemToInventory(player->myInv,GetNPC(0)->sword);
+  AddItemToInventory(player->myInv,player->sword);
  }
- GetNPC(0)->sword =mc->draggingID;
+ player->sword =mc->draggingID;
 
  mc->draggingInv=FALSE; 
  RemoveItemLoc(mc->draggingItem,TRUE);                 
@@ -139,6 +140,8 @@ U0 ReleaseSword()
 
 U0 ReleaseBody()
 {
+ Actor *player = GetPlayer;
+
  if(mc->draggingItem->equip_slot!=EQ_SLOT_BDY){
   //AddItemToInventory(player-myInv,mc->draggingID);        
   //mc->draggingInv=FALSE; 
@@ -146,11 +149,11 @@ U0 ReleaseBody()
  }
 
  //switch from inv to body, del from inv	
- I64 equip =  GetNPC(0)->armor;
+ I64 equip =  player->armor;
  if(equip!=0){
-  AddItemToInventory(player->myInv,GetNPC(0)->armor);
+  AddItemToInventory(player->myInv,player->armor);
  }
- GetNPC(0)->armor =mc->draggingID;
+ player->armor =mc->draggingID;
 
  mc->draggingInv=FALSE; 
  RemoveItemLoc(mc->draggingItem,TRUE);
@@ -159,6 +162,8 @@ U0 ReleaseBody()
 
 U0 ReleaseHelm()
 {
+ Actor *player = GetPlayer;
+
  if(mc->draggingItem->equip_slot!=EQ_SLOT_HLM){
   //AddItemToInventory(player->myInv,mc->draggingID);
   //mc->draggingInv=FALSE; 
@@ -166,7 +171,7 @@ U0 ReleaseHelm()
  }
 
  //switch from inv to helm, del from inv
- I64 equip =  GetNPC(0)->hat;
+ I64 equip =  player->hat;
  if(equip!=0){
   AddItemToInventory(player->myInv,player->hat);
  }
@@ -178,6 +183,8 @@ U0 ReleaseHelm()
 }
 U0 ReleaseRing()
 {
+
+ Actor *player = GetPlayer;
  if(mc->draggingItem->equip_slot!=EQ_SLOT_RNG){
   //AddItemToInventory(player->myInv,mc->draggingID);       
   //mc->draggingInv=FALSE; 
@@ -185,11 +192,11 @@ U0 ReleaseRing()
  }         
 
  //switch from inv to helm, del from inv
- I64 equip =  GetNPC(0)->ring1;
+ I64 equip =  player->ring1;
  if(equip!=0){
   AddItemToInventory(player->myInv,player->ring1);
  }
- GetNPC(0)->ring1 =mc->draggingID;
+ player->ring1 =mc->draggingID;
 
  mc->draggingInv=FALSE; 
  RemoveItemLoc(mc->draggingItem,TRUE);                 
@@ -197,6 +204,7 @@ U0 ReleaseRing()
 }
 
 Bool FillItemIfOnWater(I64 wlvl=0){
+ Actor *player = GetPlayer;
  if(wlvl>0){
   switch(mc->draggingID){
    case IT_POT:
@@ -214,6 +222,8 @@ Bool FillItemIfOnWater(I64 wlvl=0){
 //mc->draggingItem = to 
 U0 CombineIfPossible(I64 pItem)
 {
+
+ Actor *player = GetPlayer;
  Item *item= RetrieveItem(player->myInv,pItem);
 
  switch(mc->draggingID)

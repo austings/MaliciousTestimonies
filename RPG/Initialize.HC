@@ -25,6 +25,7 @@ Cd(__DIR__);;
 #include "Gameplay/AI.HC";
 #include "Globals.HC";
 #include "Dev/Dev.HC";
+#include "Gameplay/InvLogic.HC";
 #include "Dev/Deserialize.HC";
 
 // Loading World
@@ -113,7 +114,7 @@ U0 InitMenuControl()
  mc->combatON = FALSE;
  mc->combatMenuStage =STAGE_0;
  mc->combatMenuSelection=CMS_MOVE;
- mc->target = GetNPC(0);
+ mc->target = GetPlayer(PLAYER);
  mc->tarposx = 0;
  mc->tarposy = 0;
  mc->combatTurn = 0;
@@ -150,8 +151,9 @@ U0 Init(){ //world
  SetVector(worldSz,wX,0);
  SetVector(worldSz,wY,1);
  SetVector(worldSz,wZ,2);
- world->level = CreateTensor(worldSz);
+ world->level = CreateTensor(worldSz);
  world->timer = 0; 
+ InitActors(0);
  InitMenuControl;
  InitCamera;       
  InitHotKeys;
@@ -165,7 +167,6 @@ U0 Init(){ //world
 
  SetTensorNPC(world->level,0,5,5,0);//player
  SMFT(world->level,MakeCastle(GetMatrixFromTensor(world->level,0)),0);//castle
- InitActors(0);
 
 
 
