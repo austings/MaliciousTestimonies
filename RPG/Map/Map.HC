@@ -89,6 +89,8 @@ static CDC*             ITEM19= FramePtr("ITEM095");
 #define SP_FISHING_SPOT 999
 static CDC*		SPECIAL1 = FramePtr("EFF075");//special point
 static CDC*		SPECIAL2 = FramePtr("EFF076");
+static CDC*             ITEM048 = FramePtr("ITEM048");//boots
+static CDC*             ITEM142 = FramePtr("ITEM142");//up sign
 
 
 //prayers

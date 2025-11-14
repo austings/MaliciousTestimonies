@@ -1,7 +1,12 @@
 U0 SetActorSubFrameRule(Actor *a,I64 wsf,I64 w ){
  a->walkingSubFrame++;
-
- if(a->walkingSubFrame== FRAMERULE){
+ if(mc->running&&a->currentMana>0){
+  a->walkingSubFrame++;
+ }else{
+  if(a->id==PLAYER)
+   mc->running = FALSE;
+ }
+ if(a->walkingSubFrame>= FRAMERULE){
   a->walkingSubFrame=wsf;       
   a->walking = w;
  }

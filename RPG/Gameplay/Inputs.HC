@@ -109,6 +109,14 @@ U0 KeyEsc()
 {
 
 }
+
+U0 KeyShift(){
+ if(mc->running)
+  mc->running = FALSE;
+ else
+  mc->running = TRUE;
+}
+
 U0 AnyKey(){
  Actor *player = GetPlayer(PLAYER);
  if(mc->combatMenuStage==STAGE_1)//enemy turn
@@ -192,6 +200,9 @@ U0 HandleKeyboard(Actor *p, MapNode *puin)
      mc->displayDev = TRUE;
     }
    break;
+   case DIR_SHIFT:
+    KeyShift;
+   break;
   }
   keys.pressed = 0;  
 
@@ -214,6 +225,9 @@ U0 HandleMouseSideBar(I64 M_X, I64 M_Y, I64 i,I64 j){
           M_Y>=100&&M_Y<=160&&
           mc->displayStats==FALSE){
    InvButton;
+  }else if(M_X>494&&M_X<549&&
+           M_Y>=160&&M_Y<220){
+   KeyShift;
   }else if(M_X>=550&&M_X<=603&& //pray button
           M_Y>=100&&M_Y<=160&&
           mc->displayPrayers==FALSE){

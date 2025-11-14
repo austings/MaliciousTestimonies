@@ -22,6 +22,15 @@ U0 InvButton()
 
 }
 
+U0 RunButton()
+{
+ if(mc->displayInventory==TRUE)
+  mc->displayInventory=FALSE;
+ else
+  mc->displayInventory=TRUE;
+
+}
+
 U0 MusicButton()
 {
  if(mc->musicMuted==FALSE)

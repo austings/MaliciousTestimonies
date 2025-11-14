@@ -9,6 +9,7 @@
 #define DIR_ENTER       16
 #define DIR_ESC         32
 #define DIR_DEV         64
+#define DIR_SHIFT       128
 
 //by austin inspired by Alec Murphy
 CDC* DCFlippedX(CDC* src){
@@ -352,7 +353,7 @@ CDC *PaletteizeImage(I64 w,I64 h,U8 *dith_data) {
         ret->color=*dith_data&0xf;
         GrPlot(ret,x*2,y*2);
         GrPlot(ret,x*2+1,y*2+1);
-        ret->color=*dith_data>>4;
+        ret->color=*dith_data>>4;
         GrPlot(ret,x*2+1,y*2);
         GrPlot(ret,x*2,y*2+1);
       }

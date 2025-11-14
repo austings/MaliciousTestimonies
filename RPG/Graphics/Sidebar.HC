@@ -1,63 +1,57 @@
 
 //Main game side bar
-U0 RPGSideBar(CDC *dc)
-{
-   dc->color = DKGRAY;
-   GrRect(dc,12*camera->dividX-24,0,480,480);
-   //GrRect3(dc,12*camera->dividX,0,0,1280,480);
-
-   Sprite3B(dc,11*camera->dividX-25,-4,0,GetSideMenu);
-   //save button 
-   Sprite3B(dc,494,420,0,GetButton(4));
-   //equipment button
-   Sprite3B(dc,494,40,0,GetMenuSprite(MENU_MENUBOX));    
-   Sprite3B(dc,510,52,0,GetMenuSprite(MENU_EQUIPMENT));
-
-   //stats button
-   Sprite3B(dc,554,40,0,GetMenuSprite(MENU_MENUBOX));    
-   Sprite3B(dc,562,48,0,GetMenuSprite(MENU_STATS));
-
-   //inventory button
-   Sprite3B(dc,494,100,0,GetMenuSprite(MENU_MENUBOX));    
-   Sprite3B(dc,510,112,0,GetMenuSprite(MENU_BAG));    
-
-   //prayer button
-   Sprite3B(dc,554,100,0,GetMenuSprite(MENU_MENUBOX));    
-   Sprite3B(dc,564,112,0,GetMenuSprite(MENU_PRAYER)); 
-
-   Sprite3B(dc,494,160,0,GetMenuSprite(MENU_MENUBOX));   
-
-   Sprite3B(dc,554,160,0,GetMenuSprite(MENU_MENUBOX));    
-
-
-   //music button
-   Sprite3B(dc,494,220,0,GetMenuSprite(MENU_MENUBOX));    
-   Sprite3B(dc,493,222,0,GetMenuSprite(MENU_MUSIC));
-   if(mc->musicMuted)   
-    Sprite3B(dc,500,230,0,GetMenuSprite(MENU_MUTE));
-
-   //fx button
-   Sprite3B(dc,554,220,0,GetMenuSprite(MENU_MENUBOX));    
-   Sprite3B(dc,546,230,0,GetMenuSprite(MENU_FX));
-   if(mc->fxMuted)
-    Sprite3B(dc,558,230,0,GetMenuSprite(MENU_MUTE));
+U0 RPGSideBar(CDC *dc){
+ dc->color = DKGRAY;
+ GrRect(dc,12*camera->dividX-24,0,480,480);
+ //GrRect3(dc,12*camera->dividX,0,0,1280,480);
+ Sprite3B(dc,11*camera->dividX-25,-4,0,GetSideMenu);
+ //save button 
+ Sprite3B(dc,494,420,0,GetButton(4));
+ //equipment button
+ Sprite3B(dc,494,40,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,510,52,0,GetMenuSprite(MENU_EQUIPMENT));
+ //stats button
+ Sprite3B(dc,554,40,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,562,48,0,GetMenuSprite(MENU_STATS));
+ //inventory button
+ Sprite3B(dc,494,100,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,510,112,0,GetMenuSprite(MENU_BAG));    
+ //prayer button
+ Sprite3B(dc,554,100,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,564,112,0,GetMenuSprite(MENU_PRAYER));
+ //run 
+ Sprite3B(dc,494,160,0,GetMenuSprite(MENU_MENUBOX));
+ if(mc->running){
+  GrBlot3(dc,500,155,0,ITEM048);
+  GrBlot3(dc,500,165,0,ITEM142);
+ }else{
+  GrBlot3(dc,500,160,0,ITEM048);
+ } 
+ Sprite3B(dc,554,160,0,GetMenuSprite(MENU_MENUBOX));    
+ //music button
+ Sprite3B(dc,494,220,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,493,222,0,GetMenuSprite(MENU_MUSIC));
+ if(mc->musicMuted)   
+  Sprite3B(dc,500,230,0,GetMenuSprite(MENU_MUTE));
+ //fx button
+ Sprite3B(dc,554,220,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,546,230,0,GetMenuSprite(MENU_FX));
+ if(mc->fxMuted)
+  Sprite3B(dc,558,230,0,GetMenuSprite(MENU_MUTE));
 
 }
 
-U0 BlotPrayer(CDC *pm, I64 x, I64 y, I64 index)
-{
- switch(prayers->list[index]->id)
-   {
-    case SP_HEAL:
-     GrBlot3(pm,x,y,0,ITEM050);
-    break;
-    default:
-     Sprite3B(pm,x,y,0,GetQ());//unknown
-    break;
-   }
+U0 BlotPrayer(CDC *pm, I64 x, I64 y, I64 index){
+ switch(prayers->list[index]->id){
+  case SP_HEAL:
+   GrBlot3(pm,x,y,0,ITEM050);
+  break;
+  default:
+   Sprite3B(pm,x,y,0,GetQ());//unknown
+  break;
+ }
 }
-CDC *RenderPrayers(Actor *player)
-{
+CDC *RenderPrayers(Actor *player){
  U8 *t0a = MStrPrint("%s%d","Available Points: ",prayers->points);
  U8 *t0b = "Total Unlocks:";
  U8 *t0c = MStrPrint("%d/%d",prayers->unlocked,MAX_PRAYERS);

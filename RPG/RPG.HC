@@ -25,7 +25,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    
    //Draw world and extra for preload on either side        
    ReDrawWorld(dc,i,j);
-   DrawActorsAndItems(dc,p,i,j,l); // former leak
+   DrawActorsAndItems(dc,p,i,j,l); // former leak
 
    DrawRoofs(dc,p,i,j);
   
@@ -186,6 +186,9 @@ while(TRUE){
           break;
           case SC_CURSOR_DOWN:
            keys.pressed=DIR_DOWN;
+          break;
+          case SC_SHIFT:
+           keys.pressed = DIR_SHIFT; 
           break;
          }
         break;
