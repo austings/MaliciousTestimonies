@@ -126,13 +126,21 @@ U0 PrayerFilters(I64 M_X, I64 M_Y,I64 i, I64 j)
 
 }
 
+U0 EndDrag()
+{
+ mc->draggingInv=FALSE;
+ mc->dragInvIsPlayer=TRUE;
+ mc->draggingItem=NULL;
+ mc->draggingID=0;
+
+}
+
 U0 ReleaseSword()
 {
  Actor *player = GetPlayer;
  if(mc->draggingItem->equip_slot!=EQ_SLOT_WEP){
   //this should just cancel the drag but its a bit more complicated than that
   //AddItemToInventory(player->myInv,mc->draggingID);        
-  //mc->draggingInv=FALSE; 
 
  }
  //switch from inv to sword, del from inv
@@ -142,8 +150,8 @@ U0 ReleaseSword()
  }
  player->sword =mc->draggingID;
 
- mc->draggingInv=FALSE; 
  RemoveItemLoc(mc->draggingItem,TRUE);                 
+ EndDrag; 
 
 }
 
@@ -153,7 +161,6 @@ U0 ReleaseBody()
 
  if(mc->draggingItem->equip_slot!=EQ_SLOT_BDY){
   //AddItemToInventory(player-myInv,mc->draggingID);        
-  //mc->draggingInv=FALSE; 
   return;
  }
 
@@ -164,8 +171,8 @@ U0 ReleaseBody()
  }
  player->armor =mc->draggingID;
 
- mc->draggingInv=FALSE; 
  RemoveItemLoc(mc->draggingItem,TRUE);
+ EndDrag; 
 
 }
 
@@ -175,7 +182,6 @@ U0 ReleaseHelm()
 
  if(mc->draggingItem->equip_slot!=EQ_SLOT_HLM){
   //AddItemToInventory(player->myInv,mc->draggingID);
-  //mc->draggingInv=FALSE; 
   return;
  }
 
@@ -186,8 +192,8 @@ U0 ReleaseHelm()
  }
  player->hat =mc->draggingID;
 
- mc->draggingInv=FALSE; 
  RemoveItemLoc(mc->draggingItem,TRUE);                 
+ EndDrag; 
 
 }
 U0 ReleaseRing()
@@ -196,7 +202,6 @@ U0 ReleaseRing()
  Actor *player = GetPlayer;
  if(mc->draggingItem->equip_slot!=EQ_SLOT_RNG){
   //AddItemToInventory(player->myInv,mc->draggingID);       
-  //mc->draggingInv=FALSE; 
   return;
  }         
 
@@ -206,22 +211,36 @@ U0 ReleaseRing()
   AddItemToInventory(player->myInv,player->ring1);
  }
  player->ring1 =mc->draggingID;
-
- mc->draggingInv=FALSE; 
+ 
  RemoveItemLoc(mc->draggingItem,TRUE);                 
-
+ EndDrag;
 }
 
-Bool FillItemIfOnWater(I64 wlvl=0){
- Actor *player = GetPlayer;
- if(wlvl>0){
-  switch(mc->draggingID){
-   case IT_POT:
-    RemoveItemLoc(mc->draggingItem,TRUE);
-    AddItemToInventory(player->myInv,IT_WPOT);
-    mc->draggingInv=FALSE; 
-    return TRUE;
-   break;
+Bool UseItem(I64 wlvl=0){
+ if(mc->lootedSwitch==FALSE){
+  Actor *player = GetPlayer;
+  if(wlvl>0){
+   switch(mc->draggingID){
+    case IT_POT:
+     RemoveItemLoc(mc->draggingItem,TRUE);
+     AddItemToInventory(player->myInv,IT_WPOT);
+     EndDrag;
+    break;
+   }    
+  }
+  if(mc->draggingItem->usable){
+   switch(mc->draggingID){//todo parse from description?
+    case IT_FISH1:
+     RemoveItemLoc(mc->draggingItem,TRUE);
+     RemoveMana(player,-10);   
+     EndDrag;
+    break;
+    case IT_HPPOT:
+     RemoveItemLoc(mc->draggingItem,TRUE);
+     RemoveHealth(player,-10);
+     EndDrag;
+    break;
+   } 
   }
  }
  return FALSE;
@@ -241,9 +260,7 @@ U0 CombineIfPossible(I64 pItem)
    if(item->id==IT_BULB){
     RemoveItemLocID(pItem,TRUE);
     RemoveItemLoc(mc->draggingItem,TRUE);
-    AddItemToInventory(player->myInv,IT_HPPOT);
-    mc->draggingInv=FALSE; 
-
+    AddItemToInventory(player->myInv,IT_HPPOT);    
    }
   break;  
   case IT_BULB:
@@ -251,14 +268,12 @@ U0 CombineIfPossible(I64 pItem)
    {
     RemoveItemLocID(pItem,TRUE);
     RemoveItemLoc(mc->draggingItem,TRUE);
-    AddItemToInventory(player->myInv,IT_HPPOT);
-    mc->draggingInv=FALSE; 
+    AddItemToInventory(player->myInv,IT_HPPOT); 
 
    }
-  break;
-  
-  
+  break;  
  }
+ EndDrag;
 }
 
 
@@ -304,7 +319,7 @@ U0 InvDrag(I64 i, I64 j,Inventory *myInv,Bool isPlayer=TRUE){
   }
   if(!marked){
    ChangeItemLoc(i, j, mc->draggingItem, myInv, isPlayer);                 
-   mc->draggingInv=FALSE; 
+   EndDrag; 
   }
  }//end release
 }

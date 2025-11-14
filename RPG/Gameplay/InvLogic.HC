@@ -116,7 +116,7 @@ Item *HasShekel(Inventory *myInv)
 { 
  Item *toBeRetrieved = myInv->collection->next;
  I64 i;
- for(i=0;i<QueCnt(toBeRetrieved);i++){
+ for(i=0;i<QueCnt(toBeRetrieved);i++){
   toBeRetrieved = toBeRetrieved->next;
   if(toBeRetrieved->id>=IT_SHEKEL&&toBeRetrieved->id<=IT_SHEKEL100)
    return toBeRetrieved;

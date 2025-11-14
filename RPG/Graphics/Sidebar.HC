@@ -22,10 +22,10 @@ U0 RPGSideBar(CDC *dc){
  //run 
  Sprite3B(dc,494,160,0,GetMenuSprite(MENU_MENUBOX));
  if(mc->running){
-  GrBlot3(dc,500,155,0,ITEM048);
-  GrBlot3(dc,500,165,0,ITEM142);
+  GrBlot3(dc,500,158,0,ITEM048);
+  GrBlot3(dc,500,168,0,ITEM142);
  }else{
-  GrBlot3(dc,500,160,0,ITEM048);
+  GrBlot3(dc,500,163,0,ITEM048);
  } 
  Sprite3B(dc,554,160,0,GetMenuSprite(MENU_MENUBOX));    
  //music button

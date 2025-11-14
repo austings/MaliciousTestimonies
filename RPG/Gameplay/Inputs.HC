@@ -319,7 +319,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){
   if(M_Y<480-(42*4)&&mc->draggingInv==TRUE)
   {  
    I64 wlvl= GetTensorWaterLevel(world->level,player->x,player->y,world->currentZ);     
-   if(FillItemIfOnWater(wlvl))
+   if(UseItem(wlvl))
     goto handlemend;
   }
   //Equip wep slot

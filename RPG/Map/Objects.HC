@@ -33,6 +33,9 @@ U0 BuildChests(Inventory *inv, I64 id){
     AddItemToInventory(inv,IT_POT);
     AddItemToInventory(inv,IT_POT);
     AddItemToInventory(inv,IT_SHIRT);   
+    AddItemToInventory(inv,IT_FISH1);
+    AddItemToInventory(inv,IT_FISH1);
+
    break; 
 
   }

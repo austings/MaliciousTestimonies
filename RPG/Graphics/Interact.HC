@@ -143,7 +143,7 @@ U0 InteractTile(Actor *p, U8 dir,
    SetTensorNPC(world->level,0,p->x+xOff,p->y+yOff,world->currentZ);
    UpdateActorCoords(PLAYER,p->x+xOff,p->y+yOff); 
    if(mc->running&&p->currentMana>0)
-    RemoveMana(p,1);
+    RemoveMana(p,1);
    }
   }
  } 

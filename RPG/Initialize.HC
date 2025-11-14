@@ -44,7 +44,7 @@ Cd(__DIR__);;
 #include "Graphics/Sidebar.HC";
 #include "Graphics/Drag.HC";
 #include "Gameplay/Fishing.HC";
-#include "Graphics/Interact.HC";
+#include "Graphics/Interact.HC";
 #include "Music.HC";
 #include "Graphics/Attacks.HC";
 #include "Graphics/Prayers.HC";

@@ -54,12 +54,12 @@ Item *MakeItem(I64 id){
   build->value = 2;
   break;
   case IT_FISH1:
-  build->name = "Raw Trout";
+  build->name = "Raw Carp";
   build->w=1,build->h=2;
   build->hOff=32;
   build->usable=TRUE;
   build->v1="SP+10";
-  build->v2="Alchemy Ingredient";
+  build->v2="Ingredient";
   build->value = 3;
   break;
   case IT_HELM:
