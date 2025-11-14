@@ -197,7 +197,11 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
   case OBJ_CROOFNW:
   case OBJ_CROOFSE:
   case OBJ_CROOFSW:
+  case OBJ_ROOF002:
    break;
+  case OBJ_WALL002:
+    GrBlot3(dc,screenX-19,screenY-76,10,WALL002);
+  break;
   default:
    Sprite3(dc, screenX, screenY, 10, GetFurniture(obj));
   break;
@@ -303,6 +307,12 @@ U0 SwitchRoofs(CDC *dc, Actor *p, I64 obj, I64 screenX, I64 screenY,
    break;
   end:
   break;
+  case OBJ_ROOF002:
+   roofXSize = 8;roofYSize=8;
+   if(p->x>tileX&&p->y>tileY&&p->x<tileX+roofXSize&&p->y<tileY+roofYSize)
+    break;
+   GrBlot3(dc,screenX+(42*roofXSize)+(42*2)-16,screenY+(42*(roofYSize-1)),0,ROOF002);
+  break;
  }
 
 }
@@ -319,7 +329,7 @@ U0 DrawRoofs(CDC *dc, Actor *p, I64 i, I64 j){
    I64 obj= GetTensorObj(world->level,i,j,world->currentZ); 
      
    if(obj!=IT_NULL){
-      SwitchRoofs(dc,p,obj,screenX,screenY,i,j);    
+    SwitchRoofs(dc,p,obj,screenX,screenY,i,j);    
    }          
   }
  }

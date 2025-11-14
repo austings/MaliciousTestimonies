@@ -6,32 +6,34 @@ U0 SerializeMatrix()
 
 #define CAMPCHEST   7
 
-U0 BuildHouse(Matrix *toAdd, I64 startX, I64 endX, 
-              I64 startY, I64 endY, I64 door){
+U0 BuildHouse(Matrix *toAdd, I64 startX, I64 startY){
  //begin blank house
  I64 i,j;
  //four walls 
- for(i=startX;i<=endX;i++){
-   SetMatrix(toAdd,BG_DK_GRAY,i,startY);//back wall
-   SetMatrix(toAdd,BG_DK_GRAY,i,endY);//south wall
- }
- for(i=startY;i<=endY;i++){
-  if(i==door){
-   SetMatrix(toAdd,BG_LT_RED,startX,i);
-   SetMatrix(toAdd,BG_DK_GRAY,endX,i);//right wall
-
+ for(i=startX;i<=startX+8;i++){
+  if(i==startX+4){
+   SetMatrix(toAdd,BG_DK_GRAY,i,startY);
+   SetMatrix(toAdd,BG_LT_RED,i,startY+8);
   }
   else{
-   SetMatrix(toAdd,BG_DK_GRAY,startX,i);//left entrance wall   
-   SetMatrix(toAdd,BG_DK_GRAY,endX,i);//right wall
+   SetMatrix(toAdd,BG_DK_GRAY,i,startY);//back wall
+   SetMatrix(toAdd,BG_DK_GRAY,i,startY+8);//south wall
+
   }
  }
+ for(i=startY;i<=startY+8;i++){
+  SetMatrix(toAdd,BG_DK_GRAY,startX,i);//left entrance wall   
+  SetMatrix(toAdd,BG_DK_GRAY,startX+8,i);//right wall
+ }
  //floor
- for(i=startX+1;i<endX;i++){
-  for(j=startY+1;j<endY;j++){
+ for(i=startX+1;i<startX+8;i++){
+  for(j=startY+1;j<startY+8;j++){
     SetMatrix(toAdd,BG_LT_RED,i,j);
   }
  }
+ SetMatrixObj(toAdd,OBJ_WALL002,startX,startY+8);
+ SetMatrixObj(toAdd,OBJ_ROOF002,startX,startY);
+
 }
 
 Matrix *MakeCastle(Matrix *toAdd){
@@ -297,7 +299,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrix(toAdd,SOLID_BG_GREEN,4,21);
 */
  //market area
- for(i=12;i<18;i++){
+ for(i=12;i<23;i++){
   for(j=35;j<41;j++){
    SetMatrix(toAdd,BG_LT_GRAY,i,j);
   }
@@ -314,38 +316,38 @@ Matrix *MakeCastle(Matrix *toAdd){
 // SetMatrixObj(toAdd,OBJ_STALL,25,41);
 // SetMatrixObj(toAdd,OBJ_STALL,28,41);
 
+ //west road 
+ for(i=20;i<100;i++) {
+  SetMatrix(toAdd,BG_LT_GRAY,i,44);
+  SetMatrix(toAdd,BG_LT_GRAY,i,45);
+ }
 
  //begin blacksmith
- //forge area 
- SetMatrix(toAdd,BG_LT_GRAY,20,45);
- SetMatrix(toAdd,BG_LT_GRAY,21,45);
- SetMatrix(toAdd,BG_LT_GRAY,22,45); 
- SetMatrix(toAdd,BG_LT_GRAY,22,44);
- SetMatrixObj(toAdd,OBJ_FORGE,21,42);
- FlipMatrixSolid(toAdd,20,42);  FlipMatrixSolid(toAdd,22,42);
-
- SetMatrix(toAdd,BG_LT_GRAY,22,43);
- SetMatrix(toAdd,BG_LT_GRAY,22,42);
- SetMatrix(toAdd,BG_LT_GRAY,21,43);
- SetMatrix(toAdd,BG_LT_GRAY,21,42);
-
+ //forge area
+ SetMatrixObj(toAdd,OBJ_FORGE,21,35);
+ FlipMatrixSolid(toAdd,22,35);
+  
+ SetMatrix(toAdd,BG_LT_GRAY,26,43);
+ SetMatrix(toAdd,BG_LT_GRAY,27,43);
+ SetMatrix(toAdd,BG_LT_GRAY,28,43);
+ 
  //four walls
- BuildHouse(toAdd,23,30,40,50,45);
- SetMatrixObj(toAdd,OBJ_TABLE,25,41);
- SetMatrixObj(toAdd,OBJ_BED1,26,41);
- FlipMatrixSolid(toAdd,26,42);  FlipMatrixSolid(toAdd,27,42);
- FlipMatrixSolid(toAdd,27,41); 
- SetMatrixObj(toAdd,OBJ_TABLE,28,41);
- SetMatrixItem(toAdd,IT_SHEKEL10,25,41);
- SetMatrixItem(toAdd,IT_SHEKEL2,28,41);
- SetMatrixObj(toAdd,OBJ_BARREL,22,48);
- SetMatrixObj(toAdd,OBJ_BARREL,22,47);
- SetMatrixObj(toAdd,OBJ_WBARREL,31,49);
+ BuildHouse(toAdd,23,34);
+ SetMatrixObj(toAdd,OBJ_TABLE,25,35);
+ SetMatrixObj(toAdd,OBJ_BED1,26,35);
+ FlipMatrixSolid(toAdd,26,36);  FlipMatrixSolid(toAdd,27,36);
+ FlipMatrixSolid(toAdd,27,35); 
+ SetMatrixObj(toAdd,OBJ_TABLE,28,35);
+ SetMatrixItem(toAdd,IT_SHEKEL10,25,35);
+ SetMatrixItem(toAdd,IT_SHEKEL2,28,35);
+ SetMatrixObj(toAdd,OBJ_BARREL,22,42);
+ SetMatrixObj(toAdd,OBJ_BARREL,22,43);
+ SetMatrixObj(toAdd,OBJ_WBARREL,31,43);
 
  
- BuildHouse(toAdd,23,32,54,60,56); 
- BuildHouse(toAdd,24,31,64,70,69); 
- BuildHouse(toAdd,24,31,73,79,78); 
+// BuildHouse(toAdd,23,32); 
+// BuildHouse(toAdd,24,31); 
+// BuildHouse(toAdd,24,31); 
 
  return toAdd;
  
