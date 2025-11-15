@@ -122,7 +122,7 @@ U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
 #define A_GUEST6 31
 #define A_GUEST7 32
 #define A_GUEST8 33
-#define A_GUEST9 34
+#define A_BARZEL 34
 #define A_GUEST10 35
 #define A_GUEST11 36
 #define A_GUEST12 37

@@ -18,7 +18,7 @@ public class Matrix
 
 
 
-//Initialize Matrix of size size
+//Initialize Matrix of size size
 Matrix *CreateMatrix(I64 row,I64 col)
 {
 

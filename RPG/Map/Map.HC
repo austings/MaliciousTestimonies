@@ -85,6 +85,18 @@ static CDC*             ITEM18= FramePtr("ITEM147");
 #define IT_SHEKEL100    19
 static CDC*             ITEM19= FramePtr("ITEM095");
 
+#define IT_BRZSWORD     20
+static CDC*		ITEM20 = FramePtr("ITEM001B");
+static CDC*		ITEM20I = FramePtr("WINV006");
+
+#define IT_HAMMER       21
+static CDC*		ITEM21 = FramePtr("ITEM019");
+static CDC*		ITEM21I = FramePtr("WINV012");
+
+#define IT_HATCHET      22
+static CDC*	 	ITEM22 = FramePtr("ITEM030");
+static CDC*		ITEM22I = FramePtr("WINV101");
+
 //special
 #define SP_FISHING_SPOT 999
 static CDC*		SPECIAL1 = FramePtr("EFF075");//special point

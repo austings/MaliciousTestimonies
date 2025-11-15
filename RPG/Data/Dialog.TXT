@@ -1,5 +1,5 @@
 ID	TEXT
-1	No response.                                                                 |
+1	No response.                                                                                                                      |
 2	Yahweh be praised. With this#union, Israel is sure to prosper!                                                                    |
 3	You can go in.#You are on the list.                                                                                               |
 4	Thank you all for joining my#wedding party. My lovely queen Jezebel has asked me to make a toast.                                 |
@@ -9,7 +9,7 @@ ID	TEXT
 8	Hello, I am Hiel. To rebuild Jericho, we need each noble to commit 50 wood and 50 stone. Please go in the forest and recover some.|
 9	I thank you for being here with#us on this special day. Please,#enjoy all the festivities!                                        |
 10	Enjoy the rest of the#celebration. When you are ready,#go see Hiel outside the #city gate.                                        |
-11	A war is brewing. Yahweh save us...                                                                                                  |
+11	A war is brewing. Yahweh save us...                                                                                               |   |
 12	You scavenge the %s#as a memento of the moment 	                                                                                  |
 13	There is nothing left #on the corpse.                                                                                             |
 14	You loot the %s's #%s.                                                                                                            |
@@ -17,10 +17,10 @@ ID	TEXT
 16	Greetings, traveller. I bring #from my homeland: fine, silk #garments for the royal chatun…#- touch them, see for yourself!       |
 17	Moo!                                                                                                                              |
 18	bwak bwak                                                                                                                         |
-19	[Prophet Generated Text]                                 
-20	[Druid Generated Text]                                      
-21	[Guest Generated Text]                                    
-22	 
+19	[Prophet Generated Text]                                                                                                          |
+20	[Druid Generated Text]                                                                                                            |
+21	[Guest Generated Text]                                                                                                            |
+22	Steel speaks more clearly than #people. If you're buying, #choose fast.                                                           |
 23	 
 24	 
 25	 

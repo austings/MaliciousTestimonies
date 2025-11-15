@@ -16,7 +16,7 @@ U0 DeserializeDialog(I64 textID){
   //id for sorting purpose only
   U8 id[8],*idptr=id;
 
- if(textID>=GENERATED_TEXT||textID<GUEST_TEXT)//generated text
+ if((textID>=GENERATED_TEXT&&textID<=21)||textID<GUEST_TEXT)//generated text
  {
   U8 *startWord="The",*file = MARKOV_FILE;
   U16 r = RandU16();
@@ -132,16 +132,17 @@ I64 GetTalkie(I64 id){
   case SV_SHAMIR://shop
    talkie = SV_SHAMIR_SHOP;
   break;
-  case SV_GENERIC_START...SV_GENERIC_END:
-   if(id==SV_U8_DRUID)
-    talkie=DRUID_TEXT;
-   else if(id<=SV_PARTIER)
+  case SV_GENERIC_START...SV_PARTIER:
     talkie=GUEST_TEXT-id;//-2-37
-   else
-    talkie = GENERATED_TEXT;
+  break;
+  case SV_BARZEL://shop
+   talkie = SV_BARZEL_SHOP;
+  break;
+  case SV_U8_DRUID:
+   talkie=DRUID_TEXT;
   break; 
   default:
-   talkie=1;
+   talkie=GENERATED_TEXT;
   break; 
  }
  return talkie;
@@ -159,7 +160,7 @@ U0 ClearDialog()
 
 Bool MerchantList(I64 textID)
 {
- if(textID==SV_SHAMIR_SHOP)
+ if(textID==SV_SHAMIR_SHOP||textID==SV_BARZEL_SHOP)
  {
   return TRUE;
  }
@@ -245,6 +246,9 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
   break;
   case SV_SHAMIR_SHOP:
    GrBlot3(dc,276,180,0,P5S);//shamir
+  break;
+  case SV_BARZEL_SHOP:
+   GrBlot3(dc,276,180,0,P18S);//barzel
   break;
   case DRUID_TEXT:
    GrBlot3(dc,276,180,0,P17S);//pious

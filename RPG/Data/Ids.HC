@@ -8,12 +8,16 @@
 #define SV_WOLF1                6
 #define SV_COW                  7
 #define SV_FOWL                 8
-#define SV_SHAMIR              10 
-#define SV_SHAMIR_SHOP         16
+#define SV_SHAMIR               10 
+#define SV_SHAMIR_SHOP          16
+#define SV_BARZEL_SHOP          22
 #define SV_GENERIC_START	26
 #define SV_PARTIER		33
+#define SV_BARZEL               34 
 #define SV_U8_DRUID		36
 #define SV_GENERIC_END		37
+
+
 
 #define SV_MISS_FISH_EQUIP      7001
 
@@ -29,7 +33,7 @@
 #define T3FISH 2//"T3Fish"
 #define T4FISH 3//"T4Fish"
 
-#define T1PUNCH 4//"T1Punch"
+#define T1PUNCH 4//"T1Punch"
 #define T2PUNCH 5//"T2Punch"
 #define T3PUNCH 6//"T3Punch"
 #define T4PUNCH 7//"T4Punch"

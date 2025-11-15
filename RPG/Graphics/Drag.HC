@@ -6,7 +6,7 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
  CDC *scratch = DCNew(100,100);
  DCFill(scratch, TRANSPARENT);
 
- I64 yoff=270, xoff=-2; 
+ I64 yoff=302, xoff=-2; 
  Bool rescale = FALSE;
  switch(itemID){
   case IT_FIST:
@@ -89,6 +89,15 @@ U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
    rescale = TRUE;
    render = DCScaled(ITEM19,1.2,1.2);
    yoff = 308; xoff=16;
+  break;
+  case IT_BRZSWORD:
+   render =ITEM20I;
+  break;
+  case IT_HAMMER: 
+   render =ITEM21I;
+  break;
+  case IT_HATCHET://axe 
+   render =ITEM22I;
   break;
   default:
    render = scratch;
@@ -192,17 +201,29 @@ CDC *RenderEquipment(Actor *player){
   PrintLine(completeMenu,b,14,180);
   //wepn
   wepn = GetPlayer()->sword;
-  if(wepn>IT_FIST)
-  {
+  if(wepn>IT_FIST){
    switch(wepn){
     case IT_DAGGER://dagger   
      GrBlot3(completeMenu,8,
              116+(camera->dividY),0,ITEM1I);
-     break;
+    break;
     case IT_HARPOON://harpoon   
      GrBlot3(completeMenu,8,
              116,0,ITEM2I);
-     break;
+    break;
+    case IT_BRZSWORD:   
+     GrBlot3(completeMenu,8,
+             116,0,ITEM20I);
+    break;
+    case IT_HAMMER:  
+     GrBlot3(completeMenu,8,
+             116,0,ITEM21I);
+    break;
+    case IT_HATCHET://axe   
+     GrBlot3(completeMenu,8,
+             116,0,ITEM22I);
+    break;
+
    }
   }
    

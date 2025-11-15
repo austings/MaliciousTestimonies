@@ -81,19 +81,19 @@ U0 DrawItemsOnLayer(CDC *dc,I64 obj, I64 i,I64 j,I64 l)
    case IT_FIST:
    case IT_NULL:
     endRender = scratch;
-    break;
+   break;
    case IT_DAGGER:
     endRender = ITEM1;
-    break;
+   break;
    case IT_HARPOON:
     endRender = ITEM2;
-    break;
+   break;
    case IT_HELM:
     endRender = ITEM5;
    break;
    case IT_SHIRT:
     endRender = ITEM6;
-    break;
+   break;
    case IT_SHIRTR: 
     endRender = ITEM6R;
    break;
@@ -123,6 +123,16 @@ U0 DrawItemsOnLayer(CDC *dc,I64 obj, I64 i,I64 j,I64 l)
    case IT_SHEKEL100:
     endRender = ITEM19;
    break;
+   case IT_BRZSWORD:
+    endRender = ITEM20;
+   break;
+   case IT_HAMMER:
+    endRender = ITEM21;
+   break;
+   case IT_HATCHET:
+    endRender = ITEM22;
+   break;
+
    default:
     break;
   }
@@ -193,6 +203,15 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
   case OBJ_BED1:
     GrBlot3(dc,screenX-6,screenY-16,10,CLUT001);
   break;
+  case OBJ_ANVIL:
+    GrBlot3(dc,screenX-6,screenY-16,10,CLUT006);
+  break;
+  case OBJ_WBENCH:
+    GrBlot3(dc,screenX-50,screenY,10,CLUT007);
+  break;
+  case OBJ_CANOPY:
+    GrBlot3(dc,screenX-50,screenY-214,10,CLUT008);
+  break;
   case OBJ_CROOFNE:
   case OBJ_CROOFNW:
   case OBJ_CROOFSE:
@@ -201,6 +220,9 @@ U0 DrawObjsOnLayer(CDC *dc, I64 obj,
    break;
   case OBJ_WALL002:
     GrBlot3(dc,screenX-19,screenY-76,10,WALL002);
+  break;
+  case OBJ_WALL003:
+    GrBlot3(dc,screenX-23,screenY-120,10,WALL003);
   break;
   default:
    Sprite3(dc, screenX, screenY, 10, GetFurniture(obj));
@@ -346,9 +368,9 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
  I64 tileX=0;
  I64 tileY=0;
 
- I64 RenderHLowerBound = -1;
- I64 RenderHUpperBound = 14;
- I64 RenderWLowerBound = -4;
+ I64 RenderHLowerBound = -2;
+ I64 RenderHUpperBound = 15;
+ I64 RenderWLowerBound = -8;
  I64 RenderWUpperBound = 14;
 
 

@@ -670,6 +670,7 @@ static CDC* ROOF002= FramePtr("ROOF002");
 
 //walls
 static CDC* WALL002= FramePtr("WALL002");
+static CDC* WALL003= FramePtr("WALL003");
 
 //clutter
 static CDC* CLUT000= FramePtr("CLUT000");
@@ -678,6 +679,9 @@ static CDC* CLUT002= FramePtr("CLUT002");
 static CDC* CLUT003= FramePtr("CLUT003");
 static CDC* CLUT004= FramePtr("CLUT004");
 static CDC* CLUT005= FramePtr("CLUT005");
+static CDC* CLUT006= FramePtr("CLUT006");
+static CDC* CLUT007= FramePtr("CLUT007");
+static CDC* CLUT008= FramePtr("CLUT008");
 
 //grass
 static CDC* GRASS001= FramePtr("GRASS001");
@@ -688,7 +692,7 @@ static CDC* GRASS001= FramePtr("GRASS005");
 
 
 //dialog
-//static CDC* P18S= FramePtr("P18S");
+static CDC* P18S= FramePtr("P18S");
 static CDC* P17S= FramePtr("P17S");
 static CDC* P16S= FramePtr("P16S");
 static CDC* P15S= FramePtr("P15S");

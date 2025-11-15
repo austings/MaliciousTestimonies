@@ -237,7 +237,7 @@ Bool UseItem(I64 wlvl=0){
     break;
     case IT_HPPOT:
      RemoveItemLoc(mc->draggingItem,TRUE);
-     RemoveHealth(player,-10);
+     RemoveHealth(player,-25);
      EndDrag;
     break;
    } 

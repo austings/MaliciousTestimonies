@@ -29,7 +29,7 @@ Item *MakeItem(I64 id){
   build->w=1,build->h=1;
   break;
   case IT_DAGGER:
-  build->name = "Dagger";
+  build->name = "Crude Dagger";
   build->w=1,build->h=2;
   build->wOff=15;
   build->hOff=50;
@@ -41,12 +41,12 @@ Item *MakeItem(I64 id){
   build->name = "Harpoon";
   build->w=1,build->h=3;
   build->wOff=25;
-  build->hOff=25;
+  build->hOff=15;
   build->equip_slot=EQ_SLOT_WEP;
   build->v1="STR+1";
   build->v2="CON+1";
   build->v3="Fishing Tool";
-  build->value = 10;
+  build->value = 12;
   break;
   case IT_TOOTH:
   build->name = "Wolf fang";
@@ -60,7 +60,7 @@ Item *MakeItem(I64 id){
   build->usable=TRUE;
   build->v1="SP+10";
   build->v2="Ingredient";
-  build->value = 3;
+  build->value = 1;
   break;
   case IT_HELM:
   build->name = "Iron Helm";
@@ -86,7 +86,7 @@ Item *MakeItem(I64 id){
   build->w=1,build->h=1;
   build->hOff=32;
   build->v1="Alchemy Ingredient";
-  build->value = 5;
+  build->value = 1;
   break;
   case IT_POT:
   build->name = "Clay Pot";
@@ -109,7 +109,7 @@ Item *MakeItem(I64 id){
   build->w=2,build->h=2;
   build->hOff=50, build->wOff=10;
   build->usable=TRUE;
-  build->value =10;
+  build->value =4;
   build->v1="HP+25";
   break;
   case IT_SHIRTR:
@@ -119,7 +119,7 @@ Item *MakeItem(I64 id){
   build->equip_slot=EQ_SLOT_BDY;
   build->v1="HP+10";
   build->v2="SP+10";
-  build->value = 5;
+  build->value = 60;
   break;
   case IT_SHIRTG:
   build->name = "Green Tunic";
@@ -128,7 +128,7 @@ Item *MakeItem(I64 id){
   build->equip_slot=EQ_SLOT_BDY;
   build->v1="HP+10";
   build->v2="SP+10";
-  build->value = 5;
+  build->value = 10;
   break;
   case IT_SHIRTB:
   build->name = "Blue Tunic";
@@ -137,7 +137,7 @@ Item *MakeItem(I64 id){
   build->equip_slot=EQ_SLOT_BDY;
   build->v1="HP+10";
   build->v2="SP+10";
-  build->value = 5;
+  build->value = 15;
   break;
   case IT_SHIRTP:
   build->name = "Purple Tunic";
@@ -146,7 +146,7 @@ Item *MakeItem(I64 id){
   build->equip_slot=EQ_SLOT_BDY;
   build->v1="HP+10";
   build->v2="SP+10";
-  build->value = 5;
+  build->value = 1500;
   break;
   case IT_SHEKEL:
   build->name = "Silver Shekel";
@@ -172,6 +172,36 @@ Item *MakeItem(I64 id){
   build->hOff=32;//,build->wOff=4;
   build->value = 100;
   break;
+  case IT_BRZSWORD:
+  build->name = "Bronze Sword";
+  build->w=1,build->h=2;
+  build->wOff=25;
+  build->hOff=15;
+  build->equip_slot=EQ_SLOT_WEP;
+  build->v1="STR+2";
+  build->v2="CON+1";
+  build->value = 25;
+  break;
+  case IT_HAMMER:
+  build->name = "Crude Hammer";
+  build->w=1,build->h=3;
+  build->wOff=25;
+  build->hOff=15;
+  build->equip_slot=EQ_SLOT_WEP;
+  build->v1="STR+3";
+  build->value = 35;
+  break;
+  case IT_HATCHET:
+  build->name = "Crude Axe";
+  build->w=1,build->h=2;
+  build->wOff=25;
+  build->hOff=15;
+  build->equip_slot=EQ_SLOT_WEP;
+  build->v1="STR+1";
+  build->v2="CON+2";
+  build->value = 20;
+  break;
+
 
  }
  return build;

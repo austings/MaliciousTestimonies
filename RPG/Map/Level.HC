@@ -31,8 +31,9 @@ U0 BuildHouse(Matrix *toAdd, I64 startX, I64 startY){
     SetMatrix(toAdd,BG_LT_RED,i,j);
   }
  }
- SetMatrixObj(toAdd,OBJ_WALL002,startX,startY+8);
- SetMatrixObj(toAdd,OBJ_ROOF002,startX,startY);
+ SetMatrixObj(toAdd,OBJ_WALL002,startX,startY+8);//door
+ SetMatrixObj(toAdd,OBJ_WALL003,startX,startY+1);//back 
+ SetMatrixObj(toAdd,OBJ_ROOF002,startX,startY);//roof
 
 }
 
@@ -193,7 +194,6 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixNPC(toAdd,A_GUEST6,19,8);//guest
  SetMatrixNPC(toAdd,A_GUEST7,16,8);//guest
  SetMatrixNPC(toAdd,A_GUEST8,21,8);//guest
- SetMatrixNPC(toAdd,A_GUEST9,35,17);//villager
  SetMatrixNPC(toAdd,A_GUEST10,41,17);//villager
  SetMatrixNPC(toAdd,A_GUEST11,4,19);//druid
  SetMatrixNPC(toAdd,A_GUEST12,51,18);//villager
@@ -248,7 +248,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  //SetMatrixNPC(toAdd,24,19,25);  
 
  //beach
- SetMatrixItem(toAdd,IT_HARPOON,5,23);
+ // SetMatrixItem(toAdd,IT_HARPOON,5,23);
 
  //water and sand
  for(i=0;i<50;i++){
@@ -304,6 +304,7 @@ Matrix *MakeCastle(Matrix *toAdd){
    SetMatrix(toAdd,BG_LT_GRAY,i,j);
   }
  }
+  
  SetMatrixObj(toAdd,OBJ_STALL,13,36);
  SetMatrixItem(toAdd,IT_HELM,13,36);
  FlipMatrixSolid(toAdd,12,36);  FlipMatrixSolid(toAdd,14,36);
@@ -323,13 +324,6 @@ Matrix *MakeCastle(Matrix *toAdd){
  }
 
  //begin blacksmith
- //forge area
- SetMatrixObj(toAdd,OBJ_FORGE,21,35);
- FlipMatrixSolid(toAdd,22,35);
-  
- SetMatrix(toAdd,BG_LT_GRAY,26,43);
- SetMatrix(toAdd,BG_LT_GRAY,27,43);
- SetMatrix(toAdd,BG_LT_GRAY,28,43);
  
  //four walls
  BuildHouse(toAdd,23,34);
@@ -340,9 +334,40 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixObj(toAdd,OBJ_TABLE,28,35);
  SetMatrixItem(toAdd,IT_SHEKEL10,25,35);
  SetMatrixItem(toAdd,IT_SHEKEL2,28,35);
+ //in front
+ SetMatrix(toAdd,BG_LT_GRAY,26,43);
+ SetMatrix(toAdd,BG_LT_GRAY,27,43);
+ SetMatrix(toAdd,BG_LT_GRAY,28,43);
  SetMatrixObj(toAdd,OBJ_BARREL,22,42);
  SetMatrixObj(toAdd,OBJ_BARREL,22,43);
- SetMatrixObj(toAdd,OBJ_WBARREL,31,43);
+ SetMatrixObj(toAdd,OBJ_WBARREL,31,43); 
+ //forge area
+ for(i=32;i<42;i++) {
+  for(j=34;j<44;j++){
+  SetMatrix(toAdd,BG_LT_GRAY,i,j);
+  }
+ }
+ FlipMatrixSolid(toAdd,32,36);
+ SetMatrixObj(toAdd,OBJ_FORGE,33,36);
+ FlipMatrixSolid(toAdd,34,36);
+ SetMatrixNPC(toAdd,A_BARZEL,35,38);
+ SetMatrixObj(toAdd,OBJ_ANVIL,35,39);
+ SetMatrixObj(toAdd,OBJ_WBENCH,38,36);
+ SetMatrixObj(toAdd,OBJ_CANOPY,37,37,FALSE);
+ FlipMatrixSolid(toAdd,36,37);
+ FlipMatrixSolid(toAdd,37,37); FlipMatrixSolid(toAdd,37,36);
+ FlipMatrixSolid(toAdd,38,37);
+ FlipMatrixSolid(toAdd,39,37); FlipMatrixSolid(toAdd,39,36);
+ FlipMatrixSolid(toAdd,40,37);
+
+
+ //next house
+ BuildHouse(toAdd,42,34);
+ SetMatrixObj(toAdd,OBJ_TABLE,44,35);
+ SetMatrixObj(toAdd,OBJ_BED1,45,35);
+ FlipMatrixSolid(toAdd,45,36);  FlipMatrixSolid(toAdd,46,36);
+ FlipMatrixSolid(toAdd,46,35); 
+ SetMatrixObj(toAdd,OBJ_TABLE,47,35);
 
  
 // BuildHouse(toAdd,23,32); 
