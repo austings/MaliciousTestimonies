@@ -137,7 +137,7 @@ U0 CalculateExp(Actor *p)
  p->exp+=(ctp->ready->str+ ctp->ready->con+ 
            ctp->ready->int+ ctp->ready->wis)/4;
  if(p->exp>=p->maxExp){
-  Play("3wC#D#E#F#G#");
+//  Play("3wC#D#E#F#G#");
   LvlUp(p);
  }
 

@@ -1,20 +1,16 @@
 
-CDC *GetActorAnimationJob(Actor *a,I64 wlvl)
-{
-
+CDC *GetActorAnimationJob(Actor *a,I64 wlvl){
  CDC *completeActor = DCNew(500,500);
  DCFill(completeActor, TRANSPARENT);
 
- switch(a->status1)
- {
+ switch(a->status1){
   case DEAD_STATUS:
    DrawDead(completeActor,a);
    return completeActor;
   default:
   break;
  }
- switch(a->face)
- {
+ switch(a->face){
    case T_JUDA...T_BENJ:
     completeActor = GetWalkAnimation(a,completeActor);
    break;
@@ -121,8 +117,23 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file
   CombatTurn *ctn;
   // Limit for one
   ctn = CAlloc(sizeof(CombatTurn));
-  ctn->ready = GetPlayer; 
-  //AddDirective(T1READY,ctn->ready);
+  ctn->ready = GetPlayer;
+  /* 
+   switch(p->face){
+    case T_JUDA:
+     AddDirective(T1READY,ctn->ready);
+    break;
+    case T_LEVI:
+     AddDirective(T2READY,ctn->ready);
+    break;
+    case T_EPHR:
+     AddDirective(T3READY,ctn->ready);
+    break;
+    case T_BENJ:
+     AddDirective(T4READY,ctn->ready);
+    break;
+   }
+  */
   QueIns(ctn,combatCQue.last);
 
   ctn = CAlloc(sizeof(CombatTurn));

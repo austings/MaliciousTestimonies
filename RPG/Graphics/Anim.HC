@@ -334,8 +334,20 @@ U0 ProceduralAnimateArc(CDC *dc, Director *task){
  else {
   if(!HasDirective(EFFSCRATCH,player)){
    AddDirective(EFFSCRATCH,player,player->screenX,player->screenY+10);
-   AddDirective(T1HURT,player);
-   //Play("ttt2A#BC...");
+   switch(player->face){
+    case T_JUDA:
+     AddDirective(T1HURT,player);  
+    break;
+    case T_LEVI:
+     AddDirective(T2HURT,player);
+    break;
+    case T_EPHR:
+     AddDirective(T3HURT,player);
+    break;
+    case T_BENJ:
+     AddDirective(T4HURT,player);
+    break;
+   }
   }
   t = 2.0 - cycle;// coming back
  }
@@ -508,12 +520,38 @@ U0 CheckAnimQueue(CDC *dc,I64 y,I64 ty){
  }                     
 }                   
                   
-           
 U0 DrawDead(CDC *dc, Actor *a){
-// PrintDevMessage("GAR",FALSE);
+
+ I64 directive = T1DIE;
+ CDC *frame;
  switch(a->face){
-  case 0...T_BENJ:
-   AddDirective(T1DIE,a);
+  start:
+    case T_JUDA:
+     directive = T1DIE;
+     frame = AAE114;  
+    break;
+    case T_LEVI:
+     directive = T2DIE;
+     frame = AAE167;
+    break;
+    case T_EPHR:
+     directive = T3DIE;
+     frame = AAE6;
+    break;
+    case T_BENJ:
+     directive = T4DIE;
+     frame = AAE60;
+    break;
+  end:
+   if(!HasDirective(directive,a)){
+    AddDirective(directive,a);
+   }
+  break;
+ }
+
+ switch(a->face){
+  case T_JUDA...T_BENJ:
+   GrBlot3(dc,0,32,10,frame);  
   break;
   case T_DOG:
    Sprite3B(dc,0,32,10,GetDog(TRUE));

@@ -43,6 +43,36 @@ class CombatTurn:CQue
   Actor *ready;
 } combatCQue;
 
+#define FACENUM       4
+#define STRIKETYPES   (FACENUM*3) 
+
+//Attack map
+static class StrikeAnims{
+    I64 face;
+    I64 sword;
+    I64 anim;
+} StrikeAnimMap [STRIKETYPES] = {
+     // Judah
+    { T_JUDA, IT_FIST,   T1PUNCH },
+    { T_JUDA, IT_DAGGER, T1DAGGER},
+    { T_JUDA, IT_HARPOON,T1SPEAR },
+
+    // Levi
+    { T_LEVI, IT_FIST,   T2PUNCH },
+    { T_LEVI, IT_DAGGER, T2DAGGER},
+    { T_LEVI, IT_HARPOON,T2SPEAR },
+
+    // Ephr
+    { T_EPHR, IT_FIST,   T3PUNCH },
+    { T_EPHR, IT_DAGGER, T3DAGGER},
+    { T_EPHR, IT_HARPOON,T3SPEAR },
+
+    // Benj
+    { T_BENJ, IT_FIST,   T4PUNCH },
+    { T_BENJ, IT_DAGGER, T4DAGGER },
+    { T_BENJ, IT_HARPOON,T4SPEAR },
+};
+
 #define AGGRO_DIS	2
 #define MOVEMENT_COST		5
 #define W_T 90

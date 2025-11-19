@@ -153,10 +153,23 @@ U0 MakeOffering()
 
 U0 CastPrayer(Actor *a)
 {
- switch(mc->prayerToCast)
- {
+ switch(mc->prayerToCast){
   case SP_HEAL:
-   AddDirective(T1CAST,a);
+   SetActorDir(a,DIR_DOWN);
+   switch(a->face){
+    case T_JUDA:
+     AddDirective(T1CAST,a);  
+    break;
+    case T_LEVI:
+     AddDirective(T2CAST,a);
+    break;
+    case T_EPHR:
+     AddDirective(T3CAST,a);
+    break;
+    case T_BENJ:
+     AddDirective(T4CAST,a);
+    break;
+   }
    AddDirective(T1EFFHEAL,mc->target);
   break;
   default:

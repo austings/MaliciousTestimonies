@@ -1,7 +1,7 @@
 
-
 U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
  //fix to take item hOff/wOff
+ //todo mapping function to remove switch
  CDC *render;
  CDC *scratch = DCNew(100,100);
  DCFill(scratch, TRANSPARENT);

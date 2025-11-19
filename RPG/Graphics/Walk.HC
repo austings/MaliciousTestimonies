@@ -247,106 +247,18 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
                 I64 tX=DELIMITER,I64 tY=DELIMITER){
  Director *task = InitDirective(p,sX,sY,tX,tY);
  Bool isEffect = FALSE;
- //sometimes we reference t1fish directive 
- //as general trigger without checking face
+
+ task->cQueDirective = directive;
  switch(directive){
-  case T1FISH...T4FISH:
-   SetActorDir(p,DIR_DOWN);
-   switch(p->face){
-    case T_JUDA:// T1FISH;
-     task->cQueDirective =T1FISH;
-    break;
-    case T_LEVI:
-     task->cQueDirective = T2FISH;
-    break;
-    case T_EPHR:
-     task->cQueDirective = T3FISH;
-    break;
-    case T_BENJ:
-     task->cQueDirective = T4FISH;
-    break;
-   }
-  break;
-  case T1READY...T4READY:
-   switch(p->face){
-    case T_JUDA:
-     task->cQueDirective = T1READY;  
-    break;
-    case T_LEVI:
-     task->cQueDirective = T2READY;
-    break;
-    case T_EPHR:
-     task->cQueDirective = T3READY;
-    break;
-    case T_BENJ:
-     task->cQueDirective = T4READY;
-    break;
-   }
-  break;
   case T1PUNCH...T4PUNCH:
+  case T1DAGGER...T4DAGGER:
+  case T1SPEAR...T4SPEAR:
    task->cQueDirective = directive;
   if(p->x<=mc->target->x){
    task->flip = TRUE;
    SetActorDir(p,DIR_RIGHT);
   }else {SetActorDir(p,DIR_LEFT);}
   break;
-  case BOUNCE:
-   task->cQueDirective = BOUNCE;
-  break;
-  case ARCSTRIKE:
-   task->cQueDirective = ARCSTRIKE;
-  break;
-  case T1DIE...T4DIE:
-   switch(p->face){
-    case T_JUDA:
-     task->cQueDirective = T1DIE;  
-    break;
-    case T_LEVI:
-     task->cQueDirective = T2DIE;
-    break;
-    case T_EPHR:
-     task->cQueDirective = T3DIE;
-    break;
-    case T_BENJ:
-     task->cQueDirective = T4DIE;
-    break;
-   }
-  break;
-  case T1CAST...T4CAST:
-   SetActorDir(p,DIR_DOWN);
-   switch(p->face){
-    case T_JUDA:
-     task->cQueDirective = T1CAST;  
-    break;
-    case T_LEVI:
-     task->cQueDirective = T2CAST;
-    break;
-    case T_EPHR:
-     task->cQueDirective = T3CAST;
-    break;
-    case T_BENJ:
-     task->cQueDirective = T4CAST;
-    break;
-   }
-  break;
-  case T1HURT...T4HURT:
-   SetActorDir(p,DIR_LEFT);
-   switch(p->face){
-    case T_JUDA:
-     task->cQueDirective = T1HURT;  
-    break;
-    case T_LEVI:
-     task->cQueDirective = T2HURT;
-    break;
-    case T_EPHR:
-     task->cQueDirective = T3HURT;
-    break;
-    case T_BENJ:
-     task->cQueDirective = T4HURT;
-    break;
-   }
-  break;
-
   case T1EFFHEAL:
   case EFFFISH:
   case EFFFIRE:

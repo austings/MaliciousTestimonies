@@ -4,7 +4,8 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
  {
   I64 pui = (PickUpItem(puin,0))->id;
   if(!AddItemToInventory(p->myInv,pui)){
-   Play("ArE"); 
+   I64 i=0;
+   //Play("ArE"); 
   } 
  }
 
@@ -18,7 +19,7 @@ U0 ObjectTrigger(Actor *p, MapNode *puin)
   case SP_FISHING_SPOT:
    if(p->sword==IT_HARPOON)
    {
-    FishingHoleTrigger(p); Play("ArE");
+    FishingHoleTrigger(p); 
    }
    else
    {
@@ -31,7 +32,6 @@ U0 ObjectTrigger(Actor *p, MapNode *puin)
    puin->idObj = OBJ_POPHV;
    AddItemToInventory(p->myInv,IT_BULB);
    //animate
-   Play("ArE");
   break;
  } 
 }

@@ -1,7 +1,5 @@
 
 
-static CDC *loadedAttackFrame= FramePtr("WINV013");
-
 I64 CalculateAngle(I64 x1 , I64 y1 , I64 x2 ,I64 y2)
 {
   I64 dx = x2 -x1;
@@ -17,10 +15,6 @@ I64 CalculateAngle(I64 x1 , I64 y1 , I64 x2 ,I64 y2)
   else{ 
   return 90;}
 }
-
-
-
-
 
 Bool CheckTarget(Actor *toRender){
  //optionally highlight targets for strikes
@@ -40,7 +34,7 @@ Bool CheckTarget(Actor *toRender){
 }
 
 //called after combatMenuSelection==11
-U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
+U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
 {
  dc->color=RED;
  dc->thick=3;
@@ -52,59 +46,13 @@ U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
 
 U0 PlayStrikeAnim(Actor *p){
  I64 anim = T1PUNCH;
- switch(p->face){
-  case T_JUDA:
-  switch(p->sword){
-   case IT_FIST: //fist
-    anim = T1PUNCH;
-   break;
-   case IT_DAGGER: 
-    anim = T1PUNCH;//T1DAGGER;
-   break;
-   case IT_HARPOON: 
-    anim = T1PUNCH;//T1SPEAR;
-   break;
-  }  
-  break;
-  case T_LEVI:
-  switch(p->sword){
-   case IT_FIST: //fist
-    anim = T2PUNCH;//T2PUNCH;
-   break;
-   case IT_DAGGER: 
-    anim = T2PUNCH;//T2DAGGER;
-   break;
-   case IT_HARPOON: 
-    anim = T2PUNCH;//T2SPEAR;
-   break;
-  }  
-  break;
-  case T_EPHR:
-  switch(p->sword){
-   case IT_FIST: //fist
-    anim = T3PUNCH;
-   break;
-   case IT_DAGGER: 
-    anim = T3PUNCH;//T3DAGGER;
-   break;
-   case IT_HARPOON: 
-    anim = T3PUNCH;//T3SPEAR;
-   break;
-  }
-  break;
-  case T_BENJ:
-   switch(p->sword){
-   case IT_FIST: //fist
-    anim = T4PUNCH;//T4PUNCH;
-   break;
-   case IT_DAGGER: 
-    anim = T4PUNCH;//T4DAGGER;
-   break;
-   case IT_HARPOON: 
-    anim = T4PUNCH;//T4SPEAR;
-   break;
-  }
-  break;
+ I64 i;
+ for(i = 0;i<STRIKETYPES;++i) {
+  if(StrikeAnimMap[i].face  == p->face &&
+     StrikeAnimMap[i].sword == p->sword) {
+   anim = StrikeAnimMap[i].anim;
+   break;
+  }
  }
 
  AddDirective(anim,p); 
