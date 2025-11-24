@@ -1,110 +1,29 @@
 
-U0 BlotItem(CDC *target, I64 itemID, I64 x, I64 y, Bool isPlayer){
+U0 BlotItem(CDC *target, Item *it, I64 x, I64 y, Bool isPlayer){
  //fix to take item hOff/wOff
  //todo mapping function to remove switch
  CDC *render;
  CDC *scratch = DCNew(100,100);
  DCFill(scratch, TRANSPARENT);
-
- I64 yoff=302, xoff=-2; 
  Bool rescale = FALSE;
- switch(itemID){
-  case IT_FIST:
-  //not visible 
-   render = scratch; 
-  break;
-  case IT_DAGGER://dagger 
-   render =ITEM1I;
-  break;
-  case IT_HARPOON://harpoon 
-   render=ITEM2I;
-   yoff= 302;
-  break;
-  case IT_TOOTH://wolfteeth
-   render = ITEM3I;
-  break;
-  case IT_FISH1://fish
-   render=ITEM4I;
-   yoff =312;
-  break;
-  case IT_HELM://iron helm
-   render = DCScaled(ITEM5I,.5,.5);
+ // No item or no sprite invisible (same as IT_FIST before)
+ if(!it || !it->img){
+  render = scratch;
+ }else {
+  if(it->blotSX !=1.0||it->blotSY != 1.0) {
+   render  = DCScaled(it->img, it->blotSX, it->blotSY);
    rescale = TRUE;
-   yoff=312;
-   xoff=8;
-  break;
-   start:
-   rescale = TRUE;
-   case IT_SHIRT://regular shirt
-    render = DCScaled(ITEM6I,.9,.9);
-    yoff=312;
-   break;
-   case IT_SHIRTR:
-    render = DCScaled(ITEM6IR,.9,.9);
-    yoff=312;
-   break;
-   case IT_SHIRTB:
-    render = DCScaled(ITEM6IB,.9,.9);
-    yoff=312;
-   break;
-   case IT_SHIRTG:
-    render = DCScaled(ITEM6IG,.9,.9);
-    yoff=312;
-   break;
-   case IT_SHIRTP:
-    render = DCScaled(ITEM6IP,.9,.9);
-    yoff=312;
-   break;
-   end:
-   break;
-  case IT_BULB://poppy
-   render = ITEM7I;
-   yoff = 300;
-  break;
-  case IT_POT:
-   render = ITEM8I;
-   yoff = 315; xoff=12;
-  break;
-  case IT_WPOT:
-   render = ITEM9I;
-   yoff = 315; xoff=12;
-  break;
-  case IT_HPPOT:
-   render = ITEM10I;
-   yoff = 315; xoff=12;
-  break;
-  case IT_SHEKEL:
-   render = ITEM16;
-   yoff = 296; 
-  break;
-  case IT_SHEKEL2:
-   render = ITEM17;
-   yoff = 298;
-  break;
-  case IT_SHEKEL10:
-   render = ITEM18;
-   yoff = 296; xoff=24;
-  break;
-  case IT_SHEKEL100:
-   rescale = TRUE;
-   render = DCScaled(ITEM19,1.2,1.2);
-   yoff = 308; xoff=16;
-  break;
-  case IT_BRZSWORD:
-   render =ITEM20I;
-  break;
-  case IT_HAMMER: 
-   render =ITEM21I;
-  break;
-  case IT_HATCHET://axe 
-   render =ITEM22I;
-  break;
-  default:
-   render = scratch;
-  break;
-
+  }else {
+   render = it->img;
+  }
  }
- if(!isPlayer)
+ I64 yoff, xoff; 
+ if (it != NULL)
+  xoff = it->blotXOff, yoff = it->blotYOff;
+ else
+  xoff = BLOT_X_DEFAULT,yoff = BLOT_Y_DEFAULT;
+
+ if(!isPlayer)//special case override for additional offset
   yoff = 10;
  GrBlot(target,x+xoff,y+yoff,render);
  DCDel(scratch);
@@ -138,7 +57,7 @@ CDC *RenderInventory(Inventory *myInv,Bool isPlayer=TRUE){
      //might glitch if two same items in the same spot
      //if(mc->draggingID!=currentItemID&&mc->draggingItem->invID!=occupied){
      //I64 currentItemID= currentItem->id; 
-      BlotItem(newInventoryRender, currentItemID,
+      BlotItem(newInventoryRender, ito,
                i*camera->dividX,j*camera->dividY,isPlayer);
      }    
     }
@@ -418,7 +337,7 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
    DCDel(invP);
    Sprite3B(dc,460,280,0,GetMenuSprite(3));
    if(mc->draggingInv){
-     BlotItem(dc,mc->draggingID,
+     BlotItem(dc,mc->draggingItem,
               camera->cursorX+2-(mc->draggingItem->wOff),
               camera->cursorY-270-(mc->draggingItem->hOff),TRUE);
    } 

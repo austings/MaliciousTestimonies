@@ -34,7 +34,7 @@ Bool CheckTarget(Actor *toRender){
 }
 
 //called after combatMenuSelection==11
-U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
+U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
 {
  dc->color=RED;
  dc->thick=3;

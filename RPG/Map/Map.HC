@@ -110,8 +110,6 @@ static CDC*             ITEM142 = FramePtr("ITEM142");//up sign
 static CDC* ITEM050= FramePtr("ITEM050");
 
 
-//ITEM4 = FramePtr("");
-
 //Tile Codes
 #define BG_GREEN	0
 #define BG_BLUE		1
@@ -126,6 +124,274 @@ static CDC* ITEM050= FramePtr("ITEM050");
 #define BG_GRASS        21
 #define SOLID_BG_GREEN	110
 
+class ItemTemplate {
+  I16 id;
+
+  U8 *name;
+  I16 equip_slot;
+  I16 value;
+  Bool usable;
+
+  U8  w, h;
+  I16 invWOff, invHOff; // inventory offsets (wOff/hOff)
+
+  U8 *v1, *v2, *v3;
+
+  CDC *img;            // world/equipped sprite
+  F64 blotSX, blotSY;  // world render scale
+  I16 blotXOff, blotYOff; // world render offsets
+};
+
+// defaults used in old BlotItem
+#define BLOT_X_DEFAULT  (-2)
+#define BLOT_Y_DEFAULT  (302)
+
+#define EQ_SLOT_NON	0
+#define EQ_SLOT_WEP	1
+#define EQ_SLOT_BDY	2
+#define EQ_SLOT_HLM	3
+#define EQ_SLOT_RNG	4
+
+#define INVWIDTH 11
+#define INVHEIGHT 4
+#define TOTALITEMS 23
+static ItemTemplate ItemTemplates[TOTALITEMS] = {
+  // NULL / FIST -> Bag
+  {
+    IT_NULL,
+    "Bag",
+    EQ_SLOT_NON,
+    0, FALSE,
+    1,1, 0,0,
+    NULL,NULL,NULL,
+    NULL, 1.0,1.0, BLOT_X_DEFAULT,BLOT_Y_DEFAULT
+  },
+  {
+    IT_FIST,
+    "Bag",
+    EQ_SLOT_NON,
+    0, FALSE,
+    1,1, 0,0,
+    NULL,NULL,NULL,
+    NULL, 1.0,1.0, BLOT_X_DEFAULT,BLOT_Y_DEFAULT // no sprite (unarmed)
+  },
+
+  // Dagger
+  {
+    IT_DAGGER,
+    "Crude Dagger",
+    EQ_SLOT_WEP,
+    7, FALSE,
+    1,2, 15,50,      // inventory size/offset
+    "STR+2", NULL, NULL,
+    ITEM1I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+  },
+
+  // Harpoon
+  {
+    IT_HARPOON,
+    "Harpoon",
+    EQ_SLOT_WEP,
+    12, FALSE,
+    1,3, 25,15,// inventory size/offset
+    "STR+1", "CON+1", "Fishing Tool",
+    ITEM2I, 1.0,1.0, BLOT_X_DEFAULT, 302
+  },
+
+  // Wolf fang
+  {
+    IT_TOOTH,
+    "Wolf fang",
+    EQ_SLOT_NON,
+    2, FALSE,
+    1,1, 0,0,// inventory size/offset
+    NULL,NULL,NULL,
+    ITEM3I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+  },
+
+  // Raw Carp
+  {
+    IT_FISH1,
+    "Raw Carp",
+    EQ_SLOT_NON,
+    1, TRUE,
+    1,2, 0,32,// inventory size/offset
+    "SP+10", "Ingredient", NULL,
+    ITEM4I, 1.0,1.0, BLOT_X_DEFAULT, 312
+  },
+
+  // Iron Helm
+  {
+    IT_HELM,
+    "Iron Helm",
+    EQ_SLOT_HLM,
+    25, FALSE,
+    2,2, 0,32,// inventory size/offset
+    "CON+1", "HP+10", "WIS-1",
+    ITEM5I, 0.5,0.5, 8,312
+  },
+
+  // Tunics (Brown / R / G / B / P) – all share same blot scale/offset
+  {
+    IT_SHIRT,
+    "Brown Tunic",
+    EQ_SLOT_BDY,
+    5, FALSE,
+    2,3, 0,32,// inventory size/offset
+    "HP+10", "SP+10", NULL,
+    ITEM6I, 0.9,0.9, BLOT_X_DEFAULT, 312
+  },
+  {
+    IT_SHIRTR,
+    "Red Tunic",
+    EQ_SLOT_BDY,
+    60, FALSE,
+    2,3, 0,32,
+    "HP+10", "SP+10", NULL,
+    ITEM6IR, 0.9,0.9, BLOT_X_DEFAULT, 312
+  },
+  {
+    IT_SHIRTG,
+    "Green Tunic",
+    EQ_SLOT_BDY,
+    10, FALSE,
+    2,3, 0,32,
+    "HP+10", "SP+10", NULL,
+    ITEM6IG, 0.9,0.9, BLOT_X_DEFAULT, 312
+  },
+  {
+    IT_SHIRTB,
+    "Blue Tunic",
+    EQ_SLOT_BDY,
+    15, FALSE,
+    2,3, 0,32,
+    "HP+10", "SP+10", NULL,
+    ITEM6IB, 0.9,0.9, BLOT_X_DEFAULT, 312
+  },
+  {
+    IT_SHIRTP,
+    "Purple Tunic",
+    EQ_SLOT_BDY,
+    1500, FALSE,
+    2,3, 0,32,// inventory size/offset
+    "HP+10", "SP+10", NULL,
+    ITEM6IP, 0.9,0.9, BLOT_X_DEFAULT, 312
+  },
+
+  // Poppy Bulb
+  {
+    IT_BULB,
+    "Poppy Bulb",
+    EQ_SLOT_NON,
+    1, FALSE,
+    1,1, 0,32,
+    "Alchemy Ingredient", NULL, NULL,
+    ITEM7I, 1.0,1.0, BLOT_X_DEFAULT, 300
+  },
+
+  // Pots
+  {
+    IT_POT,
+    "Clay Pot",
+    EQ_SLOT_NON,
+    1, FALSE,
+    2,2, 10,50,
+    "Crafting Reagent", NULL, NULL,
+    ITEM8I, 1.0,1.0, 12,315
+  },
+  {
+    IT_WPOT,
+    "Water Pot",
+    EQ_SLOT_NON,
+    1, FALSE,
+    2,2, 10,50,// inventory size/offset
+    "Crafting Reagent", NULL, NULL,
+    ITEM9I, 1.0,1.0, 12,315
+  },
+  {
+    IT_HPPOT,
+    "Poppy Decoction",
+    EQ_SLOT_NON,
+    4, TRUE,
+    2,2, 10,50,
+    "HP+25", NULL, NULL,
+    ITEM10I, 1.0,1.0, 12,315
+  },
+
+  // Coins
+  {
+    IT_SHEKEL,
+    "Silver Shekel",
+    EQ_SLOT_NON,
+    1, FALSE,
+    1,1, 0,32,// inventory size/offset
+    NULL,NULL,NULL,
+    ITEM16, 1.0,1.0, BLOT_X_DEFAULT, 296
+  },
+  {
+    IT_SHEKEL2,
+    "Silver Shekels",
+    EQ_SLOT_NON,
+    2, FALSE,
+    1,1, 0,32,
+    NULL,NULL,NULL,
+    ITEM17, 1.0,1.0, BLOT_X_DEFAULT, 298
+  },
+  {
+    IT_SHEKEL10,
+    "Bag of Silver",
+    EQ_SLOT_NON,
+    10, FALSE,
+    2,1, 0,32,
+    NULL,NULL,NULL,
+    ITEM18, 1.0,1.0, 24,296
+  },
+  {
+    IT_SHEKEL100,
+    "Chest of Silver",
+    EQ_SLOT_NON,
+    100, FALSE,
+    2,2, 0,32,
+    NULL,NULL,NULL,
+    ITEM19, 1.2,1.2, 16,308
+  },
+
+  // Bronze Sword
+  {
+    IT_BRZSWORD,
+    "Bronze Sword",
+    EQ_SLOT_WEP,
+    25, FALSE,
+    1,2, 25,15,// inventory size/offset
+    "STR+2", "CON+1", NULL,
+    ITEM20I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+  },
+
+  // Hammer
+  {
+    IT_HAMMER,
+    "Crude Hammer",
+    EQ_SLOT_WEP,
+    35, FALSE,
+    1,3, 25,15,// inventory size/offset
+    "STR+3", NULL, NULL,
+    ITEM21I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+  },
+
+  // Hatchet
+  {
+    IT_HATCHET,
+    "Crude Axe",
+    EQ_SLOT_WEP,
+    20, FALSE,
+    1,2, 25,15,
+    "STR+1", "CON+2", NULL,
+    ITEM22I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+  },
+};
+
+//Item is the initialized class that gets populated by an 
+//ItemTemplate, which contains the static 'item data'
 class Item:CQue
 {
   U8* name;
@@ -143,6 +409,11 @@ class Item:CQue
   //wOff and hOff refer to screen location offset relative to inventory position
   U8* v1,*v2,*v3;
   //these variables optionally appear in tooltip description
+  // ---- blot / world render data ----
+  CDC *img;           // base sprite
+  F64 blotSX, blotSY; // scale for world/equipped render
+  I16 blotXOff;       // world/equipped x offset (BlotItems xoff)
+  I16 blotYOff;       // world/equipped y offset (BlotItems yoff)
 };
 
 class ItemNode

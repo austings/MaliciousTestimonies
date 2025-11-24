@@ -551,7 +551,7 @@ U0 DrawDead(CDC *dc, Actor *a){
 
  switch(a->face){
   case T_JUDA...T_BENJ:
-   GrBlot3(dc,0,32,10,frame);  
+   GrBlot3(dc,0,32,10,frame);  
   break;
   case T_DOG:
    Sprite3B(dc,0,32,10,GetDog(TRUE));

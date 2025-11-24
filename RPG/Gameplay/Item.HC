@@ -1,209 +1,51 @@
 
-#define EQ_SLOT_NON	0
-#define EQ_SLOT_WEP	1
-#define EQ_SLOT_BDY	2
-#define EQ_SLOT_HLM	3
-#define EQ_SLOT_RNG	4
-
-#define INVWIDTH 11
-#define INVHEIGHT 4
-
 Item *MakeItem(I64 id){
  Item * build = CAlloc(sizeof(Item));
  build->id=id;
  build->invID = -1;
  build->visible = TRUE;
- build->wOff=0;
- build->hOff=0;
- build->v1=NULL;
- build->v2=NULL;
- build->v3=NULL;
+ build->w=1,build->h=1; //inv render and offsets
+ build->wOff=0, build->hOff=0;
+ build->v1=NULL,build->v2=NULL, build->v3=NULL;
  build->value=0;
  build->equip_slot=EQ_SLOT_NON;
  build->usable=FALSE;
-  
- switch(id){
-  case IT_NULL:
-  case IT_FIST://not used
-  build->name = "Bag";
-  build->w=1,build->h=1;
-  break;
-  case IT_DAGGER:
-  build->name = "Crude Dagger";
-  build->w=1,build->h=2;
-  build->wOff=15;
-  build->hOff=50;
-  build->equip_slot=EQ_SLOT_WEP;
-  build->v1="STR+2";
-  build->value = 7;
-  break;
-  case IT_HARPOON:
-  build->name = "Harpoon";
-  build->w=1,build->h=3;
-  build->wOff=25;
-  build->hOff=15;
-  build->equip_slot=EQ_SLOT_WEP;
-  build->v1="STR+1";
-  build->v2="CON+1";
-  build->v3="Fishing Tool";
-  build->value = 12;
-  break;
-  case IT_TOOTH:
-  build->name = "Wolf fang";
-  build->w=1,build->h=1;
-  build->value = 2;
-  break;
-  case IT_FISH1:
-  build->name = "Raw Carp";
-  build->w=1,build->h=2;
-  build->hOff=32;
-  build->usable=TRUE;
-  build->v1="SP+10";
-  build->v2="Ingredient";
-  build->value = 1;
-  break;
-  case IT_HELM:
-  build->name = "Iron Helm";
-  build->w=2,build->h=2;
-  build->hOff=32;
-  build->equip_slot=EQ_SLOT_HLM;
-  build->v1="CON+1";
-  build->v2="HP+10";
-  build->v3="WIS-1";
-  build->value = 25;
-  break;
-  case IT_SHIRT:
-  build->name = "Brown Tunic";
-  build->w=2,build->h=3;
-  build->hOff=32;
-  build->equip_slot=EQ_SLOT_BDY;
-  build->v1="HP+10";
-  build->v2="SP+10";
-  build->value = 5;
-  break;
-  case IT_BULB:
-  build->name = "Poppy Bulb";
-  build->w=1,build->h=1;
-  build->hOff=32;
-  build->v1="Alchemy Ingredient";
-  build->value = 1;
-  break;
-  case IT_POT:
-  build->name = "Clay Pot";
-  build->w=2,build->h=2;
-  build->hOff=50, build->wOff=10;
-  //build->usable=TRUE;
-  build->value = 1;
-  build->v1="Crafting Reagent";
-  break;
-  case IT_WPOT:
-  build->name = "Water Pot";
-  build->w=2,build->h=2;
-  build->hOff=50, build->wOff=10;
-  //build->usable=TRUE;
-  build->value =1;
-  build->v1="Crafting Reagent";
-  break;
-  case IT_HPPOT:
-  build->name = "Poppy Decoction";
-  build->w=2,build->h=2;
-  build->hOff=50, build->wOff=10;
-  build->usable=TRUE;
-  build->value =4;
-  build->v1="HP+25";
-  break;
-  case IT_SHIRTR:
-  build->name = "Red Tunic";
-  build->w=2,build->h=3;
-  build->hOff=32;
-  build->equip_slot=EQ_SLOT_BDY;
-  build->v1="HP+10";
-  build->v2="SP+10";
-  build->value = 60;
-  break;
-  case IT_SHIRTG:
-  build->name = "Green Tunic";
-  build->w=2,build->h=3;
-  build->hOff=32;
-  build->equip_slot=EQ_SLOT_BDY;
-  build->v1="HP+10";
-  build->v2="SP+10";
-  build->value = 10;
-  break;
-  case IT_SHIRTB:
-  build->name = "Blue Tunic";
-  build->w=2,build->h=3;
-  build->hOff=32;
-  build->equip_slot=EQ_SLOT_BDY;
-  build->v1="HP+10";
-  build->v2="SP+10";
-  build->value = 15;
-  break;
-  case IT_SHIRTP:
-  build->name = "Purple Tunic";
-  build->w=2,build->h=3;
-  build->hOff=32;
-  build->equip_slot=EQ_SLOT_BDY;
-  build->v1="HP+10";
-  build->v2="SP+10";
-  build->value = 1500;
-  break;
-  case IT_SHEKEL:
-  build->name = "Silver Shekel";
-  build->w=1,build->h=1;
-  build->hOff=32;//,build->wOff=-12;
-  build->value = 1;
-  break;
-  case IT_SHEKEL2:
-  build->name = "Silver Shekels";
-  build->w=1,build->h=1;
-  build->hOff=32;//,build->wOff=-12;
-  build->value = 2;
-  break;
-  case IT_SHEKEL10:
-  build->name = "Bag of Silver";
-  build->w=2,build->h=1;
-  build->hOff=32;//;
-  build->value = 10;
-  break;
-  case IT_SHEKEL100:
-  build->name = "Chest of Silver";
-  build->w=2,build->h=2;
-  build->hOff=32;//,build->wOff=4;
-  build->value = 100;
-  break;
-  case IT_BRZSWORD:
-  build->name = "Bronze Sword";
-  build->w=1,build->h=2;
-  build->wOff=25;
-  build->hOff=15;
-  build->equip_slot=EQ_SLOT_WEP;
-  build->v1="STR+2";
-  build->v2="CON+1";
-  build->value = 25;
-  break;
-  case IT_HAMMER:
-  build->name = "Crude Hammer";
-  build->w=1,build->h=3;
-  build->wOff=25;
-  build->hOff=15;
-  build->equip_slot=EQ_SLOT_WEP;
-  build->v1="STR+3";
-  build->value = 35;
-  break;
-  case IT_HATCHET:
-  build->name = "Crude Axe";
-  build->w=1,build->h=2;
-  build->wOff=25;
-  build->hOff=15;
-  build->equip_slot=EQ_SLOT_WEP;
-  build->v1="STR+1";
-  build->v2="CON+2";
-  build->value = 20;
-  break;
+ //blot (ground) details
+ build->img       = NULL;
+ build->blotSX    = 1.0;
+ build->blotSY    = 1.0;
+ build->blotXOff  = BLOT_X_DEFAULT;
+ build->blotYOff  = BLOT_Y_DEFAULT;
 
+ I64 i;
+ // lookup template  
+ for(i=0; i<TOTALITEMS;++i) {
+  if(ItemTemplates[i].id == id) {
+   ItemTemplate *t = &ItemTemplates[i];
 
+   build->name       = t->name;
+   build->equip_slot = t->equip_slot;
+   build->value      = t->value;
+   build->usable     = t->usable;
+
+   build->w          = t->w;
+   build->h          = t->h;
+   build->wOff       = t->invWOff;
+   build->hOff       = t->invHOff;
+
+   build->v1         = t->v1;
+   build->v2         = t->v2;
+   build->v3         = t->v3;
+
+   build->img        = t->img;
+   build->blotSX     = t->blotSX;
+   build->blotSY     = t->blotSY;
+   build->blotXOff   = t->blotXOff;
+   build->blotYOff   = t->blotYOff;
+   break;
+  }
  }
+
  return build;
 }
 
