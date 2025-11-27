@@ -59,6 +59,7 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j){
 //i - x coordinate of node
 //j - y coordinate of node
 //l - size of item array on layer (multidraw)
+// to use grWOff/HOff (TODO)
 U0 DrawItemsOnLayer(CDC *dc,I64 obj, I64 i,I64 j,I64 l)
 {
 

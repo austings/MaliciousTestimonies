@@ -133,7 +133,7 @@ class ItemTemplate {
   Bool usable;
 
   U8  w, h;
-  I16 invWOff, invHOff; // inventory offsets (wOff/hOff)
+  I16 grWOff, grHOff; // ground offsets (wOff/hOff)
 
   U8 *v1, *v2, *v3;
 
@@ -182,9 +182,9 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     "Crude Dagger",
     EQ_SLOT_WEP,
     7, FALSE,
-    1,2, 15,50,      // inventory size/offset
+    1,2, 20,50,      // inventory size/ground offset
     "STR+2", NULL, NULL,
-    ITEM1I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+    ITEM1I, 1.0,1.0, 4, BLOT_Y_DEFAULT
   },
 
   // Harpoon
@@ -193,7 +193,7 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     "Harpoon",
     EQ_SLOT_WEP,
     12, FALSE,
-    1,3, 25,15,// inventory size/offset
+    1,3, 25,15,// inventory size/ground offset
     "STR+1", "CON+1", "Fishing Tool",
     ITEM2I, 1.0,1.0, BLOT_X_DEFAULT, 302
   },
@@ -204,7 +204,7 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     "Wolf fang",
     EQ_SLOT_NON,
     2, FALSE,
-    1,1, 0,0,// inventory size/offset
+    1,1, 0,0,// inventory size/ground offset
     NULL,NULL,NULL,
     ITEM3I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
   },
@@ -215,7 +215,7 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     "Raw Carp",
     EQ_SLOT_NON,
     1, TRUE,
-    1,2, 0,32,// inventory size/offset
+    1,2, 0,32,// inventory size/ground offset
     "SP+10", "Ingredient", NULL,
     ITEM4I, 1.0,1.0, BLOT_X_DEFAULT, 312
   },
@@ -226,20 +226,20 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     "Iron Helm",
     EQ_SLOT_HLM,
     25, FALSE,
-    2,2, 0,32,// inventory size/offset
+    2,2, 0,32,// inventory size/ground offset
     "CON+1", "HP+10", "WIS-1",
     ITEM5I, 0.5,0.5, 8,312
   },
 
-  // Tunics (Brown / R / G / B / P) – all share same blot scale/offset
+  // Tunics (Brown / R / G / B / P) – all share same blot scale/ground offset
   {
     IT_SHIRT,
     "Brown Tunic",
     EQ_SLOT_BDY,
     5, FALSE,
-    2,3, 0,32,// inventory size/offset
+    2,3, 0,32,// inventory size/ground offset
     "HP+10", "SP+10", NULL,
-    ITEM6I, 0.9,0.9, BLOT_X_DEFAULT, 312
+    ITEM6I, 0.9,0.9, BLOT_X_DEFAULT-2, 312
   },
   {
     IT_SHIRTR,
@@ -248,7 +248,7 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     60, FALSE,
     2,3, 0,32,
     "HP+10", "SP+10", NULL,
-    ITEM6IR, 0.9,0.9, BLOT_X_DEFAULT, 312
+    ITEM6IR, 0.9,0.9, BLOT_X_DEFAULT-2, 312
   },
   {
     IT_SHIRTG,
@@ -257,7 +257,7 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     10, FALSE,
     2,3, 0,32,
     "HP+10", "SP+10", NULL,
-    ITEM6IG, 0.9,0.9, BLOT_X_DEFAULT, 312
+    ITEM6IG, 0.9,0.9, BLOT_X_DEFAULT-2, 312
   },
   {
     IT_SHIRTB,
@@ -266,16 +266,16 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     15, FALSE,
     2,3, 0,32,
     "HP+10", "SP+10", NULL,
-    ITEM6IB, 0.9,0.9, BLOT_X_DEFAULT, 312
+    ITEM6IB, 0.9,0.9, BLOT_X_DEFAULT-2, 312
   },
   {
     IT_SHIRTP,
     "Purple Tunic",
     EQ_SLOT_BDY,
     1500, FALSE,
-    2,3, 0,32,// inventory size/offset
+    2,3, 0,32,// inventory size/ground offset
     "HP+10", "SP+10", NULL,
-    ITEM6IP, 0.9,0.9, BLOT_X_DEFAULT, 312
+    ITEM6IP, 0.9,0.9, BLOT_X_DEFAULT-2, 312
   },
 
   // Poppy Bulb
@@ -304,7 +304,7 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     "Water Pot",
     EQ_SLOT_NON,
     1, FALSE,
-    2,2, 10,50,// inventory size/offset
+    2,2, 10,50,// inventory size/ground offset
     "Crafting Reagent", NULL, NULL,
     ITEM9I, 1.0,1.0, 12,315
   },
@@ -324,7 +324,7 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     "Silver Shekel",
     EQ_SLOT_NON,
     1, FALSE,
-    1,1, 0,32,// inventory size/offset
+    1,1, 0,32,// inventory size/ground offset
     NULL,NULL,NULL,
     ITEM16, 1.0,1.0, BLOT_X_DEFAULT, 296
   },
@@ -362,9 +362,9 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     "Bronze Sword",
     EQ_SLOT_WEP,
     25, FALSE,
-    1,2, 25,15,// inventory size/offset
+    1,2, 25,15,// inventory size/ground offset
     "STR+2", "CON+1", NULL,
-    ITEM20I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+    ITEM20I, 1.0,1.0, 4, BLOT_Y_DEFAULT
   },
 
   // Hammer
@@ -373,9 +373,9 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     "Crude Hammer",
     EQ_SLOT_WEP,
     35, FALSE,
-    1,3, 25,15,// inventory size/offset
+    1,3, 25,15,// inventory size/ground offset
     "STR+3", NULL, NULL,
-    ITEM21I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+    ITEM21I, 1.0,1.0, 4, BLOT_Y_DEFAULT
   },
 
   // Hatchet
@@ -386,7 +386,7 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     20, FALSE,
     1,2, 25,15,
     "STR+1", "CON+2", NULL,
-    ITEM22I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+    ITEM22I, 1.0,1.0, 4, BLOT_Y_DEFAULT
   },
 };
 

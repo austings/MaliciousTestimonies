@@ -19,7 +19,7 @@ Item *MakeItem(I64 id){
 
  I64 i;
  // lookup template  
- for(i=0; i<TOTALITEMS;++i) {
+ for(i=0; i<TOTALITEMS;++i) {
   if(ItemTemplates[i].id == id) {
    ItemTemplate *t = &ItemTemplates[i];
 
@@ -30,8 +30,8 @@ Item *MakeItem(I64 id){
 
    build->w          = t->w;
    build->h          = t->h;
-   build->wOff       = t->invWOff;
-   build->hOff       = t->invHOff;
+   build->wOff       = t->grWOff;
+   build->hOff       = t->grHOff;
 
    build->v1         = t->v1;
    build->v2         = t->v2;
