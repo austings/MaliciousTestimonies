@@ -120,29 +120,61 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(AAE17,T4PUNCH,10,0,0,STANDSFD,0),allAnimations.last);
    QueIns(AddFrame(AAE18,T4PUNCH,11,0,0,STANDSFD,0),allAnimations.last);     
   break;
-  case T1DAGGER:
-   QueIns(AddFrame(AAE7,T1DAGGER,0),allAnimations.last);
+  case T1STAB:
+   QueIns(AddFrame(AAE72,T1STAB,0),allAnimations.last);
+   QueIns(AddFrame(AAE69,T1STAB,1),allAnimations.last);
+   QueIns(AddFrame(AAE66,T1STAB,2),allAnimations.last);
+   QueIns(AddFrame(AAE65,T1STAB,3),allAnimations.last);
+   QueIns(AddFrame(AAE63,T1STAB,4),allAnimations.last);
   break;
-  case T2DAGGER:
-   QueIns(AddFrame(AAE7,T2DAGGER,0),allAnimations.last);
+  case T2STAB:
+   QueIns(AddFrame(AAE115,T2STAB,0),allAnimations.last);
+   QueIns(AddFrame(AAE122,T2STAB,1),allAnimations.last);
+   QueIns(AddFrame(AAE120,T2STAB,2),allAnimations.last);
+   QueIns(AddFrame(AAE119,T2STAB,3),allAnimations.last);
+   QueIns(AddFrame(AAE118,T2STAB,4),allAnimations.last);
   break;
-  case T3DAGGER:
-   QueIns(AddFrame(AAE7,T3DAGGER,0),allAnimations.last);
+  case T3STAB:
+   QueIns(AddFrame(AAE169,T3STAB,0),allAnimations.last);
+   QueIns(AddFrame(AAE176,T3STAB,1),allAnimations.last);
+   QueIns(AddFrame(AAE174,T3STAB,2),allAnimations.last);
+   QueIns(AddFrame(AAE173,T3STAB,3),allAnimations.last);
+   QueIns(AddFrame(AAE172,T3STAB,4),allAnimations.last);
   break;
-  case T4DAGGER:
-   QueIns(AddFrame(AAE7,T4DAGGER,0),allAnimations.last);
+  case T4STAB:
+   QueIns(AddFrame(AAE9, T4STAB,0),allAnimations.last);
+   QueIns(AddFrame(AAE14,T4STAB,1),allAnimations.last);
+   QueIns(AddFrame(AAE12,T4STAB,2),allAnimations.last);
+   QueIns(AddFrame(AAE11,T4STAB,3),allAnimations.last);
+   QueIns(AddFrame(AAE10,T4STAB,4),allAnimations.last);
   break;
-  case T1SPEAR:
-   QueIns(AddFrame(AAE7,T1SPEAR,0),allAnimations.last);
+  case T1SLASH:
+   QueIns(AddFrame(AAE62,T1SLASH,0),allAnimations.last);
+   QueIns(AddFrame(AAE66,T1SLASH,1),allAnimations.last);
+   QueIns(AddFrame(AAE73,T1SLASH,2),allAnimations.last);
+   QueIns(AddFrame(AAE66,T1SLASH,3),allAnimations.last);
+   QueIns(AddFrame(AAE62,T1SLASH,4),allAnimations.last);
   break;
-  case T2SPEAR:
-   QueIns(AddFrame(AAE7,T2SPEAR,0),allAnimations.last);
+  case T2SLASH:
+   QueIns(AddFrame(AAE116,T2SLASH,0),allAnimations.last);
+   QueIns(AddFrame(AAE120,T2SLASH,1),allAnimations.last);
+   QueIns(AddFrame(AAE127,T2SLASH,2),allAnimations.last);
+   QueIns(AddFrame(AAE120,T2SLASH,3),allAnimations.last);
+   QueIns(AddFrame(AAE116,T2SLASH,4),allAnimations.last);
   break;
-  case T3SPEAR:
-   QueIns(AddFrame(AAE7,T3SPEAR,0),allAnimations.last);
+  case T3SLASH:
+   QueIns(AddFrame(AAE170,T3SLASH,0),allAnimations.last);
+   QueIns(AddFrame(AAE174,T3SLASH,1),allAnimations.last);
+   QueIns(AddFrame(AAE181,T3SLASH,2),allAnimations.last);
+   QueIns(AddFrame(AAE174,T3SLASH,3),allAnimations.last);
+   QueIns(AddFrame(AAE170,T3SLASH,4),allAnimations.last);
   break;
-  case T4SPEAR:
-   QueIns(AddFrame(AAE7,T4SPEAR,0),allAnimations.last);
+  case T4SLASH:
+   QueIns(AddFrame(AAE16,T4SLASH,0),allAnimations.last);
+   QueIns(AddFrame(AAE12,T4SLASH,1),allAnimations.last);
+   QueIns(AddFrame(AAE19,T4SLASH,2),allAnimations.last);
+   QueIns(AddFrame(AAE12,T4SLASH,3),allAnimations.last);
+   QueIns(AddFrame(AAE16,T4SLASH,4),allAnimations.last);
   break;
   case BOUNCE:
    QueIns(AddFrame(AAE7,BOUNCE,0),allAnimations.last);
@@ -372,31 +404,68 @@ U0 ProceduralAnimateArc(CDC *dc, Director *task){
  task->a->screenY = py - bounce;
 }
 
+Bool ProceduralInit(CDC *dc, Director *task){
+ switch(task->cQueDirective){
+  case BOUNCE:
+   ProceduralAnimate1(dc,task);
+   return TRUE;  
+  case ARCSTRIKE:
+   ProceduralAnimateArc(dc,task);
+   return TRUE;
+ }
+ return FALSE; 
+}
+
+U0 AnimTaskFlip(CDC *dc, Director *task, Animation *ajc){
+ if(task->flip){
+  task->xAOff = ajc->xAOff;
+  task->yAOff = ajc->yAOff;
+  CDC *flipped = DCFlippedX(ajc->frame); 
+  GrBlot3(dc,task->x+ajc->xOffset,
+             task->y+ajc->yOffset,
+             task->z,
+             flipped);
+  DCDel(flipped);   
+ }else{
+  task->xAOff = -ajc->xAOff-1;
+  task->yAOff = -ajc->yAOff-1;
+  GrBlot3(dc,task->x+ajc->xOffset,
+            task->y+ajc->yOffset,
+            task->z,
+            ajc->frame);
+ }
+}
+
+U0 OptionallyDrawWeapon(CDC *dc, Director *task, Animation *ajc){
+ Item *wep = MakeItem(task->a->sword);
+ switch(task->cQueDirective){
+  case T1STAB...T4STAB:
+   BlotItem(dc,wep,task->x+ajc->xOffset,
+            task->y+ajc->yOffset,FALSE);
+  break;
+  case T1SLASH...T4SLASH:
+   BlotItem(dc,wep,task->x+ajc->xOffset,
+            task->y+ajc->yOffset,FALSE);
+  break;
+ }
+ Free(wep);
+
+}
 
 U0 PlayAnimation(CDC *dc, Director *task){
  I64 i;
  I64 cnt = QueCnt(allAnimations); 
- switch(task->cQueDirective)   {
-  case BOUNCE:
-   ProceduralAnimate1(dc,task);
-   goto taskend;
-  break;  
-  case ARCSTRIKE:
-   ProceduralAnimateArc(dc,task);
-   goto taskend;
-  break;
- } 
  Animation *ajc = allAnimations.next;
-  
+ if(ProceduralInit(dc,task))
+  goto taskend;
+ 
  for(i=0;i<cnt;i++){
   if(task->cQueDirective!=ajc->key)
    ajc = ajc->next;
  }
-  
  while(task->animIndex!=ajc->frameIndex){ 
   ajc = ajc->next;
- }
- 
+ } 
  if(ajc->frameDurationIndex<ajc->frameDuration){
   ajc->frameDurationIndex++;
  }else{
@@ -418,25 +487,8 @@ U0 PlayAnimation(CDC *dc, Director *task){
    }
   }
  }
-
- if(task->flip){
-  task->xAOff = ajc->xAOff;
-  task->yAOff = ajc->yAOff;
-  CDC *flipped = DCFlippedX(ajc->frame); 
-  GrBlot3(dc,task->x+ajc->xOffset,
-             task->y+ajc->yOffset,
-             task->z,
-             flipped);
-  DCDel(flipped);   
- }else{
-  task->xAOff = -ajc->xAOff-1;
-  task->yAOff = -ajc->yAOff-1;
-  GrBlot3(dc,task->x+ajc->xOffset,
-            task->y+ajc->yOffset,
-            task->z,
-            ajc->frame);
- }
- 
+ AnimTaskFlip(dc,task,ajc);
+ OptionallyDrawWeapon(dc,task,ajc); 
  taskend:
  
 }
@@ -462,15 +514,11 @@ U0 InitializeAnimator(){
   CreateAnimation(T3PUNCH);
   CreateAnimation(T4PUNCH);
 
-  CreateAnimation(T1DAGGER);
-  CreateAnimation(T2DAGGER);
-  CreateAnimation(T3DAGGER);
-  CreateAnimation(T4DAGGER);
+  CreateAnimation(T1STAB);
+  CreateAnimation(T2STAB);
+  CreateAnimation(T3STAB);
+  CreateAnimation(T4STAB);
  
-  CreateAnimation(T1SPEAR);
-  CreateAnimation(T2SPEAR);
-  CreateAnimation(T3SPEAR);
-  CreateAnimation(T4SPEAR);
   
   CreateAnimation(BOUNCE);
   CreateAnimation(ARCSTRIKE);

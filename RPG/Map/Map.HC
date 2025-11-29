@@ -96,7 +96,7 @@ static CDC*		ITEM21I = FramePtr("WINV012");
 #define IT_HATCHET      22
 static CDC*	 	ITEM22 = FramePtr("ITEM030");
 static CDC*		ITEM22I = FramePtr("WINV101");
-
+#define WEAPONCOUNT     6
 //special
 #define SP_FISHING_SPOT 999
 static CDC*		SPECIAL1 = FramePtr("EFF075");//special point

@@ -251,9 +251,9 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
  task->cQueDirective = directive;
  switch(directive){
   case T1PUNCH...T4PUNCH:
-  case T1DAGGER...T4DAGGER:
-  case T1SPEAR...T4SPEAR:
-   task->cQueDirective = directive;
+  case T1STAB...T4STAB:
+  case T1SLASH...T4SLASH:
+  task->cQueDirective = directive;
   if(p->x<=mc->target->x){
    task->flip = TRUE;
    SetActorDir(p,DIR_RIGHT);

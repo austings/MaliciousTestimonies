@@ -44,7 +44,7 @@ class CombatTurn:CQue
 } combatCQue;
 
 #define FACENUM       4
-#define STRIKETYPES   (FACENUM*3) 
+#define STRIKETYPES   (FACENUM*WEAPONCOUNT) 
 
 //Attack map
 static class StrikeAnims{
@@ -54,23 +54,35 @@ static class StrikeAnims{
 } StrikeAnimMap [STRIKETYPES] = {
      // Judah
     { T_JUDA, IT_FIST,   T1PUNCH },
-    { T_JUDA, IT_DAGGER, T1DAGGER},
-    { T_JUDA, IT_HARPOON,T1SPEAR },
+    { T_JUDA, IT_DAGGER, T1STAB  },
+    { T_JUDA, IT_HARPOON,T1STAB },
+    { T_JUDA, IT_BRZSWORD,T1STAB },
+    { T_JUDA, IT_HAMMER,T1SLASH },
+    { T_JUDA, IT_HATCHET,T1SLASH },
 
     // Levi
     { T_LEVI, IT_FIST,   T2PUNCH },
-    { T_LEVI, IT_DAGGER, T2DAGGER},
-    { T_LEVI, IT_HARPOON,T2SPEAR },
+    { T_LEVI, IT_DAGGER, T2STAB  },
+    { T_LEVI, IT_HARPOON,T2STAB },
+    { T_LEVI, IT_BRZSWORD,T2STAB },
+    { T_LEVI, IT_HAMMER,T2SLASH },
+    { T_LEVI, IT_HATCHET,T2SLASH },
 
     // Ephr
     { T_EPHR, IT_FIST,   T3PUNCH },
-    { T_EPHR, IT_DAGGER, T3DAGGER},
-    { T_EPHR, IT_HARPOON,T3SPEAR },
+    { T_EPHR, IT_DAGGER, T3STAB  },
+    { T_EPHR, IT_HARPOON,T3STAB },
+    { T_EPHR, IT_BRZSWORD,T3STAB },
+    { T_EPHR, IT_HAMMER,T3SLASH },
+    { T_EPHR, IT_HATCHET,T3SLASH },
 
     // Benj
     { T_BENJ, IT_FIST,   T4PUNCH },
-    { T_BENJ, IT_DAGGER, T4DAGGER },
-    { T_BENJ, IT_HARPOON,T4SPEAR },
+    { T_BENJ, IT_DAGGER, T4STAB  },
+    { T_BENJ, IT_HARPOON,T4STAB },
+    { T_BENJ, IT_BRZSWORD,T4STAB },
+    { T_BENJ, IT_HAMMER,T4SLASH },
+    { T_BENJ, IT_HATCHET,T4SLASH },
 };
 
 #define AGGRO_DIS	2

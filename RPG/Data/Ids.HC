@@ -43,15 +43,15 @@
 #define T3READY 10//"T3Ready"
 #define T4READY 11//"T4Ready"
 
-#define T1DAGGER 12
-#define T2DAGGER 13
-#define T3DAGGER 14
-#define T4DAGGER 15
+#define T1STAB 12
+#define T2STAB 13
+#define T3STAB 14
+#define T4STAB 15
 
-#define T1SPEAR 16
-#define T2SPEAR 17
-#define T3SPEAR 18
-#define T4SPEAR 19
+#define T1SLASH 16
+#define T2SLASH 17
+#define T3SLASH 18
+#define T4SLASH 19
 
 #define T1DIE 21
 #define T2DIE 22

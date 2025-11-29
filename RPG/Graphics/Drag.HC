@@ -1,36 +1,3 @@
-
-U0 BlotItem(CDC *target, Item *it, I64 x, I64 y, Bool isPlayer){
- //fix to take item hOff/wOff
- //todo mapping function to remove switch
- CDC *render;
- CDC *scratch = DCNew(100,100);
- DCFill(scratch, TRANSPARENT);
- Bool rescale = FALSE;
- // No item or no sprite invisible (same as IT_FIST before)
- if(!it || !it->img){
-  render = scratch;
- }else {
-  if(it->blotSX !=1.0||it->blotSY != 1.0) {
-   render  = DCScaled(it->img, it->blotSX, it->blotSY);
-   rescale = TRUE;
-  }else {
-   render = it->img;
-  }
- }
- I64 yoff, xoff; 
- if (it != NULL)
-  xoff = it->blotXOff, yoff = it->blotYOff;
- else
-  xoff = BLOT_X_DEFAULT,yoff = BLOT_Y_DEFAULT;
-
- if(!isPlayer)//special case override for additional offset
-  yoff = 10;
- GrBlot(target,x+xoff,y+yoff,render);
- DCDel(scratch);
- if(rescale)
-  DCDel(render);
-}
-
  
 CDC *RenderInventory(Inventory *myInv,Bool isPlayer=TRUE){
  I64 i,j,i2;
