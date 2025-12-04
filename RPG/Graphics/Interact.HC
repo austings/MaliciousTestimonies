@@ -4,7 +4,7 @@ U0 PickUpItemTrigger(Actor *p, MapNode *puin)
  {
   I64 pui = (PickUpItem(puin,0))->id;
   if(!AddItemToInventory(p->myInv,pui)){
-   I64 i=0;
+   I64 i=0;
    //Play("ArE"); 
   } 
  }
@@ -136,7 +136,6 @@ U0 InteractTile(Actor *p, U8 dir,
    //reset subframes   
    p->walking=walkingFrameKey;
    p->walkingSubFrame=0;
-
    //TODO: UPDATE ON WORLD TICK?
    //update model
    RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);

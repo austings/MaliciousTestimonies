@@ -81,7 +81,7 @@ U0 KeyArrow(Actor *p)
   }
   else
   {
-   if(p->walking==W_NOTWALKING){
+   if(p->walking==DIR_IDLE){
     MoveActor(p,keys.pressed);
    }
   }
@@ -99,7 +99,7 @@ U0 KeyArrow(Actor *p)
   break;
 
   }
- } else if(p->walking==W_NOTWALKING){
+ } else if(p->walking==DIR_IDLE){
   MoveActor(p,keys.pressed);
  }
 } 

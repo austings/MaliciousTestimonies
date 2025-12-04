@@ -55,25 +55,42 @@ U0 SetCoinValue(Inventory *myInv,I64 value)
    toBeRetrieved->value = value;
  }
 }
+#define W_NOTWALKING       0
+#define W_LEFTSTRAIGHT     1
+#define W_RIGHTSTRAIGHT    2
+#define W_UPSTRAIGHT       3
+#define W_DOWNSTRAIGHT     4
+#define W_LEFTLEFT         5
+#define W_RIGHTLEFT        6
+#define W_UPLEFT           7
+#define W_DOWNLEFT         8
+#define W_LEFTMID          9
+#define W_RIGHTMID         10
+#define W_UPMID            11
+#define W_DOWNMID          12
+#define W_LEFTRIGHT        13
+#define W_RIGHTRIGHT       14
+#define W_UPRIGHT          15
+#define W_DOWNRIGHT        16
 
 //convert walk animation frame to cardinal direction
 I64 GetDir(Actor *a){
  if(a->dir==DELIMITER){
   U8 walkDir = a->walking;
-  U8 subWalk = a->walkingSubFrame;
+  U8 subWalk = a->walkingSubFrame;
   switch(walkDir){
    case W_NOTWALKING:
     switch(subWalk){
-     case W_IDLEDOWN:
+     case 0:
       return DIR_DOWN;
      break; 
-     case W_IDLEUP:
+     case 1:
       return DIR_UP;
      break;
-     case W_IDLERIGHT:
+     case 2:
       return DIR_RIGHT;
      break;
-     case W_IDLELEFT:
+     case 3:
       return DIR_LEFT;
      break;
     }

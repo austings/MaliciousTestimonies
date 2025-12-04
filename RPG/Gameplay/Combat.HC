@@ -109,7 +109,7 @@ U0 CombatTurnArrows(Actor *p)
   break;
   case CS_MOVE: 
    if(p->currentMana>=MOVEMENT_COST){
-    if(p->walking==W_NOTWALKING){
+    if(p->walking==DIR_IDLE){
      MoveActor(p,keys.pressed);
      RemoveMana(p,MOVEMENT_COST);
     }

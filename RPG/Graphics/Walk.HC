@@ -1,3 +1,53 @@
+#define SPR_L1  0
+#define SPR_L2  1
+#define SPR_L3  2
+#define SPR_R1  3
+#define SPR_R2  4
+#define SPR_R3  5
+#define SPR_U1  6
+#define SPR_U2  7
+#define SPR_U3  8
+#define SPR_D1  9
+#define SPR_D2 10
+#define SPR_D3 11 
+#define SPR_MAX 12
+#define WALK_MAX 17
+
+class WalkMap{
+ I64 wsf; //walk subframe
+ I64 wf; //walk frame
+ U8 spriteIndex;
+};
+
+static WalkMap walkMapEntry[WALK_MAX] = {
+ { 0, 0, SPR_D2 }
+ { 0, 5,  SPR_L1 },
+ { 0, 6,  SPR_R1 },
+ { 0, 7,  SPR_U1 },
+ { 0, 8,  SPR_D1 },
+ { 0, 9, SPR_L2 },
+ { 0, 10, SPR_R2 },
+ { 0, 11, SPR_U2 },
+ { 0, 12, SPR_D2 },
+ { 0, 13, SPR_L3 },
+ { 0, 14, SPR_R3 },
+ { 0, 15, SPR_U3 },
+ { 0, 16, SPR_D3 },
+ { 3, 0, SPR_L2 },
+ { 2, 0, SPR_R2 },
+ { 1, 0, SPR_U2 },
+ { 0, 0, SPR_D2 }
+};
+
+
+static U8 idleSpriteKey[4] = {
+ SPR_D2,
+ SPR_U2,
+ SPR_R2,
+ SPR_L2,
+};
+
+
 U0 SetActorSubFrameRule(Actor *a,I64 wsf,I64 w ){
  a->walkingSubFrame++;
  if(mc->running&&a->currentMana>0){
@@ -22,111 +72,38 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
                         I64 xOffset=0){
  U8 walkDir = a->walking;
  U8 subWalk = a->walkingSubFrame;
- 
- switch(walkDir){
-  case W_NOTWALKING:
-   switch(subWalk){
-    case W_IDLEDOWN://down
-     if(a->visible)
-      GrBlot3(completeActor,0+xOffset,0,10,D2);
-    break;
-    case W_IDLEUP://up
-     if(a->visible)
-      GrBlot3(completeActor,0+xOffset,0,10,U2);
-    break;
-    case W_IDLERIGHT://right
-     if(a->visible)
-      GrBlot3(completeActor,0+xOffset,0,10,R2);
-    break;
-    case W_IDLELEFT://left
-     if(a->visible)
-      GrBlot3(completeActor,0+xOffset,0,10,L2);
-    break;
-   }
-   break;
-  case W_LEFTSTRAIGHT://left straight start
-   SetActorSubFrameRule(a,0,5);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,L1);
-  break;
-  case W_RIGHTSTRAIGHT://right straight start
-   SetActorSubFrameRule(a,0,6);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,R1);
-  break;
-  case W_UPSTRAIGHT://up straight start
-   SetActorSubFrameRule(a,0,7);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,U1);
-  break;
-  case W_DOWNSTRAIGHT://down straight start
-   SetActorSubFrameRule(a,0,8); 
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,D1);
-  break;
-  case W_LEFTLEFT://left left leg
-   SetActorSubFrameRule(a,0,9);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,L2);
-  break;
-  case W_RIGHTLEFT://right left leg
-   SetActorSubFrameRule(a,0,10);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,R2);
-  break;
-  case W_UPLEFT://up left leg
-   SetActorSubFrameRule(a,0,11);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,U2);
-  break;
-  case W_DOWNLEFT://down left leg
-   SetActorSubFrameRule(a,0,12);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,D2);
-  break;
-  case W_LEFTMID://left straight mid
-   SetActorSubFrameRule(a,0,13);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,L3);
-  break;
-  case W_RIGHTMID://right straight mid
-   SetActorSubFrameRule(a,0,14);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,R3);
-  break;
-  case W_UPMID://up straight mid
-   SetActorSubFrameRule(a,0,15);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,U3);
-  break;
-  case W_DOWNMID://down straight mid
-   SetActorSubFrameRule(a,0,16);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,D3); 
-  break;
-  case W_LEFTRIGHT://left right leg
-   SetActorSubFrameRule(a,3,0);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,L2);
-  break;
-  case W_RIGHTRIGHT://right right leg
-   SetActorSubFrameRule(a,2,0);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,R2);
-  break;
-  case W_UPRIGHT://up right leg
-   SetActorSubFrameRule(a,1,0);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,U2);
-  break;
-  case W_DOWNRIGHT://down right leg 
-   SetActorSubFrameRule(a,0,0);
-   if(a->visible)
-    GrBlot3(completeActor,0+xOffset,0,10,D2);
-  break;
- }
- return completeActor;
 
+ CDC *sprites[SPR_MAX];
+    sprites[SPR_L1] = L1;
+    sprites[SPR_L2] = L2;
+    sprites[SPR_L3] = L3;
+
+    sprites[SPR_R1] = R1;
+    sprites[SPR_R2] = R2;
+    sprites[SPR_R3] = R3;
+
+    sprites[SPR_U1] = U1;
+    sprites[SPR_U2] = U2;
+    sprites[SPR_U3] = U3;
+
+    sprites[SPR_D1] = D1;
+    sprites[SPR_D2] = D2;
+    sprites[SPR_D3] = D3;
+
+ if(walkDir == DIR_IDLE) {
+  U8 sprite = idleSpriteKey[subWalk];
+  if(a->visible)
+   GrBlot3(completeActor, xOffset, 0, 10, sprites[sprite]);
+  return completeActor;
+ }
+
+ WalkMap *m = &walkMapEntry[walkDir];
+ SetActorSubFrameRule(a, m->wsf, m->wf);
+
+ if(a->visible)
+  GrBlot3(completeActor, xOffset, 0, 10, sprites[m->spriteIndex]);
+
+ return completeActor;
 }
 
 CDC *GetWalkAnimation(Actor *a, CDC *completeActor){

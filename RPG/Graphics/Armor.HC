@@ -2,7 +2,7 @@
 U0 ComputeArmorOffsets(Actor *toRender, I64 dir,I64 *xOff, I64 *yOff)
 {
  // Create a value based on timer (cycle every 30 ticks)
- if(toRender->walking!=W_NOTWALKING){
+ if(toRender->walking!=DIR_IDLE){
   F64 t = (world->timer % 30) / 30.0 * 2.0 * pi;
   I64 groffset = ToI64(Sin(t) * 3.0); // values from -3 to +3
   if(dir == DIR_RIGHT || dir == DIR_LEFT){
