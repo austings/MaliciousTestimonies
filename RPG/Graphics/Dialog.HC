@@ -53,7 +53,7 @@ U0 DeserializeDialog(I64 textID){
    break;  
   }  
   U8 *speech2 = MarkovGenerate(DocPut,file,25,startWord); 
-  U8 *speech = MStrPrint("%s %s",startWord,speech2); 
+  U8 *speech = MStrPrint("%s%s.",startWord,speech2); 
   I64 dialogLen = 0; 
   I64 strLen = StrLen(speech);
   for(dialogLen=0;dialogLen<strLen;dialogLen++){
@@ -248,7 +248,7 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
    GrBlot3(dc,276,180,0,P5S);//shamir
   break;
   case SV_BARZEL_SHOP:
-   GrBlot3(dc,276,180,0,P18S);//barzel
+   GrBlot3(dc,276,180,0,P18S);//barzel
   break;
   case DRUID_TEXT:
    GrBlot3(dc,276,180,0,P17S);//pious

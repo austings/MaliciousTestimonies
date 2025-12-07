@@ -215,7 +215,7 @@ U0 HandleKeyboard(Actor *p, MapNode *puin) {
  if(KeyPressed(&keyboard.shift)) {
   KeyShift;
  }
- if(p->walking==DIR_IDLE&& p->walking!=DELIMITER&&
+ if(p->walking==DIR_IDLE&& p->walking!=DELIMITER&&
     camera->cameraOffSetX==0&&
     camera->cameraOffSetY==0){
   if(keyboard.up.isDown){
