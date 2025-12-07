@@ -53,8 +53,9 @@ Cd(__DIR__);;
 #include "Graphics/Weather.HC";
 #include "Graphics/Draw.HC";
 
-// Loading Skills
+// Handle Keys
 #include "Gameplay/Inputs.HC";
+#include "Dev/Keyboard.HC";
 
 // Finalize World
 #include "Map/World.HC";
@@ -142,7 +143,22 @@ U0 InitCamera()
  camera->cameraOffSetY = 0; 
 
 }
+U0 InitKeyboard()
+{
+ keyboard.up.isDown=FALSE;
+ keyboard.down.isDown=FALSE;
+ keyboard.left.isDown=FALSE;
+ keyboard.right.isDown=FALSE;
+ keyboard.inv.isDown=FALSE;
+ keyboard.equipment.isDown=FALSE;
+ keyboard.stats.isDown=FALSE;
+ keyboard.developer.isDown=FALSE;
+ keyboard.esc.isDown=FALSE;
+ keyboard.enter.isDown=FALSE;
+ keyboard.shift.isDown=FALSE;
 
+
+}
 U0 Init(){ //world
  world = CAlloc(sizeof(World));
  mc = CAlloc(sizeof(MenuControl));
@@ -159,11 +175,10 @@ U0 Init(){ //world
  InitCamera;       
  InitHotKeys;
  InitDev;
+ InitKeyboard;
  //prayers
  InitializePrayers;
 
- //keys
- keys.pressed=0;
  //Level and NPCS
 
  SetTensorNPC(world->level,0,5,5,0);//player

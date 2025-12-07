@@ -71,36 +71,31 @@ U0 KeyEnter(Actor *p, MapNode *puin)
  }
 }
 
-U0 KeyArrow(Actor *p)
-{ //corresponds to DIR left, right, up, down
+U0 KeyArrow(Actor *p,I64 dir){
+ //corresponds to DIR left, right, up, down
  SetActorDir(p,DELIMITER);//in progress
 
  if(mc->talkieScene==IT_NULL){
   if(mc->combatON){
-   CombatTurnArrows(p);
-  }
-  else
-  {
-   if(p->walking==DIR_IDLE){
-    MoveActor(p,keys.pressed);
-   }
+   CombatTurnArrows(p,dir);
+  }else{
+   MoveActor(p,dir);
   }
  } else if(MerchantList(mc->talkieScene)){
   switch(mc->combatMenuSelection){
    case CMS_MOVE:
-    if(keys.pressed==DIR_UP){mc->combatMenuSelection=CMS_STRIKE;}
-    else if(keys.pressed==DIR_DOWN){mc->combatMenuSelection++;}
+    if(KeyPressed(&keyboard.up)){mc->combatMenuSelection=CMS_STRIKE;}
+    else if(KeyPressed(&keyboard.down)){mc->combatMenuSelection++;}
   break;
   case CMS_STRIKE:
-   if(keys.pressed==DIR_DOWN){
+   if(KeyPressed(&keyboard.down)){
     mc->combatMenuSelection=CMS_MOVE;
    }
-   else if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+   else if(KeyPressed(&keyboard.up)){mc->combatMenuSelection--;}
   break;
-
   }
- } else if(p->walking==DIR_IDLE){
-  MoveActor(p,keys.pressed);
+ }else{
+  MoveActor(p,dir);
  }
 } 
 
@@ -111,18 +106,13 @@ U0 KeyEsc()
 }
 
 U0 KeyShift(){
- if(mc->running)
-  mc->running = FALSE;
- else
-  mc->running = TRUE;
+ mc->running = !mc->running;
 }
 
 U0 AnyKey(){
  Actor *player = GetPlayer(PLAYER);
- if(mc->combatMenuStage==STAGE_1)//enemy turn
- {
-  switch(mc->combatMenuSelection)
-  {
+ if(mc->combatMenuStage==STAGE_1){//enemy turn
+  switch(mc->combatMenuSelection){
    case CMS_ENE1:
     if(mc->turnIndex>2){
      mc->combatMenuSelection = CMS_ENE2;//move complete
@@ -175,39 +165,6 @@ U0 AutoTurnEnd()
  }
 }
 
-U0 HandleKeyboard(Actor *p, MapNode *puin)
-{
- if(keys.pressed){
-  AnyKey;
- 
-  switch(keys.pressed)
-  {
-   case DIR_LEFT:
-   case DIR_UP:
-   case DIR_DOWN:
-   case DIR_RIGHT:
-    KeyArrow(p);
-   break;
-   case DIR_ENTER:
-    KeyEnter(p,puin);
-   break;
-   case DIR_ESC:
-   break;
-   case DIR_DEV:
-    if(mc->displayDev){
-     mc->displayDev = FALSE;
-    }else{
-     mc->displayDev = TRUE;
-    }
-   break;
-   case DIR_SHIFT:
-    KeyShift;
-   break;
-  }
-  keys.pressed = 0;  
-
- }
-}
 
 U0 HandleMouseSideBar(I64 M_X, I64 M_Y, I64 i,I64 j){
  //SideBar

@@ -274,11 +274,9 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
   }
  }
 
- switch(mc->combatMenuStage)
- {
+ switch(mc->combatMenuStage){
   case STAGE_0:
-   switch(mc->combatMenuSelection)
-   {
+   switch(mc->combatMenuSelection){
     case CS_PRAYER:
      DrawPrayerHotbar(dc);
      break;

@@ -233,23 +233,6 @@ static CDC*		A4R3;
  A4R2 = FramePtr("ACTOR088");
  A4R3 = FramePtr("ACTOR089");
 
-I64 DetermineDirection(Actor *startA, I64 tX, I64 tY)
-{
-    I64 dir = DIR_IDLE;
-
-    if (startA->x < tX) {
-        dir |= DIR_RIGHT;
-    } else if (startA->x > tX) {
-        dir |= DIR_LEFT;
-    }
-    if (startA->y < tY) {
-        dir |= DIR_DOWN;
-    } else if (startA->y > tY) {
-        dir |= DIR_UP;
-    }
-
-    return dir;
-}
 
 
 Actor *GetPlayer(I64 id=PLAYER){

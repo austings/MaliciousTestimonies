@@ -147,10 +147,8 @@ U0 TickCombat(I64 i,I64 j,Actor *p)
 
 }
 
-U0 TickInteract(I64 i, I64 j, Actor *p)
-{
- if(mc->lootedSwitch)
- {
+U0 TickInteract(I64 i, I64 j, Actor *p){
+ if(mc->lootedSwitch){
   mc->displayInventory=TRUE;
  }
 }
@@ -175,7 +173,64 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
  mc->tickWeather++;
  if(mc->tickWeather>W_T)
   mc->tickWeather=0;
+}
+ 
 
+Bool IfAnyKey(){
+ I64 i, keycount = sizeof(Keys) / sizeof(KeyState);
+ KeyState *k = &keyboard;
+ for(i=0;i<keycount; ++i) {
+  if(k[i].isDown && k[i].wasDown) {
+   return TRUE; // at least one key was freshly pressed
+  }
+ }
+ return FALSE;
+}
 
+U0 HandleKeyboard(Actor *p, MapNode *puin) {
+ if(IfAnyKey)
+   AnyKey;
+ if(KeyPressed(&keyboard.inv)) {
+  InvButton;
+ }
+ if(KeyPressed(&keyboard.equipment)) {
+  mc->displayEquipment = !mc->displayEquipment;
+ }
+
+ if(KeyPressed(&keyboard.stats)) {
+  mc->displayStats = !mc->displayStats;
+ }
+
+ if(KeyPressed(&keyboard.developer)) {
+  mc->displayDev = !mc->displayDev;
+ }
+
+ if(KeyPressed(&keyboard.esc)) {
+        // ESC action
+ }
+
+ if(KeyPressed(&keyboard.enter)) {
+  KeyEnter(p,puin);
+ }
+ if(KeyPressed(&keyboard.shift)) {
+  KeyShift;
+ }
+ if(p->walking==DIR_IDLE&& p->walking!=DELIMITER&&
+    camera->cameraOffSetX==0&&
+    camera->cameraOffSetY==0){
+  if(keyboard.up.isDown){
+   keyboard.up.isDown=FALSE;
+   KeyArrow(p,DIR_UP);
+  } else if(keyboard.down.isDown){
+   keyboard.up.isDown=FALSE;
+   KeyArrow(p,DIR_DOWN);
+  } else if(keyboard.left.isDown){
+   keyboard.up.isDown=FALSE;
+   KeyArrow(p,DIR_LEFT);
+  } else if(keyboard.right.isDown){ 
+   keyboard.up.isDown=FALSE; 
+   KeyArrow(p,DIR_RIGHT);
+  }
+ }
 }
 

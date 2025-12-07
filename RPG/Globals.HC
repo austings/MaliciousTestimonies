@@ -27,10 +27,32 @@ class World
 };
 
 //Keyboard configuration
-class Keys
-{
- I64 pressed;
-} keys;
+class KeyState {
+ Bool isDown;   // 1 if key is currently held
+ Bool wasDown;  // 1 if key was held last frame
+};
+
+class Keys{
+ KeyState up;
+ KeyState down;
+ KeyState left;
+ KeyState right;
+ KeyState inv;
+ KeyState equipment;
+ KeyState stats;
+ KeyState developer;
+ KeyState esc;
+ KeyState enter;
+ KeyState shift;
+} keyboard;
+
+Bool KeyPressed(KeyState *k) {   // edge: up -> down
+ return k->isDown && !k->wasDown;
+}
+
+Bool KeyReleased(KeyState *k) {  // edge: down -> up
+ return !k->isDown && k->wasDown;
+}
 
 #define NUM_HOTKEYS 9
 I64 hotkeys[NUM_HOTKEYS] ;

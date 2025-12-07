@@ -83,34 +83,34 @@ U0 CTPProgress()
 
 }
 
-U0 CombatTurnArrows(Actor *p)
+U0 CombatTurnArrows(Actor *p,I64 dir)
 {
  I64 i;
  switch(mc->combatMenuSelection){
   case CMS_MOVE:
-   if(keys.pressed==DIR_UP){mc->combatMenuSelection=CMS_FLEE;}
-   if(keys.pressed==DIR_DOWN){mc->combatMenuSelection++;}
+   if(KeyPressed(&keyboard.up)){mc->combatMenuSelection=CMS_FLEE;}
+   if(KeyPressed(&keyboard.down)){mc->combatMenuSelection++;}
   break;
   case CMS_STRIKE:
   case CMS_PRAYER:
-   if(keys.pressed==DIR_DOWN){
+   if(KeyPressed(&keyboard.down)){
     mc->combatMenuSelection++;
    }
-   if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+   if(KeyPressed(&keyboard.up)){mc->combatMenuSelection--;}
   break;
   case CMS_FLEE:
-   if(keys.pressed==DIR_DOWN){
+   if(KeyPressed(&keyboard.down)){
     mc->combatMenuSelection=CMS_MOVE;
    }
-   if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+   if(KeyPressed(&keyboard.up)){mc->combatMenuSelection--;}
   break;
   //case 4...9:
-  // if(keys.pressed==DIR_UP){mc->combatMenuSelection--;}
+  // if(KeyPressed(&keyboard.up)){mc->combatMenuSelection--;}
   break;
   case CS_MOVE: 
    if(p->currentMana>=MOVEMENT_COST){
     if(p->walking==DIR_IDLE){
-     MoveActor(p,keys.pressed);
+     MoveActor(p,dir);
      RemoveMana(p,MOVEMENT_COST);
     }
    } else{mc->combatMenuSelection=CMS_MOVE_DONE;}
@@ -119,9 +119,9 @@ U0 CombatTurnArrows(Actor *p)
    SwitchTarget;
   break;
   case CS_PRAYER://select prayer/item
-   if(keys.pressed==DIR_DOWN||keys.pressed==DIR_RIGHT)
+   if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.right))
     CycleInv();
-   if(keys.pressed==DIR_LEFT||keys.pressed==DIR_UP)
+   if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.up))
     CycleInv(TRUE);   
   break;
   case CS_PRAYER2://select target

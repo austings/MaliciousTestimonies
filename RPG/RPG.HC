@@ -25,7 +25,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    
    //Draw world and extra for preload on either side        
    ReDrawWorld(dc,i,j);
-   DrawActorsAndItems(dc,p,i,j,l); // former leak
+   DrawActorsAndItems(dc,p,i,j,l); 
 
    DrawRoofs(dc,p,i,j);
   
@@ -95,6 +95,7 @@ Fs->draw_it=&DrawIt;Fs->song_task=Spawn(&SongTask,mc,"Song",,Fs);
 while(TRUE){ 
  //Switch on Main Window Context
  camera->cursorX = ms.pos.x, camera->cursorY = ms.pos.y;
+ InputBeginFrame; // copy is_down -> was_down
  switch(mc->currentMenu){    
   case 0://main menu
    if(MainMenuControls(arg1,arg2,msg_code))
@@ -103,91 +104,28 @@ while(TRUE){
   case 1://main game
    U8 input = GetMsg(&arg1,&arg2,
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
-      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE);
+      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE|1<<MSG_KEY_UP);
     switch (input) {
      case MSG_KEY_UP:
-      keys.pressed=0;
-     break;
-     case MSG_KEY_DOWN:
-      if(mc->displayDev&&arg1>65&&arg1<126&&arg1!=96){//within char range and not dev key
-      AddDevChar(arg1);}else if(mc->displaySave&&arg1>65&&arg1<126){
-      ModifySaveBuffer(arg1);}else {
-      switch(arg1){
-        case 'I':
-        case 'i':
-         InvButton();
-         break;
-        case 'W':
-        case 'w': keys.pressed=DIR_UP;
-        break;
-        case 'A':
-        case 'a': keys.pressed=DIR_LEFT;
-        break;
-        case 'S': 
-        case 's': keys.pressed=DIR_DOWN;
-        break;
-        case 'D':
-        case 'd': keys.pressed=DIR_RIGHT;
-        break;
-        case 'E':
-        case 'e': 
-         if(mc->displayEquipment){ 
-          mc->displayEquipment=FALSE;
-         }else{
-          mc->displayEquipment=TRUE;}
-        break;
-        case 'C':
-        case 'c':
-        if(mc->displayStats){ 
-          mc->displayStats=FALSE;}
-         else{
-          mc->displayStats=TRUE;}
-         break;           
-        case CH_ESC:
-         keys.pressed=DIR_ESC; 
-              break;
-        case CH_SHIFT_ESC:
-         goto fs_end;
-        break;
-        case '\n':
-         keys.pressed=DIR_ENTER;
-        break;
-        case '~':
-        case '`':
-         keys.pressed=DIR_DEV;
-        break;
-        case 0:
-         switch(arg2.u8[0]){
-          case SC_ENTER:
-           keys.pressed=DIR_ENTER;
-          break;
-          case SC_CURSOR_LEFT:
-           keys.pressed=DIR_LEFT;
-          break;
-          case SC_CURSOR_RIGHT:
-           keys.pressed=DIR_RIGHT;
-          break;
-          case SC_CURSOR_UP:
-           keys.pressed=DIR_UP;
-          break;
-          case SC_CURSOR_DOWN:
-           keys.pressed=DIR_DOWN;
-          break;
-          case SC_SHIFT:
-           keys.pressed = DIR_SHIFT; 
-          break;
-         }
-        break;
-      }
+      if(arg1 != 0) {
+       HandleCharKeyUp(arg1);
+      }else{
+       HandleScanKeyUp(arg2.u8[0]);
       }
-      break;
-      case MSG_MS_L_DOWN:
-       HandleMouse(camera->cursorX,camera->cursorY,i,j);
-      break;
-      case MSG_MS_R_DOWN:
-       HandleRMouse(camera->cursorX,camera->cursorY,i,j);
-      break;
-
+     break;
+     case MSG_KEY_DOWN:
+      if(arg1!=0){
+       HandleCharKeyDown(arg1);
+      }else{
+       HandleScanKeyDown(arg2.u8[0]);
+      }
+     break;
+     case MSG_MS_L_DOWN:
+      HandleMouse(camera->cursorX,camera->cursorY,i,j);
+     break;
+     case MSG_MS_R_DOWN:
+      HandleRMouse(camera->cursorX,camera->cursorY,i,j);
+     break;
      }
    break;
   case 2://character creation

@@ -42,8 +42,7 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl){
 
 
 
-I64 GetActorScreenX(Actor *a, I64 npcox, I64 i, Bool Player=TRUE)
-{
+I64 GetActorScreenX(Actor *a, I64 npcox, I64 i, Bool Player=TRUE){
  if(Player){
   if(camera->topLR==0||camera->topLR==wX-11)
    npcox =GetWalkOffsetX(a->walking);
@@ -58,8 +57,7 @@ I64 GetActorScreenX(Actor *a, I64 npcox, I64 i, Bool Player=TRUE)
  }
 }
 
-I64 GetActorScreenY(Actor *a, I64 npcoy, I64 j,Bool Player=TRUE)
-{
+I64 GetActorScreenY(Actor *a, I64 npcoy, I64 j,Bool Player=TRUE){
  if(Player){
   if(camera->topUD==0||camera->topUD==wY-11)
    npcoy =GetWalkOffsetY(a->walking);
@@ -76,8 +74,7 @@ I64 GetActorScreenY(Actor *a, I64 npcoy, I64 j,Bool Player=TRUE)
 
 
 
-U0 StartCameraPan(CDC *dc,Actor *p)
-{
+U0 StartCameraPan(CDC *dc,Actor *p){
  // background world x pan
  if(camera->topLR==0||camera->topLR==wX-11){
   if(camera->cameraOffSetX!=0){

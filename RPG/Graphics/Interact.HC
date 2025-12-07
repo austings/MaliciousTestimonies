@@ -167,9 +167,7 @@ U0 InteractTile(Actor *p, U8 dir,
 //actors with anim
 //use move actor on the new dir to move
 U0 MoveActor(Actor *p, U8 dir){
- //begin walk from idle
- if(p->walking==DIR_IDLE){  
-  switch(dir){
+ switch(dir){
   case DIR_LEFT://left
    InteractTile(p,dir,leftXOff,0,
                 leftSubFrame,leftFrame);
@@ -186,8 +184,5 @@ U0 MoveActor(Actor *p, U8 dir){
    InteractTile(p,dir,0,downYOff,
                 downSubFrame,downFrame);
   break;
-  }
- }//if not walking
- //}//else
-
+ }
 }
