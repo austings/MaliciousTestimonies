@@ -50,12 +50,12 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
 U0 SwitchTarget()
 {
  I64 count = QueCnt(combatCQue);
- ctp = ctp->next;
- mc->targetCTPIndex++;
- if(mc->targetCTPIndex==count){
-  ctp = combatCQue.next;
-  mc->targetCTPIndex = 0;
- }
+  ctp = ctp->next;
+  mc->targetCTPIndex++;
+  if(mc->targetCTPIndex==count){
+   ctp = combatCQue.next;
+   mc->targetCTPIndex = 0;
+  }
 
 
 }
@@ -116,7 +116,11 @@ U0 CombatTurnArrows(Actor *p,I64 dir)
    } else{mc->combatMenuSelection=CMS_MOVE_DONE;}
   break;
   case CS_STRIKE://select target
-   SwitchTarget;
+   if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.right))
+    SwitchTarget;
+   if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.up))
+    SwitchTarget();//integrate otherway
+
   break;
   case CS_PRAYER://select prayer/item
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.right))

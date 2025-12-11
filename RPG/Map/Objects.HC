@@ -79,7 +79,8 @@ U0 FreeObjQue()
  Free(&obj_que);
 }
 
-U0 BlotItem(CDC *target, Item *it, I64 x, I64 y, Bool isPlayer){
+U0 BlotItem(CDC *target, Item *it, 
+            I64 x, I64 y, Bool isPlayer,I64 rotate=0){
  //fix to take item hOff/wOff
  //todo mapping function to remove switch
  CDC *render;
@@ -105,9 +106,14 @@ U0 BlotItem(CDC *target, Item *it, I64 x, I64 y, Bool isPlayer){
 
  if(!isPlayer)//special case override for additional offset
   yoff = 10;
+ if(rotate!=0){
+  DCDepthBufAlloc(render);
+  Mat4x4IdentEqu(render->r);
+  Mat4x4RotX(render->r,tS*pi/4.0);
+  render->flags|=DCF_TRANSFORMATION;
+ }
  GrBlot(target,x+xoff,y+yoff,render);
  DCDel(scratch);
  if(rescale)
   DCDel(render);
 }
-

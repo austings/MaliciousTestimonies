@@ -441,7 +441,7 @@ U0 OptionallyDrawWeapon(CDC *dc, Director *task, Animation *ajc){
  switch(task->cQueDirective){
   case T1STAB...T4STAB:
    BlotItem(dc,wep,task->x+ajc->xOffset,
-            task->y+ajc->yOffset,FALSE);
+            task->y+ajc->yOffset,FALSE,90);
   break;
   case T1SLASH...T4SLASH:
    BlotItem(dc,wep,task->x+ajc->xOffset,

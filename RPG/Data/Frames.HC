@@ -3,7 +3,7 @@
 //AAE, EFF
 static CDC* AAE1= FramePtr("AAE1");
 static CDC* AAE2= FramePtr("AAE2");
-static CDC* AAE3= FramePtr("AAE3");
+static CDC* AAE3= FramePtr("AAE3");
 static CDC* AAE4= FramePtr("AAE4");
 static CDC* AAE5= FramePtr("AAE5");
 static CDC* AAE6= FramePtr("AAE6");
