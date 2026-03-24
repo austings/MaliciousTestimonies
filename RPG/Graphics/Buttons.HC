@@ -225,6 +225,7 @@ Bool UseItem(I64 wlvl=0){
      RemoveItemLoc(mc->draggingItem,TRUE);
      AddItemToInventory(player->myInv,IT_WPOT);
      EndDrag;
+     return TRUE;
     break;
    }    
   }
@@ -261,6 +262,8 @@ U0 CombineIfPossible(I64 pItem)
     RemoveItemLocID(pItem,TRUE);
     RemoveItemLoc(mc->draggingItem,TRUE);
     AddItemToInventory(player->myInv,IT_HPPOT);    
+    EndDrag;
+
    }
   break;  
   case IT_BULB:
@@ -269,11 +272,11 @@ U0 CombineIfPossible(I64 pItem)
     RemoveItemLocID(pItem,TRUE);
     RemoveItemLoc(mc->draggingItem,TRUE);
     AddItemToInventory(player->myInv,IT_HPPOT); 
+    EndDrag;
 
    }
   break;  
  }
- EndDrag;
 }
 
 

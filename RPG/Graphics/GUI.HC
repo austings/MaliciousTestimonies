@@ -15,7 +15,7 @@ class GraphicObject
   I64 relX, relY;
   I64 screenX, screenY; 
   U8 *onClickFunctionPtr;
-  U8 *onReleaseFunctionPtr;
+  U8 *onReleaseFunctionPtr;
   U8 *sprite; 
 
 };

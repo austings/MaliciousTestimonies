@@ -45,7 +45,7 @@ class Keys{
  KeyState enter;
  KeyState shift;
 } keyboard;
-
+
 Bool KeyPressed(KeyState *k) {   // edge: up -> down
  return k->isDown && !k->wasDown;
 }
