@@ -66,6 +66,7 @@ U0 Stage0(Actor *p)
     if (r < 0.8 * 65536){
      CombatQueFree();
      mc->combatON=FALSE;
+ 
      mc->combatMenuStage=STAGE_2;
       
     } 
@@ -180,7 +181,7 @@ Bool IfAnyKey(){
  I64 i, keycount = sizeof(Keys) / sizeof(KeyState);
  KeyState *k = &keyboard;
  for(i=0;i<keycount; ++i) {
-  if(k[i].isDown && k[i].wasDown) {
+  if(k[i].isDown && !k[i].wasDown) {
    return TRUE; // at least one key was freshly pressed
   }
  }
@@ -219,16 +220,12 @@ U0 HandleKeyboard(Actor *p, MapNode *puin) {
     camera->cameraOffSetX==0&&
     camera->cameraOffSetY==0){
   if(keyboard.up.isDown){
-   keyboard.up.isDown=FALSE;
    KeyArrow(p,DIR_UP);
   } else if(keyboard.down.isDown){
-   keyboard.up.isDown=FALSE;
    KeyArrow(p,DIR_DOWN);
   } else if(keyboard.left.isDown){
-   keyboard.up.isDown=FALSE;
    KeyArrow(p,DIR_LEFT);
   } else if(keyboard.right.isDown){ 
-   keyboard.up.isDown=FALSE; 
    KeyArrow(p,DIR_RIGHT);
   }
  }

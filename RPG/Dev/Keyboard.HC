@@ -131,6 +131,8 @@ U0 HandleScanKeyDown(I64 sc){
   break;
  }
 }
+
+
 U0 HandleScanKeyUp(I64 sc){
  switch (sc) {
   case SC_ENTER:

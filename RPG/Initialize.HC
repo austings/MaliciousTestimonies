@@ -157,7 +157,6 @@ U0 InitKeyboard()
  keyboard.enter.isDown=FALSE;
  keyboard.shift.isDown=FALSE;
 
-
 }
 U0 Init(){ //world
  world = CAlloc(sizeof(World));
@@ -175,7 +174,7 @@ U0 Init(){ //world
  InitCamera;       
  InitHotKeys;
  InitDev;
- InitKeyboard;
+ InitKeyboard;
  //prayers
  InitializePrayers;
 

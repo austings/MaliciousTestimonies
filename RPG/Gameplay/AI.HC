@@ -70,7 +70,7 @@ U0 a_star(MapNode *mnStart,MapNode *goal) {
 
     startNode->g = 0;
     startNode->h = heuristic(start, goal);
-    startNode->f = startNode->g + startNode->h;
+    startNode->f = startNode->g + startNode->h;
     startNode->parent = start;
     startNode->inOpenList = 1;
     openList[openCount++] = startNode;
