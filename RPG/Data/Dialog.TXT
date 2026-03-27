@@ -10,7 +10,7 @@ ID	TEXT
 9	I thank you for being here with#us on this special day. Please,#enjoy all the festivities!                                        |
 10	Enjoy the rest of the#celebration. When you are ready,#go see Hiel outside the #city gate.                                        |
 11	A war is brewing. Yahweh save us...                                                                                               |
-12	You scavenge the %s#as a memento of the moment 	                                                                                  |
+12	You scavenge the %s#as a memento of the moment 	                                                                                  |
 13	There is nothing left #on the corpse.                                                                                             |
 14	You loot the %s's #%s.                                                                                                            |
 15	You must first equip fishing#equipment to fish here.                                                                              |                                                   |
@@ -21,7 +21,7 @@ ID	TEXT
 20	[Druid Generated Text]                                                                                                            |
 21	[Guest Generated Text]                                                                                                            |
 22	Steel speaks more clearly than #people. If you're buying, #choose fast.                                                           |
-23	*YAWN*! What a night. # The howling of wolves kept me up # all night. I hope I'm not late #for the wedding today.                 |
+23	*YAWN*! What a night. #The howling of wolves kept me up #all night. I hope I'm not late #for the wedding today.                 |
 24	 
 25	 
 26	 
