@@ -452,27 +452,13 @@ U0 OptionallyDrawWeapon(CDC *dc, Director *task, Animation *ajc){
 
 }
 
-U0 PlayAnimation(CDC *dc, Director *task){
- I64 i;
- I64 cnt = QueCnt(allAnimations); 
- Animation *ajc = allAnimations.next;
- if(ProceduralInit(dc,task))
-  goto taskend;
- 
- for(i=0;i<cnt;i++){
-  if(task->cQueDirective!=ajc->key)
-   ajc = ajc->next;
- }
- while(task->animIndex!=ajc->frameIndex){ 
-  ajc = ajc->next;
- } 
- if(ajc->frameDurationIndex<ajc->frameDuration){
-  ajc->frameDurationIndex++;
- }else{
-  ajc->frameDurationIndex=0;
-  Animation *tmp = ajc->next;
-  task->animIndex = task->animIndex+1;
-  if(tmp->frameIndex<=ajc->frameIndex){
+//returns true for hard end
+Bool EndAnimation(Animation *ajc, Director *task)
+{
+ ajc->frameDurationIndex=0;
+ Animation *tmp = ajc->next;
+ task->animIndex = task->animIndex+1;
+ if(tmp->frameIndex<=ajc->frameIndex){
    switch(task->cQueDirective){
     case T1DIE...T4DIE:
     case EFFFIRE:
@@ -482,10 +468,38 @@ U0 PlayAnimation(CDC *dc, Director *task){
     default:            
      ResetDirective(task);
      task->a->visible = TRUE;  
-     goto taskend;
+     return TRUE;
     break;
    }
-  }
+ }
+ return FALSE;
+}
+
+
+U0 PlayAnimation(CDC *dc, Director *task){
+ I64 i;
+ I64 cnt = QueCnt(allAnimations); 
+ Animation *ajc = allAnimations.next;
+ if(ProceduralInit(dc,task))
+  goto taskend;
+
+ //find animation 
+ for(i=0;i<cnt;i++){
+  if(task->cQueDirective!=ajc->key)
+   ajc = ajc->next;
+ }
+
+ //index to current frame 
+ while(task->animIndex!=ajc->frameIndex){ 
+  ajc = ajc->next;
+ }
+
+ //increment display counter
+ if(ajc->frameDurationIndex<ajc->frameDuration){
+  ajc->frameDurationIndex++;
+ }else{
+  if(EndAnimation(ajc,task))
+   goto taskend;
  }
  AnimTaskFlip(dc,task,ajc);
  OptionallyDrawWeapon(dc,task,ajc); 
