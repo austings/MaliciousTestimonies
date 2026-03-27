@@ -1,15 +1,13 @@
 
 
-U0 LvlUp(Actor *a)
-{
+U0 LvlUp(Actor *a){
   a->exp = a->exp - a->maxExp;
   a->lvl = a->lvl+1;
   a->maxExp = Pow(0.05*a->lvl,4)+Pow(2*a->lvl,3)
                       +Pow(5*a->lvl,2)+10*a->lvl+3; 
 }
 
-U0 RemoveMana(Actor *a, I64 magnitude)
-{
+U0 RemoveMana(Actor *a, I64 magnitude){
   IndicatorText(a->x,a->y,magnitude,"Spirit");
   if(a->currentMana<=magnitude){
     a->currentMana=0;
@@ -24,8 +22,7 @@ U0 RemoveMana(Actor *a, I64 magnitude)
 
 }
 
-U0 RemoveHealth(Actor *a, I64 magnitude)
-{
+U0 RemoveHealth(Actor *a, I64 magnitude){
  IndicatorText(a->x,a->y,magnitude,"Health");
  if(a->currentHealth<=magnitude){
   a->currentHealth=0;
@@ -39,8 +36,7 @@ U0 RemoveHealth(Actor *a, I64 magnitude)
  } 
 }
 
-U0 AddHealth(Actor *a,I64 magnitude)
-{
+U0 AddHealth(Actor *a,I64 magnitude){
  IndicatorText(a->x,a->y,magnitude,"Health");
  a->currentHealth = a->currentHealth + magnitude;
  if(a->currentHealth>a->health){
@@ -49,8 +45,7 @@ U0 AddHealth(Actor *a,I64 magnitude)
 }
 
 
-U0 UpdateActorCoords(I64 id, U64 x, U64 y)
-{
+U0 UpdateActorCoords(I64 id, U64 x, U64 y){
   switch(id)
   {
    case 0:

@@ -230,6 +230,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   case T1PUNCH...T4PUNCH:
   case T1STAB...T4STAB:
   case T1SLASH...T4SLASH:
+  case T1SLEEP...T4SLEEP:
   task->cQueDirective = directive;
   if(p->x<=mc->target->x){
    task->flip = TRUE;
@@ -238,6 +239,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   break;
   case T1EFFHEAL:
   case EFFFISH:
+  case EFFSLEEP:
   case EFFFIRE:
   case EFFSCRATCH:
   case EFFBANNER:

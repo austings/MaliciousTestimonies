@@ -470,3 +470,78 @@ U0 IntroCutscene(CDC *dc, CTask *task,U8 textID)
  AddCurrLetter(1,textID);
  CleanUpImage;
 }
+
+U0 ProgressCutscene(){
+ mc->cutsceneTarget++;
+ ResetCurrLetter;
+ if(mc->cutsceneTarget>2){
+  mc->currentMenu=2;
+  mc->currentSong=2;
+ }
+}
+
+U0 SetChatbox(U8 *name, I64 storyVar)
+{
+ mc->dialogName = name;
+ mc->talkieScene = storyVar;
+
+}
+
+U0 CharacterCreator()
+{
+ if(camera->cursorX>=386&&camera->cursorX<=429) {
+  if(camera->cursorY>300&&camera->cursorY<336){ //tribe
+   IncSelect(0);
+  } else if(camera->cursorY>348&&camera->cursorY<382) {//hair
+   IncSelect(1);
+  } else if(camera->cursorY>400&&camera->cursorY<432){//face
+   IncSelect(2);
+  }
+ }
+ if(camera->cursorX>=476&&camera->cursorX<=603&&
+    camera->cursorY>=370&&camera->cursorY<=434){//next scene
+  U8 tribe = GetSelectedStats(0);
+  U8 str,con,int,wis;
+  switch(tribe){
+   case T_JUDA:
+    str=10;con=10;int=10;wis=10;
+   break;
+   case T_LEVI:
+    str=5;con=5;int=15;wis=15;
+   break;
+   case T_EPHR:
+    str=5;con=15;int=5;wis=15;
+   break;
+   case T_BENJ:
+    str=15;con=15;int=5;wis=5;
+   break;
+  }
+  ResetCurrLetter;
+  mc->cutsceneTarget=0;
+  FreeActor(GetPlayer);
+  Actor *p = MakeActor(0,tribe,GetSelectedStats(1),GetSelectedStats(2), 
+                       0,0,0,0,3,2,str,int,con,wis,0);
+  QueIns(p,actors->last);
+  mc->currentMenu=1;
+  mc->currentSong=0;
+  switch(p->face){
+   case T_JUDA:
+    AddDirective(T1SLEEP,p,p->screenX+120,p->screenY+42);       
+   break;
+   case T_LEVI:
+    AddDirective(T2SLEEP,p,p->screenX+120,p->screenY+42);
+   break;
+   case T_EPHR:
+    AddDirective(T3SLEEP,p,p->screenX+120,p->screenY+42);
+   break;
+   case T_BENJ:
+    AddDirective(T4SLEEP,p,p->screenX+120,p->screenY+42);
+   break;
+  }
+  AddDirective(EFFSLEEP,p,p->screenX+120,p->screenY+16);
+  SetChatbox("You",SV_INTROTALKIE);
+
+ }
+
+}
+ 

@@ -65,7 +65,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixObj(toAdd,OBJ_CHEST,1,4,TRUE,CAMPCHEST);
  
  //Items
- SetMatrixItem(toAdd,IT_DAGGER,3,2);
+ SetMatrixItem(toAdd,IT_DAGGER,4,2);
 
  /*
  SetMatrix(toAdd,BG_GRASS,5,4);//,FALSE);
@@ -367,7 +367,7 @@ Matrix *MakeCastle(Matrix *toAdd){
  SetMatrixObj(toAdd,OBJ_BED1,45,35);
  FlipMatrixSolid(toAdd,45,36);  FlipMatrixSolid(toAdd,46,36);
  FlipMatrixSolid(toAdd,46,35); 
- SetMatrixObj(toAdd,OBJ_TABLE,47,35);
+ SetMatrixObj(toAdd,OBJ_TABLE,47,35);
 
  
 // BuildHouse(toAdd,23,32); 

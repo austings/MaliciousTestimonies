@@ -1,4 +1,4 @@
-#define MAX_D 140
+#define MAX_D 120
 U8 *DIALOG_FILE = MStrPrint("%s%s",DirCur,"/Data/Dialog.TXT"); 
 U8 *MARKOV_FILE = MStrPrint("%s%s",DirCur,"/Gameplay/Markov/Data.DD"); 
 U8 *MARKOV_FILE2 = MStrPrint("%s%s",DirCur,"/Gameplay/Markov/Druid.DD"); 

@@ -73,6 +73,7 @@ U0 InitMenuControl()
  mc->talkieScene = IT_NULL;//dialogID
  mc->dialogName = "???";//dialog actor name
  mc->dialogID = 0;
+ mc->controlLock =FALSE;
 
  //display
  mc->displayInventory=FALSE;
@@ -168,7 +169,8 @@ U0 Init(){ //world
  SetVector(worldSz,wY,1);
  SetVector(worldSz,wZ,2);
  world->level = CreateTensor(worldSz);
- world->timer = 0; 
+ world->timer = 0;
+ world->gameTicks=0; 
  InitActors(0);
  InitMenuControl;
  InitCamera;       
@@ -180,7 +182,7 @@ U0 Init(){ //world
 
  //Level and NPCS
 
- SetTensorNPC(world->level,0,5,5,0);//player
+ SetTensorNPC(world->level,0,3,2,0);//player
  SMFT(world->level,MakeCastle(GetMatrixFromTensor(world->level,0)),0);//castle
 
 

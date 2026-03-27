@@ -77,7 +77,7 @@ U0 SetCoinValue(Inventory *myInv,I64 value)
 I64 GetDir(Actor *a){
  if(a->dir==DELIMITER){
   U8 walkDir = a->walking;
-  U8 subWalk = a->walkingSubFrame;
+  U8 subWalk = a->walkingSubFrame;
   switch(walkDir){
    case W_NOTWALKING:
     switch(subWalk){

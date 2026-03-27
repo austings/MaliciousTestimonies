@@ -10,7 +10,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    break;
   //Main Game
   case 1:
-   Actor *p = GetPlayer(PLAYER);
+   Actor *p = GetPlayer;
    MapNode *pin = GetTensorItem(world->level,
                     p->x,p->y,world->currentZ);
 
@@ -20,7 +20,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    {
     WorldTick(i,j,p);
     world->timer = 0;
-
+    world->gameTicks++;
    }
    
    //Draw world and extra for preload on either side        
@@ -105,7 +105,9 @@ while(TRUE){
    U8 input = GetMsg(&arg1,&arg2,
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
       |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE|1<<MSG_KEY_UP);
-    switch (input) {
+
+    if(world->gameTicks>10&&!mc->controlLock){
+     switch (input) {
      case MSG_KEY_UP:
       if(arg1 != 0) {
        HandleCharKeyUp(arg1);
@@ -127,54 +129,13 @@ while(TRUE){
       HandleRMouse(camera->cursorX,camera->cursorY,i,j);
      break;
      }
+    }
    break;
   case 2://character creation
    switch (msg_code=GetMsg(&arg1,&arg2,
            1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) {
     case MSG_MS_L_DOWN:
-     if(camera->cursorX>=386&&
-        camera->cursorX<=429) {
-      if(camera->cursorY>300
-         &&camera->cursorY<336){ //tribe
-       IncSelect(0);
-      } else if(camera->cursorY>348&&
-                camera->cursorY<382) {//hair
-       IncSelect(1);
-      } else if(camera->cursorY>400&&
-                camera->cursorY<432){//face
-	IncSelect(2);
-      }
-     }
-     if(camera->cursorX>=476&&
-        camera->cursorX<=603&&
-        camera->cursorY>=370&&
-        camera->cursorY<=434){//next scene
-      U8 tribe = GetSelectedStats(0);
-      U8 str,con,int,wis;
-      switch(tribe){
-       case T_JUDA:
-        str=10;con=10;int=10;wis=10;
-       break;
-       case T_LEVI:
-        str=5;con=5;int=15;wis=15;
-       break;
-       case T_EPHR:
-        str=5;con=15;int=5;wis=15;
-       break;
-       case T_BENJ:
-        str=15;con=15;int=5;wis=5;
-       break;
-      }
-      ResetCurrLetter;
-      mc->cutsceneTarget=0;
-      FreeActor(GetPlayer);
-      QueIns(MakeActor(0,tribe,GetSelectedStats(1),GetSelectedStats(2), 
-                       0,0,0,0,
-                       5,5,
-		       str,int,con,wis,0),actors->last);
-      mc->currentMenu=1;
-      mc->currentSong=0;
-     }
+     CharacterCreator();
     break;
    }
   break;
@@ -183,14 +144,8 @@ while(TRUE){
           1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) 
    {
     case MSG_MS_L_DOWN:
-     mc->cutsceneTarget++;
-     ResetCurrLetter;
-     if(mc->cutsceneTarget>2)
-      {
-       mc->currentMenu=2;
-       mc->currentSong=2;
-      }
-     break;
+     ProgressCutscene();
+    break;
    }
   break;
   case 4://load menu

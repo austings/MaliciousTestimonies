@@ -24,6 +24,7 @@ class World
  I64 currentZ;
  Tensor3D *level;
  I64 timer;
+ I64 gameTicks;
 };
 
 //Keyboard configuration
@@ -158,7 +159,7 @@ class MenuControl{
   Bool clip;
 
   //Narrative Control
-  Bool fxMuted,musicMuted;
+  Bool fxMuted,musicMuted,controlLock;
   I32 currentSong,//for draw and song threads
       currentMenu,//foreign key
       cutsceneTarget;//switch cutscene frames

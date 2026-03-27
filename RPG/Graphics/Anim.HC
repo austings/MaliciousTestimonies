@@ -9,7 +9,7 @@
 // yAOff - armor y offset for this frame
 #define STANDSFD 4
 Animation *AddFrame(CDC *frame, I64 key, I8 fIndex; 
-                    I8 xO=0, I8 yO=0, I8 sfd=STANDSFD,
+                    I8 xO=0, I8 yO=0, I64 sfd=STANDSFD,
                     I64 xAOff=0, I64 yAOff=0){
  Animation *createdFrame = CAlloc(sizeof(Animation));
  createdFrame->frame = frame;
@@ -331,19 +331,19 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF421,EFFBANNER,7),allAnimations.last);
   break;
   case T1SLEEP:
-   QueIns(AddFrame(AAE87,T1SLEEP,0,0,20),allAnimations.last);
+   QueIns(AddFrame(AAE87,T1SLEEP,0,0,0,600,0,12),allAnimations.last);
   break;
   case T2SLEEP:
-   QueIns(AddFrame(AAE139,T2SLEEP,0,0,20),allAnimations.last);
+   QueIns(AddFrame(AAE139,T2SLEEP,0,0,0,600,0,12),allAnimations.last);
   break;
   case T3SLEEP:
-   QueIns(AddFrame(AAE194,T3SLEEP,0,0,20),allAnimations.last);
+   QueIns(AddFrame(AAE194,T3SLEEP,0,0,0,600,0,12),allAnimations.last);
   break;
   case T4SLEEP:
-   QueIns(AddFrame(AAE51,T4SLEEP,0,0,20),allAnimations.last);
+   QueIns(AddFrame(AAE51,T4SLEEP,0,0,0,600,0,12),allAnimations.last);
   break;
   case EFFSLEEP:
-   QueIns(AddFrame(EFF231,EFFSLEEP,0,0,20),allAnimations.last);
+   QueIns(AddFrame(EFF231,EFFSLEEP,0,0,0,600,0,12),allAnimations.last);
   break; 
  }
 }
