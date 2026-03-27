@@ -23,12 +23,12 @@ U0 DrawIt(CTask *task, CDC *dc){
     world->gameTicks++;
    }
    
-   //Draw world and extra for preload on either side        
+   //Draw world and extra for preload on either side 
    ReDrawWorld(dc,i,j);
+   PlayWeatherLayer(dc,p,WEATHER_LAYER_BG);
    DrawActorsAndItems(dc,p,i,j,l); 
-
    DrawRoofs(dc,p,i,j);
-  
+   PlayWeatherLayer(dc,p,WEATHER_LAYER_FG);
    //Keyboard
    HandleKeyboard(p,pin);
    StartCameraPan(dc,p);   
@@ -43,7 +43,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    //Dialog   
    if(mc->talkieScene!=IT_NULL){
     mc->displayInventory=FALSE;
-    Chatbox(mc->dialogName,dc,task,mc->talkieScene);
+    Chatbox(mc->dialogName,dc,task,mc->talkieScene);
    }
    //Combat
    else if(mc->combatON){

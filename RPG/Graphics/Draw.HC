@@ -371,7 +371,14 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
  I64 RenderHUpperBound = 15;
  I64 RenderWLowerBound = -8;
  I64 RenderWUpperBound = 14;
+ if (!weatherCells || weatherZ != world->currentZ)
+    BuildWeatherModel();
 
+ TrySpawnWeatherParticle(p,
+    RenderWLowerBound, RenderWUpperBound,
+    RenderHLowerBound, RenderHUpperBound);
+
+ UpdateWeatherParticles();
 
  for(j=RenderHLowerBound;j<RenderHUpperBound;j++){
   if(camera->topUD+j<wX&&camera->topUD+j>=0){
@@ -390,21 +397,6 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
               tileX,tileY,world->currentZ);     
      I64 wlvl= GetTensorWaterLevel(world->level,
                tileX,tileY,world->currentZ);     
-    
-
-     if ((j-(-1))%4 == 0 && (i-(-4))%4== 0 &&c<BG_LT_GRAY ) {
-      F64 equ1 = map_range(j, RenderHLowerBound, RenderHUpperBound, 
-                          0, 480);
-      F64 equ2 = map_range(i, RenderWLowerBound, RenderWUpperBound, 
-                          0, 480);
-      PlayWeather2(dc,i,j,equ1,equ2,
-                   RenderHLowerBound,
-                   RenderHUpperBound,
-                   RenderWLowerBound,
-                   RenderWUpperBound
-                   );
-     }
- 
 
      if(obj!=IT_NULL)
       DrawObjsOnLayer(dc,obj,screenX,screenY,p,tileX,tileY);
@@ -413,7 +405,6 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
      if(npc!=IT_NULL)
       DrawActorsOnLayer(dc,npc,i,j,p,screenX,screenY,wlvl); 
      
-          
     }//if too large x
    }//for x
    if(j<RenderHUpperBound-2)

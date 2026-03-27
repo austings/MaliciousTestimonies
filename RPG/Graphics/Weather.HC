@@ -1,77 +1,522 @@
+#define WEATHER_LAYER_BG 0
+#define WEATHER_LAYER_FG 1
 
+#define WEATHER_NONE           0
+#define WEATHER_LEAF_GREEN     1
+#define WEATHER_SAND           2
+#define WEATHER_ASH            3
+#define WEATHER_DUST_INTERIOR  4
+#define WEATHER_MIST           5
+#define WEATHER_RAIN           6
 
-//
-//depcreated full layer weather
-U0 PlayWeather(CDC *dc, I64 i, I64 j, I64 screenX, I64 screenY){
+#define WEATHER_FLAG_NONE      0
+#define WEATHER_FLAG_BLOCKED   (1<<0)
+#define WEATHER_FLAG_INTERIOR  (1<<1)
+#define WEATHER_FLAG_WATER     (1<<2)
 
- CDC *weatherLayer = DCNew(480,480);
- F64 fallProgress = (mc->tickWeather / ToF64(W_T)) * 480.0;
- DCFill(weatherLayer,TRANSPARENT);
- F64 parallaxFactor = 0.1;
- F64 driftAmp = 32.0;
- F64 driftFreq = 0.20;
- for (i = 0; i < 480; i += 128) {        // leaves every 128 px horizontally
-  for (j = 0; j < 480; j += 128) {    // spaced evenly down the screen
+#define MAX_WEATHER_PARTICLES 128
 
-    F64 xBase = fmod(i + ((j / 128) % 2) * 64 - (mc->smoothScreenX * parallaxFactor), 480.0);
-    F64 yBase = fmod((j + fallProgress) - (mc->smoothScreenY * parallaxFactor), 480.0) - 60.0;
+static class WeatherParticle {
+    Bool active;
+    I16 weatherType;
+    I16 layer;
 
-    F64 xDrift = driftAmp * Sin((mc->tickWeather * driftFreq) + j * 0.2);
-    Sprite3B(weatherLayer, ToI64(xBase + xDrift), ToI64(yBase), 0, GetLeaf);
+    F64 worldX;
+    F64 worldY;
 
+    F64 velX;
+    F64 velY;
 
-//   F64 xBase = fmod(i - (screenX * parallaxFactor), 480.0);
- //  F64 yBase = fmod((j + fallProgress) - (screenY * parallaxFactor), 480.0) - 60.0;
-//   F64 xDrift = driftAmp * Sin((mc->tickWeather * driftFreq) + j * 0.2);
-//   Sprite3B(weatherLayer, ToI64(xBase + xDrift), ToI64(yBase), 0, GetLeaf);
-  }
- }
+    F64 rot;
+    F64 rotVel;
 
- GrBlot3(dc,0,0,0,weatherLayer);
- DCDel(weatherLayer); 
+    F64 life;
+    F64 maxLife;
 
-}
+    I64 originTileX;
+    I64 originTileY;
+};
 
+WeatherParticle weatherParticles[MAX_WEATHER_PARTICLES];
 
-//tile perfect weather
-//device context to draw on
-//i, j converted tile x coordinate
-//i2, j2 current tile x,y
-//lower bound and upper tile bound
-//
-U0 PlayWeather2(CDC *dc, I64 i2, I64 j2, I64 i, I64 j,
-                   I64 hlb, I64 hub, I64 wlb, I64 wub)
+static class WeatherCell {
+    I16 tileColor;
+    I16 weatherType;
+    I16 flags;
+    F64 windResistance;
+    F64 speed;
+    F64 rotAmp;
+    F64 rotFreq;
+    F64 swayAmp;
+    F64 swayFreq;
+    F64 phase;
+    Bool active;
+};
+
+WeatherCell *weatherCells = NULL;
+I64 weatherW = 0;
+I64 weatherH = 0;
+I64 weatherZ = -1;
+
+I64 WeatherWorldToScreenX(F64 worldX)
 {
- CDC *weatherLayer = DCNew(480,480);
- F64 fallProgress = (mc->tickWeather / ToF64(W_T)) * 480.0;
- DCFill(weatherLayer,TRANSPARENT);
- F64 parallaxFactor = 0.1;
- F64 driftAmp = 32.0;
- F64 driftFreq = 0.20;
-
- F64 xBase = fmod(i + ((i / 128) % 2) * 64 - 
-                 (mc->smoothScreenX * parallaxFactor), 480.0);
- F64 yBase = fmod((j + fallProgress) - 
-                 (mc->smoothScreenY * parallaxFactor), 480.0) - 60.0;
- F64 xDrift = driftAmp * Sin((mc->tickWeather * driftFreq) + j * 0.2);
-
- I64 finalX = ToI64(xBase - xDrift);
- I64 finalY = ToI64(yBase);
- Bool col = FALSE;
- for(i=hlb+2;i<hub-5;i++)
- {  
-  I16 c =  GetTensor(world->level,i2,i,world->currentZ); 
-  if(c>BG_LT_GRAY){
-   col = TRUE; 
-   break;
-  }
-   
-
- }
- if(!col)
-  Sprite3B(weatherLayer, finalX, ToI64(yBase)+j2, 0, GetLeaf); 
- GrBlot3(dc,0,0,0,weatherLayer);
- DCDel(weatherLayer);
-
-
+    return ToI64(worldX)
+           - (camera->topLR * camera->dividX)
+           + camera->cameraOffSetX;
 }
+
+I64 WeatherWorldToScreenY(F64 worldY)
+{
+    return ToI64(worldY)
+           - (camera->topUD * camera->dividY)
+           + camera->cameraOffSetY;
+}
+
+I64 WeatherIdx(I64 x, I64 y)
+{
+    return y * weatherW + x;
+}
+U8 *GetWeatherSprite(I16 weatherType)
+{
+  if(weatherType==WEATHER_LEAF_GREEN) return GetLeaf;/*
+    switch (weatherType) {
+        case WEATHER_LEAF_GREEN:    return GetLeaf;
+        case WEATHER_SAND:          return GetSandSprite;
+        case WEATHER_ASH:           return GetAshSprite;
+        case WEATHER_DUST_INTERIOR: return GetDustSprite;
+        case WEATHER_MIST:          return GetMistSprite;
+        case WEATHER_RAIN:          return GetRainSprite;
+    }*/
+    return 0;
+}
+I16 ResolveWeatherTypeFromTile(I16 c)
+{
+    if (c == BG_GREEN)    return WEATHER_LEAF_GREEN;/*
+    if (c == BG_YELLOW)   return WEATHER_SAND;
+    if (c == BG_LT_GRAY)  return WEATHER_ASH;
+    if (c == BG_RED)      return WEATHER_DUST_INTERIOR;
+    if (c == BG_LT_BLUE)  return WEATHER_MIST;
+    if (c == BG_BLUE)     return WEATHER_RAIN;*/
+    return WEATHER_NONE;
+}
+U0 ClearWeatherParticles()
+{
+    I64 n;
+    for (n = 0; n < MAX_WEATHER_PARTICLES; n++)
+        weatherParticles[n].active = FALSE;
+}
+
+U0 SetupWeatherCell(WeatherCell *wc, I16 tileColor, I64 x, I64 y)
+{
+    wc->tileColor = tileColor;
+    wc->weatherType = ResolveWeatherTypeFromTile(tileColor);
+    wc->flags = WEATHER_FLAG_NONE;
+    wc->active = (wc->weatherType != WEATHER_NONE);
+    wc->phase = ToF64((x * 31 + y * 19) & 255) / 255.0;
+
+    wc->windResistance = 0.0;
+    wc->speed = 0.0;
+    wc->rotAmp = 0.0;
+    wc->rotFreq = 0.0;
+    wc->swayAmp = 0.0;
+    wc->swayFreq = 0.0;
+
+    if (tileColor == LTRED)
+        wc->flags |= WEATHER_FLAG_INTERIOR;
+    if (tileColor == BLUE || tileColor == LTBLUE)
+        wc->flags |= WEATHER_FLAG_WATER;
+
+    switch (wc->weatherType) {
+        case WEATHER_LEAF_GREEN:
+            wc->windResistance = 0.4;
+            wc->speed = 1.2;
+            wc->rotAmp = 10.0;
+            wc->rotFreq = 0.1;
+            wc->swayAmp = 18.0;
+            wc->swayFreq = 0.07;
+            break;
+
+        case WEATHER_SAND:
+            wc->windResistance = 0.15;
+            wc->speed = 2.5;
+            wc->rotAmp = 2.0;
+            wc->rotFreq = 0.04;
+            wc->swayAmp = 8.0;
+            wc->swayFreq = 0.03;
+            break;
+
+        case WEATHER_ASH:
+            wc->windResistance = 0.55;
+            wc->speed = 0.9;
+            wc->rotAmp = 5.0;
+            wc->rotFreq = 0.05;
+            wc->swayAmp = 10.0;
+            wc->swayFreq = 0.04;
+            break;
+
+        case WEATHER_DUST_INTERIOR:
+            wc->windResistance = 0.8;
+            wc->speed = 0.3;
+            wc->rotAmp = 1.0;
+            wc->rotFreq = 0.02;
+            wc->swayAmp = 3.0;
+            wc->swayFreq = 0.02;
+            break;
+
+        case WEATHER_MIST:
+            wc->windResistance = 0.9;
+            wc->speed = 0.2;
+            wc->rotAmp = 0.0;
+            wc->rotFreq = 0.0;
+            wc->swayAmp = 5.0;
+            wc->swayFreq = 0.01;
+            break;
+
+        case WEATHER_RAIN:
+            wc->windResistance = 0.2;
+            wc->speed = 3.2;
+            wc->rotAmp = 0.0;
+            wc->rotFreq = 0.0;
+            wc->swayAmp = 2.0;
+            wc->swayFreq = 0.02;
+            break;
+
+        default:
+            wc->active = FALSE;
+            break;
+    }
+}
+
+WeatherCell *GetWeatherCell(I64 tileX, I64 tileY){
+ if (!weatherCells) return NULL;
+ if (tileX < 0 || tileY < 0) return NULL;
+ if (tileX >= weatherW || tileY >= weatherH) return NULL;
+ return &weatherCells[WeatherIdx(tileX, tileY)];
+}
+
+I64 CountWeatherParticlesOfType(I16 weatherType)
+{
+    I64 n;
+    I64 count = 0;
+
+    for (n = 0; n < MAX_WEATHER_PARTICLES; n++) {
+        if (weatherParticles[n].active &&
+            weatherParticles[n].weatherType == weatherType)
+            count++;
+    }
+    return count;
+}
+
+U0 BuildWeatherModel(){
+ I64 x, y;
+
+ if(weatherCells)
+  Free(weatherCells);
+
+ weatherW = wX;
+ weatherH = wY;
+ weatherZ = world->currentZ;
+ weatherCells = MAlloc(sizeof(WeatherCell) * weatherW * weatherH);
+
+ for(y = 0; y < weatherH; y++) {
+  for(x = 0; x < weatherW; x++) {
+   I16 c = GetTensor(world->level, x, y, world->currentZ);
+   SetupWeatherCell(&weatherCells[WeatherIdx(x, y)], c, x, y);
+  }
+ }
+}
+
+U0 SpawnWeatherParticleFromCell(WeatherCell *wc, I64 tileX, I64 tileY)
+{
+    I64 n;
+    I64 camWorldX;
+    I64 camWorldY;
+    I64 spawnPad;
+    I64 r;
+
+    camWorldX = camera->topLR * camera->dividX;
+    camWorldY = camera->topUD * camera->dividY;
+    spawnPad = 32;
+
+    for (n = 0; n < MAX_WEATHER_PARTICLES; n++) {
+        WeatherParticle *wp = &weatherParticles[n];
+        if (wp->active)
+            goto spawnend;
+
+        wp->active = TRUE;
+        wp->weatherType = wc->weatherType;
+        wp->originTileX = tileX;
+        wp->originTileY = tileY;
+
+        wp->rot = 0.0;
+        wp->life = 0.0;
+        wp->maxLife = 32.0 + (RandU16 % 48);
+
+        switch (wc->weatherType) {
+            case WEATHER_LEAF_GREEN:
+                wp->velX = 0.6;
+                wp->velY = 0.8;
+                wp->rotVel = 0.15;
+
+                if (RandI64() & 1)
+                    wp->layer = WEATHER_LAYER_BG;
+                else
+                    wp->layer = WEATHER_LAYER_FG;
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldX = ToF64(camWorldX - camera->cameraOffSetX
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldY = ToF64(camWorldY - camera->cameraOffSetY
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+
+                wp->maxLife = 48.0 + (RandU16 % 32);
+                break;
+
+            case WEATHER_SAND:
+                wp->velX = 1.6;
+                wp->velY = 0.2;
+                wp->rotVel = 0.03;
+                wp->layer = WEATHER_LAYER_BG;
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldX = ToF64(camWorldX - camera->cameraOffSetX
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldY = ToF64(camWorldY - camera->cameraOffSetY
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+                break;
+
+            case WEATHER_ASH:
+                wp->velX = 0.3;
+                wp->velY = 0.5;
+                wp->rotVel = 0.06;
+                wp->layer = WEATHER_LAYER_BG;
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldX = ToF64(camWorldX - camera->cameraOffSetX
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldY = ToF64(camWorldY - camera->cameraOffSetY
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+                break;
+
+            case WEATHER_DUST_INTERIOR:
+                wp->velX = 0.1;
+                wp->velY = 0.05;
+                wp->rotVel = 0.01;
+                wp->layer = WEATHER_LAYER_BG;
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldX = ToF64(camWorldX - camera->cameraOffSetX
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldY = ToF64(camWorldY - camera->cameraOffSetY
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+                break;
+
+            case WEATHER_MIST:
+                wp->velX = 0.2;
+                wp->velY = 0.0;
+                wp->rotVel = 0.0;
+                wp->layer = WEATHER_LAYER_BG;
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldX = ToF64(camWorldX - camera->cameraOffSetX
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldY = ToF64(camWorldY - camera->cameraOffSetY
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+                break;
+
+            case WEATHER_RAIN:
+                wp->velX = 0.1;
+                wp->velY = 2.2;
+                wp->rotVel = 0.0;
+                wp->layer = WEATHER_LAYER_FG;
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldX = ToF64(camWorldX - camera->cameraOffSetX
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+
+                r = RandI64();
+                if (r < 0)
+                    r = -r;
+                wp->worldY = ToF64(camWorldY - camera->cameraOffSetY
+                                 + (r % (480 + spawnPad * 2)) - spawnPad);
+                break;
+
+            default:
+                wp->active = FALSE;
+                break;
+        }
+
+        return;
+spawnend:
+    }
+}
+
+Bool WeatherParticleAllowedOnTile(WeatherParticle *wp, I64 tileX, I64 tileY)
+{
+    WeatherCell *wc = GetWeatherCell(tileX, tileY);
+    if (!wc)
+        return FALSE;
+
+    switch (wp->weatherType) {
+        case WEATHER_LEAF_GREEN:
+            if (wc->flags & WEATHER_FLAG_INTERIOR)
+                return FALSE;
+            return wc->weatherType == WEATHER_LEAF_GREEN;
+
+        case WEATHER_SAND:
+            if (wc->flags & WEATHER_FLAG_INTERIOR)
+                return FALSE;
+            return wc->weatherType == WEATHER_SAND;
+
+        case WEATHER_ASH:
+            if (wc->flags & WEATHER_FLAG_INTERIOR)
+                return FALSE;
+            return wc->weatherType == WEATHER_ASH;
+
+        case WEATHER_DUST_INTERIOR:
+            return wc->flags & WEATHER_FLAG_INTERIOR;
+
+        case WEATHER_MIST:
+            return wc->weatherType == WEATHER_MIST || (wc->flags & WEATHER_FLAG_WATER);
+
+        case WEATHER_RAIN:
+            return !(wc->flags & WEATHER_FLAG_INTERIOR);
+
+        default:
+            return FALSE;
+    }
+}
+U0 TrySpawnWeatherParticle(Actor *p,
+                          I64 wlb, I64 wub,
+                          I64 hlb, I64 hub)
+{
+    I64 rx, ry;
+    I64 tileX, tileY;
+    WeatherCell *wc;
+    I64 k;
+    I64 r;
+
+    for (k = 0; k < 16; k++){
+        r = RandI64();
+        if (r < 0)
+            r = -r;
+        rx = (r % (wub - wlb)) + wlb;
+
+        r = RandI64();
+        if (r < 0)
+            r = -r;
+        ry = (r % (hub - hlb)) + hlb;
+
+        tileX = camera->topLR + rx;
+        tileY = camera->topUD + ry;
+
+        wc = GetWeatherCell(tileX, tileY);
+        if (!wc || !wc->active)
+         goto nextloop;
+        if (wc->flags & WEATHER_FLAG_INTERIOR)
+         goto nextloop;
+
+        if (wc->weatherType == WEATHER_LEAF_GREEN) {
+            if (CountWeatherParticlesOfType(WEATHER_LEAF_GREEN) > 24)
+                goto nextloop;
+            if ((RandI64() & 7) != 0)
+                goto nextloop;
+        }
+
+        SpawnWeatherParticleFromCell(wc, tileX, tileY);
+        break;
+        nextloop:
+    }
+}
+
+U0 UpdateWeatherParticles()
+{
+    I64 n;
+    I64 tileX, tileY;
+    WeatherParticle *wp;
+
+    for (n = 0; n < MAX_WEATHER_PARTICLES; n++) {
+        wp = &weatherParticles[n];
+        if (!wp->active)
+            goto nextloop2;
+
+        wp->worldX += wp->velX;
+        wp->worldY += wp->velY;
+        wp->rot += wp->rotVel;
+
+        tileX = ToI64(wp->worldX) / camera->dividX;
+        tileY = ToI64(wp->worldY) / camera->dividY;
+
+        if (tileX < 0 || tileY < 0 || tileX >= weatherW || tileY >= weatherH) {
+            wp->active = FALSE;
+            goto nextloop2;
+        }
+
+        if (!WeatherParticleAllowedOnTile(wp, tileX, tileY)) {
+            wp->active = FALSE;
+            goto nextloop2;
+        }
+
+nextloop2:
+    }
+}
+
+U0 PlayWeatherLayer(CDC *dc, Actor *p, I16 layer)
+{
+ I64 n;
+ for (n = 0; n < MAX_WEATHER_PARTICLES; n++) {
+  WeatherParticle *wp = &weatherParticles[n];
+  U8 *spr;
+  I64 screenX, screenY;
+
+  if (!wp->active || wp->layer != layer)
+   goto weatherloopend;
+
+  spr = GetWeatherSprite(wp->weatherType);
+  if (!spr)
+   goto weatherloopend;
+
+  screenX = WeatherWorldToScreenX(wp->worldX);
+  screenY = WeatherWorldToScreenY(wp->worldY);
+
+  if (screenX < -32 || screenX > 512 || screenY < -32 || screenY > 512)
+   goto weatherloopend;
+
+  Sprite3B(dc, screenX, screenY, ToI64(wp->rot), spr);
+  weatherloopend:
+ }
+}
+
+
