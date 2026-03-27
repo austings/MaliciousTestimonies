@@ -68,6 +68,11 @@
 #define T3HURT 31
 #define T4HURT 32
 
+#define T1SLEEP 33
+#define T2SLEEP 34
+#define T3SLEEP 35
+#define T4SLEEP 36
+
 
 //Procedural
 #define BOUNCE 200
@@ -76,8 +81,9 @@
 //Effects
 #define T1EFFHEAL 290
 #define EFFFISH 300
+#define  EFFSLEEP 301
 #define EFFFIRE 310
-#define EFFSCRATCH 320
+#define EFFSCRATCH 320
 #define EFFBANNER 330
 
 

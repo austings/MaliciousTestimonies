@@ -329,6 +329,21 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF421,EFFBANNER,5),allAnimations.last);
    QueIns(AddFrame(EFF421,EFFBANNER,6),allAnimations.last);
    QueIns(AddFrame(EFF421,EFFBANNER,7),allAnimations.last);
+  break;
+  case T1SLEEP:
+   QueIns(AddFrame(AAE87,T1SLEEP,0,0,20),allAnimations.last);
+  break;
+  case T2SLEEP:
+   QueIns(AddFrame(AAE139,T2SLEEP,0,0,20),allAnimations.last);
+  break;
+  case T3SLEEP:
+   QueIns(AddFrame(AAE194,T3SLEEP,0,0,20),allAnimations.last);
+  break;
+  case T4SLEEP:
+   QueIns(AddFrame(AAE51,T4SLEEP,0,0,20),allAnimations.last);
+  break;
+  case EFFSLEEP:
+   QueIns(AddFrame(EFF231,EFFSLEEP,0,0,20),allAnimations.last);
   break; 
  }
 }
@@ -551,9 +566,14 @@ U0 InitializeAnimator(){
   CreateAnimation(T2CAST);
   CreateAnimation(T3CAST);
   CreateAnimation(T4CAST);
-              
+  CreateAnimation(T1SLEEP);
+  CreateAnimation(T2SLEEP);
+  CreateAnimation(T3SLEEP);
+  CreateAnimation(T4SLEEP);
+
   CreateAnimation(T1EFFHEAL);
   CreateAnimation(EFFFISH);
+  CreateAnimation(EFFSLEEP);                
   CreateAnimation(EFFFIRE);
   CreateAnimation(EFFSCRATCH);
   CreateAnimation(EFFBANNER);
