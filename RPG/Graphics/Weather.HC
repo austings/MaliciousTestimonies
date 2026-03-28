@@ -15,7 +15,7 @@
 #define WEATHER_FLAG_INTERIOR  (1<<1)
 #define WEATHER_FLAG_WATER     (1<<2)
 
-#define MAX_WEATHER_PARTICLES 16
+#define MAX_WEATHER_PARTICLES 12
 
 static class WeatherParticle {
     Bool active;
@@ -40,6 +40,7 @@ static class WeatherParticle {
     I16 spawnDuration;
     F64 spawnScale;
     F64 introRot;
+    I64 leafColor;
 };
 
 WeatherParticle weatherParticles[MAX_WEATHER_PARTICLES];
@@ -57,6 +58,7 @@ static class WeatherCell {
     F64 swayFreq;
     F64 phase;
     Bool active;
+    I64 leafColor;
 };
 
 WeatherCell *weatherCells = NULL;
@@ -99,26 +101,74 @@ U0 DrawScaledLeaf(CDC *dc, U8 *spr, I64 screenX, I64 screenY,
 
     DCDel(tdc);
 }
-/*U0 DrawScaledLeaf(CDC *dc, U8 *spr, I64 screenX, I64 screenY,
-                  F64 rot, F64 scale)
+U0 RecolorLeaf(CDC *dcLeaf)
+{
+    dcLeaf->color = LTPURPLE;
+    GrFloodFill(dcLeaf, 8, 8, TRUE);
+}
+U0 DrawScaledLeafColored(CDC *dc, U8 *spr, I64 screenX, I64 screenY,
+                         F64 rot, F64 scale, I64 leafColor)
 {
     CDC *tdc;
+    CDC *leafCanvas;
+
+    leafCanvas = DCNew(640,480);
+    DCFill(leafCanvas, TRANSPARENT);
+    Sprite3B(leafCanvas, 0, 0, 0, spr);
+
+    if (leafColor != GREEN)
+        RecolorLeaf(leafCanvas);
 
     tdc = DCAlias(dc, dc->win_task);
     MemCpy(tdc->r, dc->r, sizeof(I64) * 16);
     tdc->flags |= DCF_TRANSFORMATION;
 
     Mat4x4IdentEqu(tdc->r);
-    Mat4x4TranslationEqu(tdc->r, screenX + LEAF_W / 2, screenY + LEAF_H / 2, 0);
-    Mat4x4RotZ(tdc->r, rot);
     Mat4x4Scale(tdc->r, scale);
+    Mat4x4RotZ(tdc->r, rot);
+    Mat4x4TranslationEqu(tdc->r, screenX + LEAF_W / 2,
+                                 screenY + LEAF_H / 2, 0);
     DCMat4x4Set(tdc, tdc->r);
 
-    Sprite3ZB(tdc, -LEAF_W / 2, -LEAF_H / 2, 0, spr, 0.0);
+    Sprite3ZB(tdc, -LEAF_W / 2, -LEAF_H / 2, 0, leafCanvas, 0.0);
 
     DCDel(tdc);
-}*/
+    DCDel(leafCanvas);
+}
+Bool IsNearPoppy(I64 tileX, I64 tileY)
+{
+    I64 obj;
 
+    obj = GetTensorObj(world->level, tileX, tileY, world->currentZ);
+    if (obj == OBJ_POPPY)
+        return TRUE;
+
+    if (tileX > 0) {
+        obj = GetTensorObj(world->level, tileX - 1, tileY, world->currentZ);
+        if (obj == OBJ_POPPY)
+            return TRUE;
+    }
+
+    if (tileX < wX - 1) {
+        obj = GetTensorObj(world->level, tileX + 1, tileY, world->currentZ);
+        if (obj == OBJ_POPPY)
+            return TRUE;
+    }
+
+    if (tileY > 0) {
+        obj = GetTensorObj(world->level, tileX, tileY - 1, world->currentZ);
+        if (obj == OBJ_POPPY)
+            return TRUE;
+    }
+
+    if (tileY < wY - 1) {
+        obj = GetTensorObj(world->level, tileX, tileY + 1, world->currentZ);
+        if (obj == OBJ_POPPY)
+            return TRUE;
+    }
+
+    return FALSE;
+}
 U0 DrawScaledWeatherSprite(CDC *dc, U8 *spr, I64 screenX, I64 screenY,
                            F64 rot, F64 scale)
 {
@@ -229,7 +279,7 @@ U0 SetupWeatherCell(WeatherCell *wc, I16 tileColor, I64 x, I64 y)
     wc->swayAmp = 0.0;
     wc->swayFreq = 0.0;
     wc->foliageWeight = 0;
-
+    wc->leafColor = GREEN;
     if (tileColor == LTRED)
         wc->flags |= WEATHER_FLAG_INTERIOR;
     if (tileColor == BLUE || tileColor == LTBLUE)
@@ -244,6 +294,9 @@ U0 SetupWeatherCell(WeatherCell *wc, I16 tileColor, I64 x, I64 y)
             wc->swayAmp = 18.0;
             wc->swayFreq = 0.07;
             wc->foliageWeight = GetFoliageWeight(x, y);
+            wc->leafColor = GREEN;
+            if (IsNearPoppy(x, y))
+                wc->leafColor = LTPURPLE;
             break;
 
         case WEATHER_SAND:
@@ -434,18 +487,17 @@ U0 SpawnWeatherParticleFromCell(WeatherCell *wc, I64 tileX, I64 tileY)
         wp->rot = 0.0;
         wp->life = 0.0;
         wp->maxLife = 32.0 + (RandU16 % 48);
+        wp->leafColor = wc->leafColor;
 
         switch (wc->weatherType) {
   case WEATHER_LEAF_GREEN:
-//    wp->velX = 1.5;    // 0.25 * 6
-//    wp->velY = 2.1;    // 0.35 * 6
 r = RandI64();
 if (r < 0) r = -r;
-wp->velX = 1.5 + (ToF64(r % 10) * 0.05);   // 1.5 → ~2.0
+wp->velX = 0.5 + (ToF64(r % 10) * 0.05);   // 1.5 → ~2.0
 
 r = RandI64();
 if (r < 0) r = -r;
-wp->velY = 2.1 + (ToF64(r % 10) * 0.05);   // 2.1 → ~2.6
+wp->velY = 1.1 + (ToF64(r % 10) * 0.05);   // 2.1 → ~2.6
 /* rotation speed (slight variation above 0.010) */
 r = RandI64();
 if (r < 0) r = -r;
@@ -732,6 +784,8 @@ U0 PlayWeatherLayer(CDC *dc, Actor *p, I16 layer)
    F64 finalRot;
 
    finalRot = wp->rot + wp->introRot;
+   if(wp->leafColor==LTPURPLE) 
+    spr = GetPinkLeaf;
    DrawScaledLeaf(dc, spr, screenX, screenY, finalRot, wp->spawnScale); 
   }
   else

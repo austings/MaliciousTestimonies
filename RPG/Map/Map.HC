@@ -501,7 +501,6 @@ U8 *GetBG(I64 id)
   }
   return color;
 }
-
 F64 map_range(F64 w, F64 a, F64 b, F64 newWL, F64 newWU) {
     return newWL + (w - a) * (newWU - newWL) / (b - a);
 }
