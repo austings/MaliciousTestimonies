@@ -93,8 +93,8 @@ U0 InteractTile(Actor *p, U8 dir,
  I64 iactX = p->x+xOff;
  I64 iactY = p->y+yOff;
 
- if(iactX>WEST_MAX&&iactX<wX&&
-    iactY>NORTH_MAX&&iactY<wY){
+ if(iactX>=WEST_MAX&&iactX<wX&&
+    iactY>=NORTH_MAX&&iactY<wY){
   I64 npc = GetTensorNPC(world->level,iactX,iactY,world->currentZ);
   I64 obj = GetTensorObj(world->level,iactX,iactY,world->currentZ);
 
@@ -122,25 +122,36 @@ U0 InteractTile(Actor *p, U8 dir,
    if(mc->lootedSwitch==LOOTING){
     mc->lootedSwitch=LOOTED;}
 
-   //camera bounding
-   if(camera->topLR!=0&&p->x<wX-5&&dir==DIR_LEFT)
-    camera->topLR--;
-   if(camera->topLR!=wX-11&&p->x>=5&&dir==DIR_RIGHT)
-    camera->topLR++;
-   if(camera->topUD!=0&&p->y<wY-5&&dir==DIR_UP)
-    camera->topUD--;
-   if(camera->topUD!=wY-11&&p->y>=5&&dir==DIR_DOWN)
-    camera->topUD++;
  
+   Bool camMoved = FALSE;
 
+   if(camera->topLR!=0 && p->x<wX-5 && dir==DIR_LEFT){
+    camera->topLR--;
+    camMoved = TRUE;
+   }
+   if(camera->topLR!=wX-11 && p->x>=5 && dir==DIR_RIGHT){
+    camera->topLR++;
+    camMoved = TRUE;
+   }
+   if(camera->topUD!=0 && p->y<wY-5 && dir==DIR_UP){
+    camera->topUD--;
+    camMoved = TRUE;
+   }
+   if(camera->topUD!=wY-11 && p->y>=5 && dir==DIR_DOWN){
+    camera->topUD++;
+    camMoved = TRUE;
+   }
+
+   camera->cameraMovedThisStep = camMoved;
    //reset subframes   
    p->walking=walkingFrameKey;
    p->walkingSubFrame=0;
-   //TODO: UPDATE ON WORLD TICK?
    //update model
-   RemoveTensorNPC(world->level,p->x,p->y,world->currentZ);
-   SetTensorNPC(world->level,0,p->x+xOff,p->y+yOff,world->currentZ);
-   UpdateActorCoords(PLAYER,p->x+xOff,p->y+yOff); 
+   I64 newX = p->x + xOff;
+   I64 newY = p->y + yOff;
+   RemoveTensorNPC(world->level, p->x, p->y, world->currentZ);
+   SetTensorNPC(world->level, p->id, newX, newY, world->currentZ);
+   UpdateActorCoords(PLAYER, newX, newY);
    if(mc->running&&p->currentMana>0)
     RemoveMana(p,1);
    }

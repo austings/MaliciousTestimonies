@@ -141,7 +141,8 @@ U0 InitCamera()
  camera->dividY = SCREENY/(11);
  camera->topLR=0; camera->topUD=0;
  camera->cameraOffSetX = 0,  
- camera->cameraOffSetY = 0; 
+ camera->cameraOffSetY = 0;
+ camera->cameraMovedThisStep = FALSE; 
 
 }
 U0 InitKeyboard()

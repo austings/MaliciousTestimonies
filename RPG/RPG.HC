@@ -10,11 +10,15 @@ U0 DrawIt(CTask *task, CDC *dc){
    break;
   //Main Game
   case 1:
+   //1. First Refresh Player and Tile reference
    Actor *p = GetPlayer;
    MapNode *pin = GetTensorItem(world->level,
                     p->x,p->y,world->currentZ);
 
-   TickActorWalkState(p); 
+   //2. Then get Input from Keyboard
+   HandleKeyboard(p,pin);
+
+   //3. Next World Tick/ Move Tick
    world->timer = world->timer + FRAMERULE;
    if(world->timer>=FRAMERULE_CAP)
    {
@@ -22,33 +26,41 @@ U0 DrawIt(CTask *task, CDC *dc){
     world->timer = 0;
     world->gameTicks++;
    }
-   
-   //Draw world and extra for preload on either side 
+
+   //4.Advance animation states
+   TickActorWalkState(p);
+   mc->smoothScreenY = fmod(mc->smoothScreenY+camera->cameraOffSetY * world->timer, 480.0);
+   mc->smoothScreenX = fmod(mc->smoothScreenX+camera->cameraOffSetX * world->timer, 480.0);
+  
+   UpdateActorPath(p);
+ 
+   //5. Compute Camera Offset from the Same walk state  
+   StartCameraPan(dc,p);   
+
+   //6. Draw world and extra for preload on either side 
    ReDrawWorld(dc,i,j);
    PlayWeatherLayer(dc,p,WEATHER_LAYER_BG);
    DrawActorsAndItems(dc,p,i,j,l); 
    DrawRoofs(dc,p,i,j);
    PlayWeatherLayer(dc,p,WEATHER_LAYER_FG);
-   //Keyboard
-   HandleKeyboard(p,pin);
-   StartCameraPan(dc,p);   
-   //Game Menus
-   
+
+   //7. Game Menus   
    RPGSideBar(dc);
    RenderMenus(dc,p);
    RPGInvLogic(i,j,dc,p);
    DragPrayer(dc);
    DrawHealthMana(dc,p,i,j);
    
-   //Dialog   
+   //8. Dialog   
    if(mc->talkieScene!=IT_NULL){
     mc->displayInventory=FALSE;
     Chatbox(mc->dialogName,dc,task,mc->talkieScene);
    }
-   //Combat
+   //9. Combat Queries
    else if(mc->combatON){
      CombatDialogs(task, dc,p);
    }
+   //10 Lastly Cover with Tooltip Gui
    ShowToolTips(dc);
 
    

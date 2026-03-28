@@ -212,12 +212,12 @@ class MenuControl{
 };
 
 class Camera{
-  F64 dividX, dividY;//ratio tile to screen h/w
-  I64 cursorX, cursorY,//cursor positions 
+ F64 dividX, dividY;//ratio tile to screen h/w
+ I64 cursorX, cursorY,//cursor positions 
       topLR,topUD,//for preventing pan at map corners
       cameraOffSetX,cameraOffSetY;//offset for smooth
                             //animation transition on underlying matrix
-  
+ Bool cameraMovedThisStep; 
 };
 
 MenuControl *mc;
@@ -225,7 +225,7 @@ CombatTurn *ctp;
 Prayers *prayers;
 Camera *camera;
 World *world;//world
-Vector *worldSz;//world size, with values wX,wY,wZ
+Vector *worldSz;//world size, with values wX,wY,wZ
 //
 //Global variables
 //

@@ -86,8 +86,11 @@ U0 StartCameraPan(CDC *dc,Actor *p){
    }
   }
  }
+ else if(camera->cameraMovedThisStep){
+  camera->cameraOffSetX = -GetWalkOffsetX(p->walking);
+ }
  else{
-  camera->cameraOffSetX=-GetWalkOffsetX(p->walking);
+   camera->cameraOffSetX = 0;
  }
  //y pan
  if(camera->topUD==0||camera->topUD==wY-11){
@@ -98,8 +101,11 @@ U0 StartCameraPan(CDC *dc,Actor *p){
     camera->cameraOffSetY=Min(0,camera->cameraOffSetY+1);
   }
  }
- else{
+ else if(camera->cameraMovedThisStep){
   camera->cameraOffSetY=-GetWalkOffsetY(p->walking);
+ }
+ else{
+  camera->cameraOffSetY=0;
  }
 }
 
