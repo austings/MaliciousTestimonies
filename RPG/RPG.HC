@@ -43,7 +43,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    //Dialog   
    if(mc->talkieScene!=IT_NULL){
     mc->displayInventory=FALSE;
-    Chatbox(mc->dialogName,dc,task,mc->talkieScene);
+    Chatbox(mc->dialogName,dc,task,mc->talkieScene);
    }
    //Combat
    else if(mc->combatON){

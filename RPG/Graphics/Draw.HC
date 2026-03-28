@@ -15,7 +15,7 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j){
      if(c>=BG_LT_GRAY){
       switch(c){
        case BG_LT_GRAY:
-        Sprite3B(dc,screenX,screenY,0,GetRoad);
+        Sprite3B(dc,screenX,screenY,0,GetRoad);
         I16 c2 = GetTensor(world->level,tileX,Max(tileY-1,0),world->currentZ);
         if(c2==BG_GREEN)
          Sprite3B(dc,screenX,screenY,0,GetTransition(DIR_UP));

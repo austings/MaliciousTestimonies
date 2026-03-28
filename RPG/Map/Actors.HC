@@ -1,3 +1,10 @@
+
+#define MAX_WRITTEN_ACTORS 999999
+#define MAXACTORCOUNT	11 //on screen
+#define MAX_PATH_LEN 256
+#define ASTAR_MAX_NODES 1024
+#define ASTAR_INF 0x3FFFFFFFFFFFFFFF
+
 class Actor:CQue{
 
   //persistent
@@ -22,9 +29,26 @@ class Actor:CQue{
       ai_script,dir,walking,
       walkingSubFrame,clock;
 
-
+ // queued movement
+ U8 pathDirs[MAX_PATH_LEN];
+ I64 pathLen;
+ I64 pathIndex;
+ Bool hasPath;
 
 };
+
+U0 ClearActorPath(Actor *a)
+{
+ a->pathLen   = 0;
+ a->pathIndex = 0;
+ a->hasPath   = FALSE;
+}
+
+U0 PushActorPathDir(Actor *a, U8 dir)
+{
+ if(a->pathLen < MAX_PATH_LEN)
+  a->pathDirs[a->pathLen++] = dir;
+}
 
 Actor *actors;
 U8 loaded = 0;

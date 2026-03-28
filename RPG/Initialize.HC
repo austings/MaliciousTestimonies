@@ -22,14 +22,14 @@ Cd(__DIR__);;
 #include "Gameplay/Markov/Markov.HC";
 #include "Map/Director.HC";
 #include "Map/Level.HC";
-#include "Gameplay/AI.HC";
 #include "Globals.HC";
+#include "Gameplay/AI.HC";
 #include "Dev/Dev.HC";
 #include "Gameplay/InvLogic.HC";
 #include "Dev/Deserialize.HC";
 
 // Loading World
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
 #include "Gameplay/Player.HC";

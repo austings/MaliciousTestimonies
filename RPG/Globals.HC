@@ -15,8 +15,6 @@ CDirEntry *loadRoot;
 #define SIDEX 160
 #define SIDEY 480
 
-#define MAX_WRITTEN_ACTORS 999999
-#define MAXACTORCOUNT	11 //on screen
 
 //Loaded Map
 class World
@@ -25,6 +23,14 @@ class World
  Tensor3D *level;
  I64 timer;
  I64 gameTicks;
+};
+
+class PathNode {
+ I64 x, y;
+ I64 g, h, f;
+ I64 parentIndex;
+ Bool open;
+ Bool closed;
 };
 
 //Keyboard configuration

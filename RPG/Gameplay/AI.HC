@@ -43,6 +43,12 @@ U0 AddStatus(Actor *a,U16 statusCode)
 
 }
 
+U0 ScreenToWorldTile(I64 M_X, I64 M_Y, I64 *tx, I64 *ty)
+{
+ *tx = camera->topLR + ((M_X - camera->cameraOffSetX) / camera->dividX);
+ *ty = camera->topUD + ((M_Y - camera->cameraOffSetY) / camera->dividY);
+}
+
 
 U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
 {
@@ -60,73 +66,249 @@ U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
 
 
 
-U0 a_star(MapNode *mnStart,MapNode *goal) {
-  
- MapNode *openList[A_STAR_MAX_LEN];
- I64 openCount = 0;
-/*
-    Node* startNode = &grid[start.x][start.y];
-    Node* goalNode = &grid[goal.x][goal.y];
-
-    startNode->g = 0;
-    startNode->h = heuristic(start, goal);
-    startNode->f = startNode->g + startNode->h;
-    startNode->parent = start;
-    startNode->inOpenList = 1;
-    openList[openCount++] = startNode;
-
-    while (openCount > 0) {
-        Node* current = get_lowest_f_node(openList, openCount);
-
-        if (is_same_point(current->pos, goal)) {
-            printf("Path found:\n");
-            reconstruct_path(current);
-            return;
-        }
-
-        current->inClosedList = 1;
-
-        // Remove from openList
-        for (int i = 0; i < openCount; ++i) {
-            if (openList[i] == current) {
-                for (int j = i; j < openCount - 1; ++j)
-                    openList[j] = openList[j + 1];
-                --openCount;
-                break;
-            }
-        }
-
-        // Directions: N, S, E, W
-        int dx[] = {0, 0, 1, -1};
-        int dy[] = {1, -1, 0, 0};
-
-        for (int i = 0; i < 4; ++i) {
-            int nx = current->pos.x + dx[i];
-            int ny = current->pos.y + dy[i];
-
-            if (nx < 0 || ny < 0 || nx >= WIDTH || ny >= HEIGHT)
-                continue;
-
-            Node* neighbor = &grid[nx][ny];
-            if (!neighbor->walkable || neighbor->inClosedList)
-                continue;
-
-            int tentative_g = current->g + 1;
-
-            if (!neighbor->inOpenList || tentative_g < neighbor->g) {
-                neighbor->g = tentative_g;
-                neighbor->h = heuristic(neighbor->pos, goal);
-                neighbor->f = neighbor->g + neighbor->h;
-                neighbor->parent = current->pos;
-
-                if (!neighbor->inOpenList) {
-                    openList[openCount++] = neighbor;
-                    neighbor->inOpenList = 1;
-                }
-            }
-        }
-    }
-
-    printf("No path found.\n");
-*/
+I64 Heuristic(I64 x1, I64 y1, I64 x2, I64 y2)
+{
+ // Manhattan distance for 4-dir grid
+ return AbsI64(x1 - x2) + AbsI64(y1 - y2);
 }
+
+U8 DirFromDelta(I64 dx, I64 dy)
+{
+ if(dx == -1 && dy ==  0) return DIR_LEFT;
+ if(dx ==  1 && dy ==  0) return DIR_RIGHT;
+ if(dx ==  0 && dy == -1) return DIR_UP;
+ return DIR_DOWN;
+}
+
+I64 FindNode(PathNode *nodes, I64 count, I64 x, I64 y)
+{
+ I64 i;
+ for(i = 0; i < count; i++)
+  if(nodes[i].x == x && nodes[i].y == y)
+   return i;
+ return -1;
+}
+
+I64 LowestOpenNode(PathNode *nodes, I64 count)
+{
+ I64 i, best = -1;
+ for(i = 0; i < count; i++) {
+  if(nodes[i].open && !nodes[i].closed) {
+   if(best < 0 || nodes[i].f < nodes[best].f)
+    best = i;
+  }
+ }
+ return best;
+}
+
+Bool BuildActorPathFromNodes(Actor *p, PathNode *nodes, I64 goalIndex)
+{
+ I64 stackX[MAX_PATH_LEN];
+ I64 stackY[MAX_PATH_LEN];
+ I64 count = 0;
+ I64 cur = goalIndex;
+ I64 i;
+
+ while(cur >= 0 && count < MAX_PATH_LEN) {
+  stackX[count] = nodes[cur].x;
+  stackY[count] = nodes[cur].y;
+  count++;
+  cur = nodes[cur].parentIndex;
+ }
+
+ if(count <= 1)
+  return FALSE;
+
+ ClearActorPath(p);
+
+ // Reverse from start->goal, converting tiles to dirs
+ for(i = count - 1; i > 0; i--) {
+  I64 dx = stackX[i - 1] - stackX[i];
+  I64 dy = stackY[i - 1] - stackY[i];
+  PushActorPathDir(p, DirFromDelta(dx, dy));
+ }
+
+ p->pathIndex = 0;
+ p->hasPath   = p->pathLen > 0;
+ return p->hasPath;
+}
+
+Bool CanPathTo(I64 x, I64 y, I64 z)
+{
+ if(x < 0 || y < 0 || x >= wX || y >= wY)
+  return FALSE;
+
+ if(CheckSolid(world->level, x, y, z))
+  return FALSE;
+
+ return TRUE;
+}
+
+Bool AStarMoveActorTo(Actor *p, I64 goalX, I64 goalY, I64 z)
+{
+ PathNode *nodes;
+ I64 nodeCount = 0;
+ I64 curIdx, nIdx;
+ I64 nx, ny;
+ Bool ok;
+
+ nodes = MAlloc(ASTAR_MAX_NODES * sizeof(PathNode));
+ if(!nodes)
+  return FALSE;
+
+ if(goalX == p->x && goalY == p->y) {
+  ClearActorPath(p);
+  Free(nodes);
+  return TRUE;
+ }
+
+ if(!CanPathTo(goalX, goalY, z)) {
+  Free(nodes);
+  return FALSE;
+ }
+
+ nodes[0].x = p->x;
+ nodes[0].y = p->y;
+ nodes[0].g = 0;
+ nodes[0].h = Heuristic(p->x, p->y, goalX, goalY);
+ nodes[0].f = nodes[0].g + nodes[0].h;
+ nodes[0].parentIndex = -1;
+ nodes[0].open = TRUE;
+ nodes[0].closed = FALSE;
+ nodeCount = 1;
+
+ while(TRUE) {
+  curIdx = LowestOpenNode(nodes, nodeCount);
+  if(curIdx < 0) {
+   Free(nodes);
+   return FALSE;
+  }
+
+  if(nodes[curIdx].x == goalX && nodes[curIdx].y == goalY) {
+   ok = BuildActorPathFromNodes(p, nodes, curIdx);
+   Free(nodes);
+   return ok;
+  }
+
+  nodes[curIdx].open = FALSE;
+  nodes[curIdx].closed = TRUE;
+
+  nx = nodes[curIdx].x - 1;
+  ny = nodes[curIdx].y;
+  if(CanPathTo(nx, ny, z)) {
+   nIdx = FindNode(nodes, nodeCount, nx, ny);
+   if(!(nIdx >= 0 && nodes[nIdx].closed)) {
+    if(nIdx < 0) {
+     if(nodeCount >= ASTAR_MAX_NODES) {
+      Free(nodes);
+      return FALSE;
+     }
+     nIdx = nodeCount++;
+     nodes[nIdx].x = nx;
+     nodes[nIdx].y = ny;
+     nodes[nIdx].g = 0x3FFFFFFFFFFFFFFF;
+     nodes[nIdx].h = Heuristic(nx, ny, goalX, goalY);
+     nodes[nIdx].f = 0x3FFFFFFFFFFFFFFF;
+     nodes[nIdx].parentIndex = -1;
+     nodes[nIdx].open = FALSE;
+     nodes[nIdx].closed = FALSE;
+    }
+    if(nodes[curIdx].g + 1 < nodes[nIdx].g) {
+      nodes[nIdx].g = nodes[curIdx].g + 1;
+      nodes[nIdx].f = nodes[nIdx].g + nodes[nIdx].h;
+      nodes[nIdx].parentIndex = curIdx;
+      nodes[nIdx].open = TRUE;
+    }
+   }
+  }
+
+  nx = nodes[curIdx].x + 1;
+  ny = nodes[curIdx].y;
+  if(CanPathTo(nx, ny, z)) {
+   nIdx = FindNode(nodes, nodeCount, nx, ny);
+   if(!(nIdx >= 0 && nodes[nIdx].closed)) {
+    if(nIdx < 0) {
+     if(nodeCount >= ASTAR_MAX_NODES) {
+      Free(nodes);
+      return FALSE;
+     }
+     nIdx = nodeCount++;
+     nodes[nIdx].x = nx;
+     nodes[nIdx].y = ny;
+     nodes[nIdx].g = 0x3FFFFFFFFFFFFFFF;
+     nodes[nIdx].h = Heuristic(nx, ny, goalX, goalY);
+     nodes[nIdx].f = 0x3FFFFFFFFFFFFFFF;
+     nodes[nIdx].parentIndex = -1;
+     nodes[nIdx].open = FALSE;
+     nodes[nIdx].closed = FALSE;
+    }
+    if(nodes[curIdx].g + 1 < nodes[nIdx].g) {
+      nodes[nIdx].g = nodes[curIdx].g + 1;
+      nodes[nIdx].f = nodes[nIdx].g + nodes[nIdx].h;
+      nodes[nIdx].parentIndex = curIdx;
+      nodes[nIdx].open = TRUE;
+    }
+   }
+  }
+
+  nx = nodes[curIdx].x;
+  ny = nodes[curIdx].y - 1;
+  if(CanPathTo(nx, ny, z)) {
+   nIdx = FindNode(nodes, nodeCount, nx, ny);
+   if(!(nIdx >= 0 && nodes[nIdx].closed)) {
+    if(nIdx < 0) {
+     if(nodeCount >= ASTAR_MAX_NODES) {
+      Free(nodes);
+      return FALSE;
+     }
+     nIdx = nodeCount++;
+     nodes[nIdx].x = nx;
+     nodes[nIdx].y = ny;
+     nodes[nIdx].g = 0x3FFFFFFFFFFFFFFF;
+     nodes[nIdx].h = Heuristic(nx, ny, goalX, goalY);
+     nodes[nIdx].f = 0x3FFFFFFFFFFFFFFF;
+     nodes[nIdx].parentIndex = -1;
+     nodes[nIdx].open = FALSE;
+     nodes[nIdx].closed = FALSE;
+    }
+    if(nodes[curIdx].g + 1 < nodes[nIdx].g) {
+      nodes[nIdx].g = nodes[curIdx].g + 1;
+      nodes[nIdx].f = nodes[nIdx].g + nodes[nIdx].h;
+      nodes[nIdx].parentIndex = curIdx;
+      nodes[nIdx].open = TRUE;
+    }
+   }
+  }
+
+  nx = nodes[curIdx].x;
+  ny = nodes[curIdx].y + 1;
+  if(CanPathTo(nx, ny, z)) {
+   nIdx = FindNode(nodes, nodeCount, nx, ny);
+   if(!(nIdx >= 0 && nodes[nIdx].closed)) {
+    if(nIdx < 0) {
+     if(nodeCount >= ASTAR_MAX_NODES) {
+      Free(nodes);
+      return FALSE;
+     }
+     nIdx = nodeCount++;
+     nodes[nIdx].x = nx;
+     nodes[nIdx].y = ny;
+     nodes[nIdx].g = 0x3FFFFFFFFFFFFFFF;
+     nodes[nIdx].h = Heuristic(nx, ny, goalX, goalY);
+     nodes[nIdx].f = 0x3FFFFFFFFFFFFFFF;
+     nodes[nIdx].parentIndex = -1;
+     nodes[nIdx].open = FALSE;
+     nodes[nIdx].closed = FALSE;
+    }
+    if(nodes[curIdx].g + 1 < nodes[nIdx].g) {
+      nodes[nIdx].g = nodes[curIdx].g + 1;
+      nodes[nIdx].f = nodes[nIdx].g + nodes[nIdx].h;
+      nodes[nIdx].parentIndex = curIdx;
+      nodes[nIdx].open = TRUE;
+    }
+   }
+  }
+ }
+}
+
+

@@ -165,6 +165,15 @@ U0 AutoTurnEnd()
  }
 }
 
+Bool NoGameWindowOpen()
+{
+ if(!mc->displayInventory&&!mc->displayEquipment&&!mc->lootedSwitch       &&
+        !mc->draggingInv&&!mc->prayerDragging)
+ {
+  return TRUE;
+ }
+ return FALSE;
+}
 
 U0 HandleMouseSideBar(I64 M_X, I64 M_Y, I64 i,I64 j){
  //SideBar
@@ -271,8 +280,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){
 
  //Begin GameArea
  if(M_X>=0&&M_X<480&&
-    M_Y>=0&&M_Y<480)
- {
+    M_Y>=0&&M_Y<480){
   if(M_Y<480-(42*4)&&mc->draggingInv==TRUE)
   {  
    I64 wlvl= GetTensorWaterLevel(world->level,player->x,player->y,world->currentZ);     
@@ -309,6 +317,19 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){
     }//end inventory height
    }//end inventory width     
   }//end invdisplay
+  // New: blank-world-tile click => A* path
+  if(NoGameWindowOpen()) {
+   I64 tx, ty;
+   I64 t;
+
+   ScreenToWorldTile(M_X, M_Y, &tx, &ty);
+
+   t = GetTensor(world->level, tx, ty, world->currentZ);
+
+   // todo: Replace  with your own tile classification
+   
+    AStarMoveActorTo(player, tx, ty, world->currentZ);
+  }
  } //End game area
  handlemend:
 }

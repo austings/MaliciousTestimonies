@@ -154,6 +154,24 @@ U0 TickInteract(I64 i, I64 j, Actor *p){
  }
 }
 
+U0 UpdateActorPath(Actor *p)
+{
+ if(!p->hasPath)
+  return;
+
+ if(p->pathIndex >= p->pathLen) {
+  ClearActorPath(p);
+  return;
+ }
+
+ MoveActor(p, p->pathDirs[p->pathIndex]);
+ p->pathIndex++;
+
+ if(p->pathIndex >= p->pathLen)
+  ClearActorPath(p);
+}
+
+
 //updates the matrix model based on taken actions
 U0 WorldTick(I64 i, I64 j, Actor *p){
 
@@ -171,6 +189,9 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
  }
  mc->smoothScreenY = fmod(mc->smoothScreenY+camera->cameraOffSetY * world->timer, 480.0);
  mc->smoothScreenX = fmod(mc->smoothScreenX+camera->cameraOffSetX * world->timer, 480.0);
+
+ UpdateActorPath(p);
+
  mc->tickWeather++;
  if(mc->tickWeather>W_T)
   mc->tickWeather=0;
