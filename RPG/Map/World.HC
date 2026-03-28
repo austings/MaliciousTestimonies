@@ -165,24 +165,44 @@ Bool ActorIsStillMovingOrScrolling(Actor *p)
   return FALSE;
 }
 
-
 U0 UpdateActorPath(Actor *p)
 {
- if(!p->hasPath)
-  return;
+  if(!p->hasPath)
+    return;
 
- if(mc->combatON||(p->pathIndex >= p->pathLen)) {
-  ClearActorPath(p);
-  return;
- }
- if(ActorIsStillMovingOrScrolling(p))
-  return;
+  if(p->pathIndex >= p->pathLen) {
+    ClearActorPath(p);
+    return;
+  }
 
- MoveActor(p, p->pathDirs[p->pathIndex]);
- p->pathIndex++;
+  if(ActorIsStillMovingOrScrolling(p))
+    return;
 
- if(p->pathIndex >= p->pathLen)
-  ClearActorPath(p);
+  if(mc->combatON) {
+    if(mc->combatMenuSelection != CS_MOVE) {
+      ClearActorPath(p);
+      return;
+    }
+
+    if(p->currentMana < MOVEMENT_COST) {
+      mc->combatMenuSelection = CMS_MOVE_DONE;
+      ClearActorPath(p);
+      return;
+    }
+
+    MoveActor(p, p->pathDirs[p->pathIndex]);
+    p->pathIndex++;
+    RemoveMana(p, MOVEMENT_COST);
+
+    //ClearActorPath(p);   // one tile only in combat
+    return;
+  }
+
+  MoveActor(p, p->pathDirs[p->pathIndex]);
+  p->pathIndex++;
+
+  if(p->pathIndex >= p->pathLen)
+    ClearActorPath(p);
 }
 
 U0 TickActorWalkState(Actor *a)
