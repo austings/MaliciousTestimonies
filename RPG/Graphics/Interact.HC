@@ -1,7 +1,6 @@
 U0 PickUpItemTrigger(Actor *p, MapNode *puin)
 {
- if(puin->len>0)
- {
+ if(puin->len>0){
   I64 pui = (PickUpItem(puin,0))->id;
   if(!AddItemToInventory(p->myInv,pui)){
    I64 i=0;
@@ -84,7 +83,8 @@ U0 InteractChest(I64 inv){
  mc->lootInv =  GrabChest(inv);
 }
 
-U0 InteractTile(Actor *p, U8 dir,
+//Returns if Moved this turn
+Bool InteractTile(Actor *p, U8 dir,
                 I64 xOff=0, I64 yOff=0, 
                 I64 walkingSubFrameKey,
                 I64 walkingFrameKey){
@@ -106,7 +106,7 @@ U0 InteractTile(Actor *p, U8 dir,
     break;
     case OBJ_TABLE:
     case OBJ_STALL:
-     PickUpItemTrigger(p,GetTensorItem(world->level,iactX,iactY,world->currentZ));
+     PickUpItemTrigger(p,GetTensorNode(world->level,iactX,iactY,world->currentZ));
     break;
    }
   }   
@@ -155,8 +155,10 @@ U0 InteractTile(Actor *p, U8 dir,
    if(mc->running&&p->currentMana>0)
     RemoveMana(p,1);
    }
+   return TRUE;
   }
- } 
+ }
+ return FALSE; 
 }
 
 #define leftXOff -1
@@ -177,23 +179,24 @@ U0 InteractTile(Actor *p, U8 dir,
 
 //actors with anim
 //use move actor on the new dir to move
-U0 MoveActor(Actor *p, U8 dir){
+Bool MoveActor(Actor *p, U8 dir){
  switch(dir){
   case DIR_LEFT://left
-   InteractTile(p,dir,leftXOff,0,
+   return InteractTile(p,dir,leftXOff,0,
                 leftSubFrame,leftFrame);
   break;
   case DIR_RIGHT://right
-   InteractTile(p,dir,rightXOff,0,
+    return InteractTile(p,dir,rightXOff,0,
                 rightSubFrame,rightFrame);
   break;
   case DIR_UP://up
-   InteractTile(p,dir,0,upYOff,
+    return InteractTile(p,dir,0,upYOff,
                 upSubFrame,upFrame);
   break;
   case DIR_DOWN://down
-   InteractTile(p,dir,0,downYOff,
+   return InteractTile(p,dir,0,downYOff,
                 downSubFrame,downFrame);
   break;
  }
+ return FALSE;
 }

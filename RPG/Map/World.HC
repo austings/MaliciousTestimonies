@@ -165,16 +165,28 @@ Bool ActorIsStillMovingOrScrolling(Actor *p)
   return FALSE;
 }
 
-U0 UpdateActorPath(Actor *p)
+U0 FinishActorPath(Actor *p)
 {
-  if(!p->hasPath)
-    return;
-
-  if(p->pathIndex >= p->pathLen) {
-    ClearActorPath(p);
-    return;
+  if(p->pickUpTrigger){
+  
+    MapNode *pin = GetTensorNode(world->level,
+                                 p->x, p->y, world->currentZ);
+    PickUpItemTrigger(p, pin);
+    p->pickUpTrigger = FALSE;
   }
 
+  ClearActorPath(p);
+}
+
+U0 UpdateActorPath(Actor *p)
+{
+  MapNode *pin;
+  if(!p->hasPath)
+    return;
+  if(p->pathIndex >= p->pathLen) {
+    FinishActorPath(p);
+    return;
+  }
   if(ActorIsStillMovingOrScrolling(p))
     return;
 
@@ -190,19 +202,20 @@ U0 UpdateActorPath(Actor *p)
       return;
     }
 
-    MoveActor(p, p->pathDirs[p->pathIndex]);
-    p->pathIndex++;
+    if(MoveActor(p, p->pathDirs[p->pathIndex]))
+     p->pathIndex++;
     RemoveMana(p, MOVEMENT_COST);
 
     //ClearActorPath(p);   // one tile only in combat
     return;
   }
 
-  MoveActor(p, p->pathDirs[p->pathIndex]);
-  p->pathIndex++;
-
-  if(p->pathIndex >= p->pathLen)
-    ClearActorPath(p);
+  if(MoveActor(p, p->pathDirs[p->pathIndex]))
+   p->pathIndex++;
+  if(p->pathIndex >= p->pathLen) {
+    FinishActorPath(p);
+    return;
+  }
 }
 
 U0 TickActorWalkState(Actor *a)
@@ -247,7 +260,10 @@ Bool IfAnyKey(){
  return FALSE;
 }
 
-U0 HandleKeyboard(Actor *p, MapNode *puin) {
+U0 HandleKeyboard(Actor *p) {
+ MapNode *puin = GetTensorNode(world->level,
+                    p->x,p->y,world->currentZ);
+
  if(IfAnyKey)
    AnyKey;
  if(KeyPressed(&keyboard.inv)) {

@@ -110,8 +110,8 @@ U0 CombatTurnArrows(Actor *p,I64 dir)
   case CS_MOVE: 
    if(p->currentMana>=MOVEMENT_COST){
     if(p->walking==DIR_IDLE){
-     MoveActor(p,dir);
-     RemoveMana(p,MOVEMENT_COST);
+     if(MoveActor(p,dir))
+      RemoveMana(p,MOVEMENT_COST);
     }
    } else{mc->combatMenuSelection=CMS_MOVE_DONE;}
   break;

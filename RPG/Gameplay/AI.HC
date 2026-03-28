@@ -101,6 +101,15 @@ I64 LowestOpenNode(PathNode *nodes, I64 count)
  return best;
 }
 
+U0 ClearActorPath(Actor *a)
+{
+ a->pathLen   = 0;
+ a->pathIndex = 0;
+ a->hasPath   = FALSE;
+ //a->pickUpTrigger = FALSE;
+}
+
+
 Bool BuildActorPathFromNodes(Actor *p, PathNode *nodes, I64 goalIndex)
 {
  I64 stackX[MAX_PATH_LEN];

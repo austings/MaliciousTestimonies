@@ -418,7 +418,7 @@ I64 GetTensorInv(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
  return val; 
 }
 
-MapNode *GetTensorItem(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
+MapNode *GetTensorNode(Tensor3D *t,I64 x=0,I64 y=0,I64 z =0)
 {
  Vector *v = t->shape;
  I64 sz = v->size;

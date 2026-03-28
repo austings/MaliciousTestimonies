@@ -312,12 +312,12 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF364,EFFFIRE,10),allAnimations.last);
   break;
   case EFFCLICK:
-   QueIns(AddFrame(EFF150,EFFCLICK,0),allAnimations.last);
-   QueIns(AddFrame(EFF151,EFFCLICK,1),allAnimations.last);
-   QueIns(AddFrame(EFF152,EFFCLICK,2),allAnimations.last);
-   QueIns(AddFrame(EFF153,EFFCLICK,3),allAnimations.last);
-   QueIns(AddFrame(EFF154,EFFCLICK,4),allAnimations.last);
-   QueIns(AddFrame(EFF154A,EFFCLICK,5),allAnimations.last);
+   QueIns(AddFrame(EFF150,EFFCLICK,0,-40,-48,2),allAnimations.last);
+   QueIns(AddFrame(EFF151,EFFCLICK,1,-40,-48,2),allAnimations.last);
+   QueIns(AddFrame(EFF152,EFFCLICK,2,-40,-48,2),allAnimations.last);
+   QueIns(AddFrame(EFF153,EFFCLICK,3,-40,-48,2),allAnimations.last);
+   QueIns(AddFrame(EFF154,EFFCLICK,4,-40,-48,2),allAnimations.last);
+   QueIns(AddFrame(EFF154A,EFFCLICK,5,-40,-48,2),allAnimations.last);
   break;
   case EFFSCRATCH:
    QueIns(AddFrame(EFF025,EFFSCRATCH,0),allAnimations.last);

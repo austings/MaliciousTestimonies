@@ -63,7 +63,7 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j){
 U0 DrawItemsOnLayer(CDC *dc,I64 obj, I64 i,I64 j,I64 l)
 {
 
- MapNode *mn = GetTensorItem(world->level,
+ MapNode *mn = GetTensorNode(world->level,
                     camera->topLR+i,camera->topUD+j, 
                     world->currentZ);
  CDC *scratch = DCNew(100,100);

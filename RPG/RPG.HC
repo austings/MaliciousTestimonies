@@ -12,11 +12,9 @@ U0 DrawIt(CTask *task, CDC *dc){
   case 1:
    //1. First Refresh Player and Tile reference
    Actor *p = GetPlayer;
-   MapNode *pin = GetTensorItem(world->level,
-                    p->x,p->y,world->currentZ);
-
+
    //2. Then get Input from Keyboard
-   HandleKeyboard(p,pin);
+   HandleKeyboard(p);
 
    //3. Next World Tick/ Move Tick
    world->timer = world->timer + FRAMERULE;

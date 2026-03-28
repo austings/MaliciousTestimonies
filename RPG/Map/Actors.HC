@@ -33,16 +33,10 @@ class Actor:CQue{
  U8 pathDirs[MAX_PATH_LEN];
  I64 pathLen;
  I64 pathIndex;
- Bool hasPath;
+ Bool hasPath,pickUpTrigger;
 
 };
 
-U0 ClearActorPath(Actor *a)
-{
- a->pathLen   = 0;
- a->pathIndex = 0;
- a->hasPath   = FALSE;
-}
 
 U0 PushActorPathDir(Actor *a, U8 dir)
 {
@@ -267,4 +261,3 @@ Actor *GetPlayer(I64 id=PLAYER){
   fetch = fetch->next;
  }
 }
-

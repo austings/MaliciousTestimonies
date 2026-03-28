@@ -71,7 +71,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
  }
 }
 
-U0 KeyArrow(Actor *p,I64 dir){
+U0 KeyArrow(Actor *p, I64 dir){
  //corresponds to DIR left, right, up, down
  //cancel existing pathing.
  ClearActorPath(p);
@@ -327,12 +327,15 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){
    ScreenToWorldTile(M_X, M_Y, &tx, &ty);
 
    t = GetTensor(world->level, tx, ty, world->currentZ);
+   MapNode *mn = GetTensorNode(world->level,
+                    tx,ty, 
+                    world->currentZ);
+   player->pickUpTrigger=TRUE;
 
    // todo: Replace  with your own tile classification
-
       
    AStarMoveActorTo(player, tx, ty, world->currentZ);
-   AddDirective(EFFCLICK,player,M_X-40,M_Y-48);
+   AddDirective(EFFCLICK,player,M_X,M_Y);
 
   }
  } //End game area
