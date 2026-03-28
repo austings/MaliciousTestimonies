@@ -1,6 +1,7 @@
 #define WEATHER_LAYER_BG 0
 #define WEATHER_LAYER_FG 1
-
+#define LEAF_W 16
+#define LEAF_H 16
 #define WEATHER_NONE           0
 #define WEATHER_LEAF_GREEN     1
 #define WEATHER_SAND           2
@@ -35,6 +36,10 @@ static class WeatherParticle {
 
     I64 originTileX;
     I64 originTileY;
+    I16 spawnAge;
+    I16 spawnDuration;
+    F64 spawnScale;
+    F64 introRot;
 };
 
 WeatherParticle weatherParticles[MAX_WEATHER_PARTICLES];
@@ -74,7 +79,66 @@ I64 WeatherWorldToScreenY(F64 worldY)
            - (camera->topUD * camera->dividY)
            + camera->cameraOffSetY;
 }
+U0 DrawScaledLeaf(CDC *dc, U8 *spr, I64 screenX, I64 screenY,
+                  F64 rot, F64 scale)
+{
+    CDC *tdc;
 
+    tdc = DCAlias(dc, dc->win_task);
+    MemCpy(tdc->r, dc->r, sizeof(I64) * 16);
+    tdc->flags |= DCF_TRANSFORMATION;
+
+    Mat4x4IdentEqu(tdc->r);
+    Mat4x4Scale(tdc->r, scale);
+    Mat4x4RotZ(tdc->r, rot);
+    Mat4x4TranslationEqu(tdc->r, screenX + LEAF_W / 2,
+                                 screenY + LEAF_H / 2, 0);
+    DCMat4x4Set(tdc, tdc->r);
+
+    Sprite3ZB(tdc, -LEAF_W / 2, -LEAF_H / 2, 0, spr, 0.0);
+
+    DCDel(tdc);
+}
+/*U0 DrawScaledLeaf(CDC *dc, U8 *spr, I64 screenX, I64 screenY,
+                  F64 rot, F64 scale)
+{
+    CDC *tdc;
+
+    tdc = DCAlias(dc, dc->win_task);
+    MemCpy(tdc->r, dc->r, sizeof(I64) * 16);
+    tdc->flags |= DCF_TRANSFORMATION;
+
+    Mat4x4IdentEqu(tdc->r);
+    Mat4x4TranslationEqu(tdc->r, screenX + LEAF_W / 2, screenY + LEAF_H / 2, 0);
+    Mat4x4RotZ(tdc->r, rot);
+    Mat4x4Scale(tdc->r, scale);
+    DCMat4x4Set(tdc, tdc->r);
+
+    Sprite3ZB(tdc, -LEAF_W / 2, -LEAF_H / 2, 0, spr, 0.0);
+
+    DCDel(tdc);
+}*/
+
+U0 DrawScaledWeatherSprite(CDC *dc, U8 *spr, I64 screenX, I64 screenY,
+                           F64 rot, F64 scale)
+{
+    CDC *tdc;
+
+    tdc = DCAlias(dc, dc->win_task);
+
+    MemCpy(tdc->r, dc->r, sizeof(I64) * 16);
+    tdc->flags |= DCF_TRANSFORMATION;
+
+    Mat4x4IdentEqu(tdc->r);
+    Mat4x4TranslationEqu(tdc->r, screenX, screenY, 0);
+    Mat4x4RotZ(tdc->r, rot);
+    Mat4x4Scale(tdc->r, scale);
+    DCMat4x4Set(tdc, tdc->r);
+
+    Sprite3ZB(tdc, 0, 0, 0, spr, 0.0);
+
+    DCDel(tdc);
+}
 I64 WeatherIdx(I64 x, I64 y)
 {
     return y * weatherW + x;
@@ -316,7 +380,7 @@ nextloop:
 }
 U0 RefreshWeatherSystem()
 {
-    PruneFarWeatherParticles();
+    PruneFarWeatherParticles();
     weatherOriginTileX = camera->topLR;
     weatherOriginTileY = camera->topUD;
 }
@@ -355,7 +419,6 @@ U0 SpawnWeatherParticleFromCell(WeatherCell *wc, I64 tileX, I64 tileY)
 
     baseWorldX = tileX * camera->dividX;
     baseWorldY = tileY * camera->dividY;
-
     for (n = 0; n < MAX_WEATHER_PARTICLES; n++) {
         WeatherParticle *wp = &weatherParticles[n];
         if (wp->active)
@@ -365,32 +428,59 @@ U0 SpawnWeatherParticleFromCell(WeatherCell *wc, I64 tileX, I64 tileY)
         wp->weatherType = wc->weatherType;
         wp->originTileX = tileX;
         wp->originTileY = tileY;
-
+        wp->spawnAge = 0;
+        wp->spawnDuration = 10;
+        wp->spawnScale = 0.1;
         wp->rot = 0.0;
         wp->life = 0.0;
         wp->maxLife = 32.0 + (RandU16 % 48);
 
         switch (wc->weatherType) {
-            case WEATHER_LEAF_GREEN:
-                wp->velX = 0.6;
-                wp->velY = 0.8;
-                wp->rotVel = 0.15;
-                if ((RandI64() & 7) != 0)
-                 wp->layer = WEATHER_LAYER_FG;
-                else
-                 wp->layer = WEATHER_LAYER_BG;
-                r = RandI64();
-                if (r < 0)
-                    r = -r;
-                wp->worldX = ToF64(baseWorldX + (r % camera->dividX));
+  case WEATHER_LEAF_GREEN:
+//    wp->velX = 1.5;    // 0.25 * 6
+//    wp->velY = 2.1;    // 0.35 * 6
+r = RandI64();
+if (r < 0) r = -r;
+wp->velX = 1.5 + (ToF64(r % 10) * 0.05);   // 1.5 → ~2.0
 
-                r = RandI64();
-                if (r < 0)
-                    r = -r;
-                wp->worldY = ToF64(baseWorldY + (r % camera->dividY));
+r = RandI64();
+if (r < 0) r = -r;
+wp->velY = 2.1 + (ToF64(r % 10) * 0.05);   // 2.1 → ~2.6
+/* rotation speed (slight variation above 0.010) */
+r = RandI64();
+if (r < 0) r = -r;
+wp->rotVel = 0.010 + (ToF64(r % 6) * 0.001);   // 0.010 → 0.015
 
-                break;
+/* spawn duration (slower intro variation) */
+r = RandI64();
+if (r < 0) r = -r;
+wp->spawnDuration = 40 + (r % 16);             // 40 → 55
 
+/* optional: small variation in intro spin */
+r = RandI64();
+if (r < 0) r = -r;
+wp->introRot = (6.28318 * 0.5) + (ToF64(r % 10) * 0.2);
+  //  wp->rotVel = 0.010; // 0.003 * 6
+  //  wp->spawnDuration = 40;          // shorter intro so it doesn't feel sluggish
+  //  wp->introRot = 6.28318 * 0.6;   // still less than a full spin
+    wp->spawnScale = 0.2;
+    wp->spawnAge = 0;
+
+    if ((RandI64() & 7) != 0)
+        wp->layer = WEATHER_LAYER_FG;
+    else
+        wp->layer = WEATHER_LAYER_BG;
+
+    r = RandI64();
+    if (r < 0)
+        r = -r;
+    wp->worldX = ToF64(baseWorldX + (r % camera->dividX));
+
+    r = RandI64();
+    if (r < 0)
+        r = -r;
+    wp->worldY = ToF64(baseWorldY + (r % camera->dividY));
+    break;
             case WEATHER_SAND:
                 wp->velX = 1.6;
                 wp->velY = 0.2;
@@ -548,20 +638,38 @@ U0 TrySpawnWeatherParticle(Actor *p,
         nextloop:
     }
 }
-
 U0 UpdateWeatherParticles()
 {
     I64 n;
     I64 tileX, tileY;
+    F64 moveMul;
+    F64 t;
     WeatherParticle *wp;
 
     for (n = 0; n < MAX_WEATHER_PARTICLES; n++) {
         wp = &weatherParticles[n];
+
         if (!wp->active)
             goto nextloop2;
 
-        wp->worldX += wp->velX;
-        wp->worldY += wp->velY;
+        moveMul = 1.0;
+
+     if (wp->spawnAge < wp->spawnDuration) {
+      wp->spawnAge++;
+
+      t = ToF64(wp->spawnAge) / ToF64(wp->spawnDuration);
+      wp->spawnScale = 0.2 + 0.8 * t;
+      wp->introRot = 6.28318 * (1.0 - t);
+    
+      if (wp->weatherType == WEATHER_LEAF_GREEN)
+         moveMul = 0.25 + 0.75 * t;
+     }
+     else {
+     wp->spawnScale = 1.0;
+     wp->introRot = 0.0;
+     }
+        wp->worldX += wp->velX * moveMul;
+        wp->worldY += wp->velY * moveMul;
         wp->rot += wp->rotVel;
 
         tileX = ToI64(wp->worldX) / camera->dividX;
@@ -595,14 +703,42 @@ U0 PlayWeatherLayer(CDC *dc, Actor *p, I16 layer)
   spr = GetWeatherSprite(wp->weatherType);
   if (!spr)
    goto weatherloopend;
+  F64 drawX, drawY;
+  F64 introT;
+  F64 introDriftX, introDriftY;
 
-  screenX = WeatherWorldToScreenX(wp->worldX);
-  screenY = WeatherWorldToScreenY(wp->worldY);
+  drawX = wp->worldX;
+  drawY = wp->worldY;
 
+  if (wp->weatherType == WEATHER_LEAF_GREEN &&
+    wp->spawnAge < wp->spawnDuration) {
+
+    introT = ToF64(wp->spawnAge) / ToF64(wp->spawnDuration);
+
+    introDriftX = Sin(introT * 6.28318) * 3.0;
+    introDriftY = Cos(introT * 6.28318) * 2.0;
+
+    drawX += introDriftX;
+    drawY += introDriftY;
+  }
+  //screenX = WeatherWorldToScreenX(wp->worldX);
+  //screenY = WeatherWorldToScreenY(wp->worldY);
+  screenX = WeatherWorldToScreenX(drawX);
+  screenY = WeatherWorldToScreenY(drawY);
   if (screenX < -32 || screenX > 512 || screenY < -32 || screenY > 512)
    goto weatherloopend;
 
-  Sprite3B(dc, screenX, screenY, ToI64(wp->rot), spr);
+  if (wp->weatherType == WEATHER_LEAF_GREEN){
+   F64 finalRot;
+
+   finalRot = wp->rot + wp->introRot;
+   DrawScaledLeaf(dc, spr, screenX, screenY, finalRot, wp->spawnScale); 
+  }
+  else
+  {
+  // DrawScaledWeatherSprite(dc, spr, screenX, screenY, wp->rot, wp->spawnScale); 
+   Sprite3B(dc, screenX, screenY, ToI64(wp->rot), spr);
+  }
   weatherloopend:
  }
 }

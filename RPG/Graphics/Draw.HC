@@ -375,7 +375,7 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
     BuildWeatherModel();
 
  if (ShouldRefreshWeather())
-    RefreshWeatherSystem();
+    RefreshWeatherSystem();
  TrySpawnWeatherParticle(p,
     RenderWLowerBound, RenderWUpperBound,
     RenderHLowerBound, RenderHUpperBound);
