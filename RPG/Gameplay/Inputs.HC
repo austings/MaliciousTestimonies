@@ -292,74 +292,99 @@ U0 HandleMouseEquipRelease(I64 M_X, I64 M_Y, I64 i, I64 j)
   }
  }
 }
+Bool HandleInvGridClick(I64 M_X, I64 M_Y,
+                        I64 baseX, I64 baseY,
+                        Inventory *inv,
+                        Bool playerInv)
+{
+ I64 i, j;
 
-U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){ 
- //Begin SideBar
- HandleMouseSideBar(M_X,M_Y,i,j);
- //End SideBar
+ if(mc->prayerDragging)
+  return FALSE;
 
+ for(i = 0; i < INVWIDTH; i++){
+  for(j = 0; j < INVHEIGHT; j++){
+   I64 x1 = baseX + (i * 43);
+   I64 y1 = baseY + (j * 42);
+   I64 x2 = x1 + 43;
+   I64 y2 = y1 + 42;
+
+   if(InRect(M_X, M_Y, x1, y1, x2, y2)){
+    InvDrag(i, j, inv, playerInv);
+    return TRUE;
+   }
+  }
+ }
+
+ return FALSE;
+}
+
+Bool HandleWorldClick(I64 M_X, I64 M_Y, Actor *player)
+{
+ if(!NoGameWindowOpen())
+  return FALSE;
+
+ I64 tx, ty;
+ ScreenToWorldTile(M_X, M_Y, &tx, &ty);
+
+ MapNode *mn = GetTensorNode(world->level, tx, ty, world->currentZ);
+ I64 t = GetTensor(world->level, tx, ty, world->currentZ);
+
+ player->pickUpTrigger = TRUE;
+
+ AStarMoveActorTo(player, tx, ty, world->currentZ);
+ AddDirective(EFFCLICK, player, M_X, M_Y);
+
+ return TRUE;
+}
+
+Bool HandleDragUseClick(I64 M_X, I64 M_Y, Actor *player)
+{
+ if(!(M_Y < 480 - (42 * 4) && mc->draggingInv == TRUE))
+  return FALSE;
+
+ I64 wlvl = GetTensorWaterLevel(world->level,
+                                player->x, player->y,
+                                world->currentZ);
+
+ if(UseItem(wlvl))
+  return TRUE;
+
+ return FALSE;
+}
+U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
+{
  Actor *player = GetPlayer;
 
- //Begin GameArea
- if(M_X>=0&&M_X<480&&
-    M_Y>=0&&M_Y<480){
-  if(M_Y<480-(42*4)&&mc->draggingInv==TRUE)
-  {  
-   I64 wlvl= GetTensorWaterLevel(world->level,player->x,player->y,world->currentZ);     
-   if(UseItem(wlvl))
-    goto handlemend;
-  }
-  //Equip wep slot
-  HandleMouseEquipRelease(M_X,M_Y,i,j);
-  //check repository region
-  if(mc->lootedSwitch){
-   for(i=0;i<INVWIDTH;i++){
-    for(j=0;j<INVHEIGHT;j++){
-     if(M_X>=(i*43)+2   &&
-       M_X< (i+1)*43+2 &&
-       M_Y>=(j*42) &&
-       M_Y< (j+1)*42&&!mc->prayerDragging){
-      InvDrag(i,j,mc->lootInv,FALSE);
-     }//end inventory if
-    }//end inventory height
-   }//end inventory width
-  }//end lootedswitch
+ /* 1. Sidebar / global UI first */
+ HandleMouseSideBar(M_X, M_Y, i, j);
 
-  if(mc->displayInventory==TRUE){  
-   //check inventory region
-   for(i=0;i<INVWIDTH;i++){
-    for(j=0;j<INVHEIGHT;j++){
-     if(M_X>=(i*43)+2   &&
-       M_X< (i+1)*43+2 &&
-       M_Y>=(j*42)+310 &&
-       M_Y< (j+1)*42+310&&!mc->prayerDragging){
-      InvDrag(i,j,player->myInv,TRUE);
+ /* 2. Only continue for game-area clicks */
+ if(!InGameArea(M_X, M_Y))
+  return;
 
-     }//end inventory if
-    }//end inventory height
-   }//end inventory width     
-  }//end invdisplay
-  // New: blank-world-tile click => A* path
-  if(NoGameWindowOpen()) {
-   I64 tx, ty;
-   I64 t;
+ /* 3. Drag-use item action */
+ if(HandleDragUseClick(M_X, M_Y, player))
+  return;
 
-   ScreenToWorldTile(M_X, M_Y, &tx, &ty);
+ /* 4. Equipment release */
+ HandleMouseEquipRelease(M_X, M_Y, i, j);
 
-   t = GetTensor(world->level, tx, ty, world->currentZ);
-   MapNode *mn = GetTensorNode(world->level,
-                    tx,ty, 
-                    world->currentZ);
-   player->pickUpTrigger=TRUE;
+ /* 5. Loot container grid */
+ if(mc->lootedSwitch){
+  if(HandleInvGridClick(M_X, M_Y, 2, 0, mc->lootInv, FALSE))
+   return;
+ }
 
-   // todo: Replace  with your own tile classification
-      
-   AStarMoveActorTo(player, tx, ty, world->currentZ);
-   AddDirective(EFFCLICK,player,M_X,M_Y);
+ /* 6. Player inventory grid */
+ if(mc->displayInventory == TRUE){
+  if(HandleInvGridClick(M_X, M_Y, 2, 310, player->myInv, TRUE))
+   return;
+ }
 
-  }
- } //End game area
- handlemend:
+ /* 7. World click movement/pathing */
+ if(HandleWorldClick(M_X, M_Y, player))
+  return;
 }
 
 U0 HandleRMouse(I64 M_X, I64 M_Y, I64 i, I64 j)

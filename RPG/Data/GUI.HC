@@ -50,6 +50,12 @@ Bool InRect(I64 mx, I64 my, I64 x1, I64 y1, I64 x2, I64 y2)
   return TRUE;
  return FALSE;
 }
+
+Bool InGameArea(I64 mx, I64 my)
+{
+ return InRect(mx, my, 0, 0, 480, 480);
+}
+
 Bool RegionEnabled(ClickRegion *r)
 {
  if((r->flags & REQ_NO_STATS) && mc->displayStats)
