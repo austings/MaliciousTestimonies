@@ -240,6 +240,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   case EFFFISH:
   case EFFSLEEP:
   case EFFFIRE:
+  case EFFCLICK:
   case EFFSCRATCH:
   case EFFBANNER:
    task->cQueDirective = directive;

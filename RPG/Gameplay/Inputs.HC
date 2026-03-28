@@ -329,6 +329,8 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j){
    // todo: Replace  with your own tile classification
    
     AStarMoveActorTo(player, tx, ty, world->currentZ);
+    AddDirective(EFFCLICK,player,M_X-40,M_Y-48);
+
   }
  } //End game area
  handlemend:

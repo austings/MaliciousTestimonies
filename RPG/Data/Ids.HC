@@ -11,7 +11,7 @@
 #define SV_SHAMIR               10 
 #define SV_SHAMIR_SHOP          16
 #define SV_BARZEL_SHOP          22
-#define SV_INTROTALKIE          23
+#define SV_INTROTALKIE          23
 #define SV_GENERIC_START	26
 #define SV_PARTIER		33
 #define SV_BARZEL               34 
@@ -83,6 +83,7 @@
 #define EFFFISH 300
 #define  EFFSLEEP 301
 #define EFFFIRE 310
+#define EFFCLICK 311
 #define EFFSCRATCH 320
 #define EFFBANNER 330
 

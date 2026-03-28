@@ -311,6 +311,14 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF363,EFFFIRE,9),allAnimations.last);
    QueIns(AddFrame(EFF364,EFFFIRE,10),allAnimations.last);
   break;
+  case EFFCLICK:
+   QueIns(AddFrame(EFF150,EFFCLICK,0),allAnimations.last);
+   QueIns(AddFrame(EFF151,EFFCLICK,1),allAnimations.last);
+   QueIns(AddFrame(EFF152,EFFCLICK,2),allAnimations.last);
+   QueIns(AddFrame(EFF153,EFFCLICK,3),allAnimations.last);
+   QueIns(AddFrame(EFF154,EFFCLICK,4),allAnimations.last);
+   QueIns(AddFrame(EFF154A,EFFCLICK,5),allAnimations.last);
+  break;
   case EFFSCRATCH:
    QueIns(AddFrame(EFF025,EFFSCRATCH,0),allAnimations.last);
    QueIns(AddFrame(EFF060,EFFSCRATCH,1),allAnimations.last);
@@ -331,16 +339,16 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(EFF421,EFFBANNER,7),allAnimations.last);
   break;
   case T1SLEEP:
-   QueIns(AddFrame(AAE87,T1SLEEP,0,0,0,600,0,12),allAnimations.last);
+   QueIns(AddFrame(AAE87,T1SLEEP,0,0,0,600,6,12),allAnimations.last);
   break;
   case T2SLEEP:
-   QueIns(AddFrame(AAE139,T2SLEEP,0,0,0,600,0,12),allAnimations.last);
+   QueIns(AddFrame(AAE139,T2SLEEP,0,0,0,600,6,12),allAnimations.last);
   break;
   case T3SLEEP:
-   QueIns(AddFrame(AAE194,T3SLEEP,0,0,0,600,0,12),allAnimations.last);
+   QueIns(AddFrame(AAE194,T3SLEEP,0,0,0,600,6,12),allAnimations.last);
   break;
   case T4SLEEP:
-   QueIns(AddFrame(AAE51,T4SLEEP,0,0,0,600,0,12),allAnimations.last);
+   QueIns(AddFrame(AAE51,T4SLEEP,0,0,0,600,6,12),allAnimations.last);
   break;
   case EFFSLEEP:
    QueIns(AddFrame(EFF231,EFFSLEEP,0,0,0,600,0,12),allAnimations.last);
@@ -575,6 +583,7 @@ U0 InitializeAnimator(){
   CreateAnimation(EFFFISH);
   CreateAnimation(EFFSLEEP);                
   CreateAnimation(EFFFIRE);
+  CreateAnimation(EFFCLICK);
   CreateAnimation(EFFSCRATCH);
   CreateAnimation(EFFBANNER);
 

@@ -3,7 +3,7 @@
 //AAE, EFF
 static CDC* AAE1= FramePtr("AAE1");
 static CDC* AAE2= FramePtr("AAE2");
-static CDC* AAE3= FramePtr("AAE3");
+static CDC* AAE3= FramePtr("AAE3");
 static CDC* AAE4= FramePtr("AAE4");
 static CDC* AAE5= FramePtr("AAE5");
 static CDC* AAE6= FramePtr("AAE6");
@@ -373,6 +373,7 @@ static CDC* EFF151= FramePtr("EFF151");
 static CDC* EFF152= FramePtr("EFF152");
 static CDC* EFF153= FramePtr("EFF153");
 static CDC* EFF154= FramePtr("EFF154");
+static CDC* EFF154A= FramePtr("EFF154A");
 static CDC* EFF155= FramePtr("EFF155");
 static CDC* EFF156= FramePtr("EFF156");
 static CDC* EFF157= FramePtr("EFF157");

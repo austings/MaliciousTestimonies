@@ -171,7 +171,7 @@ U0 UpdateActorPath(Actor *p)
  if(!p->hasPath)
   return;
 
- if(p->pathIndex >= p->pathLen) {
+ if(mc->combatON||(p->pathIndex >= p->pathLen)) {
   ClearActorPath(p);
   return;
  }
