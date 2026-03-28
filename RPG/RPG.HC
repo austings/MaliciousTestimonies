@@ -14,7 +14,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    MapNode *pin = GetTensorItem(world->level,
                     p->x,p->y,world->currentZ);
 
-   
+   TickActorWalkState(p); 
    world->timer = world->timer + FRAMERULE;
    if(world->timer>=FRAMERULE_CAP)
    {

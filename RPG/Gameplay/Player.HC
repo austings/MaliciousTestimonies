@@ -44,7 +44,6 @@ U0 AddHealth(Actor *a,I64 magnitude){
  }
 }
 
-
 U0 UpdateActorCoords(I64 id, U64 x, U64 y){
   switch(id)
   {
@@ -60,7 +59,6 @@ U0 UpdateActorCoords(I64 id, U64 x, U64 y){
     break;
   }
 }
-
 
 
 U0 InitActors(I64 currentZ){

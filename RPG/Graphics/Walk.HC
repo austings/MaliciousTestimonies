@@ -69,7 +69,7 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
                         CDC *R1, CDC *R2, CDC *R3,
                         CDC *U1, CDC *U2, CDC *U3,
                         CDC *D1, CDC *D2, CDC *D3, 
-                        I64 xOffset=0){
+                        I64 xOffset=0){
  U8 walkDir = a->walking;
  U8 subWalk = a->walkingSubFrame;
 
@@ -98,7 +98,6 @@ CDC *HandleWalkSubFrame(Actor *a, CDC *completeActor,
  }
 
  WalkMap *m = &walkMapEntry[walkDir];
- SetActorSubFrameRule(a, m->wsf, m->wf);
 
  if(a->visible)
   GrBlot3(completeActor, xOffset, 0, 10, sprites[m->spriteIndex]);

@@ -29,7 +29,7 @@ Cd(__DIR__);;
 #include "Dev/Deserialize.HC";
 
 // Loading World
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
 #include "Gameplay/Player.HC";

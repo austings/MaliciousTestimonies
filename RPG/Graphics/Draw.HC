@@ -15,7 +15,7 @@ U0 ReDrawWorld(CDC *dc, I64 i, I64 j){
      if(c>=BG_LT_GRAY){
       switch(c){
        case BG_LT_GRAY:
-        Sprite3B(dc,screenX,screenY,0,GetRoad);
+        Sprite3B(dc,screenX,screenY,0,GetRoad);
         I16 c2 = GetTensor(world->level,tileX,Max(tileY-1,0),world->currentZ);
         if(c2==BG_GREEN)
          Sprite3B(dc,screenX,screenY,0,GetTransition(DIR_UP));
@@ -383,11 +383,11 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
  UpdateWeatherParticles();
 
  for(j=RenderHLowerBound;j<RenderHUpperBound;j++){
-  if(camera->topUD+j<wX&&camera->topUD+j>=0){
+  if(camera->topUD+j<wY&&camera->topUD+j>=0){
    screenY = j*camera->dividY+camera->cameraOffSetY;
    tileY = camera->topUD+j;  
    for(i=RenderWLowerBound;i<RenderWUpperBound;i++){
-    if(camera->topLR+i<wY&&camera->topLR+i>=0){
+    if(camera->topLR+i<wX&&camera->topLR+i>=0){
      tileX =  camera->topLR+i; 
      screenX = i*camera->dividX+camera->cameraOffSetX;
 

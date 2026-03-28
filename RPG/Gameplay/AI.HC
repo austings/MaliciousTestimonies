@@ -311,4 +311,3 @@ Bool AStarMoveActorTo(Actor *p, I64 goalX, I64 goalY, I64 z)
  }
 }
 
-

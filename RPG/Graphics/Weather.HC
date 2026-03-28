@@ -802,7 +802,7 @@ U0 PlayWeatherLayer(CDC *dc, Actor *p, I16 layer)
   U8 *spr;
   I64 screenX, screenY;
 
-  if (!wp->active || wp->layer != layer)
+  if (!wp->active || wp->layer != layer)
    goto weatherloopend;
 
   spr = GetWeatherSprite(wp->weatherType);

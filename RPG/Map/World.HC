@@ -154,6 +154,18 @@ U0 TickInteract(I64 i, I64 j, Actor *p){
  }
 }
 
+Bool ActorIsStillMovingOrScrolling(Actor *p)
+{
+  if(p->walking != DIR_IDLE)
+    return TRUE;
+  if(camera->cameraOffSetX != 0)
+    return TRUE;
+  if(camera->cameraOffSetY != 0)
+    return TRUE;
+  return FALSE;
+}
+
+
 U0 UpdateActorPath(Actor *p)
 {
  if(!p->hasPath)
@@ -163,6 +175,8 @@ U0 UpdateActorPath(Actor *p)
   ClearActorPath(p);
   return;
  }
+ if(ActorIsStillMovingOrScrolling(p))
+  return;
 
  MoveActor(p, p->pathDirs[p->pathIndex]);
  p->pathIndex++;
@@ -171,6 +185,14 @@ U0 UpdateActorPath(Actor *p)
   ClearActorPath(p);
 }
 
+U0 TickActorWalkState(Actor *a)
+{
+  if(a->walking == DIR_IDLE)
+    return;
+
+  WalkMap *m = &walkMapEntry[a->walking];
+  SetActorSubFrameRule(a, m->wsf, m->wf);
+}
 
 //updates the matrix model based on taken actions
 U0 WorldTick(I64 i, I64 j, Actor *p){
@@ -189,7 +211,6 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
  }
  mc->smoothScreenY = fmod(mc->smoothScreenY+camera->cameraOffSetY * world->timer, 480.0);
  mc->smoothScreenX = fmod(mc->smoothScreenX+camera->cameraOffSetX * world->timer, 480.0);
-
  UpdateActorPath(p);
 
  mc->tickWeather++;

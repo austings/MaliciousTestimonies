@@ -93,8 +93,8 @@ U0 InteractTile(Actor *p, U8 dir,
  I64 iactX = p->x+xOff;
  I64 iactY = p->y+yOff;
 
- if(iactX!=WEST_MAX&&iactX!=wX&&
-    iactY!=NORTH_MAX&&iactY!=wY){
+ if(iactX>WEST_MAX&&iactX<wX&&
+    iactY>NORTH_MAX&&iactY<wY){
   I64 npc = GetTensorNPC(world->level,iactX,iactY,world->currentZ);
   I64 obj = GetTensorObj(world->level,iactX,iactY,world->currentZ);
 
