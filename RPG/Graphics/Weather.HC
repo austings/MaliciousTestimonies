@@ -41,6 +41,11 @@ static class WeatherParticle {
     F64 spawnScale;
     F64 introRot;
     I64 leafColor;
+
+    Bool despawning;
+    I16 despawnAge;
+    I16 despawnDuration;
+    F64 outroRot;
 };
 
 WeatherParticle weatherParticles[MAX_WEATHER_PARTICLES];
@@ -463,6 +468,18 @@ U0 BuildWeatherModel(){
   }
  }
 }
+
+U0 StartLeafDespawn(WeatherParticle *wp)
+{
+    if (wp->despawning)
+        return;
+
+    wp->despawning = TRUE;
+    wp->despawnAge = 0;
+    wp->despawnDuration = 8;
+    wp->outroRot = -6.28318;
+}
+
 U0 SpawnWeatherParticleFromCell(WeatherCell *wc, I64 tileX, I64 tileY)
 {
     I64 n;
@@ -488,7 +505,10 @@ U0 SpawnWeatherParticleFromCell(WeatherCell *wc, I64 tileX, I64 tileY)
         wp->life = 0.0;
         wp->maxLife = 32.0 + (RandU16 % 48);
         wp->leafColor = wc->leafColor;
-
+        wp->despawning = FALSE;
+        wp->despawnAge = 0;
+        wp->despawnDuration = 16;
+        wp->outroRot = 0.0;
         switch (wc->weatherType) {
   case WEATHER_LEAF_GREEN:
 r = RandI64();
@@ -690,6 +710,7 @@ U0 TrySpawnWeatherParticle(Actor *p,
         nextloop:
     }
 }
+
 U0 UpdateWeatherParticles()
 {
     I64 n;
@@ -706,20 +727,46 @@ U0 UpdateWeatherParticles()
 
         moveMul = 1.0;
 
-     if (wp->spawnAge < wp->spawnDuration) {
-      wp->spawnAge++;
+        if (wp->despawning) {
+            wp->despawnAge++;
 
-      t = ToF64(wp->spawnAge) / ToF64(wp->spawnDuration);
-      wp->spawnScale = 0.2 + 0.8 * t;
-      wp->introRot = 6.28318 * (1.0 - t);
-    
-      if (wp->weatherType == WEATHER_LEAF_GREEN)
-         moveMul = 0.25 + 0.75 * t;
-     }
-     else {
-     wp->spawnScale = 1.0;
-     wp->introRot = 0.0;
-     }
+            if (wp->despawnAge >= wp->despawnDuration) {
+                wp->active = FALSE;
+                goto nextloop2;
+            }
+
+            t = ToF64(wp->despawnAge) / ToF64(wp->despawnDuration);
+            F64 t2;
+
+            t2 = t * t;
+
+            wp->spawnScale = 1.0 - t2;
+            wp->outroRot = -6.28318 * t2;
+           // wp->spawnScale = 1.0 - t;
+           // wp->outroRot = -6.28318 * t;
+
+            wp->worldX += wp->velX * 0.25;
+            wp->worldY += wp->velY * 0.25;
+            wp->rot += wp->rotVel;
+
+            goto nextloop2;
+        }
+
+        if (wp->spawnAge < wp->spawnDuration) {
+            wp->spawnAge++;
+
+            t = ToF64(wp->spawnAge) / ToF64(wp->spawnDuration);
+            wp->spawnScale = 0.15 + 0.85 * t;
+            wp->introRot = 6.28318 * (1.0 - t);
+
+            if (wp->weatherType == WEATHER_LEAF_GREEN)
+                moveMul = t;
+        }
+        else {
+            wp->spawnScale = 1.0;
+            wp->introRot = 0.0;
+        }
+
         wp->worldX += wp->velX * moveMul;
         wp->worldY += wp->velY * moveMul;
         wp->rot += wp->rotVel;
@@ -728,12 +775,18 @@ U0 UpdateWeatherParticles()
         tileY = ToI64(wp->worldY) / camera->dividY;
 
         if (tileX < 0 || tileY < 0 || tileX >= weatherW || tileY >= weatherH) {
-            wp->active = FALSE;
+            if (wp->weatherType == WEATHER_LEAF_GREEN)
+                StartLeafDespawn(wp);
+            else
+                wp->active = FALSE;
             goto nextloop2;
         }
 
         if (!WeatherParticleAllowedOnTile(wp, tileX, tileY)) {
-            wp->active = FALSE;
+            if (wp->weatherType == WEATHER_LEAF_GREEN)
+                StartLeafDespawn(wp);
+            else
+                wp->active = FALSE;
             goto nextloop2;
         }
 
@@ -749,7 +802,7 @@ U0 PlayWeatherLayer(CDC *dc, Actor *p, I16 layer)
   U8 *spr;
   I64 screenX, screenY;
 
-  if (!wp->active || wp->layer != layer)
+  if (!wp->active || wp->layer != layer)
    goto weatherloopend;
 
   spr = GetWeatherSprite(wp->weatherType);
@@ -773,8 +826,6 @@ U0 PlayWeatherLayer(CDC *dc, Actor *p, I16 layer)
     drawX += introDriftX;
     drawY += introDriftY;
   }
-  //screenX = WeatherWorldToScreenX(wp->worldX);
-  //screenY = WeatherWorldToScreenY(wp->worldY);
   screenX = WeatherWorldToScreenX(drawX);
   screenY = WeatherWorldToScreenY(drawY);
   if (screenX < -32 || screenX > 512 || screenY < -32 || screenY > 512)
@@ -783,7 +834,7 @@ U0 PlayWeatherLayer(CDC *dc, Actor *p, I16 layer)
   if (wp->weatherType == WEATHER_LEAF_GREEN){
    F64 finalRot;
 
-   finalRot = wp->rot + wp->introRot;
+   finalRot = wp->rot + wp->introRot + wp->outroRot;
    if(wp->leafColor==LTPURPLE) 
     spr = GetPinkLeaf;
    DrawScaledLeaf(dc, spr, screenX, screenY, finalRot, wp->spawnScale); 
