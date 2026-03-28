@@ -139,7 +139,15 @@ Bool CanPathTo(I64 x, I64 y, I64 z)
   return FALSE;
 
  if(CheckSolid(world->level, x, y, z))
+ {
+  I64 obj = GetTensorObj(world->level,x,y,z);
+
+  if(obj!=IT_NULL){
+   return TRUE;
+  }
+
   return FALSE;
+ }
 
  return TRUE;
 }
