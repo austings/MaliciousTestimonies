@@ -177,68 +177,88 @@ Bool NoGameWindowOpen()
  return FALSE;
 }
 
-U0 HandleMouseSideBar(I64 M_X, I64 M_Y, I64 i,I64 j){
- //SideBar
- Bool subMenu = mc->displayPrayers || mc->displayStats;
- if(!subMenu)
- { if(M_X>=496&&M_X<=549&& //equip button
-          M_Y>=40&&M_Y<100
-          &&mc->displayStats==FALSE){
-   EquipButton; 
-  }else if(M_X>=550&&M_X<=610&&//stats on
-          M_Y>=40&&M_Y<100&&
-          mc->displayStats==FALSE){
-   mc->displayStats=TRUE;
-  }else if(M_X>=496&&M_X<=549&& //inv button
-          M_Y>=100&&M_Y<=160&&
-          mc->displayStats==FALSE){
-   InvButton;
-  }else if(M_X>494&&M_X<549&&
-           M_Y>=160&&M_Y<220){
+U0 HandleMouseAction(I64 id, I64 M_X, I64 M_Y, I64 i, I64 j)
+{
+ switch(id){
+  case BTN_EQUIP:
+   if(mc->displayStats == FALSE)
+    EquipButton;
+  break;
+
+  case BTN_STATS:
+   if(mc->displayStats == FALSE)
+    mc->displayStats = TRUE;
+  break;
+
+  case BTN_INV:
+   if(mc->displayStats == FALSE)
+    InvButton;
+  break;
+
+  case BTN_RUN:
    KeyShift;
-  }else if(M_X>=550&&M_X<=603&& //pray button
-          M_Y>=100&&M_Y<=160&&
-          mc->displayPrayers==FALSE){
-   PrayerButton;
-  }else if(M_X>=494&&M_X<=549&&//music button
-          M_Y>=220&&M_Y<=280&&
-          mc->displayStats==FALSE){
-   MusicButton;
-  }else if(M_X>=550&&M_X<=610&&//fx button
-          M_Y>=220&&M_Y<=280&&
-          mc->displayStats==FALSE){
-   FxButton;   
-  }
- }else if(mc->displayPrayers) {
-  PrayerFilters(M_X,M_Y,i,j); //prayer submenu
-  
- }
+  break;
 
- //pop up menu Xs
- if(M_X>=140&&M_X<=180&&//equip x
-          M_Y>=10&&M_Y<=40
-          &&mc->displayEquipment==TRUE){
-   mc->displayEquipment=FALSE;
- }else if(M_X>=450&&M_X<=480&&//inv x
-          M_Y>=290&&M_Y<=310
-          &&mc->displayInventory==TRUE){
-   mc->displayInventory=FALSE; 
-   mc->lootedSwitch=FALSE;         
- }
+  case BTN_PRAYER:
+   if(mc->displayPrayers == FALSE)
+    PrayerButton;
+  break;
 
- //x button for submenus
- if(M_X>=580&&M_X<=641&&
-          M_Y>=0&&M_Y<=40&&(mc->displayPrayers==TRUE||
-          mc->displayStats==TRUE)){
-   mc->displayStats=FALSE;  mc->displayPrayers=FALSE;
- }
+  case BTN_MUSIC:
+   if(mc->displayStats == FALSE)
+    MusicButton;
+  break;
 
+  case BTN_FX:
+   if(mc->displayStats == FALSE)
+    FxButton;
+  break;
 
- if(M_X>=496&&M_X<=619&& //save button
-    M_Y>=421&&M_Y<=458){
+  case BTN_EQUIP_X:
+   if(mc->displayEquipment == TRUE)
+    mc->displayEquipment = FALSE;
+  break;
+
+  case BTN_INV_X:
+   if(mc->displayInventory == TRUE){
+    mc->displayInventory = FALSE;
+    mc->lootedSwitch = FALSE;
+   }
+  break;
+
+  case BTN_SUBMENU_X:
+   if(mc->displayPrayers == TRUE || mc->displayStats == TRUE){
+    mc->displayStats = FALSE;
+    mc->displayPrayers = FALSE;
+   }
+  break;
+
+  case BTN_SAVE:
    SaveButton;
+  break;
  }
+}
 
+U0 HandleMouseSideBar(I64 M_X, I64 M_Y, I64 i, I64 j){
+ Bool subMenu = mc->displayPrayers || mc->displayStats;
+ if(subMenu){
+  if(mc->displayPrayers){
+   PrayerFilters(M_X, M_Y, i, j);
+  }
+  if(InRect(M_X, M_Y, 580, 0, 641, 40)){
+   mc->displayStats = FALSE;
+   mc->displayPrayers = FALSE;
+  }
+  if(InRect(M_X, M_Y, 496, 421, 619, 458)){
+   SaveButton;
+  }
+  return;
+ }
+ I64 id = FindClickRegion(sideBarButtons,
+                          CLICKREGIONS,
+                          M_X, M_Y);
+ if(id)
+  HandleMouseAction(id, M_X, M_Y, i, j);
 }
 
 U0 HandleMouseEquipRelease(I64 M_X, I64 M_Y, I64 i, I64 j)

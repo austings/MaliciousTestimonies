@@ -225,7 +225,7 @@ CombatTurn *ctp;
 Prayers *prayers;
 Camera *camera;
 World *world;//world
-Vector *worldSz;//world size, with values wX,wY,wZ
+Vector *worldSz;//world size, with values wX,wY,wZ
 //
 //Global variables
 //

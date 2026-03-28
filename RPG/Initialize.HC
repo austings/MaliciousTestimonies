@@ -8,7 +8,6 @@ Cd(__DIR__);;
 // Loading Map
 #include "Map/Map.HC";
 #include "Map/Tensor3D.HC";
-
 // Loading Graphics
 #include "Sprites/SS1.HC"; 
 #include "Sprites/SpriteSheet1.HC";
@@ -44,16 +43,17 @@ Cd(__DIR__);;
 #include "Graphics/Sidebar.HC";
 #include "Graphics/Drag.HC";
 #include "Gameplay/Fishing.HC";
-#include "Graphics/Interact.HC";
+#include "Graphics/Interact.HC";
 #include "Music.HC";
 #include "Graphics/Attacks.HC";
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
 #include "Graphics/Render.HC";
-#include "Graphics/Weather.HC";
+#include "Graphics/Weather.HC";
 #include "Graphics/Draw.HC";
 
 // Handle Keys
+#include "Data/GUI.HC";
 #include "Gameplay/Inputs.HC";
 #include "Dev/Keyboard.HC";
 

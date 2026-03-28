@@ -1,0 +1,77 @@
+#define BTN_EQUIP      1
+#define BTN_STATS      2
+#define BTN_INV        3
+#define BTN_RUN        4
+#define BTN_PRAYER     5
+#define BTN_MUSIC      6
+#define BTN_FX         7
+#define BTN_EQUIP_X    8
+#define BTN_INV_X      9
+#define BTN_SUBMENU_X 10
+#define BTN_SAVE      11
+#define BTN_C_MOVE    12
+#define BTN_C_STRIKE  13
+#define BTN_C_PRAYER  14
+#define BTN_C_FLEE    15
+
+//Window Flags
+#define REQ_NO_STATS    1
+#define REQ_NO_PRAYERS  2
+#define REQ_EQUIP_OPEN  4
+#define REQ_INV_OPEN    8
+#define CLICKREGIONS 15
+
+static class ClickRegion {
+ I64 x1, y1, x2, y2;
+ I64 id;
+ I64 flags;
+} sideBarButtons[CLICKREGIONS] = {
+ {496,  40, 549, 100, BTN_EQUIP,0},
+ {550,  40, 610, 100, BTN_STATS,0},
+ {496, 100, 549, 160, BTN_INV,0},
+ {494, 160, 549, 220, BTN_RUN,0},
+ {550, 100, 603, 160, BTN_PRAYER,0},
+ {494, 220, 549, 280, BTN_MUSIC,0},
+ {550, 220, 610, 280, BTN_FX,0},
+ {140,  10, 180,  40, BTN_EQUIP_X,0},
+ {450, 290, 480, 310, BTN_INV_X,0},
+ {580,   0, 641,  40, BTN_SUBMENU_X,0},
+ {496, 421, 619, 458, BTN_SAVE,0},
+ {0,   290, 199, 420, BTN_C_MOVE,0},
+ {200, 290, 400, 420, BTN_C_STRIKE,0},
+ {0,   420, 199, 480, BTN_C_PRAYER,0},
+ {200, 420, 400, 480, BTN_C_FLEE,0},
+
+};
+
+Bool InRect(I64 mx, I64 my, I64 x1, I64 y1, I64 x2, I64 y2)
+{
+ if(mx >= x1 && mx <= x2 &&my >= y1 && my <  y2)
+  return TRUE;
+ return FALSE;
+}
+Bool RegionEnabled(ClickRegion *r)
+{
+ if((r->flags & REQ_NO_STATS) && mc->displayStats)
+  return FALSE;
+ if((r->flags & REQ_NO_PRAYERS) && mc->displayPrayers)
+  return FALSE;
+ if((r->flags & REQ_EQUIP_OPEN) && !mc->displayEquipment)
+  return FALSE;
+ if((r->flags & REQ_INV_OPEN) && !mc->displayInventory)
+  return FALSE;
+ return TRUE;
+}
+
+I64 FindClickRegion(ClickRegion *regions, I64 count, I64 mx, I64 my)
+{
+ I64 k;
+ for(k = 0; k < count; k++){
+  if(InRect(mx, my,
+            regions[k].x1, regions[k].y1,
+            regions[k].x2, regions[k].y2)){
+   return regions[k].id;
+  }
+ }
+ return 0;
+}

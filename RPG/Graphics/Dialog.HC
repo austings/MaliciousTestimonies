@@ -303,22 +303,22 @@ U0 CombatDialog1(CDC *dc, CTask *task, U8 selection)
   start:
    Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
    case CMS_MOVE:
-   Sprite3B(dc,12+5*13,385,0,GetCross);
+   Sprite3B(dc,46+5*13,395,0,GetCross);
    break;
    case CMS_STRIKE:
-   Sprite3B(dc,12+7*13,405,0,GetCross);
+   Sprite3B(dc,280+7*13,395,0,GetCross);
    break;
    case CMS_PRAYER:
-   Sprite3B(dc,12+7*13,425,0,GetCross);
+   Sprite3B(dc,46+7*13,435,0,GetCross);
    break;
    case CMS_FLEE:
-   Sprite3B(dc,12+5*13,445,0,GetCross);
+   Sprite3B(dc,280+5*13,435,0,GetCross);
    break;
   end:
-   PrintLine(dc,cOption1,12,385,2);
-   PrintLine(dc,cOption2,12,405,2);
-   PrintLine(dc,cOption3,12,425,2);
-   PrintLine(dc,cOption4,12,445,2);
+   PrintLine(dc,cOption1,46,395,2);
+   PrintLine(dc,cOption2,280,395,2);
+   PrintLine(dc,cOption3,46,435,2);
+   PrintLine(dc,cOption4,280,435,2);
 
   break;  
 

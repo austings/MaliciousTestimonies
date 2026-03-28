@@ -8,7 +8,7 @@
 
 
 //Matrix Object Declaration
-public class Matrix
+public class Matrix
 {
  I64 x,y;
  Vector *data;
@@ -18,7 +18,7 @@ public class Matrix
 
 
 
-//Initialize Matrix of size size
+//Initialize Matrix of size size
 Matrix *CreateMatrix(I64 row,I64 col)
 {
 
