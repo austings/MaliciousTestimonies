@@ -262,47 +262,50 @@ U0 DragPrayer(CDC *pm)
  }
 }
 
-
 U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
 {
  if(mc->lootedSwitch)//chest/merchant/corpse transfer
  {
    dc->color = BLACK;
    GrRect3(dc,0,0,0,480,190);
-   //background
+
    for(i=0;i<INVWIDTH;i++)
    {
     for(j=0;j<INVHEIGHT;j++)
     {   
-    Sprite3B(dc,i*camera->dividX+2,j*camera->dividY,
-             0,GetMenuSprite(2));
+     Sprite3B(dc,i*camera->dividX+2,j*camera->dividY,
+              0,GetMenuSprite(2));
     }
    }
+
    CDC *invR = RenderInventory(mc->lootInv, FALSE);
    GrBlot3(dc,0,0,10,invR);
    DCDel(invR);
-   //Sprite3B(dc,460,280,0,GetMenuSprite(3));
 
-
+   Sprite3B(dc,(INVWIDTH-1)*camera->dividX+2,0,0,GetMenuSprite(MENU_MENUBOX));
+   //Sprite3B(dc,510,52,0,GetMenuSprite(MENU_T));
  }
 
  if(mc->displayInventory)//inventory
  {
    dc->color = BLACK;
    GrRect3(dc,0,300,0,480,190);
-   //background
+
    for(i=0;i<INVWIDTH;i++)
    {
     for(j=0;j<INVHEIGHT;j++)
     {   
-    Sprite3B(dc,i*camera->dividX+2,j*camera->dividY+300,
-             0,GetMenuSprite(2));
+     Sprite3B(dc,i*camera->dividX+2,j*camera->dividY+300,
+              0,GetMenuSprite(2));
     }
    }
+
    CDC *invP = RenderInventory(p->myInv);
    GrBlot3(dc,0,0,10,invP);
    DCDel(invP);
+
    Sprite3B(dc,460,280,0,GetMenuSprite(3));
+
    if(mc->draggingInv){
      BlotItem(dc,mc->draggingItem,
               camera->cursorX+2-(mc->draggingItem->wOff),

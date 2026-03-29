@@ -1,4 +1,39 @@
+Bool InventoryHasAnyItems(Inventory *inv)
+{
+ I64 i, j;
+ for(j = 0; j < INVHEIGHT; j++){
+  for(i = 0; i < INVWIDTH; i++){
+   if(inv->mtrx[j][i].occupied != -1)
+    return TRUE;
+  }
+ }
+ return FALSE;
+}
 
+Bool SeenInvID(I64 *seen, I64 seenCount, I64 id)
+{
+ I64 k;
+ for(k = 0; k < seenCount; k++){
+  if(seen[k] == id)
+   return TRUE;
+ }
+ return FALSE;
+}
+
+/*Bool TryTakeOneLootItem(Actor *p, I64 itemID)
+{
+ Object *item;
+ item = RetrieveItem(mc->lootInv, itemID);
+ if(item == NULL)
+  return FALSE;
+
+ /* You need a direct inventory insertion helper here.
+    Replace this with your actual placement routine. */
+ if(!AutoPlaceItemInInventory(item, p->myInv, TRUE))
+  return FALSE;
+
+ return TRUE;
+}*/
 //convert inv id to item id
 I64 *RetrieveItemID(Inventory *myInv, I64 index,  Bool select=FALSE){
  Item *toBeRetrieved = myInv->collection->next;
@@ -105,6 +140,7 @@ U0 RemoveItemLocID(I64 invID, Bool delete =FALSE){
   Free(torm);
  }
 }
+
 
 class CoinObj{
  Item *oldShek;
@@ -241,4 +277,53 @@ Bool AddItemToInventory(Inventory *myInv, I64 itemID){
  }
  return FALSE;
 
+}
+U0 TakeAllLoot(Actor *p)
+{
+ I64 i, j;
+ I64 seen[INVWIDTH * INVHEIGHT];
+ I64 seenCount;
+ Bool movedOne;
+ Bool movedAny = FALSE;
+
+ if(!mc->lootedSwitch || mc->lootInv == NULL)
+  return;
+
+ do{
+  movedOne = FALSE;
+  seenCount = 0;
+
+  for(j = 0; j < INVHEIGHT; j++){
+   for(i = 0; i < INVWIDTH; i++){
+    I64 occ = mc->lootInv->mtrx[j][i].occupied;
+    if(occ < 0)
+     goto conti;
+
+    if(SeenInvID(seen, seenCount, occ))
+     goto conti;
+
+    seen[seenCount++] = occ;
+
+    Item *item = RetrieveItem(mc->lootInv, occ);
+    if(item == NULL)
+     goto conti;
+
+    if(AddItemToInventory(p->myInv, item->id)){
+     RemoveItemLoc(item, TRUE);
+     movedOne = TRUE;
+     movedAny = TRUE;
+     goto restart_scan;
+    }
+    conti:
+   }
+  }
+
+  restart_scan:
+  ;
+ }while(movedOne);
+
+ if(!InventoryHasAnyItems(mc->lootInv)){
+  mc->lootedSwitch = FALSE;
+  mc->lootInv = NULL;
+ }
 }

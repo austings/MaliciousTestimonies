@@ -270,7 +270,10 @@ U0 HandleKeyboard(Actor *p) {
   InvButton;
  }
  if(KeyPressed(&keyboard.equipment)) {
-  mc->displayEquipment = !mc->displayEquipment;
+  if(mc->lootedSwitch)
+   TakeAllLoot(p);
+  else
+   mc->displayEquipment = !mc->displayEquipment;
  }
 
  if(KeyPressed(&keyboard.stats)) {

@@ -14,6 +14,18 @@
 #define BTN_C_PRAYER  14
 #define BTN_C_FLEE    15
 
+#define EQREGIONS   4
+
+#define EQ_SLOT_SWORD  1
+#define EQ_SLOT_HELM   2
+#define EQ_SLOT_BODY   3
+#define EQ_SLOT_RING   4
+
+#define LOOT_TAKEALL_X1 494
+#define LOOT_TAKEALL_Y1 40
+#define LOOT_TAKEALL_X2 494 + 128
+#define LOOT_TAKEALL_Y2 40 + 48
+
 //Window Flags
 #define REQ_NO_STATS    1
 #define REQ_NO_PRAYERS  2
@@ -44,6 +56,36 @@ static class ClickRegion {
 
 };
 
+U0 BuildEquipRegions(ClickRegion *regions)
+{
+ regions[0].x1 = 8;
+ regions[0].y1 = 116;
+ regions[0].x2 = 60;
+ regions[0].y2 = 116 + (3 * camera->dividY);
+ regions[0].id = EQ_SLOT_SWORD;
+ regions[0].flags = 0;
+
+ regions[1].x1 = 18;
+ regions[1].y1 = 44;
+ regions[1].x2 = 102;
+ regions[1].y2 = 127;
+ regions[1].id = EQ_SLOT_HELM;
+ regions[1].flags = 0;
+
+ regions[2].x1 = 71;
+ regions[2].y1 = 159;
+ regions[2].x2 = 154;
+ regions[2].y2 = 284;
+ regions[2].id = EQ_SLOT_BODY;
+ regions[2].flags = 0;
+
+ regions[3].x1 = 117;
+ regions[3].y1 = 52;
+ regions[3].x2 = 157;
+ regions[3].y2 = 91;
+ regions[3].id = EQ_SLOT_RING;
+ regions[3].flags = 0;
+}
 Bool InRect(I64 mx, I64 my, I64 x1, I64 y1, I64 x2, I64 y2)
 {
  if(mx >= x1 && mx <= x2 &&my >= y1 && my <  y2)

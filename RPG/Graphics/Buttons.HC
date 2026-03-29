@@ -88,42 +88,55 @@ U0 SetHotKey(I64 i , I64 v)
  hotkeys[i] = v;               
 
 }
-
-U0 PrayerFilters(I64 M_X, I64 M_Y,I64 i, I64 j)
+Bool InRect(I64 mx, I64 my, I64 x1, I64 y1, I64 x2, I64 y2)
 {
- if(M_X>=490&&M_X<415&&
-    M_Y>=81&&M_Y<102){
-   PrayerCycleButton(TRUE);
- }else if(M_X>590&&M_X<615&&
-          M_Y>=81&&M_Y<102){
-   PrayerCycleButton(FALSE);
- }else if(mc->prayerDragging==TRUE){
-  I64 index=0;
-  for(i=10;i<490;i=i+50)
-  {
-   if(M_X>=i&&M_X<=i+50&&
-      M_Y>=0&&M_Y<=50)
-   {
-    SetHotKey(index,mc->dragPrayer);
-    mc->prayerDragging=FALSE;
+ return mx >= x1 && mx < x2 &&
+        my >= y1 && my < y2;
+}
+
+U0 PrayerFilters(I64 M_X, I64 M_Y, I64 i, I64 j)
+{
+ I64 index;
+ I64 x, y;
+
+ /* cycle left */
+ if(InRect(M_X, M_Y, 390, 81, 415, 102)){
+  PrayerCycleButton(TRUE);
+  return;
+ }
+
+ /* cycle right */
+ if(InRect(M_X, M_Y, 590, 81, 615, 102)){
+  PrayerCycleButton(FALSE);
+  return;
+ }
+
+ /* dragging prayer onto hotbar */
+ if(mc->prayerDragging == TRUE){
+  index = 0;
+
+  for(x = 10; x < 490; x += 50){
+   if(InRect(M_X, M_Y, x, 0, x + 50, 50)){
+    SetHotKey(index, mc->dragPrayer);
+    mc->prayerDragging = FALSE;
     mc->dragPrayer = -1;
-    break;
+    return;
    }
    index++;
   }
- }else{
-  for(i=490;i<640;i=i+50)
-  {
-   for(j=102;j<252;j=j+50)
-   {
-    if(M_X>=i&&M_X<=i+50&&M_Y>j&&M_Y<j+50&&mc->prayerDragging==FALSE)
-    {
-     mc->prayerDragging=TRUE;
-    }
+
+  return;
+ }
+
+ /* pick up a prayer from prayer grid */
+ for(x = 490; x < 640; x += 50){
+  for(y = 102; y < 252; y += 50){
+   if(InRect(M_X, M_Y, x, y, x + 50, y + 50)){
+    mc->prayerDragging = TRUE;
+    return;
    }
   }
  }
-
 }
 
 U0 EndDrag()

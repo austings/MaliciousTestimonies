@@ -12,7 +12,7 @@ U0 DrawIt(CTask *task, CDC *dc){
   case 1:
    //1. First Refresh Player and Tile reference
    Actor *p = GetPlayer;
-
+
    //2. Then get Input from Keyboard
    HandleKeyboard(p);
 

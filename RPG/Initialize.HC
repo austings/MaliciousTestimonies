@@ -28,7 +28,7 @@ Cd(__DIR__);;
 #include "Dev/Deserialize.HC";
 
 // Loading World
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
 #include "Gameplay/Player.HC";
@@ -49,7 +49,7 @@ Cd(__DIR__);;
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
 #include "Graphics/Render.HC";
-#include "Graphics/Weather.HC";
+#include "Graphics/Weather.HC";
 #include "Graphics/Draw.HC";
 
 // Handle Keys

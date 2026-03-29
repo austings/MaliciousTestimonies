@@ -260,38 +260,42 @@ U0 HandleMouseSideBar(I64 M_X, I64 M_Y, I64 i, I64 j){
  if(id)
   HandleMouseAction(id, M_X, M_Y, i, j);
 }
-
-U0 HandleMouseEquipRelease(I64 M_X, I64 M_Y, I64 i, I64 j)
+Bool HandleMouseEquipRelease(I64 M_X, I64 M_Y, I64 i, I64 j)
 {
- if(mc->draggingInv){
-  if(mc->displayEquipment==TRUE){
-   if(M_X>=8 &&
-      M_X< 60  &&
-      M_Y>=116  &&
-      M_Y< 116+(3*camera->dividY)){
-    ReleaseSword;
-   }
-   if(M_X>=18 &&
-      M_X< 102  &&
-      M_Y>=44  &&
-      M_Y< 127){
-    ReleaseHelm;
-   }
-   if(M_X>=71 &&
-      M_X< 154  &&
-      M_Y>=159  &&
-      M_Y< 284){
-    ReleaseBody;
-   }
-   if(M_X>=117 &&
-      M_X< 157  &&
-      M_Y>=52  &&
-      M_Y< 91){
-    ReleaseRing;
-   }
-  }
+ ClickRegion regions[EQREGIONS];
+ I64 id;
+
+ if(!mc->draggingInv)
+  return FALSE;
+
+ if(mc->displayEquipment != TRUE)
+  return FALSE;
+
+ BuildEquipRegions(regions);
+
+ id = FindClickRegion(regions, EQREGIONS, M_X, M_Y);
+
+ switch(id){
+  case EQ_SLOT_SWORD:
+   ReleaseSword;
+   return TRUE;
+
+  case EQ_SLOT_HELM:
+   ReleaseHelm;
+   return TRUE;
+
+  case EQ_SLOT_BODY:
+   ReleaseBody;
+   return TRUE;
+
+  case EQ_SLOT_RING:
+   ReleaseRing;
+   return TRUE;
  }
+
+ return FALSE;
 }
+
 Bool HandleInvGridClick(I64 M_X, I64 M_Y,
                         I64 baseX, I64 baseY,
                         Inventory *inv,
@@ -368,12 +372,16 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
   return;
 
  /* 4. Equipment release */
- HandleMouseEquipRelease(M_X, M_Y, i, j);
-
+ if(HandleMouseEquipRelease(M_X, M_Y, i, j))
+  return;
  /* 5. Loot container grid */
  if(mc->lootedSwitch){
   if(HandleInvGridClick(M_X, M_Y, 2, 0, mc->lootInv, FALSE))
    return;
+  if(InRect(M_X, M_Y, 494, 40, 494 + 128, 40 + 48)){
+   TakeAllLoot(player);
+   return;
+  }
  }
 
  /* 6. Player inventory grid */
