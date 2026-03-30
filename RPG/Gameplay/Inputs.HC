@@ -167,13 +167,73 @@ U0 AutoTurnEnd()
  }
 }
 
-Bool NoGameWindowOpen()
+Bool CombatDialog2Hover(I64 M_X, I64 M_Y)
+{
+ if(!mc->combatON|| 
+     mc->combatMenuSelection<CMS_MOVE||mc->combatMenuSelection>CMS_FLEE)
+  return FALSE;
+
+ if(InRect(M_X, M_Y, 0, 383, 218, 432)){
+  mc->combatMenuSelection = CMS_MOVE;
+  return TRUE;
+ }
+ if(InRect(M_X, M_Y, 218, 383, 471, 432)){
+  mc->combatMenuSelection = CMS_STRIKE;
+  return TRUE;
+ }
+ if(InRect(M_X, M_Y, 0, 432, 218, 480)){
+  mc->combatMenuSelection = CMS_PRAYER;
+  return TRUE;
+ }
+ if(InRect(M_X, M_Y, 218, 432, 471, 480)){
+  mc->combatMenuSelection = CMS_FLEE;
+  return TRUE;
+ }
+
+ return FALSE;
+}
+
+Bool CombatDialog2Click(I64 M_X, I64 M_Y)
+{
+ //if(!CombatDialog2Hover(M_X, M_Y))
+ // return FALSE;
+
+ switch(mc->combatMenuSelection){
+  case CMS_MOVE:
+   mc->combatMenuSelection = CS_MOVE;
+   return TRUE;
+
+  case CMS_STRIKE:
+   mc->combatMenuSelection = CS_STRIKE;
+   return TRUE;
+
+  case CMS_PRAYER:
+   GatherSelections();
+   mc->combatMenuSelection = CS_PRAYER;
+   return TRUE;
+
+  case CMS_FLEE:
+   mc->combatMenuSelection = CS_FLEE;
+   return TRUE;
+ }
+
+ return FALSE;
+}
+Bool NoGameWindowOpen(I64 M_X, I64 M_Y)
 {
  if(!mc->displayInventory&&!mc->displayEquipment&&!mc->lootedSwitch       &&
         !mc->draggingInv&&!mc->prayerDragging)
  {
   return TRUE;
  }
+ if(mc->displayInventory&& InRect(M_X,M_Y,0,0,480,270))
+  return TRUE;
+ if(mc->displayEquipment && InRect(M_X,M_Y,220,0,480,480))
+  return TRUE; 
+ if(mc->displayEquipment&&mc->displayInventory && 
+    InRect(M_X,M_Y,220,0,480,270))
+  return TRUE;
+
  return FALSE;
 }
 
@@ -325,7 +385,7 @@ Bool HandleInvGridClick(I64 M_X, I64 M_Y,
 
 Bool HandleWorldClick(I64 M_X, I64 M_Y, Actor *player)
 {
- if(!NoGameWindowOpen())
+ if(!NoGameWindowOpen(M_X,M_Y))
   return FALSE;
 
  I64 tx, ty;
@@ -364,9 +424,11 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
  HandleMouseSideBar(M_X, M_Y, i, j);
 
  /* 2. Only continue for game-area clicks */
+ if(CombatDialog2Click(M_X, M_Y))
+  return;
  if(!InGameArea(M_X, M_Y))
   return;
-
+ 
  /* 3. Drag-use item action */
  if(HandleDragUseClick(M_X, M_Y, player))
   return;

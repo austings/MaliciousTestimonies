@@ -88,21 +88,28 @@ U0 CombatTurnArrows(Actor *p,I64 dir)
  I64 i;
  switch(mc->combatMenuSelection){
   case CMS_MOVE:
-   if(KeyPressed(&keyboard.up)){mc->combatMenuSelection=CMS_FLEE;}
-   if(KeyPressed(&keyboard.down)){mc->combatMenuSelection++;}
+   if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
+    mc->combatMenuSelection=CMS_PRAYER;}
+   if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.right)){
+    mc->combatMenuSelection=CMS_STRIKE;}
   break;
   case CMS_STRIKE:
+   if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
+    mc->combatMenuSelection=CMS_FLEE;}
+   if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.right)){
+    mc->combatMenuSelection=CMS_MOVE;}
+  break;
   case CMS_PRAYER:
-   if(KeyPressed(&keyboard.down)){
-    mc->combatMenuSelection++;
-   }
-   if(KeyPressed(&keyboard.up)){mc->combatMenuSelection--;}
+   if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
+    mc->combatMenuSelection=CMS_MOVE;}
+   if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.right)){
+    mc->combatMenuSelection=CMS_FLEE;}
   break;
   case CMS_FLEE:
-   if(KeyPressed(&keyboard.down)){
-    mc->combatMenuSelection=CMS_MOVE;
-   }
-   if(KeyPressed(&keyboard.up)){mc->combatMenuSelection--;}
+   if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
+    mc->combatMenuSelection=CMS_STRIKE;}
+   if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.right)){
+    mc->combatMenuSelection=CMS_PRAYER;}
   break;
   //case 4...9:
   // if(KeyPressed(&keyboard.up)){mc->combatMenuSelection--;}

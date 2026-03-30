@@ -59,6 +59,7 @@ U0 DrawIt(CTask *task, CDC *dc){
      CombatDialogs(task, dc,p);
    }
    //10 Lastly Cover with Tooltip Gui
+   CombatDialog2Hover(camera->cursorX,camera->cursorY);
    ShowToolTips(dc);
 
    
@@ -116,6 +117,7 @@ while(TRUE){
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
       |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE|1<<MSG_KEY_UP);
 
+    //scan keys
     if(world->gameTicks>10&&!mc->controlLock){
      switch (input) {
      case MSG_KEY_UP:

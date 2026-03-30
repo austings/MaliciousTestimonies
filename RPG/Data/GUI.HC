@@ -25,7 +25,7 @@
 #define LOOT_TAKEALL_Y1 40
 #define LOOT_TAKEALL_X2 494 + 128
 #define LOOT_TAKEALL_Y2 40 + 48
-
+
 //Window Flags
 #define REQ_NO_STATS    1
 #define REQ_NO_PRAYERS  2
@@ -93,8 +93,7 @@ Bool InRect(I64 mx, I64 my, I64 x1, I64 y1, I64 x2, I64 y2)
  return FALSE;
 }
 
-Bool InGameArea(I64 mx, I64 my)
-{
+Bool InGameArea(I64 mx, I64 my){
  return InRect(mx, my, 0, 0, 480, 480);
 }
 
