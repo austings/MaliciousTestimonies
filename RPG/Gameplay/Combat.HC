@@ -60,6 +60,25 @@ U0 SwitchTarget()
 
 }
 
+U0 SetTargetFromActor(Actor *a)
+{
+ I64 index = 0;
+ CombatTurn *it = combatCQue.next;
+
+ while(it != &combatCQue){
+  if(it->ready && it->ready->id == a->id){
+   ctp = it;
+   mc->targetCTPIndex = index;
+   mc->target = a;
+   mc->tarposx = a->screenX;
+   mc->tarposy = a->screenY;
+   return;
+  }
+  it = it->next;
+  index++;
+ }
+}
+
 U0 CTPProgress()
 {
  mc->combatTurn++;
@@ -83,8 +102,7 @@ U0 CTPProgress()
 
 }
 
-U0 CombatTurnArrows(Actor *p,I64 dir)
-{
+U0 CombatTurnArrows(Actor *p,I64 dir){
  I64 i;
  switch(mc->combatMenuSelection){
   case CMS_MOVE:
@@ -111,9 +129,6 @@ U0 CombatTurnArrows(Actor *p,I64 dir)
    if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.right)){
     mc->combatMenuSelection=CMS_PRAYER;}
   break;
-  //case 4...9:
-  // if(KeyPressed(&keyboard.up)){mc->combatMenuSelection--;}
-  break;
   case CS_MOVE: 
    if(p->currentMana>=MOVEMENT_COST){
     if(p->walking==DIR_IDLE){
@@ -127,7 +142,6 @@ U0 CombatTurnArrows(Actor *p,I64 dir)
     SwitchTarget;
    if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.up))
     SwitchTarget();//integrate otherway
-
   break;
   case CS_PRAYER://select prayer/item
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.right))

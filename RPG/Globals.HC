@@ -189,6 +189,7 @@ class MenuControl{
 
   //players current target
   Actor *target;I64 targetCTPIndex, tarposx,tarposy;
+  Bool mouseTargetingActive;
 
   //prayerSelection
   I64 prayerToCast, dragPrayer, prayerListIndex, prayerListSize;

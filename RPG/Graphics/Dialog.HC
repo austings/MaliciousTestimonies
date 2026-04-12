@@ -379,7 +379,6 @@ U0 CombatDialog3(CDC *dc, CTask *task)
 
 
 }
-
 //Enemy attack     
 U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
 {

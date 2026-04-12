@@ -38,14 +38,12 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     PlayStrikeAnim(p);
     break;
    case CS_PRAYER://select which prayer
-    if(mc->prayerToCast!=DELIMITER)
-    {
+    if(mc->prayerToCast!=DELIMITER){
      if(mc->isItemSelector){
       mc->isItem=TRUE;
       I64 itemID = RetrieveItemID(p->myInv,mc->prayerToCast);
       RemoveItemLocID(mc->prayerToCast,TRUE);
       mc->prayerToCast = itemID; 
-
      }     
      mc->combatMenuSelection=CS_PRAYER2;
     }
@@ -169,8 +167,8 @@ U0 AutoTurnEnd()
 
 Bool CombatDialog2Hover(I64 M_X, I64 M_Y)
 {
- if(!mc->combatON|| 
-     mc->combatMenuSelection<CMS_MOVE||mc->combatMenuSelection>CMS_FLEE)
+ if(!mc->combatON|| (
+     mc->combatMenuSelection<CMS_MOVE||mc->combatMenuSelection>CMS_FLEE))
   return FALSE;
 
  if(InRect(M_X, M_Y, 0, 383, 218, 432)){
@@ -195,9 +193,8 @@ Bool CombatDialog2Hover(I64 M_X, I64 M_Y)
 
 Bool CombatDialog2Click(I64 M_X, I64 M_Y)
 {
- //if(!CombatDialog2Hover(M_X, M_Y))
- // return FALSE;
-
+ if(mc->combatON&&(mc->combatMenuSelection>=CMS_MOVE&&
+    mc->combatMenuSelection<=CMS_FLEE)){
  switch(mc->combatMenuSelection){
   case CMS_MOVE:
    mc->combatMenuSelection = CS_MOVE;
@@ -216,7 +213,7 @@ Bool CombatDialog2Click(I64 M_X, I64 M_Y)
    mc->combatMenuSelection = CS_FLEE;
    return TRUE;
  }
-
+ }
  return FALSE;
 }
 Bool NoGameWindowOpen(I64 M_X, I64 M_Y)
@@ -416,6 +413,49 @@ Bool HandleDragUseClick(I64 M_X, I64 M_Y, Actor *player)
 
  return FALSE;
 }
+U0 HandleMouseTargeting(I64 mx, I64 my)
+{
+ if(mc->combatMenuSelection != CS_STRIKE &&
+    mc->combatMenuSelection != CS_PRAYER2)
+  return;
+
+ Actor *hover = GetActorAtMouse(mx, my);
+
+ if(hover){
+  PrintDevMessage("TRUE",FALSE);
+  mc->mouseTargetingActive = TRUE;
+  SetTargetFromActor(hover);
+ }
+}
+
+U0 ClickHighlightedTarget(){
+ if(mc->combatON &&
+   (mc->combatMenuSelection == CS_STRIKE ||
+    mc->combatMenuSelection == CS_PRAYER2))
+ {
+  if(mc->target != NULL){
+   mc->tarposx = mc->target->screenX;
+   mc->tarposy = mc->target->screenY;
+   I64 idx = GetCTPIndexFromActor(mc->target);
+   if(idx != -1){
+    mc->targetCTPIndex = idx;
+   }
+
+   // confirm action
+   if(mc->combatMenuSelection == CS_STRIKE){
+    mc->combatMenuSelection = CMS_STRIKE_DONE;
+    PlayStrikeAnim(GetPlayer());
+
+   }
+   else if(mc->combatMenuSelection == CS_PRAYER2){
+    mc->combatMenuSelection = CMS_PRAYER_DONE;
+   }
+  return TRUE;
+  }
+ }
+ return FALSE;
+}
+
 U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 {
  Actor *player = GetPlayer;
@@ -425,6 +465,8 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 
  /* 2. Only continue for game-area clicks */
  if(CombatDialog2Click(M_X, M_Y))
+  return;
+ if(ClickHighlightedTarget())
   return;
  if(!InGameArea(M_X, M_Y))
   return;
@@ -460,6 +502,24 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 U0 HandleRMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 {
 }
+
+//Hover to select target during targeting phases
+Bool CombatDialog3Hover(I64 mx, I64 my)
+{
+ if(!mc->combatON)
+  return FALSE;
+
+ if(mc->combatMenuSelection == CS_STRIKE ||
+    mc->combatMenuSelection == CS_PRAYER2)
+ {
+  HandleMouseTargeting(mx, my);
+  return TRUE;
+ }
+
+ return FALSE;
+}
+
+
 //possibily make global to prevent refetch
 //U8 *tooltip
 U0 ShowToolTips(CDC *dc = gr.dc)

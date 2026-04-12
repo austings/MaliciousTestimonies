@@ -60,6 +60,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    }
    //10 Lastly Cover with Tooltip Gui
    CombatDialog2Hover(camera->cursorX,camera->cursorY);
+   CombatDialog3Hover(camera->cursorX,camera->cursorY);
    ShowToolTips(dc);
 
    

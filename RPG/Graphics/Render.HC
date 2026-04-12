@@ -72,7 +72,29 @@ I64 GetActorScreenY(Actor *a, I64 npcoy, I64 j,Bool Player=TRUE){
  }
 }
 
+Actor *GetActorAtMouse(I64 mx, I64 my){
+ CombatTurn *ct = combatCQue.next;
+ I64 index = 0;
+ while(ct != &combatCQue){
+  Actor *it = ct->ready;    
+  if(it->visible){
+   I64 ax = it->screenX;
+   I64 ay = it->screenY;
+   U8 *msg = MStrPrint("ACTOR:%d,%d - MOUSE:%d,%d",ax,ay,mx,my);
+   PrintDevMessage(msg);
+   // same offset used in HighlightTarget
+   if(InRect(mx, my, ax, ay, ax+50, ay+50)){
+    mc->targetCTPIndex = index;
+    return it;
+   }
+  }
 
+  ct = ct->next;
+  index++;
+ }
+
+ return NULL;
+}
 
 U0 StartCameraPan(CDC *dc,Actor *p){
  // background world x pan
@@ -154,11 +176,10 @@ U0 CombatQueInit(Actor *toInsert){ //parameter encounter file
 U0 RenderCharacter(CDC *dc,I64 iFinalX, I64 iFinalY,I64 iFinalZ,
            CDC *character,Bool highlight=FALSE)
 {
-
-    if(highlight){
-       HighlightTarget(dc, iFinalX, iFinalY+24,iFinalZ+10);
-    }
-    GrBlot3(dc,iFinalX,iFinalY,iFinalZ,character);
+ if(highlight){
+  HighlightTarget(dc, iFinalX, iFinalY+24,iFinalZ+10);
+ }
+ GrBlot3(dc,iFinalX,iFinalY,iFinalZ,character);
 
 }
 

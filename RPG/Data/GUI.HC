@@ -33,6 +33,39 @@
 #define REQ_INV_OPEN    8
 #define CLICKREGIONS 15
 
+//TODO: implement window objects:Unused (yet)
+class GraphicObject
+{
+  U8 *title;
+  I64 relX, relY;
+  I64 screenX, screenY; 
+  U8 *onClickFunctionPtr;
+  U8 *onReleaseFunctionPtr;
+  U8 *sprite; 
+
+};
+
+class TextObject
+{
+  U8 *title;
+  I64 relX, relY;
+  I64 screenX, screenY;
+  I64 fontSize; 
+  U8 *value; 
+
+};
+
+class GameMenu
+{
+  GraphicObject *buttons[10];
+  TextObject *texts[10];
+  U8 X, Y;
+  
+};
+
+
+//begin 
+
 static class ClickRegion {
  I64 x1, y1, x2, y2;
  I64 id;

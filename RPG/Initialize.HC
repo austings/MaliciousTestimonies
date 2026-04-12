@@ -26,9 +26,10 @@ Cd(__DIR__);;
 #include "Dev/Dev.HC";
 #include "Gameplay/InvLogic.HC";
 #include "Dev/Deserialize.HC";
+#include "Data/GUI.HC";
 
 // Loading World
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
 #include "Gameplay/Player.HC";
@@ -53,7 +54,6 @@ Cd(__DIR__);;
 #include "Graphics/Draw.HC";
 
 // Handle Keys
-#include "Data/GUI.HC";
 #include "Gameplay/Inputs.HC";
 #include "Dev/Keyboard.HC";
 
@@ -116,6 +116,7 @@ U0 InitMenuControl()
  mc->combatON = FALSE;
  mc->combatMenuStage =STAGE_0;
  mc->combatMenuSelection=CMS_MOVE;
+ mc->mouseTargetingActive=FALSE;
  mc->target = GetPlayer(PLAYER);
  mc->tarposx = 0;
  mc->tarposy = 0;

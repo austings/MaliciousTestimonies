@@ -285,7 +285,7 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
  }   
 
  Bool isHighlight =FALSE;  
- isHighlight = CheckTarget(toRender);
+ isHighlight = CheckTarget(toRender,camera->cursorX,camera->cursorY);
  CDC *drawnActor = GetActorAnimationJob(toRender,wlvl);     
  RenderCharacter(dc,toRender->screenX,toRender->screenY,
                  10, drawnActor, isHighlight);

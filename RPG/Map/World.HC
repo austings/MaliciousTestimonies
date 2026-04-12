@@ -30,31 +30,16 @@ U0 Stage0(Actor *p)
   break;
   case CMS_PRAYER_DONE:
    if(mc->isItem){
-    switch(mc->prayerToCast)
-    {
-     case IT_HPPOT:
-      if(mc->turnIndex==1) { CastPrayer(p);}
-      mc->turnIndex++;
-      if(mc->turnIndex>3){
-       AddHealth(mc->target,10);
-       SetCombatStage1;
-      }
-     break;
-    }
+    UseItemCombat(p);
    }
    else{
-    switch(mc->prayerToCast){
-     case SP_HEAL: //lay on hands
-      if(mc->turnIndex==1) { CastPrayer(p);}
-      mc->turnIndex++;
-      if(mc->turnIndex>3){
-       AddHealth(mc->target,p->int);
-       RemoveMana(p,prayers->list[mc->prayerToCast]->cost);
-       SetCombatStage1;
-      }
-     break;
-    }//switch prayer
+    UsePrayerCombat(p);
    }//isItem
+   mc->turnIndex++;
+   if(mc->turnIndex>3){
+    SetCombatStage1;
+   }
+
   break;
   case CS_FLEE:
    mc->turnIndex++;
@@ -255,6 +240,7 @@ Bool IfAnyKey(){
  KeyState *k = &keyboard;
  for(i=0;i<keycount; ++i) {
   if(k[i].isDown && !k[i].wasDown) {
+   mc->mouseTargetingActive=FALSE;
    return TRUE; // at least one key was freshly pressed
   }
  }
