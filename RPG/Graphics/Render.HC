@@ -79,11 +79,10 @@ Actor *GetActorAtMouse(I64 mx, I64 my){
   Actor *it = ct->ready;    
   if(it->visible){
    I64 ax = it->screenX;
-   I64 ay = it->screenY;
+   I64 ay = it->screenY;
    U8 *msg = MStrPrint("ACTOR:%d,%d - MOUSE:%d,%d",ax,ay,mx,my);
-   PrintDevMessage(msg);
    // same offset used in HighlightTarget
-   if(InRect(mx, my, ax, ay, ax+50, ay+50)){
+   if(InRect(mx, my, ax, ay, ax+50, ay+70)){
     mc->targetCTPIndex = index;
     return it;
    }

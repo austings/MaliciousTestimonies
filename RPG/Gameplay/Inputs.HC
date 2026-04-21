@@ -422,7 +422,6 @@ U0 HandleMouseTargeting(I64 mx, I64 my)
  Actor *hover = GetActorAtMouse(mx, my);
 
  if(hover){
-  PrintDevMessage("TRUE",FALSE);
   mc->mouseTargetingActive = TRUE;
   SetTargetFromActor(hover);
  }
@@ -491,6 +490,8 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
  /* 6. Player inventory grid */
  if(mc->displayInventory == TRUE){
   if(HandleInvGridClick(M_X, M_Y, 2, 310, player->myInv, TRUE))
+   return;
+  if(mc->lootedSwitch)
    return;
  }
 

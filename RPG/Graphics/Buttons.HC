@@ -163,7 +163,7 @@ U0 ReleaseSword()
  }
  player->sword =mc->draggingID;
 
- RemoveItemLoc(mc->draggingItem,TRUE);                 
+ RemoveItemFromInv(player->myInv, mc->draggingItem, TRUE);                
  EndDrag; 
 
 }
@@ -184,7 +184,7 @@ U0 ReleaseBody()
  }
  player->armor =mc->draggingID;
 
- RemoveItemLoc(mc->draggingItem,TRUE);
+ RemoveItemFromInv(player->myInv, mc->draggingItem, TRUE);
  EndDrag; 
 
 }
@@ -205,7 +205,7 @@ U0 ReleaseHelm()
  }
  player->hat =mc->draggingID;
 
- RemoveItemLoc(mc->draggingItem,TRUE);                 
+ RemoveItemFromInv(player->myInv, mc->draggingItem, TRUE);                 
  EndDrag; 
 
 }
@@ -225,7 +225,7 @@ U0 ReleaseRing()
  }
  player->ring1 =mc->draggingID;
  
- RemoveItemLoc(mc->draggingItem,TRUE);                 
+ RemoveItemFromInv(player->myInv, mc->draggingItem, TRUE);                 
  EndDrag;
 }
 
@@ -235,7 +235,7 @@ Bool UseItem(I64 wlvl=0){
   if(wlvl>0){
    switch(mc->draggingID){
     case IT_POT:
-     RemoveItemLoc(mc->draggingItem,TRUE);
+     RemoveItemFromInv(player->myInv, mc->draggingItem, TRUE);
      AddItemToInventory(player->myInv,IT_WPOT);
      EndDrag;
      return TRUE;
@@ -245,12 +245,12 @@ Bool UseItem(I64 wlvl=0){
   if(mc->draggingItem->usable){
    switch(mc->draggingID){//todo parse from description?
     case IT_FISH1:
-     RemoveItemLoc(mc->draggingItem,TRUE);
+     RemoveItemFromInv(player->myInv, mc->draggingItem, TRUE);
      RemoveMana(player,-10);   
      EndDrag;
     break;
     case IT_HPPOT:
-     RemoveItemLoc(mc->draggingItem,TRUE);
+     RemoveItemFromInv(player->myInv, mc->draggingItem, TRUE);
      RemoveHealth(player,-25);
      EndDrag;
     break;
@@ -273,7 +273,7 @@ U0 CombineIfPossible(I64 pItem)
   case IT_WPOT:
    if(item->id==IT_BULB){
     RemoveItemLocID(pItem,TRUE);
-    RemoveItemLoc(mc->draggingItem,TRUE);
+    RemoveItemFromInv(player->myInv, mc->draggingItem, TRUE);
     AddItemToInventory(player->myInv,IT_HPPOT);    
     EndDrag;
 
@@ -283,7 +283,7 @@ U0 CombineIfPossible(I64 pItem)
    if(item->id==IT_WPOT)
    {
     RemoveItemLocID(pItem,TRUE);
-    RemoveItemLoc(mc->draggingItem,TRUE);
+    RemoveItemFromInv(player->myInv, mc->draggingItem, TRUE);
     AddItemToInventory(player->myInv,IT_HPPOT); 
     EndDrag;
 

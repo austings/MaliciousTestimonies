@@ -69,41 +69,42 @@ Item *RetrieveItem(Inventory *myInv, I64 index,Bool select=FALSE){
  return toBeRetrieved;
 }
 
-
-//usually used for populating equipment slots
-//item is a Item class instance
-//removes inventory item by Item class reference
-U0 RemoveItemLoc(Item *item, Bool delete =FALSE){
+//THIS SHOULD DEPRECATE RemoveItemFromLoc
+U0 RemoveItemFromInv(Inventory *inv, Item *item, Bool delete = FALSE)
+{
  I64 i,j;
- Actor *player = GetPlayer(PLAYER);
- //remove old loc,update other items index in rendered matrix
+
+ // update matrix
  for(i=0;i<INVWIDTH;i++){
   for(j=0;j<INVHEIGHT;j++){
-   I64 valueToUpdate = player->myInv->mtrx[j][i].occupied;
-   if(valueToUpdate==item->invID){
+   I64 valueToUpdate = inv->mtrx[j][i].occupied;
+
+   if(valueToUpdate == item->invID){
     valueToUpdate = IT_NULL;
    }
-   if(valueToUpdate>item->invID){
-    valueToUpdate = valueToUpdate-1;
-   } 
-   player->myInv->mtrx[j][i].occupied = valueToUpdate;
+   if(valueToUpdate > item->invID){
+    valueToUpdate--;
+   }
+
+   inv->mtrx[j][i].occupied = valueToUpdate;
   }
  }
 
- //update player array
  if(delete){
-  Item *cur = player->myInv->collection->next;//head container memory loc
-  for(i=0;i<=item->invID;i++)//increment by i where i=0 is the first item
-   cur = cur->next;//run once where item to remove=0
-  for(i=item->invID;i<player->myInv->count;i++){
+  Item *cur = inv->collection->next;
+
+  for(i=0;i<=item->invID;i++)
+   cur = cur->next;
+
+  for(i=item->invID;i<inv->count;i++){
    cur->invID--;
    cur = cur->next;
   }
-  player->myInv->count--; 
+
+  inv->count--;
   QueRem(item);
   Free(item);
  }
-
 }
 
 //item is a invID
@@ -237,7 +238,7 @@ Bool AddItemToInventory(Inventory *myInv, I64 itemID){
     //remove old purse if this is coinage
     if(purse!=NULL){
      if(purse->oldShek!=NULL){
-      RemoveItemLoc(purse->oldShek,TRUE);
+      RemoveItemFromInv(GetPlayer()->myInv, mc->draggingItem, TRUE);
      }
     }
  
@@ -289,12 +290,14 @@ U0 TakeAllLoot(Actor *p)
  if(!mc->lootedSwitch || mc->lootInv == NULL)
   return;
 
- do{
+ while(TRUE){
+
   movedOne = FALSE;
   seenCount = 0;
 
   for(j = 0; j < INVHEIGHT; j++){
    for(i = 0; i < INVWIDTH; i++){
+
     I64 occ = mc->lootInv->mtrx[j][i].occupied;
     if(occ < 0)
      goto conti;
@@ -309,18 +312,26 @@ U0 TakeAllLoot(Actor *p)
      goto conti;
 
     if(AddItemToInventory(p->myInv, item->id)){
-     RemoveItemLoc(item, TRUE);
+     RemoveItemFromInv(mc->lootInv, item, TRUE);
+
      movedOne = TRUE;
      movedAny = TRUE;
+
      goto restart_scan;
     }
+
     conti:
+    ;
    }
   }
 
+  // nothing moved this pass → exit loop
+  if(!movedOne)
+   break;
+
   restart_scan:
   ;
- }while(movedOne);
+ }
 
  if(!InventoryHasAnyItems(mc->lootInv)){
   mc->lootedSwitch = FALSE;

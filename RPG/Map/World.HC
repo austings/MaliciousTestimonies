@@ -43,18 +43,26 @@ U0 Stage0(Actor *p)
   break;
   case CS_FLEE:
    mc->turnIndex++;
-   if(mc->turnIndex>3){
+   
+   if(mc->turnIndex > 3){
+    mc->turnIndex = 1;
+    
+    Actor *player = GetPlayer();
+   
+    // --- AGGRO CHECK (guaranteed fail) ---
+    if(PlayerInAggroRange(player)){
+     SetCombatStage1;
+     break;
+    }
+
+    // --- RNG CHECK ---
     U16 r = RandU16();
-    mc->turnIndex=1;
-    // 80% chance-returns a number from 0 to 65535 (inclusive).
-    // 80% of 65536 = 52428.8, so comparing like this
-    if (r < 0.8 * 65536){
+    
+    if(r < 0.8 * 65536){
      CombatQueFree();
-     mc->combatON=FALSE;
- 
-     mc->combatMenuStage=STAGE_2;
-      
-    } 
+     mc->combatON = FALSE;
+     mc->combatMenuStage = STAGE_2;
+    }
     else{
      SetCombatStage1;
     }

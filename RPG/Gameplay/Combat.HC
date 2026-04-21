@@ -168,6 +168,40 @@ U0 CalculateExp(Actor *p)
 
 }
 
+Bool PlayerInAggroRange(Actor *player)
+{
+ CombatTurn *it = combatCQue.next;
+
+ while(it != &combatCQue){
+  Actor *a = it->ready;
+
+  if(a && a != player){
+   // hostile only
+   if(a->ai_script != 0){
+
+    I64 dx = Abs(a->x - player->x);
+    I64 dy = Abs(a->y - player->y);
+
+    // Chebyshev distance (grid-based, includes diagonals)
+    I64 dist;
+
+    if(dx > dy){
+     dist = dx;
+    }
+    else{
+     dist = dy;
+    }
+    if(dist <= 2){
+     return TRUE; // inside aggro zone
+    }
+   }
+  }
+
+  it = it->next;
+ }
+
+ return FALSE;
+}
 
 //i = iterable
 //p = player
