@@ -1,5 +1,7 @@
 #define MAX_ATTEMPTS 999999
 
+static CDC* CDCTITLE= FramePtr("TITLE");
+
 //AAE, EFF
 static CDC* AAE1= FramePtr("AAE1");
 static CDC* AAE2= FramePtr("AAE2");

@@ -62,10 +62,10 @@ CDC *RenderEquipment(Actor *player){
  
 
   //helm
-  Sprite3B(completeMenu,8,25,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,8+camera->dividX,25,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,8,25+camera->dividY,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,8+camera->dividX,25+camera->dividY,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,8,25,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,8+camera->dividX,25,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,8,25+camera->dividY,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,8+camera->dividX,25+camera->dividY,10,GetMenuSprite(MENU_INVBOX));
   PrintLine(completeMenu,a,26,60);
   //hat
   I64 wepn = GetPlayer()->hat;
@@ -80,10 +80,10 @@ CDC *RenderEquipment(Actor *player){
   }
  
   //wepn bkgrd
-  Sprite3B(completeMenu,8,116,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,8,116+camera->dividY,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,8,116+2*camera->dividY,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,8,116+3*camera->dividY,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,8,116,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,8,116+camera->dividY,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,8,116+2*camera->dividY,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,8,116+3*camera->dividY,10,GetMenuSprite(MENU_INVBOX));
   PrintLine(completeMenu,b,14,180);
   //wepn
   wepn = GetPlayer()->sword;
@@ -114,12 +114,12 @@ CDC *RenderEquipment(Actor *player){
   }
    
   //body
-  Sprite3B(completeMenu,60,140,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,60+camera->dividX,140,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,60,140+camera->dividY,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,60+camera->dividX,140+camera->dividY,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,60,140+2*camera->dividY,10,GetMenuSprite(2));
-  Sprite3B(completeMenu,60+camera->dividX,140+2*camera->dividY,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,60,140,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,60+camera->dividX,140,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,60,140+camera->dividY,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,60+camera->dividX,140+camera->dividY,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,60,140+2*camera->dividY,10,GetMenuSprite(MENU_INVBOX));
+  Sprite3B(completeMenu,60+camera->dividX,140+2*camera->dividY,10,GetMenuSprite(MENU_INVBOX));
  
   PrintLine(completeMenu,c,75,190);
   //armr
@@ -161,11 +161,11 @@ CDC *RenderEquipment(Actor *player){
   }
    
   //ring
-  Sprite3B(completeMenu,106,35,10,GetMenuSprite(2));
+  Sprite3B(completeMenu,106,35,10,GetMenuSprite(MENU_INVBOX));
   PrintLine(completeMenu,d,112,48);
     
 
- Sprite3B(completeMenu,140,0,1,GetMenuSprite(3));//xbutton
+ Sprite3B(completeMenu,140,0,1,GetMenuSprite(MENU_XBUTTON));//xbutton
     
  return completeMenu;   
   
@@ -282,7 +282,8 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
    GrBlot3(dc,0,0,10,invR);
    DCDel(invR);
 
-   Sprite3B(dc,(INVWIDTH-1)*camera->dividX+2,0,0,GetMenuSprite(MENU_MENUBOX));
+   Sprite3B(dc,(INVWIDTH-1)*camera->dividX+2,
+               (INVHEIGHT)*camera->dividY+2,0,GetMenuSprite(MENU_MENUBOX));
    //Sprite3B(dc,510,52,0,GetMenuSprite(MENU_T));
  }
 
@@ -304,7 +305,7 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
    GrBlot3(dc,0,0,10,invP);
    DCDel(invP);
 
-   Sprite3B(dc,460,280,0,GetMenuSprite(3));
+   Sprite3B(dc,460,280,0,GetMenuSprite(MENU_XBUTTON));
 
    if(mc->draggingInv){
      BlotItem(dc,mc->draggingItem,

@@ -132,7 +132,7 @@ while(TRUE){
       if(arg1!=0){
        HandleCharKeyDown(arg1);
       }else{
-       HandleScanKeyDown(arg2.u8[0]);
+       HandleScanKeyDown(arg2.u8[0]);
       }
      break;
      case MSG_MS_L_DOWN:

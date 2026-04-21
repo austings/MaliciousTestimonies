@@ -46,39 +46,47 @@ U0 MenuQuit()
 {
 
 }
-
-I64 MainMenuControls(I64 arg1, I64 arg2,I64 msg_code){
+I64 MainMenuControls(I64 arg1, I64 arg2, I64 msg_code)
+{
  switch(GetMsg(&arg1,&arg2,
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
-      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE)) //msg_code=GetMsg(&arg1,&arg2,//1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN|//1<<MSG_MS_L_UP|1<<MSG_MS_MOVE))
+      |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE))
  {
   case MSG_MS_L_DOWN:
-   if(camera->cursorX>=229&&camera->cursorX<=397){//menu buttons
-    if(camera->cursorY>258&&camera->cursorY<298){//new game
-     mc->currentMenu=3;mc->currentSong=3;
-    } else if(camera->cursorY>307&&camera->cursorY<349){//load game
-     loadRoot = FilesFind("Saves/*",FUF_JUST_FILES);
-     mc->currentMenu=4;mc->currentSong=4;
-    } else if(camera->cursorY>358&&camera->cursorY<399){//options
-    } else if(camera->cursorY>408&&camera->cursorY<448){//exit
+
+   // --- menu buttons column ---
+   if(InRect(camera->cursorX, camera->cursorY, 229, 258, 397, 448)){
+
+    if(InRect(camera->cursorX, camera->cursorY, 229, 258, 397, 298)){ // new game
+     mc->currentMenu = 3;
+     mc->currentSong = 3;
+
+    } else if(InRect(camera->cursorX, camera->cursorY, 229, 307, 397, 349)){ // load game
+     loadRoot = FilesFind("Saves/*", FUF_JUST_FILES);
+     mc->currentMenu = 4;
+     mc->currentSong = 4;
+
+    } else if(InRect(camera->cursorX, camera->cursorY, 229, 358, 397, 399)){ // options
+
+    } else if(InRect(camera->cursorX, camera->cursorY, 229, 408, 397, 448)){ // exit
      return 1;
     }
-   }//end menu buttons
-   else if(camera->cursorX>=494&&camera->cursorX<=549&&//music 
-           camera->cursorY>=220&&camera->cursorY<=280){
-    if(mc->musicMuted==FALSE){
-     mc->musicMuted=TRUE; 
-    }else { mc->musicMuted=FALSE;  }
-    } else if(camera->cursorX>=550&&camera->cursorX<=610&&//fx
-              camera->cursorY>=220&&camera->cursorY<=280){	      
-     if(mc->fxMuted==FALSE){
-      mc->fxMuted=TRUE; 
-     }else { mc->fxMuted=FALSE; }
-    }
+   }
+
+   // --- music toggle ---
+   else if(InRect(camera->cursorX, camera->cursorY, 494, 250, 549, 310)){
+    mc->musicMuted = !mc->musicMuted;
+   }
+
+   // --- fx toggle ---
+   else if(InRect(camera->cursorX, camera->cursorY, 550, 250, 610, 310)){
+    mc->fxMuted = !mc->fxMuted;
+   }
+
    break;
  }
+
  return 0;
-  
 }
 
 U8 GetSelectedStats(U8 id)
@@ -108,24 +116,24 @@ U0 MainMenu(CDC*dc, CTask *task)
   dc->color = GREEN;
   GrFloodFill(dc,15,300,FALSE,0,0);
   
-  Sprite3B(dc,140,50,10,GetTitle());
+  GrBlot3(dc,84,32,10,CDCTITLE);
   
-  Sprite3B(dc,220,250,10,GetButton(0));
+  Sprite3B(dc,220,250,10,GetButton(MENU_MENUBOX));
   Sprite3B(dc,220,300,10,GetButton(1));
   Sprite3B(dc,220,350,10,GetButton(2));
   Sprite3B(dc,220,400,10,GetButton(3));
 
   //music button
-  Sprite3B(dc,494,220,0,GetMenuSprite(0));    
-  Sprite3B(dc,493,222,0,GetMenuSprite(7));
+  Sprite3B(dc,494,250,0,GetMenuSprite(MENU_MENUBOX));    
+  Sprite3B(dc,493,252,0,GetMenuSprite(7));
   if(mc->musicMuted)   
-    Sprite3B(dc,500,230,0,GetMenuSprite(6));
+    Sprite3B(dc,500,260,0,GetMenuSprite(MENU_MUTE));
 
   //fx button
-  Sprite3B(dc,554,220,0,GetMenuSprite(0));    
-  Sprite3B(dc,546,230,0,GetMenuSprite(5));
+  Sprite3B(dc,554,250,0,GetMenuSprite(MENU_MENUBOX));    
+  Sprite3B(dc,546,260,0,GetMenuSprite(MENU_FX));
   if(mc->fxMuted)
-    Sprite3B(dc,558,230,0,GetMenuSprite(6));
+    Sprite3B(dc,558,260,0,GetMenuSprite(MENU_MUTE));
  
    
 }

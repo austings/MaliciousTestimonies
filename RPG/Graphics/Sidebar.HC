@@ -112,7 +112,7 @@ CDC *RenderPrayers(Actor *player){
  }
 
  Sprite3B(pm,120,0,1,
-          GetMenuSprite(3));//xbutton    
+          GetMenuSprite(MENU_XBUTTON));//xbutton    
 
  return pm;
 }
@@ -184,7 +184,7 @@ CDC *RenderStats(Actor *player)
 
 
  Sprite3B(completeMenu,120,0,1,
-          GetMenuSprite(3));//xbutton    
+          GetMenuSprite(MENU_XBUTTON));//xbutton    
  return completeMenu;
 
 }

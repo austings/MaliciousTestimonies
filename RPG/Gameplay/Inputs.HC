@@ -481,7 +481,7 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
  if(mc->lootedSwitch){
   if(HandleInvGridClick(M_X, M_Y, 2, 0, mc->lootInv, FALSE))
    return;
-  if(InRect(M_X, M_Y, 494, 40, 494 + 128, 40 + 48)){
+  if(InRect(M_X, M_Y, 432, 183, 480, 230)){
    TakeAllLoot(player);
    return;
   }
