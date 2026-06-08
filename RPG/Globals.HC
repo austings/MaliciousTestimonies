@@ -15,7 +15,11 @@ CDirEntry *loadRoot;
 #define SIDEX 160
 #define SIDEY 480
 
+#define NET_SINGLEPLAYER 0
+#define NET_HOST 1
+#define NET_CLIENT 2
 
+#define MAX_PLAYERS 4
 //Loaded Map
 class World
 {
@@ -208,7 +212,14 @@ class MenuControl{
        displayShop,
        displayEquipment,
        displayDev,
-       displaySave; 
+       displaySave;
+
+  //Network
+  I64 netMode, hostSocket, serverSocket,
+      clientCount,localPlayerId,nextClientId;
+  CNetAddr *hostAddr;
+  Bool hostInitialized, clientInitialized; 
+  
 
 };
 
@@ -232,4 +243,14 @@ Vector *worldSz;//world size, with values wX,wY,wZ
 //
 
 I64 wX,wY,wZ;
+
+Actor *GetPlayer(){
+ I64 id = mc->localPlayerId;
+ Actor *fetch = actors->next;
+ while(fetch != actors){
+  if(fetch->id==id)
+   return fetch;
+  fetch = fetch->next;
+ }
+}
 

@@ -111,7 +111,7 @@ U0 RemoveItemFromInv(Inventory *inv, Item *item, Bool delete = FALSE)
 //removes inventory item by invID reference
 U0 RemoveItemLocID(I64 invID, Bool delete =FALSE){
  I64 i,j;
- Actor *player = GetPlayer(PLAYER);
+ Actor *player = GetPlayer();
  Item *torm = RetrieveItem(player->myInv,invID);
  
  //remove old loc,update other items index in rendered matrix
@@ -238,7 +238,7 @@ Bool AddItemToInventory(Inventory *myInv, I64 itemID){
     //remove old purse if this is coinage
     if(purse!=NULL){
      if(purse->oldShek!=NULL){
-      RemoveItemFromInv(GetPlayer()->myInv, mc->draggingItem, TRUE);
+      RemoveItemFromInv(GetPlayer()->myInv, mc->draggingItem, TRUE);
      }
     }
  

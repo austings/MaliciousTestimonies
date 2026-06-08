@@ -53,7 +53,7 @@ U0 SetActorSubFrameRule(Actor *a,I64 wsf,I64 w ){
  if(mc->running&&a->currentMana>0){
   a->walkingSubFrame++;
  }else{
-  if(a->id==PLAYER)
+  if(a->id==mc->localPlayerId)
    mc->running = FALSE;
  }
  if(a->walkingSubFrame>= FRAMERULE){

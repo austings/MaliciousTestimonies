@@ -1,4 +1,13 @@
 
+Bool IsPlayerActor(Actor *a)
+{
+ return a->id <= 0;
+}
+
+Bool IsRemotePlayer(Actor *a)
+{
+ return a->id < 0;
+}
 
 U0 LvlUp(Actor *a){
   a->exp = a->exp - a->maxExp;

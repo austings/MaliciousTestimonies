@@ -22,6 +22,9 @@ class Actor:CQue{
 
   Inventory *myInv;
   Bool visible;
+  
+  Bool isRemotePlayer;
+  I64 netId;
 
   U16 status1,
       //volatile
@@ -106,6 +109,10 @@ U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
 #define T_FOWL  5
 #define T_OX    6
 //NPC IDs
+#define CLIENT4 -4
+#define CLIENT3 -3
+#define CLIENT2 -2
+#define CLIENT1 -1
 #define PLAYER  00
 #define A_KING  01
 #define A_JEZEBEL 02
@@ -252,12 +259,4 @@ static CDC*		A4R3;
  A4R3 = FramePtr("ACTOR089");
 
 
-
-Actor *GetPlayer(I64 id=PLAYER){
- Actor *fetch = actors->next;
- while(fetch != actors){
-  if(fetch->id==id)
-   return fetch;
-  fetch = fetch->next;
- }
-}
+

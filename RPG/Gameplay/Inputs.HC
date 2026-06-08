@@ -110,13 +110,13 @@ U0 KeyShift(){
 }
 
 U0 AnyKey(){
- Actor *player = GetPlayer(PLAYER);
+ Actor *player = GetPlayer();
  if(mc->combatMenuStage==STAGE_1){//enemy turn
   switch(mc->combatMenuSelection){
    case CMS_ENE1:
     if(mc->turnIndex>2){
      mc->combatMenuSelection = CMS_ENE2;//move complete
-     if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=PLAYER){
+     if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=mc->localPlayerId){
       player->currentHealth-=(ctp->ready->str);
       AddStatus(ctp->ready,NRML_STATUS);
      }
@@ -146,7 +146,7 @@ U0 AutoTurnEnd()
   {
    case CMS_ENE1:
     mc->combatMenuSelection = CMS_ENE2;//move complete
-    if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=PLAYER){
+    if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=mc->localPlayerId){
      GetPlayer()->currentHealth-=(ctp->ready->str);
      AddStatus(ctp->ready,NRML_STATUS);
     }

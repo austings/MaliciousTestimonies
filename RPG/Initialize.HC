@@ -59,6 +59,11 @@ Cd(__DIR__);;
 
 // Finalize World
 #include "Map/World.HC";
+#include "Online/Headers.HC";
+#include "Online/Handshake.HC";
+#include "Online/Polling.HC";
+#include "Online/Client.HC";
+#include "Online/Server.HC";
 
 U0 InitMenuControl()
 {
@@ -117,14 +122,19 @@ U0 InitMenuControl()
  mc->combatMenuStage =STAGE_0;
  mc->combatMenuSelection=CMS_MOVE;
  mc->mouseTargetingActive=FALSE;
- mc->target = GetPlayer(PLAYER);
+ mc->target = GetPlayer();
  mc->tarposx = 0;
  mc->tarposy = 0;
  mc->combatTurn = 0;
  mc->targetCTPIndex = 0;
  mc->running =  FALSE;
 
-
+ //network
+ mc->netMode = NET_SINGLEPLAYER;
+ mc->hostInitialized = FALSE;
+ mc->clientInitialized = FALSE;
+ mc->localPlayerId = PLAYER;
+ mc->nextClientId = -1;
 }
 
 U0 InitHotKeys()

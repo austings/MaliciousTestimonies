@@ -183,7 +183,7 @@ Bool PlayerInAggroRange(Actor *player)
     I64 dy = Abs(a->y - player->y);
 
     // Chebyshev distance (grid-based, includes diagonals)
-    I64 dist;
+    I64 dist;
 
     if(dx > dy){
      dist = dx;
@@ -215,7 +215,7 @@ U0 EnemyEndTurn(I64 i, Actor *p){
   ctp = combatCQue.next;   
   //check every actor for updates
   for(i=0;i<QueCnt(combatCQue);i++){
-   if(ctp->ready->id==PLAYER)
+   if(ctp->ready->id==mc->localPlayerId)
    {
    }
    else

@@ -1,5 +1,4 @@
 
-
 U0 ChangeItemLoc(U8 newI, U8 newJ, Item *item, 
                  Inventory *myInv, Bool isPlayer){
  I64 i,j,x,y;

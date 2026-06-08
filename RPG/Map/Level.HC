@@ -37,7 +37,7 @@ U0 BuildHouse(Matrix *toAdd, I64 startX, I64 startY){
 
 }
 
-Matrix *MakeCastle(Matrix *toAdd){
+Matrix *MakeCastle(Matrix *toAdd){
 
  I64 i,j;
   

@@ -46,46 +46,91 @@ U0 MenuQuit()
 {
 
 }
-I64 MainMenuControls(I64 arg1, I64 arg2, I64 msg_code)
-{
+
+I64 MainMenuControls(I64 arg1, I64 arg2, I64 msg_code){
  switch(GetMsg(&arg1,&arg2,
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
       |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE))
  {
   case MSG_MS_L_DOWN:
+   // =====================================================
+   // MAIN MENU (0)
+   // =====================================================
+   if(mc->currentMenu == 0)
+   {
+    if(InRect(camera->cursorX, camera->cursorY, 229, 258, 397, 448))
+    {
+     if(InRect(camera->cursorX, camera->cursorY, 229, 258, 397, 298))
+     { // New Game
+      mc->currentMenu = 5;
+     }
+     else if(InRect(camera->cursorX, camera->cursorY, 229, 307, 397, 349))
+     { // Load Game
+      loadRoot = FilesFind("Saves/*", FUF_JUST_FILES);
+      mc->currentMenu = 4;
+      mc->currentSong = 4;
+     }
+     else if(InRect(camera->cursorX, camera->cursorY, 229, 358, 397, 399))
+     { // Options
 
-   // --- menu buttons column ---
-   if(InRect(camera->cursorX, camera->cursorY, 229, 258, 397, 448)){
-
-    if(InRect(camera->cursorX, camera->cursorY, 229, 258, 397, 298)){ // new game
+     }
+     else if(InRect(camera->cursorX, camera->cursorY, 229, 408, 397, 448))
+     { // Exit
+      return 1;
+     }
+    }
+    // music toggle
+    else if(InRect(camera->cursorX, camera->cursorY, 494, 250, 549, 310))
+    {
+     mc->musicMuted = !mc->musicMuted;
+    }
+    // fx toggle
+    else if(InRect(camera->cursorX, camera->cursorY, 550, 250, 610, 310))
+    {
+     mc->fxMuted = !mc->fxMuted;
+    }
+   }
+   // =====================================================
+   // MENU 5 : SINGLEPLAYER / MULTIPLAYER
+   // =====================================================
+   else if(mc->currentMenu == 5)
+   {
+    // Single Player button
+    if(InRect(camera->cursorX, camera->cursorY, 220, 250, 397, 320))
+    {
      mc->currentMenu = 3;
      mc->currentSong = 3;
+    }
 
-    } else if(InRect(camera->cursorX, camera->cursorY, 229, 307, 397, 349)){ // load game
-     loadRoot = FilesFind("Saves/*", FUF_JUST_FILES);
-     mc->currentMenu = 4;
-     mc->currentSong = 4;
-
-    } else if(InRect(camera->cursorX, camera->cursorY, 229, 358, 397, 399)){ // options
-
-    } else if(InRect(camera->cursorX, camera->cursorY, 229, 408, 397, 448)){ // exit
-     return 1;
+    // Multiplayer button
+    else if(InRect(camera->cursorX, camera->cursorY, 220, 350, 397, 420))
+    {
+     mc->currentMenu = 6;
+    }
+   }
+   // =====================================================
+   // MENU 6 : HOST / JOIN
+   // =====================================================
+   else if(mc->currentMenu == 6)
+   {
+    // Host Game
+    if(InRect(camera->cursorX, camera->cursorY, 220, 250, 398, 320))
+    {
+     mc->netMode = NET_HOST;
+     mc->currentMenu = 3;
+     mc->currentSong = 3;
+    }
+    // Join Game
+    else if(InRect(camera->cursorX, camera->cursorY, 220, 350, 398, 420))
+    {
+     mc->netMode = NET_CLIENT;
+     mc->currentMenu = 3;
+     mc->currentSong = 3;
     }
    }
 
-   // --- music toggle ---
-   else if(InRect(camera->cursorX, camera->cursorY, 494, 250, 549, 310)){
-    mc->musicMuted = !mc->musicMuted;
-   }
-
-   // --- fx toggle ---
-   else if(InRect(camera->cursorX, camera->cursorY, 550, 250, 610, 310)){
-    mc->fxMuted = !mc->fxMuted;
-   }
-
-   break;
+  break;
  }
-
  return 0;
 }
 
@@ -106,43 +151,68 @@ U8 GetSelectedStats(U8 id)
 
 }
 
-U0 MainMenu(CDC*dc, CTask *task)
+U0 MainMenu(CDC *dc, CTask *task)
 {
-  dc->color = BLUE;
-  GrLine3(dc,0, 240, 0, 640, 240, 0);
-   
-  GrFloodFill(dc,15,15,FALSE,0,0);
-
-  dc->color = GREEN;
-  GrFloodFill(dc,15,300,FALSE,0,0);
+ dc->color = BLUE;
+ GrLine3(dc,0, 240, 0, 640, 240, 0);
   
-  GrBlot3(dc,84,32,10,CDCTITLE);
-  
-  Sprite3B(dc,220,250,10,GetButton(MENU_MENUBOX));
-  Sprite3B(dc,220,300,10,GetButton(1));
-  Sprite3B(dc,220,350,10,GetButton(2));
-  Sprite3B(dc,220,400,10,GetButton(3));
-
-  //music button
-  Sprite3B(dc,494,250,0,GetMenuSprite(MENU_MENUBOX));    
-  Sprite3B(dc,493,252,0,GetMenuSprite(7));
-  if(mc->musicMuted)   
-    Sprite3B(dc,500,260,0,GetMenuSprite(MENU_MUTE));
-
-  //fx button
-  Sprite3B(dc,554,250,0,GetMenuSprite(MENU_MENUBOX));    
-  Sprite3B(dc,546,260,0,GetMenuSprite(MENU_FX));
-  if(mc->fxMuted)
-    Sprite3B(dc,558,260,0,GetMenuSprite(MENU_MUTE));
+ GrFloodFill(dc,15,15,FALSE,0,0);
+ dc->color = GREEN;
+ GrFloodFill(dc,15,300,FALSE,0,0);
  
-   
+ GrBlot3(dc,84,32,10,CDCTITLE);
+ 
+ Sprite3B(dc,220,250,10,GetButton(MENU_MENUBOX));
+ Sprite3B(dc,220,300,10,GetButton(1));
+ Sprite3B(dc,220,350,10,GetButton(2));
+ Sprite3B(dc,220,400,10,GetButton(3));
+ //music button
+ Sprite3B(dc,494,250,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,493,252,0,GetMenuSprite(7));
+ if(mc->musicMuted)   
+  Sprite3B(dc,500,260,0,GetMenuSprite(MENU_MUTE));
+
+ //fx button
+ Sprite3B(dc,554,250,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,546,260,0,GetMenuSprite(MENU_FX));
+ if(mc->fxMuted)
+  Sprite3B(dc,558,260,0,GetMenuSprite(MENU_MUTE));   
 }
 
-
-
-U0 LoadMenu(CDC*dc, CTask *task,CDirEntry *root)
+U0 GameModeSelection(CDC *dc, CTask *task)
 {
-  CDirEntry*cur;
+ dc->color = BLUE;
+ GrLine3(dc,0, 240, 0, 640, 240, 0);
+  
+ GrFloodFill(dc,15,15,FALSE,0,0);
+ dc->color = GREEN;
+ GrFloodFill(dc,15,300,FALSE,0,0);
+ 
+ GrBlot3(dc,84,32,10,CDCTITLE);
+ Sprite3B(dc,220,250,10,GetButton(6));
+ Sprite3B(dc,220,350,10,GetButton(7));
+
+
+}
+U0 MultiplayerSelection(CDC *dc, CTask *task)
+{
+ dc->color = BLUE;
+ GrLine3(dc,0, 240, 0, 640, 240, 0);
+  
+ GrFloodFill(dc,15,15,FALSE,0,0);
+ dc->color = GREEN;
+ GrFloodFill(dc,15,300,FALSE,0,0);
+ 
+ GrBlot3(dc,84,32,10,CDCTITLE);
+
+ Sprite3B(dc,220,250,10,GetButton(8));
+ Sprite3B(dc,220,350,10,GetButton(9));
+
+}
+
+U0 LoadMenu(CDC *dc, CTask *task,CDirEntry *root)
+{
+  CDirEntry *cur;
   U8* loadT = "Load a File";
   I64 i,yInc=0;
   dc->color = BLUE;
@@ -172,11 +242,9 @@ U0 LoadMenu(CDC*dc, CTask *task,CDirEntry *root)
     //  GrChar(dc,edit[i],200+(i)*7,10+yInc,1);
     //}
     yInc+=40;
-  }
-  
+  }  
 
 }
-
 
 U0 CharMenu(CDC *dc, CTask *task, CDC *r1, CDC *r2, CDC *r3, CDC *r4)
 {

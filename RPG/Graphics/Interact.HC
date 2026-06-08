@@ -112,7 +112,7 @@ Bool InteractTile(Actor *p, U8 dir,
   }   
   if(!CheckSolid(world->level,p->x+xOff,p->y+yOff,world->currentZ)||mc->clip){
    if(npc!=IT_NULL){
-    if(p->id==PLAYER){
+    if(p->id==mc->localPlayerId){
      InteractActor(npc);
     }    
    }else{
@@ -151,7 +151,7 @@ Bool InteractTile(Actor *p, U8 dir,
    I64 newY = p->y + yOff;
    RemoveTensorNPC(world->level, p->x, p->y, world->currentZ);
    SetTensorNPC(world->level, p->id, newX, newY, world->currentZ);
-   UpdateActorCoords(PLAYER, newX, newY);
+   UpdateActorCoords(p->id, newX, newY);
    if(mc->running&&p->currentMana>0)
     RemoveMana(p,1);
    }

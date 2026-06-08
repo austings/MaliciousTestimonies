@@ -252,7 +252,7 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
 
 
  Bool isPlayer=FALSE;
- if(npc==PLAYER){
+ if(npc==mc->localPlayerId){
   isPlayer=TRUE;
   toRender = p; 
  }else {  toRender = GetNPC(npc); }
@@ -363,25 +363,20 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
 {//draw npcs and items
  I64 screenY = camera->dividY+camera->cameraOffSetY;
  I64 screenX = i*camera->dividX+camera->cameraOffSetX;
-
  I64 tileX=0;
  I64 tileY=0;
-
  I64 RenderHLowerBound = -2;
  I64 RenderHUpperBound = 15;
  I64 RenderWLowerBound = -8;
  I64 RenderWUpperBound = 14;
- if (!weatherCells || weatherZ != world->currentZ)
-    BuildWeatherModel();
-
- if (ShouldRefreshWeather())
-    RefreshWeatherSystem();
+ if(!weatherCells || weatherZ != world->currentZ)
+  BuildWeatherModel();
+ if(ShouldRefreshWeather())
+  RefreshWeatherSystem();
  TrySpawnWeatherParticle(p,
     RenderWLowerBound, RenderWUpperBound,
     RenderHLowerBound, RenderHUpperBound);
-
  UpdateWeatherParticles();
-
  for(j=RenderHLowerBound;j<RenderHUpperBound;j++){
   if(camera->topUD+j<wY&&camera->topUD+j>=0){
    screenY = j*camera->dividY+camera->cameraOffSetY;
@@ -390,15 +385,15 @@ U0 DrawActorsAndItems(CDC *dc,Actor *p, I64 i, I64 j, I64 l)
     if(camera->topLR+i<wX&&camera->topLR+i>=0){
      tileX =  camera->topLR+i; 
      screenX = i*camera->dividX+camera->cameraOffSetX;
-
-     I16 c =  GetTensor(world->level,camera->topLR+i,camera->topUD+j,world->currentZ);    
-    
+     I16 c =  GetTensor(world->level,camera->topLR+i,
+                        camera->topUD+j,
+                        world->currentZ);        
      I64 obj= GetTensorObj(world->level,
-              tileX,tileY,world->currentZ);     
+          tileX,tileY,world->currentZ);     
      I64 npc= GetTensorNPC(world->level,
-              tileX,tileY,world->currentZ);     
+          tileX,tileY,world->currentZ);     
      I64 wlvl= GetTensorWaterLevel(world->level,
-               tileX,tileY,world->currentZ);     
+          tileX,tileY,world->currentZ);     
 
      if(obj!=IT_NULL)
       DrawObjsOnLayer(dc,obj,screenX,screenY,p,tileX,tileY);

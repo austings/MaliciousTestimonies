@@ -12,10 +12,8 @@ U0 DrawIt(CTask *task, CDC *dc){
   case 1:
    //1. First Refresh Player and Tile reference
    Actor *p = GetPlayer;
-
    //2. Then get Input from Keyboard
    HandleKeyboard(p);
-
    //3. Next World Tick/ Move Tick
    world->timer = world->timer + FRAMERULE;
    if(world->timer>=FRAMERULE_CAP)
@@ -24,7 +22,6 @@ U0 DrawIt(CTask *task, CDC *dc){
     world->timer = 0;
     world->gameTicks++;
    }
-
    //4.Advance animation states
    TickActorWalkState(p);
    mc->smoothScreenY = fmod(mc->smoothScreenY+camera->cameraOffSetY * world->timer, 480.0);
@@ -62,20 +59,25 @@ U0 DrawIt(CTask *task, CDC *dc){
    CombatDialog2Hover(camera->cursorX,camera->cursorY);
    CombatDialog3Hover(camera->cursorX,camera->cursorY);
    ShowToolTips(dc);
-
    
-   break;
-   //character select
-   case 2:
+  break;
+  //character select
+  case 2:
   // SetCharMenuSprites();
    CharMenu(dc,task,A1D1,A2D1,A3D1,A4D1);   
-   break;
-   case 3:
+  break;
+  case 3:
    IntroCutscene(dc,task,mc->cutsceneTarget);
-   break;
-   case 4:
+  break;
+  case 4:
    LoadMenu(dc,task,loadRoot);
-   break;
+  break;
+  case 5:
+   GameModeSelection(dc,task);
+  break; 
+  case 6:
+   MultiplayerSelection(dc,task);
+  break;
  }   
 }
 
@@ -102,7 +104,9 @@ CDC *dc=DCAlias; I64 arg1,arg2,msg_code,i,j;
 SettingsPush;WinMax;WinBorder;
 DocCursor;DocClear;MenuPush("");Init;
 //Set Current Task Threads  
-Fs->draw_it=&DrawIt;Fs->song_task=Spawn(&SongTask,mc,"Song",,Fs);
+Fs->draw_it=&DrawIt;
+Fs->song_task=Spawn(&SongTask,mc,"Song",,Fs);
+Fs->animate_task = Spawn(&NetTask,NULL,"Network",,Fs);
 //Main Game Loop, set mouse context
 while(TRUE){ 
  //Switch on Main Window Context
@@ -110,6 +114,8 @@ while(TRUE){
  InputBeginFrame; // copy is_down -> was_down
  switch(mc->currentMenu){    
   case 0://main menu
+  case 5:
+  case 6:
    if(MainMenuControls(arg1,arg2,msg_code))
     goto fs_end;
   break; 
@@ -132,7 +138,7 @@ while(TRUE){
       if(arg1!=0){
        HandleCharKeyDown(arg1);
       }else{
-       HandleScanKeyDown(arg2.u8[0]);
+       HandleScanKeyDown(arg2.u8[0]);
       }
      break;
      case MSG_MS_L_DOWN:

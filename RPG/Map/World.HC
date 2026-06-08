@@ -112,7 +112,7 @@ U0 TickTile(I64 i,I64 j, Actor *p)
               camera->topLR+i,camera->topUD+j,world->currentZ);     
   if(npc!=IT_NULL){
    Actor *toUpdate = GetNPC(npc);    
-   if(npc!=PLAYER){
+   if(npc!=mc->localPlayerId){
     if(mc->combatON==FALSE   && 
      toUpdate->ai_script==AI_DEFAULT&&
      toUpdate->status1!=DEAD_STATUS && //(enemy)
