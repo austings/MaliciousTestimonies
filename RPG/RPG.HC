@@ -104,6 +104,12 @@ CDC *dc=DCAlias; I64 arg1,arg2,msg_code,i,j;
 SettingsPush;WinMax;WinBorder;
 DocCursor;DocClear;MenuPush("");Init;
 //Set Current Task Threads  
+
+//Developer display: Preload Variables to console here
+//Actor *p = GetPlayer;
+//"%s",SerializeActor(p);
+
+//Drawn over console
 Fs->draw_it=&DrawIt;
 Fs->song_task=Spawn(&SongTask,mc,"Song",,Fs);
 Fs->animate_task = Spawn(&NetTask,NULL,"Network",,Fs);

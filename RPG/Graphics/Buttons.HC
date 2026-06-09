@@ -48,6 +48,15 @@ U0 PrayerButton()
 
 }
 
+U0 WorldButton()
+{
+ if(mc->displayWorld==FALSE)
+  mc->displayWorld=TRUE;
+ else
+  mc->displayWorld=FALSE; 
+
+}
+
 U0 FxButton()
 {
  if(mc->fxMuted==FALSE)

@@ -1,4 +1,6 @@
 //test
+//15 Max dialgoue chat window new
+
 
 U0 CopyName(U8 *dst,U8 *src)
 {
@@ -9,6 +11,7 @@ U0 CopyName(U8 *dst,U8 *src)
 
  dst[i]=0;
 }
+
 U0 SpawnRemotePlayer(I64 fd, U8 *msg)
 {
  U8 name[15],*nameptr=name;
@@ -78,6 +81,7 @@ U0 HandlePacket(I64 fd, U8 *msg)
 {
  if(!StrNCmp(msg,"JOIN ",5))
  {
+  PrintDevMessage("User spawning");
   mc->clientCount++;
   SpawnRemotePlayer(fd, msg);
  }
@@ -98,26 +102,19 @@ U0 PollHostConnections()
  I64 fd;
  U8 buf[STR_LEN];
  I64 len;
-
  if(NetPollForRead(1,&mc->hostSocket)!=-1) {
   fd=NetAccept(mc->hostSocket,NULL);
-
   PrintDevMessage(MStrPrint("Client Connected"));
-
   while(NetPollForRead(1,&fd)==-1)
    Sleep(1);
-
-  len=NetRead(fd,buf,STR_LEN-1);
-
+  len=NetRead(fd,buf,STR_LEN-1); 
   if(len>0) {
    buf[len]=0;
-
    PrintDevMessage(
     MStrPrint("Received: %s",buf)
    );
    HandlePacket(fd, buf);
   }
-
  }
 }
 
@@ -128,6 +125,7 @@ U0 PollServerMessages()
 
  if(NetPollForRead(1,&mc->serverSocket)!=-1)
  {
+  PrintDevMessage(MStrPrint("Reading"));
   len=NetRead(mc->serverSocket,buf,STR_LEN-1);
 
   if(len>0)

@@ -13,7 +13,6 @@ U0 StartHost(){
  mc->hostSocket=NetSocketNew;
 
  mc->hostAddr=NetAddrNew("127.0.0.1",8000);
-
  NetBindIn(mc->hostSocket,mc->hostAddr);
  NetListen(mc->hostSocket,8);
 
@@ -22,7 +21,7 @@ U0 StartHost(){
 
 U0 HostTick()
 {
- if(!mc->hostInitialized){
+ if(!mc->hostInitialized&&mc->currentMenu = 1){
   StartHost();
   mc->hostInitialized=TRUE;
  }

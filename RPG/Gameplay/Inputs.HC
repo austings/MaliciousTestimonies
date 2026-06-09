@@ -234,8 +234,7 @@ Bool NoGameWindowOpen(I64 M_X, I64 M_Y)
  return FALSE;
 }
 
-U0 HandleMouseAction(I64 id, I64 M_X, I64 M_Y, I64 i, I64 j)
-{
+U0 HandleMouseAction(I64 id, I64 M_X, I64 M_Y, I64 i, I64 j){
  switch(id){
   case BTN_EQUIP:
    if(mc->displayStats == FALSE)
@@ -254,6 +253,10 @@ U0 HandleMouseAction(I64 id, I64 M_X, I64 M_Y, I64 i, I64 j)
 
   case BTN_RUN:
    KeyShift;
+  break;
+
+  case BTN_ORB:
+   WorldButton;
   break;
 
   case BTN_PRAYER:

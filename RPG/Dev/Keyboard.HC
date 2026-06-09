@@ -1,8 +1,6 @@
 //test
-
 U0 SetKey(KeyState *k, Bool down){
  k->isDown = down;
-
 }
 
 U0 HandleCharKeyDown(I64 ch){
@@ -15,7 +13,6 @@ U0 HandleCharKeyDown(I64 ch){
   ModifySaveBuffer(ch);
   return;
  }
-
  switch(ch){
   case 'I': case 'i':
    SetKey(&keyboard.inv,TRUE);

@@ -61,9 +61,10 @@ Cd(__DIR__);;
 #include "Map/World.HC";
 #include "Online/Headers.HC";
 #include "Online/Handshake.HC";
-#include "Online/Polling.HC";
+#include "Online/Polling.HC";
 #include "Online/Client.HC";
 #include "Online/Server.HC";
+#include "Online/Glowie_Artifact.HC";
 
 U0 InitMenuControl()
 {
@@ -76,13 +77,14 @@ U0 InitMenuControl()
  mc->cutsceneTimer =0;
  mc->cutsceneIndex=0;
  mc->talkieScene = IT_NULL;//dialogID
- mc->dialogName = "???";//dialog actor name
+ mc->dialogName = "???";//dialog actor name
  mc->dialogID = 0;
  mc->controlLock =FALSE;
 
  //display
  mc->displayInventory=FALSE;
  mc->displayStats=FALSE;
+ mc->displayWorld=FALSE;
  mc->displayShop=FALSE;
  mc->displayEquipment=FALSE;
  mc->displayPrayers=FALSE;

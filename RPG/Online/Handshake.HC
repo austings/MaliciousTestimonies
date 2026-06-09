@@ -1,5 +1,11 @@
 
 
+U0 Handshake(){
+
+ U8 *msg = "essay whoso reclaiming";
+   
+}
+
 U0 ValidateJoin(U8 *msg)
 {
  U8 id[16],*idptr=id;
@@ -32,7 +38,7 @@ U0 ValidateJoin(U8 *msg)
  PrintDevMessage(
   MStrPrint(
    "Assigned ID=%d X=%d Y=%d",
-   p->id,
+   p->id,
    p->x,
    p->y
   )

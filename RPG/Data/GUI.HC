@@ -2,17 +2,20 @@
 #define BTN_STATS      2
 #define BTN_INV        3
 #define BTN_RUN        4
-#define BTN_PRAYER     5
-#define BTN_MUSIC      6
-#define BTN_FX         7
-#define BTN_EQUIP_X    8
-#define BTN_INV_X      9
-#define BTN_SUBMENU_X 10
-#define BTN_SAVE      11
-#define BTN_C_MOVE    12
-#define BTN_C_STRIKE  13
-#define BTN_C_PRAYER  14
-#define BTN_C_FLEE    15
+#define BTN_ORB        5
+#define BTN_PRAYER     6
+#define BTN_MUSIC      7
+#define BTN_FX         8
+#define BTN_EQUIP_X    9
+#define BTN_INV_X      10
+#define BTN_SUBMENU_X 11
+#define BTN_SAVE      12
+#define BTN_C_MOVE    13
+#define BTN_C_STRIKE  14
+#define BTN_C_PRAYER  15
+#define BTN_C_FLEE    16
+
+#define CLICKREGIONS 16
 
 #define EQREGIONS   4
 
@@ -31,7 +34,6 @@
 #define REQ_NO_PRAYERS  2
 #define REQ_EQUIP_OPEN  4
 #define REQ_INV_OPEN    8
-#define CLICKREGIONS 15
 
 //TODO: implement window objects:Unused (yet)
 class GraphicObject
@@ -52,17 +54,14 @@ class TextObject
   I64 screenX, screenY;
   I64 fontSize; 
   U8 *value; 
-
 };
 
 class GameMenu
 {
   GraphicObject *buttons[10];
   TextObject *texts[10];
-  U8 X, Y;
-  
+  U8 X, Y;  
 };
-
 
 //begin 
 
@@ -75,6 +74,7 @@ static class ClickRegion {
  {550,  40, 610, 100, BTN_STATS,0},
  {496, 100, 549, 160, BTN_INV,0},
  {494, 160, 549, 220, BTN_RUN,0},
+ {550, 160, 610, 220, BTN_ORB,0},
  {550, 100, 603, 160, BTN_PRAYER,0},
  {494, 220, 549, 280, BTN_MUSIC,0},
  {550, 220, 610, 280, BTN_FX,0},

@@ -282,8 +282,15 @@ U0 RPGInvLogic(I64 i, I64 j, CDC *dc, Actor *p)
    GrBlot3(dc,0,0,10,invR);
    DCDel(invR);
 
-   Sprite3B(dc,(INVWIDTH-1)*camera->dividX+2,
-               (INVHEIGHT)*camera->dividY+2,0,GetMenuSprite(MENU_MENUBOX));
+   I64 takeAllX =(INVWIDTH-1)*camera->dividX+2;
+   I64 takeAllY= (INVHEIGHT)*camera->dividY+2; 
+   Sprite3B(dc,takeAllX,takeAllY,0,GetMenuSprite(MENU_MENUBOX));
+   dc->color = BLACK;
+   U8* tatxt = "TAKE";
+   U8* tatxt2 = "ALL";
+   PrintLine(dc,tatxt,takeAllX+10,takeAllY+16);
+   PrintLine(dc,tatxt2,takeAllX+10,takeAllY+28);
+
    //Sprite3B(dc,510,52,0,GetMenuSprite(MENU_T));
  }
 

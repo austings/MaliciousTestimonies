@@ -19,22 +19,21 @@ U8 *SerializeActor(Actor *a)
 
 U0 ConnectToHost(){
  CNetAddr *addr;
-
  mc->serverSocket=NetSocketNew;
  addr=NetAddrNew("127.0.0.1",8000);
 
- if(NetConnect(mc->serverSocket,addr)==0) {
-  
-  U8* msg = SerializeActor(GetPlayer());
-
+ if(NetConnect(mc->serverSocket,addr)==0) {  
+  U8* msg = SerializeActor(GetPlayer());
+  PrintDevMessage(MStrPrint("Sending: %s",msg));
   NetWrite(mc->serverSocket,msg,StrLen(msg));
  }
 
  NetAddrDel(addr);
+
 }
 
 U0 ClientTick(){
- if(!mc->clientInitialized)
+ if(!mc->clientInitialized)
  {
   if(mc->currentMenu==1){
    ConnectToHost();

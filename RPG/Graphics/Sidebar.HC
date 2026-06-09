@@ -27,7 +27,9 @@ U0 RPGSideBar(CDC *dc){
  }else{
   GrBlot3(dc,500,163,0,ITEM048);
  } 
- Sprite3B(dc,554,160,0,GetMenuSprite(MENU_MENUBOX));    
+ //world
+ Sprite3B(dc,554,160,0,GetMenuSprite(MENU_MENUBOX)); 
+ Sprite3B(dc,554,162,0,GetMenuSprite(MENU_ORB));    
  //music button
  Sprite3B(dc,494,220,0,GetMenuSprite(MENU_MENUBOX));    
  Sprite3B(dc,493,222,0,GetMenuSprite(MENU_MUSIC));

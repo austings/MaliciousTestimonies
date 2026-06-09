@@ -207,7 +207,7 @@ class MenuControl{
 
   //submenu display toggles
   Bool displayInventory,draggingInv, 
-       displayStats,
+       displayStats, displayWorld,
        displayPrayers,prayerPage,prayerDragging,
        displayShop,
        displayEquipment,
@@ -219,7 +219,7 @@ class MenuControl{
       clientCount,localPlayerId,nextClientId;
   CNetAddr *hostAddr;
   Bool hostInitialized, clientInitialized; 
-  
+  
 
 };
 

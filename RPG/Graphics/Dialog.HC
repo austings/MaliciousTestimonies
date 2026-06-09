@@ -399,7 +399,6 @@ U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
  Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
  PrintLine(dc,eText,12,385,2);
  Free(action);
- //Free(prefix);
  Free(eText);
 
 
@@ -407,7 +406,13 @@ U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
 //Enemy result     
 U0 CombatDialog5(CDC *dc, CTask *task, Actor *p)
 {
- U8 *eText = "The enemy move was made!";
+ //CombatTurn *last_turn = ctp->last;
+ //Actor *last_actor = last_turn->ready;
+ U8 *eText;
+ if(ctp->ready->currentHealth<=0)
+  eText = "You are victorious!";
+ else 
+  eText = "Your turn!";
  dc->color = BLACK;
  Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
  PrintLine(dc,eText,12,385,2);
