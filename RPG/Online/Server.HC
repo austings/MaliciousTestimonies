@@ -6,22 +6,33 @@ class NetClient {
 };
 
 
-U0 StartHost(){
- NetClient *clients[MAX_PLAYERS];
- mc->clientCount=0;
-
+U0 StartHost()
+{
  mc->hostSocket=NetSocketNew;
 
- mc->hostAddr=NetAddrNew("127.0.0.1",8000);
- NetBindIn(mc->hostSocket,mc->hostAddr);
- NetListen(mc->hostSocket,8);
+ PrintDevMessage(
+  MStrPrint("Host Socket=%d",mc->hostSocket)
+ );
 
+ CNetAddr *addr=
+  NetAddrNew("127.0.0.1",8000);
+
+ PrintDevMessage(
+  MStrPrint("Binding")
+ );
+
+ NetBindIn(mc->hostSocket,addr);
+
+ PrintDevMessage(
+  MStrPrint("Listening")
+ );
+
+ NetListen(mc->hostSocket,4);
 }
-
 
 U0 HostTick()
 {
- if(!mc->hostInitialized&&mc->currentMenu = 1){
+ if(!mc->hostInitialized&&mc->currentMenu==1){
   StartHost();
   mc->hostInitialized=TRUE;
  }

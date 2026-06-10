@@ -101,6 +101,8 @@ U0 PollHostConnections()
 {
  I64 fd;
  U8 buf[STR_LEN];
+ U8 *line;
+ U8 *ptr;
  I64 len;
  if(NetPollForRead(1,&mc->hostSocket)!=-1) {
   fd=NetAccept(mc->hostSocket,NULL);
@@ -113,7 +115,12 @@ U0 PollHostConnections()
    PrintDevMessage(
     MStrPrint("Received: %s",buf)
    );
-   HandlePacket(fd, buf);
+   ptr = buf;
+   while(line = ReadALine(&ptr))
+   {
+    HandlePacket(fd, line);
+    Free(line);
+   }
   }
  }
 }
@@ -122,7 +129,8 @@ U0 PollServerMessages()
 {
  U8 buf[STR_LEN];
  I64 len;
-
+ //PrintDevMessage(MStrPrint("About to Read"));
+ 
  if(NetPollForRead(1,&mc->serverSocket)!=-1)
  {
   PrintDevMessage(MStrPrint("Reading"));

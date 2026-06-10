@@ -77,7 +77,7 @@ U0 InitMenuControl()
  mc->cutsceneTimer =0;
  mc->cutsceneIndex=0;
  mc->talkieScene = IT_NULL;//dialogID
- mc->dialogName = "???";//dialog actor name
+ mc->dialogName = "???";//dialog actor name
  mc->dialogID = 0;
  mc->controlLock =FALSE;
 

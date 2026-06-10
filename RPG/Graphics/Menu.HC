@@ -18,12 +18,8 @@ U8 *img1 = MStrPrint("%s%s",DirCur,"/BMP/jezebel1.bmp");
 U8 *img2 = MStrPrint("%s%s",DirCur,"/BMP/jezebel2.bmp"); 
 U8 *img3 = MStrPrint("%s%s",DirCur,"/BMP/jezebel3.bmp"); 
 
-
-
-U0 IncSelect(U8 type)
-{
- switch(type)
- {
+U0 IncSelect(U8 type){
+ switch(type){
   case 0:
   currentSelection++;
   if(currentSelection==4)

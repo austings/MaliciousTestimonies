@@ -1,9 +1,19 @@
+U0 WritePacket(I64 socket,U8 *msg,Bool toFree=TRUE)
+{
+ U8 *packet;
 
+ packet = MStrPrint("%s\n",msg);
 
-U0 Handshake(){
+ NetWrite(
+  socket,
+  packet,
+  StrLen(packet)
+ );
 
- U8 *msg = "essay whoso reclaiming";
-   
+ Free(packet);
+
+ if(toFree)
+  Free(msg);
 }
 
 U0 ValidateJoin(U8 *msg)
@@ -25,7 +35,7 @@ U0 ValidateJoin(U8 *msg)
  p->id = Str2I64(id);
  p->x  = Str2I64(x);
  p->y  = Str2I64(y);
- mc->localPlayerId = p->id;
+ mc->localPlayerId = p->id;
 
  SetTensorNPC(
   world->level,
@@ -38,7 +48,7 @@ U0 ValidateJoin(U8 *msg)
  PrintDevMessage(
   MStrPrint(
    "Assigned ID=%d X=%d Y=%d",
-   p->id,
+   p->id,
    p->x,
    p->y
   )

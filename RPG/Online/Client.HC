@@ -3,7 +3,7 @@ U8 *SerializeActor(Actor *a)
 {
  return MStrPrint(
   "JOIN\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d",
-  a->name,
+  "Tribesman",
   a->id,
   a->tribe,
   a->hair,
@@ -16,31 +16,39 @@ U8 *SerializeActor(Actor *a)
   a->y
  );
 }
-
-U0 ConnectToHost(){
+U0 ConnectToHost()
+{
  CNetAddr *addr;
- mc->serverSocket=NetSocketNew;
- addr=NetAddrNew("127.0.0.1",8000);
 
- if(NetConnect(mc->serverSocket,addr)==0) {  
-  U8* msg = SerializeActor(GetPlayer());
-  PrintDevMessage(MStrPrint("Sending: %s",msg));
-  NetWrite(mc->serverSocket,msg,StrLen(msg));
- }
+ mc->serverSocket = NetSocketNew;
 
+ addr = NetAddrNew("127.0.0.1",8000);
+
+ NetConnect(mc->serverSocket,addr);
+
+ PrintDevMessage(MStrPrint("Connected"));
+ Sleep(10);
+
+ WritePacket(
+  mc->serverSocket,
+  MStrPrint("HELLO")
+ );
+ WritePacket(
+  mc->serverSocket,
+  SerializeActor(GetPlayer())
+ );
+ 
  NetAddrDel(addr);
-
 }
 
+ 
 U0 ClientTick(){
- if(!mc->clientInitialized)
+ if(!mc->clientInitialized)
  {
-  if(mc->currentMenu==1){
    ConnectToHost();
    mc->clientInitialized=TRUE;
-  }
-  goto skip;
+ }else{
+  
+  PollServerMessages();
  }
- PollServerMessages();
- skip:
 }
