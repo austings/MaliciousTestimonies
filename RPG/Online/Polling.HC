@@ -12,7 +12,7 @@ U0 CopyName(U8 *dst,U8 *src)
  dst[i]=0;
 }
 
-U0 SpawnRemotePlayer(I64 fd, U8 *msg)
+Actor *SpawnRemotePlayer( U8 *msg)
 {
  U8 name[15],*nameptr=name;
  U8 id[8],*idptr=id;
@@ -25,6 +25,9 @@ U0 SpawnRemotePlayer(I64 fd, U8 *msg)
  U8 ring1[8],*ring1ptr=ring1;
  U8 x[8],*xptr=x;
  U8 y[8],*yptr=y;
+PrintDevMessage(
+ MStrPrint("RAW=[%s]",msg)
+);
 
  StrScan(msg,
   "JOIN\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
@@ -41,6 +44,16 @@ U0 SpawnRemotePlayer(I64 fd, U8 *msg)
   &yptr
  );
 
+PrintDevMessage(
+ MStrPrint(
+  "JOIN name=%s tribe=%s hair=%s face=%s",
+  nameptr,
+  tribeptr,
+  hairptr,
+  faceptr
+ )
+);
+
  Actor *remote=
   MakeActor(
    -mc->clientCount,
@@ -56,11 +69,21 @@ U0 SpawnRemotePlayer(I64 fd, U8 *msg)
   );
 
  I64 i;
-
+PrintDevMessage(
+ MStrPrint("About To Copy Name")
+);
  CopyName(remote->name,nameptr);
+PrintDevMessage(
+ MStrPrint("Copied Name")
+);
 
+PrintDevMessage(
+ MStrPrint("Actors=%X",actors)
+);
  QueIns(remote,actors->last);
-
+PrintDevMessage(
+ MStrPrint("Setting Tensor")
+);
  SetTensorNPC(
   world->level,
   remote->id,
@@ -75,15 +98,17 @@ U0 SpawnRemotePlayer(I64 fd, U8 *msg)
             remote->id)
  );
 
- SendRemoteHeaders(fd, remote);
+ return remote;
 }
-U0 HandlePacket(I64 fd, U8 *msg)
+U0 HandlePacket(NetClient *c, U8 *msg)
 {
- if(!StrNCmp(msg,"JOIN ",5))
+ if(!StrNCmp(msg,"JOIN",4))
  {
-  PrintDevMessage("User spawning");
+  PrintDevMessage(MStrPrint("User spawning"));
   mc->clientCount++;
-  SpawnRemotePlayer(fd, msg);
+  Actor *remote = SpawnRemotePlayer(msg);
+  c->actorId = remote->id;
+  SendRemoteHeaders(c,remote);
  }
 }
 
@@ -96,30 +121,36 @@ U0 HandleClientPacket(U8 *msg)
  }
 }
 
-
-U0 PollHostConnections()
+U0 PollClients()
 {
- I64 fd;
+ I64 i,len;
  U8 buf[STR_LEN];
- U8 *line;
- U8 *ptr;
- I64 len;
- if(NetPollForRead(1,&mc->hostSocket)!=-1) {
-  fd=NetAccept(mc->hostSocket,NULL);
-  PrintDevMessage(MStrPrint("Client Connected"));
-  while(NetPollForRead(1,&fd)==-1)
-   Sleep(1);
-  len=NetRead(fd,buf,STR_LEN-1); 
-  if(len>0) {
-   buf[len]=0;
-   PrintDevMessage(
-    MStrPrint("Received: %s",buf)
+ U8 *line,*ptr;
+ NetClient *c;
+
+ for(i=0;i<mc->clientCount;i++)
+ {
+  c = mc->clients[i];
+
+  if(NetPollForRead(1,&c->fd)!=-1)
+  {
+   len = NetRead(
+    c->fd,
+    buf,
+    STR_LEN-1
    );
-   ptr = buf;
-   while(line = ReadALine(&ptr))
+
+   if(len>0)
    {
-    HandlePacket(fd, line);
-    Free(line);
+    buf[len]=0;
+
+    ptr = buf;
+
+    while(line = ReadALine(&ptr))
+    {
+     HandlePacket(c,line);
+     Free(line);
+    }
    }
   }
  }

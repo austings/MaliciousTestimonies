@@ -4,6 +4,10 @@ U0 WritePacket(I64 socket,U8 *msg,Bool toFree=TRUE)
 
  packet = MStrPrint("%s\n",msg);
 
+ PrintDevMessage(
+  MStrPrint("TX Socket=%d Msg=%s",socket,msg)
+ );
+
  NetWrite(
   socket,
   packet,
@@ -35,7 +39,7 @@ U0 ValidateJoin(U8 *msg)
  p->id = Str2I64(id);
  p->x  = Str2I64(x);
  p->y  = Str2I64(y);
- mc->localPlayerId = p->id;
+ mc->localPlayerId = p->id;
 
  SetTensorNPC(
   world->level,

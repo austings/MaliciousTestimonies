@@ -1,10 +1,24 @@
-//test
+U0 AcceptClients()
+{
+ I64 fd;
+ NetClient *c;
 
-class NetClient {
-    I64 fd;
-    I64 actorId;
-};
+ if(NetPollForRead(1,&mc->hostSocket)!=-1)
+ {
+  fd = NetAccept(mc->hostSocket,NULL);
 
+  c = MAlloc(sizeof(NetClient));
+
+  c->fd = fd;
+  c->actorId = 0; // assigned later after JOIN
+
+  mc->clients[mc->clientCount++] = c;
+
+  PrintDevMessage(
+   MStrPrint("Client Connected")
+  );
+ }
+}
 
 U0 StartHost()
 {
@@ -21,7 +35,7 @@ U0 StartHost()
   MStrPrint("Binding")
  );
 
- NetBindIn(mc->hostSocket,addr);
+ NetBindIn(mc->hostSocket,addr);
 
  PrintDevMessage(
   MStrPrint("Listening")
@@ -32,12 +46,13 @@ U0 StartHost()
 
 U0 HostTick()
 {
- if(!mc->hostInitialized&&mc->currentMenu==1){
+ if(!mc->hostInitialized&&mc->currentMenu==1){
   StartHost();
   mc->hostInitialized=TRUE;
  }
 
- PollHostConnections();
+ AcceptClients();
+ PollClients();
 }
 
 

@@ -1,21 +1,4 @@
 //test
-U8 *SerializeActor(Actor *a)
-{
- return MStrPrint(
-  "JOIN\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d",
-  "Tribesman",
-  a->id,
-  a->tribe,
-  a->hair,
-  a->face,
-  a->hat,
-  a->armor,
-  a->sword,
-  a->ring1,
-  a->x,
-  a->y
- );
-}
 U0 ConnectToHost()
 {
  CNetAddr *addr;
@@ -33,10 +16,6 @@ U0 ConnectToHost()
   mc->serverSocket,
   MStrPrint("HELLO")
  );
- WritePacket(
-  mc->serverSocket,
-  SerializeActor(GetPlayer())
- );
  
  NetAddrDel(addr);
 }
@@ -46,7 +25,7 @@ U0 ClientTick(){
  if(!mc->clientInitialized)
  {
    ConnectToHost();
-   mc->clientInitialized=TRUE;
+   mc->clientInitialized=TRUE;
  }else{
   
   PollServerMessages();

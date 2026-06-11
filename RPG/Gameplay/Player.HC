@@ -3,7 +3,7 @@ Bool IsPlayerActor(Actor *a)
 {
  return a->id <= 0;
 }
-
+
 Bool IsRemotePlayer(Actor *a)
 {
  return a->id < 0;

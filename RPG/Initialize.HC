@@ -23,7 +23,10 @@ Cd(__DIR__);;
 #include "Map/Level.HC";
 #include "Globals.HC";
 #include "Gameplay/AI.HC";
+
+// Network and Dev
 #include "Dev/Dev.HC";
+#include "Online/Handshake.HC";
 #include "Gameplay/InvLogic.HC";
 #include "Dev/Deserialize.HC";
 #include "Data/GUI.HC";
@@ -60,7 +63,6 @@ Cd(__DIR__);;
 // Finalize World
 #include "Map/World.HC";
 #include "Online/Headers.HC";
-#include "Online/Handshake.HC";
 #include "Online/Polling.HC";
 #include "Online/Client.HC";
 #include "Online/Server.HC";
@@ -68,7 +70,7 @@ Cd(__DIR__);;
 
 U0 InitMenuControl()
 {
-
+ I64 i;
  InitSprites;
  //narrative
  mc->currentSong=1;
@@ -132,11 +134,13 @@ U0 InitMenuControl()
  mc->running =  FALSE;
 
  //network
- mc->netMode = NET_SINGLEPLAYER;
+ mc->netMode = NET_SINGLEPLAYER;
  mc->hostInitialized = FALSE;
  mc->clientInitialized = FALSE;
  mc->localPlayerId = PLAYER;
  mc->nextClientId = -1;
+ for(i=0;i<MAX_PLAYERS;i++)
+  mc->clients[i] = NULL;
 }
 
 U0 InitHotKeys()

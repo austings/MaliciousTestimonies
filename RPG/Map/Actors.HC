@@ -259,4 +259,3 @@ static CDC*		A4R3;
  A4R3 = FramePtr("ACTOR089");
 
 
-

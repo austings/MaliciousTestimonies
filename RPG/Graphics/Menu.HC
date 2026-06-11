@@ -612,8 +612,12 @@ U0 CharacterCreator()
   }
   AddDirective(EFFSLEEP,p,p->screenX+120,p->screenY+16);
   SetChatbox("You",SV_INTROTALKIE);
-
+  if(mc->netMode==NET_CLIENT){
+   WritePacket(
+    mc->serverSocket,
+    SerializeActor(GetPlayer())
+   );
+  }
  }
-
 }
  

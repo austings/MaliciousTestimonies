@@ -126,6 +126,23 @@ I64 GetDir(Actor *a){
  }
 }
 
+U8 *SerializeActor(Actor *a)
+{
+ return MStrPrint(
+  "JOIN\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d",
+  "Tribesman",
+  a->id,
+  a->tribe,
+  a->hair,
+  a->face,
+  a->hat,
+  a->armor,
+  a->sword,
+  a->ring1,
+  a->x,
+  a->y
+ );
+}
 
 Actor *DeserializeNPC(I64 npcid)
 {

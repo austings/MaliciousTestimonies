@@ -43,6 +43,11 @@ class KeyState {
  Bool wasDown;  // 1 if key was held last frame
 };
 
+class NetClient {
+    I64 fd;
+    I64 actorId;
+};
+
 class Keys{
  KeyState up;
  KeyState down;
@@ -160,6 +165,7 @@ static class StrikeAnims{
 #define CMS_ENE3                 6
 
 
+
 //global settings class for game session
 class MenuControl{
 
@@ -218,6 +224,7 @@ class MenuControl{
   I64 netMode, hostSocket, serverSocket,
       clientCount,localPlayerId,nextClientId;
   CNetAddr *hostAddr;
+  NetClient *clients[MAX_PLAYERS];
   Bool hostInitialized, clientInitialized; 
   
 
@@ -246,7 +253,7 @@ I64 wX,wY,wZ;
 
 Actor *GetPlayer(){
  I64 id = mc->localPlayerId;
- Actor *fetch = actors->next;
+ Actor *fetch = actors->next;
  while(fetch != actors){
   if(fetch->id==id)
    return fetch;
