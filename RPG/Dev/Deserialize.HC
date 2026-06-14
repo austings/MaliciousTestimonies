@@ -178,7 +178,6 @@ Actor *DeserializeNPC(I64 npcid)
  {
   if(count!=npcid||*ln=='#'||*ln==0)
    goto skip;
-PrintDevMessage(MStrPrint("NPC 1"));
   StrScan(ln,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
    &nameptr,&idptr,&tribeptr,&hairptr,
    &faceptr,&hatptr,&armorptr,
@@ -186,14 +185,12 @@ PrintDevMessage(MStrPrint("NPC 1"));
    &xptr,&yptr,&strptr,
    &intptr,&conptr,&wisptr,&aiptr,&inv1ptr,
    &inv2ptr,&inv3ptr,&inv4ptr,&inv5ptr);
-PrintDevMessage(MStrPrint("NPC 2"));
   p = 
    MakeActor(Str2I64(id),Str2I64(tribe),Str2I64(hair),Str2I64(face), 
              Str2I64(hat),Str2I64(armor), Str2I64(sword), Str2I64(ring1),
              Str2I64(x),Str2I64(y), 
              Str2I64(str),Str2I64(int),Str2I64(con),Str2I64(wis),Str2I64(ai)
             );  
-PrintDevMessage(MStrPrint("NPC 3"));
   for(i=0;i<15;i++)
    p->name[i] = nameptr[i];//null term..?
 

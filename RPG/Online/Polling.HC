@@ -7,6 +7,7 @@ U0 HandlePacket(NetClient *c, U8 *msg)
  {
   PrintDevMessage(MStrPrint("User spawning"));
   Actor *remote = SpawnRemotePlayer(msg);
+
   c->actorId = remote->id;
   SendRemoteHeaders(c,remote);
  }

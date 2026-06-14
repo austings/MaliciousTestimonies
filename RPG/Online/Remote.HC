@@ -1,4 +1,4 @@
-
+#define STARTCLIENTS 9
 U0 CopyName(U8 *dst,U8 *src)
 {
  I64 i;
@@ -46,7 +46,7 @@ PrintDevMessage(
 
  Actor *remote=
   MakeActor(
-   -mc->clientCount,
+   -mc->clientCount-STARTCLIENTS,
    Str2I64(tribe),
    Str2I64(hair),
    Str2I64(face),
@@ -59,21 +59,9 @@ PrintDevMessage(
   );
 
  I64 i;
-PrintDevMessage(
- MStrPrint("About To Copy Name")
-);
  CopyName(remote->name,nameptr);
-PrintDevMessage(
- MStrPrint("Copied Name")
-);
-
-PrintDevMessage(
- MStrPrint("Actors=%X",actors)
-);
  QueIns(remote,actors->last);
-PrintDevMessage(
- MStrPrint("Setting Tensor")
-);
+
  SetTensorNPC(
   world->level,
   remote->id,
