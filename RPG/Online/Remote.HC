@@ -1,4 +1,3 @@
-#define STARTCLIENTS 9
 U0 CopyName(U8 *dst,U8 *src)
 {
  I64 i;
@@ -9,10 +8,10 @@ U0 CopyName(U8 *dst,U8 *src)
  dst[i]=0;
 }
 
-Actor *SpawnRemotePlayer( U8 *msg)
+Actor *SpawnRemotePlayer(U8 *msg, Bool usePacketPosition=FALSE)
 {
  U8 name[15],*nameptr=name;
- U8 id[8],*idptr=id;
+ U8 id[16],*idptr=id;
  U8 tribe[8],*tribeptr=tribe;
  U8 hair[8],*hairptr=hair;
  U8 face[8],*faceptr=face;
@@ -20,14 +19,15 @@ Actor *SpawnRemotePlayer( U8 *msg)
  U8 armor[8],*armorptr=armor;
  U8 sword[8],*swordptr=sword;
  U8 ring1[8],*ring1ptr=ring1;
- U8 x[8],*xptr=x;
- U8 y[8],*yptr=y;
- I64 spawnX, spawnY;
-PrintDevMessage(
- MStrPrint("RAW=[%s]",msg)
-);
+ U8 x[16],*xptr=x;
+ U8 y[16],*yptr=y;
 
- StrScan(msg,
+ I64 spawnId;
+ I64 spawnX;
+ I64 spawnY;
+
+ StrScan(
+  msg,
   "JOIN\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
   &nameptr,
   &idptr,
@@ -42,11 +42,24 @@ PrintDevMessage(
   &yptr
  );
 
- FindFreeSpawnTile(&spawnX,&spawnY);
+ if(usePacketPosition)
+ {
+  spawnId = Str2I64(id);
+  spawnX  = Str2I64(x);
+  spawnY  = Str2I64(y);
+ }
+ else
+ {
+  FindFreeSpawnTile(&spawnX,&spawnY);
 
- Actor *remote=
+  spawnId =
+   -mc->clientCount
+   - STARTCLIENTS;
+ }
+
+ Actor *remote =
   MakeActor(
-   -mc->clientCount-STARTCLIENTS,
+   spawnId,
    Str2I64(tribe),
    Str2I64(hair),
    Str2I64(face),
@@ -58,8 +71,8 @@ PrintDevMessage(
    spawnY
   );
 
- I64 i;
  CopyName(remote->name,nameptr);
+
  QueIns(remote,actors->last);
 
  SetTensorNPC(
@@ -71,9 +84,11 @@ PrintDevMessage(
  );
 
  PrintDevMessage(
-  MStrPrint("Spawned %s (%d)",
-            remote->name,
-            remote->id)
+  MStrPrint(
+   "Spawned %s (%d)",
+   remote->name,
+   remote->id
+  )
  );
 
  return remote;

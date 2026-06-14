@@ -5,9 +5,7 @@ U0 HandlePacket(NetClient *c, U8 *msg)
 {
  if(!StrNCmp(msg,"JOIN",4))
  {
-  PrintDevMessage(MStrPrint("User spawning"));
   Actor *remote = SpawnRemotePlayer(msg);
-
   c->actorId = remote->id;
   SendRemoteHeaders(c,remote);
  }
@@ -19,6 +17,10 @@ U0 HandleClientPacket(U8 *msg)
  if(!StrNCmp(msg,"ASSIGNID",8))
  {
   ValidateJoin(msg);
+ }
+ if(StrNCmp(msg,"JOIN",4))
+ {
+  Actor *remote = SpawnRemotePlayer(msg,TRUE);
  }
 }
 

@@ -20,6 +20,8 @@ CDirEntry *loadRoot;
 #define NET_CLIENT 2
 
 #define MAX_PLAYERS 4
+#define STARTCLIENTS 9
+
 //Loaded Map
 class World
 {

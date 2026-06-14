@@ -44,7 +44,7 @@ RemoveTensorNPC(
 );
 
  p->id = Str2I64(id);
- mc->localPlayerId = p->id;
+ mc->localPlayerId = p->id;
  p->x  = Str2I64(x);
  p->y  = Str2I64(y);
 

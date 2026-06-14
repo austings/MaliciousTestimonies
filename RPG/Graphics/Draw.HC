@@ -279,7 +279,6 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
 
   }
  }
-
  switch(mc->combatMenuStage){
   case STAGE_0:
    switch(mc->combatMenuSelection){
@@ -296,6 +295,17 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
  RenderCharacter(dc,toRender->screenX,toRender->screenY,
                  10, drawnActor, isHighlight);
  DCDel(drawnActor);
+
+ if(toRender->id!=mc->localPlayerId&&toRender->id<-STARTCLIENTS){
+
+  U8 *nametag = "PLAYER 1";
+  if(toRender->id==-10){
+  }else{
+  nametag = "PLAYER 2";//toRender->name;
+  }
+  dc->color = RED;
+  PrintLine(dc,nametag,toRender->screenX+2,toRender->screenY-6,10);
+ }
  //Free(toRender);
 }
 
