@@ -304,7 +304,7 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
   nametag = "PLAYER 2";//toRender->name;
   }
   dc->color = RED;
-  PrintLine(dc,nametag,toRender->screenX+2,toRender->screenY-6,10);
+  PrintLine(dc,nametag,toRender->screenX+2,toRender->screenY-6,1);
  }
  //Free(toRender);
 }
