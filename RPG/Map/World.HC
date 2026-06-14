@@ -220,7 +220,45 @@ U0 TickActorWalkState(Actor *a)
   WalkMap *m = &walkMapEntry[a->walking];
   SetActorSubFrameRule(a, m->wsf, m->wf);
 }
+Bool IsSpawnable(I64 x,I64 y)
+{
+ if(CheckSolid(world->level,x,y,world->currentZ))
+  return FALSE;
 
+ if(GetTensorNPC(world->level,x,y,world->currentZ)!=IT_NULL)
+  return FALSE;
+
+ return TRUE;
+}
+
+
+U0 FindFreeSpawnTile(I64 *outX,I64 *outY)
+{
+ Actor *host = GetPlayer();
+
+ I64 dx,dy;
+ I64 x,y;
+
+ for(dy=-2;dy<=2;dy++)
+ {
+  for(dx=-2;dx<=2;dx++)
+  {
+   x = host->x + dx;
+   y = host->y + dy;
+
+   if(IsSpawnable(x,y))
+   {
+    *outX = x;
+    *outY = y;
+    return;
+   }
+  }
+ }
+
+ // fallback
+ *outX = host->x;
+ *outY = host->y;
+}
 //updates the matrix model based on taken actions
 U0 WorldTick(I64 i, I64 j, Actor *p){
 

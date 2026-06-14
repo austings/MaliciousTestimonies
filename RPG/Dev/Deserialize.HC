@@ -151,8 +151,8 @@ Actor *DeserializeNPC(I64 npcid)
  U8 *lnptr,*ln,*temp;
  StrUtil(fptr,SUF_REM_CTRL_CHARS);
  U8 name[15],*nameptr=name;
- U8 id[8],*idptr=id;
- U8 tribe[8],*tribeptr=tribe;
+ U8 id[32],*idptr=id;
+ U8 tribe[32],*tribeptr=tribe;
  U8 hair[8],*hairptr=hair;
  U8 face[8],*faceptr=face;
  U8 hat[8],*hatptr=hat;
@@ -172,13 +172,13 @@ Actor *DeserializeNPC(I64 npcid)
  U8 inv4[8],*inv4ptr=inv4;
  U8 inv5[8],*inv5ptr=inv5;
  lnptr=fptr;
-
+ Actor *p = NULL;
  I32 count = 0;
  while(ln=ReadALine(&lnptr))
  {
   if(count!=npcid||*ln=='#'||*ln==0)
    goto skip;
-
+PrintDevMessage(MStrPrint("NPC 1"));
   StrScan(ln,"%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
    &nameptr,&idptr,&tribeptr,&hairptr,
    &faceptr,&hatptr,&armorptr,
@@ -186,14 +186,14 @@ Actor *DeserializeNPC(I64 npcid)
    &xptr,&yptr,&strptr,
    &intptr,&conptr,&wisptr,&aiptr,&inv1ptr,
    &inv2ptr,&inv3ptr,&inv4ptr,&inv5ptr);
-
-  Actor *p = 
+PrintDevMessage(MStrPrint("NPC 2"));
+  p = 
    MakeActor(Str2I64(id),Str2I64(tribe),Str2I64(hair),Str2I64(face), 
              Str2I64(hat),Str2I64(armor), Str2I64(sword), Str2I64(ring1),
              Str2I64(x),Str2I64(y), 
              Str2I64(str),Str2I64(int),Str2I64(con),Str2I64(wis),Str2I64(ai)
             );  
-
+PrintDevMessage(MStrPrint("NPC 3"));
   for(i=0;i<15;i++)
    p->name[i] = nameptr[i];//null term..?
 
@@ -234,19 +234,37 @@ U0 ReadNPC(I64 id){
  loaded++;
  return read;
 }
+U0 ReadNPC(I64 id)
+{
+ Actor *read = DeserializeNPC(id);
 
+ if(read)
+ {
+  QueIns(read, actors->last);
+  loaded++;
+ }
 
-U8 GetNPCCount(){
- return loaded;
+ return read;
 }
 
-Actor *GetNPC(I64 id){
+U8 GetNPCCount()
+{
+ return loaded;
+}
+Actor *GetNPC(I64 id)
+{
  Actor *fetch = actors->next;
- while(fetch != actors){
-  if(fetch->id==id)
+
+ while(fetch != actors)
+ {
+  if(fetch->id == id)
    return fetch;
+
   fetch = fetch->next;
  }
- return ReadNPC(id);
 
+ if(id >= 0)
+  return ReadNPC(id);
+
+ return NULL;
 }

@@ -8,7 +8,7 @@
 
 
 //Matrix Object Declaration
-public class Matrix
+public class Matrix
 {
  I64 x,y;
  Vector *data;

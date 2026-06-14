@@ -256,7 +256,13 @@ U0 DrawActorsOnLayer(CDC *dc,I64 npc,
   isPlayer=TRUE;
   toRender = p; 
  }else {  toRender = GetNPC(npc); }
-
+  if(toRender == NULL)//multiplayer error handling
+  {
+   PrintDevMessage(
+    MStrPrint("Missing Actor %d",npc)
+   );
+   return;
+  }
  Bool isAnimated = HasDirective(BOUNCE,toRender);// ||
  if(isPlayer||(!isAnimated)){
   GetActorScreenX(toRender,npcOffX,i,isPlayer);

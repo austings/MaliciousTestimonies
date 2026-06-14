@@ -35,7 +35,7 @@ U0 StartHost()
   MStrPrint("Binding")
  );
 
- NetBindIn(mc->hostSocket,addr);
+ NetBindIn(mc->hostSocket,addr);
 
  PrintDevMessage(
   MStrPrint("Listening")
@@ -68,7 +68,7 @@ U0 NetTask()
    case NET_CLIENT:
     ClientTick();
    break;
-   //todo; break out in singleplayer
+   //todo; break out in singleplayer
   }
   Sleep(10);
  }

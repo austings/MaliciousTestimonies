@@ -15,7 +15,7 @@ Cd(__DIR__);;
 #include "Sprites/SpriteSheet3.HC";
 #include "Sprites/SpriteSheet4.HC";
 
-// Loading Data Into Map
+// Loading Game Data
 #include "Gameplay/Item.HC";
 #include "Map/Actors.HC";
 #include "Gameplay/Markov/Markov.HC";
@@ -24,7 +24,7 @@ Cd(__DIR__);;
 #include "Globals.HC";
 #include "Gameplay/AI.HC";
 
-// Network and Dev
+// Loading Workflows
 #include "Dev/Dev.HC";
 #include "Online/Handshake.HC";
 #include "Gameplay/InvLogic.HC";
@@ -62,11 +62,14 @@ Cd(__DIR__);;
 
 // Finalize World
 #include "Map/World.HC";
+
+// Multiplayer
 #include "Online/Headers.HC";
+#include "Online/Remote.HC";
 #include "Online/Polling.HC";
 #include "Online/Client.HC";
 #include "Online/Server.HC";
-#include "Online/Glowie_Artifact.HC";
+#include "Online/Glowie_Artifact.HC";
 
 U0 InitMenuControl()
 {
@@ -134,7 +137,7 @@ U0 InitMenuControl()
  mc->running =  FALSE;
 
  //network
- mc->netMode = NET_SINGLEPLAYER;
+ mc->netMode = NET_SINGLEPLAYER;
  mc->hostInitialized = FALSE;
  mc->clientInitialized = FALSE;
  mc->localPlayerId = PLAYER;

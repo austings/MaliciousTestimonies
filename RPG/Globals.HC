@@ -253,7 +253,7 @@ I64 wX,wY,wZ;
 
 Actor *GetPlayer(){
  I64 id = mc->localPlayerId;
- Actor *fetch = actors->next;
+ Actor *fetch = actors->next;
  while(fetch != actors){
   if(fetch->id==id)
    return fetch;
