@@ -231,7 +231,6 @@ PrintDevMessage(MStrPrint("NPC 3"));
 U0 ReadNPC(I64 id){
  Actor *read = DeserializeNPC(id);
  QueIns(read, actors->last);
- loaded++;
  return read;
 }
 U0 ReadNPC(I64 id)
@@ -241,16 +240,11 @@ U0 ReadNPC(I64 id)
  if(read)
  {
   QueIns(read, actors->last);
-  loaded++;
  }
 
  return read;
 }
 
-U8 GetNPCCount()
-{
- return loaded;
-}
 Actor *GetNPC(I64 id)
 {
  Actor *fetch = actors->next;

@@ -52,22 +52,22 @@ U0 AddHealth(Actor *a,I64 magnitude){
     a->currentHealth = a->health;
  }
 }
+U0 UpdateActorCoords(I64 id, U64 x, U64 y)
+{
+ Actor *p;
 
-U0 UpdateActorCoords(I64 id, U64 x, U64 y){
-  switch(id)
-  {
-   case 0:
-    Actor *player = GetPlayer;
-    player->x = x;
-    player->y = y;
-    break;
-   default:
-    Actor *p = GetNPC(id);
-    p->x = x;
-    p->y = y;
-    break;
-  }
+ if(id == mc->localPlayerId)
+  p = GetPlayer();
+ else
+  p = GetNPC(id);
+
+ if(!p)
+  return;
+
+ p->x = x;
+ p->y = y;
 }
+
 
 
 U0 InitActors(I64 currentZ){
@@ -77,7 +77,6 @@ U0 InitActors(I64 currentZ){
 	         0,0,0,0,
 	         0,0,
 	         5,5,5,5,0));//new player
- loaded++;
  QueIns(newPlayer,actors->last);
 
 }
@@ -99,6 +98,5 @@ U0 ClearActors(){
  }
  QueDel(actors);
  Free(actors);
- loaded = 0;
 }
 

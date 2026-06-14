@@ -36,11 +36,23 @@ U0 ValidateJoin(U8 *msg)
 
  Actor *p = GetPlayer();
 
+RemoveTensorNPC(
+ world->level,
+ p->x,
+ p->y,
+ world->currentZ
+);
+
  p->id = Str2I64(id);
+ mc->localPlayerId = p->id;
  p->x  = Str2I64(x);
  p->y  = Str2I64(y);
- mc->localPlayerId = p->id;
 
+ UpdateActorCoords(
+ p->id,
+ p->x,
+ p->y
+ );
  SetTensorNPC(
   world->level,
   p->id,

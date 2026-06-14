@@ -22,7 +22,7 @@ Actor *SpawnRemotePlayer( U8 *msg)
  U8 ring1[8],*ring1ptr=ring1;
  U8 x[8],*xptr=x;
  U8 y[8],*yptr=y;
- I64 spawnX, spawnY;
+ I64 spawnX, spawnY;
 PrintDevMessage(
  MStrPrint("RAW=[%s]",msg)
 );
@@ -42,15 +42,6 @@ PrintDevMessage(
   &yptr
  );
 
-PrintDevMessage(
- MStrPrint(
-  "JOIN name=%s tribe=%s hair=%s face=%s",
-  nameptr,
-  tribeptr,
-  hairptr,
-  faceptr
- )
-);
  FindFreeSpawnTile(&spawnX,&spawnY);
 
  Actor *remote=

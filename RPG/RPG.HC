@@ -31,7 +31,7 @@ U0 DrawIt(CTask *task, CDC *dc){
  
    //5. Compute Camera Offset from the Same walk state  
    StartCameraPan(dc,p);   
-   //6. Draw world and extra for preload on either side 
+   //6. Draw world and extra for preload on either side 
    ReDrawWorld(dc,i,j);
    PlayWeatherLayer(dc,p,WEATHER_LAYER_BG);
    DrawActorsAndItems(dc,p,i,j,l); 

@@ -26,7 +26,6 @@ Cd(__DIR__);;
 
 // Loading Workflows
 #include "Dev/Dev.HC";
-#include "Online/Handshake.HC";
 #include "Gameplay/InvLogic.HC";
 #include "Dev/Deserialize.HC";
 #include "Data/GUI.HC";
@@ -36,7 +35,8 @@ Cd(__DIR__);;
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
 #include "Gameplay/Player.HC";
-#include "Gameplay/Save.HC";
+#include "Gameplay/Save.HC";
+#include "Online/Handshake.HC";
 
 // Loading Animations
 #include "Graphics/Walk.HC";
@@ -69,7 +69,7 @@ Cd(__DIR__);;
 #include "Online/Polling.HC";
 #include "Online/Client.HC";
 #include "Online/Server.HC";
-#include "Online/Glowie_Artifact.HC";
+#include "Online/Glowie_Artifact.HC";
 
 U0 InitMenuControl()
 {

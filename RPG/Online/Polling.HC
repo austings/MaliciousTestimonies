@@ -17,7 +17,7 @@ U0 HandleClientPacket(U8 *msg)
 {
  if(!StrNCmp(msg,"ASSIGNID",8))
  {
-  //ValidateJoin(msg);
+  ValidateJoin(msg);
  }
 }
 

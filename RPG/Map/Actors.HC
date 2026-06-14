@@ -48,7 +48,6 @@ U0 PushActorPathDir(Actor *a, U8 dir)
 }
 
 Actor *actors;
-U8 loaded = 0;
 
 U8 *ACTOR_FILE = MStrPrint("%s%s",DirCur,"/Data/Actor.TXT");
 
