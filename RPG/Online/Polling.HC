@@ -8,19 +8,20 @@ U0 HandlePacket(NetClient *c, U8 *msg)
   Actor *remote = SpawnRemotePlayer(msg);
   c->actorId = remote->id;
   SendRemoteHeaders(c,remote);
+  SendRemoteSpawn(c,GetPlayer());
  }
 }
 
-
 U0 HandleClientPacket(U8 *msg)
 {
+ PrintDevMessage(MStrPrint("RX=%s",msg));
  if(!StrNCmp(msg,"ASSIGNID",8))
  {
   ValidateJoin(msg);
  }
- if(StrNCmp(msg,"JOIN",4))
+ if(!StrNCmp(msg,"JOIN",4))
  {
-  Actor *remote = SpawnRemotePlayer(msg,TRUE);
+  Actor *remote = SpawnRemotePlayer(msg,TRUE);
  }
 }
 

@@ -25,7 +25,7 @@ U0 StartHost()
  mc->hostSocket=NetSocketNew;
 
  PrintDevMessage(
-  MStrPrint("Host Socket=%d",mc->hostSocket)
+  MStrPrint("Host Socket=%d",mc->hostSocket)
  );
 
  CNetAddr *addr=
@@ -68,7 +68,7 @@ U0 NetTask()
    case NET_CLIENT:
     ClientTick();
    break;
-   //todo; break out in singleplayer
+   //todo; break out in singleplayer
   }
   Sleep(10);
  }

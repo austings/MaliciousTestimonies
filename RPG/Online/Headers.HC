@@ -15,7 +15,7 @@ U0 SendRemoteHeaders(NetClient *c, Actor *remote)
 
 U0 SendRemoteSpawn(NetClient *c, Actor *remote)
 {
- WritePacket(
+ WritePacket(
   c->fd,
   SerializeActor(remote)
  );
