@@ -12,11 +12,6 @@ U0 ConnectToHost()
  PrintDevMessage(MStrPrint("Connected"));
  Sleep(10);
 
- WritePacket(
-  mc->serverSocket,
-  MStrPrint("HELLO")
- );
- 
  NetAddrDel(addr);
 }
 
@@ -25,7 +20,7 @@ U0 ClientTick(){
  if(!mc->clientInitialized)
  {
    ConnectToHost();
-   mc->clientInitialized=TRUE;
+   mc->clientInitialized=TRUE;
  }else{
   
   PollServerMessages();

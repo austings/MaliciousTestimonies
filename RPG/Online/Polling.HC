@@ -21,7 +21,7 @@ U0 HandleClientPacket(U8 *msg)
  }
  if(!StrNCmp(msg,"JOIN",4))
  {
-  Actor *remote = SpawnRemotePlayer(msg,TRUE);
+  Actor *remote = SpawnRemotePlayer(msg,TRUE);
  }
 }
 
@@ -59,23 +59,23 @@ U0 PollClients()
   }
  }
 }
-
 U0 PollServerMessages()
 {
  U8 buf[STR_LEN];
+ U8 *ptr;
+ U8 *line;
  I64 len;
- //PrintDevMessage(MStrPrint("About to Read"));
- 
- if(NetPollForRead(1,&mc->serverSocket)!=-1)
- {
-  PrintDevMessage(MStrPrint("Reading"));
+ if(NetPollForRead(1,&mc->serverSocket)!=-1){
   len=NetRead(mc->serverSocket,buf,STR_LEN-1);
-
-  if(len>0)
-  {
+  if(len>0) {
    buf[len]=0;
-
-   HandleClientPacket(buf);
+   PrintDevMessage(MStrPrint("RAW:\n%s",buf));
+   ptr=buf;
+   while(line=ReadALine(&ptr)){
+    PrintDevMessage(MStrPrint("LINE: %s",line));
+    HandleClientPacket(line);
+    Free(line);
+   }
   }
  }
 }
