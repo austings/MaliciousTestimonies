@@ -1,5 +1,6 @@
 
 #define MAX_WRITTEN_ACTORS 999999
+#define MAX_ENCOUNTER 8
 #define MAXACTORCOUNT	11 //on screen
 #define MAX_PATH_LEN 256
 #define ASTAR_MAX_NODES 1024

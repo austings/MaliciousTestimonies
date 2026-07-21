@@ -130,45 +130,38 @@ U0 StartCameraPan(CDC *dc,Actor *p){
  }
 }
 
-U0 CombatQueInit(Actor *toInsert){ //parameter encounter file
-  mc->combatON=TRUE;
-  mc->lootedSwitch=FALSE;
-  mc->combatMenuStage=STAGE_0;
-  mc->combatMenuSelection=CMS_MOVE;
-  mc->currentSong=5;
-  QueInit(&combatCQue);
-  
-  CombatTurn *ctn;
-  // Limit for one
-  ctn = CAlloc(sizeof(CombatTurn));
-  ctn->ready = GetPlayer;
-  /* 
-   switch(p->face){
-    case T_JUDA:
-     AddDirective(T1READY,ctn->ready);
-    break;
-    case T_LEVI:
-     AddDirective(T2READY,ctn->ready);
-    break;
-    case T_EPHR:
-     AddDirective(T3READY,ctn->ready);
-    break;
-    case T_BENJ:
-     AddDirective(T4READY,ctn->ready);
-    break;
-   }
-  */
+U0 CombatQueInit(Actor **enemies,I64 count)
+{
+ CombatTurn *ctn;
+ I64 i;
+
+ mc->combatON = TRUE;
+ mc->lootedSwitch = FALSE;
+ mc->combatMenuStage = STAGE_0;
+ mc->combatMenuSelection = CMS_MOVE;
+ mc->turnIndex = 1;
+ mc->currentSong = 5;
+
+ QueInit(&combatCQue);
+
+ ctn = CAlloc(sizeof(CombatTurn));
+ ctn->ready = GetPlayer();
+ QueIns(ctn,combatCQue.last);
+
+ for(i=0;i<count;i++)
+ {
+  if(enemies[i]->status1==DEAD_STATUS)
+   goto skipcount;
+
+  ctn=CAlloc(sizeof(CombatTurn));
+  ctn->ready=enemies[i];
   QueIns(ctn,combatCQue.last);
 
-  ctn = CAlloc(sizeof(CombatTurn));
-  ctn->ready = toInsert; 
-  QueIns(ctn,combatCQue.last);
-  //combatCQue  
-  ctp = combatCQue.next;
-  mc->combatTurn = 0;
+  AddDirective(BOUNCE,enemies[i]);
+  skipcount:
+ }
 
-  AddDirective(BOUNCE,toInsert);
- 
+ ctp=combatCQue.next;
 }
 
 

@@ -100,32 +100,79 @@ U0 Stage1(I64 i, Actor *p)
  }
 }
 
-U0 TickTile(I64 i,I64 j, Actor *p)
+I64 BuildEncounter(Actor *trigger, Actor **encounter)
 {
- if(camera->topLR+i<wY&&camera->topLR+i>=0){
-  I64 screenX = i*camera->dividX+camera->cameraOffSetX;
-  I64 obj= GetTensorObj(world->level,
-              camera->topLR+i,camera->topUD+j,world->currentZ);     
-  I64 npc =GetTensorNPC(world->level,
-              camera->topLR+i,camera->topUD+j,world->currentZ);
-  I64 wlvl= GetTensorWaterLevel(world->level,
-              camera->topLR+i,camera->topUD+j,world->currentZ);     
-  if(npc!=IT_NULL){
-   Actor *toUpdate = GetNPC(npc);    
-   if(npc!=mc->localPlayerId){
-    if(mc->combatON==FALSE   && 
-     toUpdate->ai_script==AI_DEFAULT&&
-     toUpdate->status1!=DEAD_STATUS && //(enemy)
-     Abs((p->x)-(toUpdate->x))<=AGGRO_DIS&& //(aggro distance)
-     Abs((p->y)-(toUpdate->y))<=AGGRO_DIS  ){
-     CombatQueInit(toUpdate);
-    }
-   }
+ I64 count = 0;
+ Actor *enemy = actors->next;
+
+ while(enemy != actors)
+ {
+  if(enemy == GetPlayer())
+   goto nextEnemy;
+
+  if(enemy->status1 == DEAD_STATUS)
+   goto nextEnemy;
+
+  if(enemy->ai_script != AI_DEFAULT)
+   goto nextEnemy;
+
+  if(Abs(enemy->x - trigger->x) <= AGGRO_DIS &&
+     Abs(enemy->y - trigger->y) <= AGGRO_DIS)
+  {
+   encounter[count++] = enemy;
+
+   if(count >= MAX_ENCOUNTER)
+    break;
   }
+
+nextEnemy:
+  enemy = enemy->next;
  }
+
+ return count;
 }
 
+U0 TickTile(I64 i, I64 j, Actor *p)
+{
+ if(camera->topLR+i >= wY || camera->topLR+i < 0)
+  return;
 
+ I64 npc = GetTensorNPC(
+  world->level,
+  camera->topLR+i,
+  camera->topUD+j,
+  world->currentZ
+ );
+
+ if(npc == IT_NULL)
+  return;
+
+ if(npc == mc->localPlayerId)
+  return;
+
+ Actor *trigger = GetNPC(npc);
+
+ if(mc->combatON)
+  return;
+
+ if(trigger->ai_script != AI_DEFAULT)
+  return;
+
+ if(trigger->status1 == DEAD_STATUS)
+  return;
+
+ if(Abs(p->x - trigger->x) > AGGRO_DIS)
+  return;
+
+ if(Abs(p->y - trigger->y) > AGGRO_DIS)
+  return;
+
+ Actor *encounter[MAX_ENCOUNTER];
+ I64 count = BuildEncounter(trigger, encounter);
+
+ if(count > 0)
+  CombatQueInit(encounter, count);
+}
 U0 TickCombat(I64 i,I64 j,Actor *p)
 {
  //Tick Combat
