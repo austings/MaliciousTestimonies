@@ -50,7 +50,7 @@ U0 PollClients()
 
     ptr = buf;
 
-    while(line = ReadALine(&ptr))
+    while(line = ReadALine(&ptr))
     {
      HandlePacket(c,line);
      Free(line);
@@ -72,7 +72,7 @@ U0 PollServerMessages()
    PrintDevMessage(MStrPrint("RAW:\n%s",buf));
    ptr=buf;
    while(line=ReadALine(&ptr)){
-    PrintDevMessage(MStrPrint("LINE: %s",line));
+    PrintDevMessage(MStrPrint("LINE: %s",line));
     HandleClientPacket(line);
     Free(line);
    }
