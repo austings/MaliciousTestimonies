@@ -138,8 +138,6 @@ static class StrikeAnims{
 //combat menu stage
 #define STAGE_0                 0
 #define STAGE_1                 1
-#define STAGE_2                 2
-#define STAGE_3                 3
 
 
 //combat Menu Selection

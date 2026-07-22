@@ -16,17 +16,13 @@ U0 Stage0(Actor *p)
    }
   break;
   case CMS_STRIKE_DONE:
-   switch(p->sword){
-    case IT_FIST:
-    default: //fist
-     mc->turnIndex++;
-     if(mc->turnIndex>3){
-      RemoveHealth(mc->target,p->str);
-      SetActorDir(p,DELIMITER);//end attack
-      SetCombatStage1;
-     }//mc turnindex
-    break;
-   }//switch p sword    
+   mc->turnIndex++;
+   I64 damage = p->str; //todo: calculate
+   if(mc->turnIndex>3){
+    RemoveHealth(mc->target,damage);
+    SetActorDir(p,DELIMITER);//end attack
+    SetCombatStage1;
+   }//mc turnindex
   break;
   case CMS_PRAYER_DONE:
    if(mc->isItem){
@@ -61,7 +57,7 @@ U0 Stage0(Actor *p)
     if(r < 0.8 * 65536){
      CombatQueFree();
      mc->combatON = FALSE;
-     mc->combatMenuStage = STAGE_2;
+     mc->combatMenuStage = STAGE_0;
     }
     else{
      SetCombatStage1;
@@ -179,11 +175,6 @@ U0 TickCombat(I64 i,I64 j,Actor *p)
  switch(mc->combatMenuStage){
   case STAGE_0: Stage0(p); break;
   case STAGE_1: Stage1(i, p);break;
-  case STAGE_2:
-    mc->combatMenuStage=STAGE_0;
-    mc->combatMenuSelection=CMS_MOVE;
-  
-  break;
  }
 
 }
@@ -309,7 +300,8 @@ U0 FindFreeSpawnTile(I64 *outX,I64 *outY)
 //updates the matrix model based on taken actions
 U0 WorldTick(I64 i, I64 j, Actor *p){
 
- TickCombat(i,j,p);
+ if(mc->combatON)
+  TickCombat(i,j,p);
 
  TickInteract(i,j,p);
  //Tick World

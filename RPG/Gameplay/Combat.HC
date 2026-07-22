@@ -37,12 +37,6 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
     break;
    }
   break;
-  case STAGE_2:
-     SetActorDir(p,DELIMITER);//modified dir complete
-  break;
-  case STAGE_3:
-     SetActorDir(p,DELIMITER);//modified dir complete
-  break;
  }
 
 }
@@ -234,6 +228,14 @@ U0 EnemyEndTurn(I64 i, Actor *p){
   } 
   enemyend:
   CTPProgress;
-  mc->combatMenuStage=STAGE_2;
+  if (ctp->ready == GetPlayer())
+  {
+    mc->combatMenuStage = STAGE_0;
+    mc->combatMenuSelection = CMS_MOVE;
+  }
+  else
+  {
+    mc->combatMenuStage = STAGE_1;
+  }
  }      
 }
