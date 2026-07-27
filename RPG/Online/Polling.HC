@@ -50,7 +50,7 @@ U0 PollClients()
 
     ptr = buf;
 
-    while(line = ReadALine(&ptr))
+    while(line = ReadALine(&ptr))
     {
      HandlePacket(c,line);
      Free(line);

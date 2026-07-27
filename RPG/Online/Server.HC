@@ -25,7 +25,7 @@ U0 StartHost()
  mc->hostSocket=NetSocketNew;
 
  PrintDevMessage(
-  MStrPrint("Host Socket=%d",mc->hostSocket)
+  MStrPrint("Host Socket=%d",mc->hostSocket)
  );
 
  CNetAddr *addr=

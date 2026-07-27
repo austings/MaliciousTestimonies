@@ -18,7 +18,7 @@ Actor *SpawnRemotePlayer(U8 *msg, Bool usePacketPosition=FALSE)
  U8 hat[8],*hatptr=hat;
  U8 armor[8],*armorptr=armor;
  U8 sword[8],*swordptr=sword;
- U8 ring1[8],*ring1ptr=ring1;
+ U8 ring1[8],*ring1ptr=ring1;
  U8 x[16],*xptr=x;
  U8 y[16],*yptr=y;
 

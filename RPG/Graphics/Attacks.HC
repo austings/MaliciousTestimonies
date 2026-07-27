@@ -77,7 +77,7 @@ Bool CheckTarget(Actor *toRender,I64 mouseX, I64 mouseY){
    // keyboard needs to drive target state
    mc->target = toRender;
    mc->tarposx = toRender->screenX;
-   mc->tarposy = toRender->screenY;
+   mc->tarposy = toRender->screenY;
   }
  }
 

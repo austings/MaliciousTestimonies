@@ -6,8 +6,7 @@ U0 SetCombatStage1(){
  CTPProgress;
 }
 
-U0 Stage0(Actor *p)
-{
+U0 Stage0(Actor *p){
  switch(mc->combatMenuSelection){
   case CMS_MOVE_DONE:
    mc->turnIndex++;
@@ -67,25 +66,23 @@ U0 Stage0(Actor *p)
  }
 }
 
-U0 Stage1(I64 i, Actor *p)
-{
+U0 Stage1(I64 i, Actor *p){
  switch(mc->combatMenuSelection){
   case CMS_ENE1:
    mc->turnIndex++;
-   switch(ctp->ready->status1)
-   {
+   switch(ctp->ready->status1) {
     case DEAD_STATUS:
     break;
     default:
-     if(!HasDirective(ARCSTRIKE,ctp->ready))
-      AddDirective(ARCSTRIKE,ctp->ready);
+     if(!HasDirective(ARCSTRIKE, ctp->ready))
+      AddDirective(ARCSTRIKE, ctp->ready);
     break;
    }
    if(mc->turnIndex>6)
     AutoTurnEnd;
   break;
   case CMS_ENE2:
-   UpdateDirective(ARCSTRIKE,ctp->ready,0,0,0,TRUE);
+   UpdateDirective(ARCSTRIKE, ctp->ready, 0, 0, 0, TRUE);
    mc->turnIndex++;
    if(mc->turnIndex>6)
     AutoTurnEnd;
@@ -96,8 +93,7 @@ U0 Stage1(I64 i, Actor *p)
  }
 }
 
-I64 BuildEncounter(Actor *trigger, Actor **encounter)
-{
+I64 BuildEncounter(Actor *trigger, Actor **encounter){
  I64 count = 0;
  Actor *enemy = actors->next;
 
@@ -113,10 +109,8 @@ I64 BuildEncounter(Actor *trigger, Actor **encounter)
    goto nextEnemy;
 
   if(Abs(enemy->x - trigger->x) <= AGGRO_DIS &&
-     Abs(enemy->y - trigger->y) <= AGGRO_DIS)
-  {
+     Abs(enemy->y - trigger->y) <= AGGRO_DIS){
    encounter[count++] = enemy;
-
    if(count >= MAX_ENCOUNTER)
     break;
   }
@@ -169,6 +163,7 @@ U0 TickTile(I64 i, I64 j, Actor *p)
  if(count > 0)
   CombatQueInit(encounter, count);
 }
+
 U0 TickCombat(I64 i,I64 j,Actor *p)
 {
  //Tick Combat

@@ -16,6 +16,18 @@ U0 LvlUp(Actor *a){
                       +Pow(5*a->lvl,2)+10*a->lvl+3; 
 }
 
+////  Play("3wC#D#E#F#G#");
+U0 CalculateExp(Actor *player, Actor *enemy){
+ player->exp += (
+  enemy->str +
+  enemy->con +
+  enemy->int +
+  enemy->wis
+ ) / 4;
+ if(player->exp >= player->maxExp)
+  LvlUp(player);
+}
+
 U0 RemoveMana(Actor *a, I64 magnitude){
   IndicatorText(a->x,a->y,magnitude,"Spirit");
   if(a->currentMana<=magnitude){
@@ -32,17 +44,20 @@ U0 RemoveMana(Actor *a, I64 magnitude){
 }
 
 U0 RemoveHealth(Actor *a, I64 magnitude){
- IndicatorText(a->x,a->y,magnitude,"Health");
- if(a->currentHealth<=magnitude){
-  a->currentHealth=0;
-  AddStatus(a,DEAD_STATUS);
- }
- else{
-  a->currentHealth = a->currentHealth - magnitude;
-  if(a->currentHealth>a->health){
-   a->currentHealth = a->health;
+ IndicatorText(a->x, a->y, magnitude, "Health");
+ if(a->currentHealth <= magnitude) {
+  a->currentHealth = 0;
+  // Only award EXP for enemies.
+  if(a->id != mc->localPlayerId){
+   Actor *p = GetPlayer;
+   CalculateExp(p, a);
   }
- } 
+  AddStatus(a, DEAD_STATUS);
+ }else{
+  a->currentHealth -= magnitude;
+  if(a->currentHealth > a->health)
+   a->currentHealth = a->health;
+ }
 }
 
 U0 AddHealth(Actor *a,I64 magnitude){

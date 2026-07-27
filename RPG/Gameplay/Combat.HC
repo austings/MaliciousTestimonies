@@ -7,8 +7,7 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
  mc->displayEquipment=FALSE;
  switch(mc->combatMenuStage){
   case STAGE_0:  
-   switch(mc->combatMenuSelection)
-   {
+   switch(mc->combatMenuSelection) {
     case CS_PRAYER:
      mc->displayInventory=TRUE;   
      CombatDialog2(dc,task);     
@@ -19,13 +18,11 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
     default:
      mc->displayInventory=FALSE;
      CombatDialog1(dc,task, mc->combatMenuSelection);     
-
     break;
    }
   break;
   case STAGE_1:
-   switch(mc->combatMenuSelection)
-   {
+   switch(mc->combatMenuSelection) {
     case CMS_ENE1:
      CombatDialog4(dc,task,p);
     break;
@@ -151,16 +148,6 @@ U0 CombatTurnArrows(Actor *p,I64 dir){
  }//switch end
 }
 
-U0 CalculateExp(Actor *p)
-{
- p->exp+=(ctp->ready->str+ ctp->ready->con+ 
-           ctp->ready->int+ ctp->ready->wis)/4;
- if(p->exp>=p->maxExp){
-//  Play("3wC#D#E#F#G#");
-  LvlUp(p);
- }
-
-}
 
 Bool PlayerInAggroRange(Actor *player)
 {
@@ -201,41 +188,33 @@ Bool PlayerInAggroRange(Actor *player)
 //p = player
 U0 EnemyEndTurn(I64 i, Actor *p){
  mc->turnIndex++;
- //update after two world ticks
- if(mc->turnIndex>2){
-
-  SetActorDir(p,DELIMITER);//end prev anims
-  mc->turnIndex= 0;
-  ctp = combatCQue.next;   
-  //check every actor for updates
-  for(i=0;i<QueCnt(combatCQue);i++){
-   if(ctp->ready->id==mc->localPlayerId)
-   {
-   }
-   else
-   {
-    if(ctp->ready->status1!=DEAD_STATUS){
-     mc->combatON=TRUE;//continue combat
-    }else{
-     CalculateExp(p);
-     mc->combatON=FALSE;
-     //CombatQueFree();
-     goto enemyend;
-    }
-
-   }
-    ctp = ctp->next;
-  } 
-  enemyend:
-  CTPProgress;
-  if (ctp->ready == GetPlayer())
-  {
-    mc->combatMenuStage = STAGE_0;
-    mc->combatMenuSelection = CMS_MOVE;
-  }
-  else
-  {
-    mc->combatMenuStage = STAGE_1;
-  }
- }      
+ // Update after two world ticks
+ if(mc->turnIndex <= 2)
+  return;
+ SetActorDir(p, DELIMITER); // End previous animations
+ mc->turnIndex = 0;
+ //
+ // Remove any enemies whose death animation has completed.
+ //
+ RemoveDeadCombatants();
+ //
+ // If only the player remains, combat is over.
+ //
+ if(QueCnt(combatCQue) <= 1){
+  mc->combatON = FALSE;
+  // CombatQueFree();
+  return;
+ }
+ //
+ // Continue combat.
+ //
+ mc->combatON = TRUE;
+ CTPProgress();
+ if(ctp->ready == GetPlayer()){
+  mc->combatMenuStage = STAGE_0;
+  mc->combatMenuSelection = CMS_MOVE;
+ }
+ else{
+  mc->combatMenuStage = STAGE_1;
+ }
 }

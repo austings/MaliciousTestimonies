@@ -136,6 +136,7 @@ U0 CombatQueInit(Actor **enemies,I64 count)
  I64 i;
 
  mc->combatON = TRUE;
+ mc->combatTurn = 0;
  mc->lootedSwitch = FALSE;
  mc->combatMenuStage = STAGE_0;
  mc->combatMenuSelection = CMS_MOVE;
@@ -158,7 +159,7 @@ U0 CombatQueInit(Actor **enemies,I64 count)
   QueIns(ctn,combatCQue.last);
 
   AddDirective(BOUNCE,enemies[i]);
-  skipcount:
+  skipcount:
  }
 
  ctp=combatCQue.next;

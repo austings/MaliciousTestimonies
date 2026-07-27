@@ -50,7 +50,7 @@ U0 PrayerButton()
 
 U0 WorldButton()
 {
- if(mc->displayWorld==FALSE)
+ if(mc->displayWorld==FALSE)
   mc->displayWorld=TRUE;
  else
   mc->displayWorld=FALSE; 

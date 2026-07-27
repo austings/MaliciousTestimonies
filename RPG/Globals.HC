@@ -75,56 +75,6 @@ Bool KeyReleased(KeyState *k) {  // edge: down -> up
 #define NUM_HOTKEYS 9
 I64 hotkeys[NUM_HOTKEYS] ;
 
-//
-// Cached Combat queue
-//
-class CombatTurn:CQue
-{
-  Actor *ready;
-} combatCQue;
-
-#define FACENUM       4
-#define STRIKETYPES   (FACENUM*WEAPONCOUNT) 
-
-//Attack map
-static class StrikeAnims{
-    I64 face;
-    I64 sword;
-    I64 anim;
-} StrikeAnimMap [STRIKETYPES] = {
-     // Judah
-    { T_JUDA, IT_FIST,   T1PUNCH },
-    { T_JUDA, IT_DAGGER, T1STAB  },
-    { T_JUDA, IT_HARPOON,T1STAB },
-    { T_JUDA, IT_BRZSWORD,T1STAB },
-    { T_JUDA, IT_HAMMER,T1SLASH },
-    { T_JUDA, IT_HATCHET,T1SLASH },
-
-    // Levi
-    { T_LEVI, IT_FIST,   T2PUNCH },
-    { T_LEVI, IT_DAGGER, T2STAB  },
-    { T_LEVI, IT_HARPOON,T2STAB },
-    { T_LEVI, IT_BRZSWORD,T2STAB },
-    { T_LEVI, IT_HAMMER,T2SLASH },
-    { T_LEVI, IT_HATCHET,T2SLASH },
-
-    // Ephr
-    { T_EPHR, IT_FIST,   T3PUNCH },
-    { T_EPHR, IT_DAGGER, T3STAB  },
-    { T_EPHR, IT_HARPOON,T3STAB },
-    { T_EPHR, IT_BRZSWORD,T3STAB },
-    { T_EPHR, IT_HAMMER,T3SLASH },
-    { T_EPHR, IT_HATCHET,T3SLASH },
-
-    // Benj
-    { T_BENJ, IT_FIST,   T4PUNCH },
-    { T_BENJ, IT_DAGGER, T4STAB  },
-    { T_BENJ, IT_HARPOON,T4STAB },
-    { T_BENJ, IT_BRZSWORD,T4STAB },
-    { T_BENJ, IT_HAMMER,T4SLASH },
-    { T_BENJ, IT_HATCHET,T4SLASH },
-};
-
 #define AGGRO_DIS	2
 #define MOVEMENT_COST		5
 #define W_T 90
@@ -239,25 +189,21 @@ class Camera{
  Bool cameraMovedThisStep; 
 };
 
-MenuControl *mc;
-CombatTurn *ctp;
-Prayers *prayers;
-Camera *camera;
-World *world;//world
-Vector *worldSz;//world size, with values wX,wY,wZ
+//
+// Cached Combat queue
+//
+class CombatTurn:CQue
+{
+  Actor *ready;
+} combatCQue;
 //
 //Global variables
 //
 
-I64 wX,wY,wZ;
-
-Actor *GetPlayer(){
- I64 id = mc->localPlayerId;
- Actor *fetch = actors->next;
- while(fetch != actors){
-  if(fetch->id==id)
-   return fetch;
-  fetch = fetch->next;
- }
-}
-
+I64 wX,wY,wZ;
+CombatTurn *ctp;
+MenuControl *mc;
+Prayers *prayers;
+Camera *camera;
+World *world;//world
+Vector *worldSz;//world size, with values wX,wY,wZ

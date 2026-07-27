@@ -22,11 +22,12 @@ Cd(__DIR__);;
 #include "Map/Director.HC";
 #include "Map/Level.HC";
 #include "Globals.HC";
+#include "Gameplay/TurnOrder.HC";
 #include "Gameplay/AI.HC";
 
 // Loading Workflows
 #include "Dev/Dev.HC";
-#include "Gameplay/InvLogic.HC";
+#include "Gameplay/InvLogic.HC";
 #include "Dev/Deserialize.HC";
 #include "Data/GUI.HC";
 
@@ -69,7 +70,7 @@ Cd(__DIR__);;
 #include "Online/Polling.HC";
 #include "Online/Client.HC";
 #include "Online/Server.HC";
-#include "Online/Glowie_Artifact.HC";
+#include "Online/Glowie_Artifact.HC";
 #include "Online/Multiplayer.HC";
 
 U0 InitMenuControl()

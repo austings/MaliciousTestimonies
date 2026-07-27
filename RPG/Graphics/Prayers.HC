@@ -189,11 +189,10 @@ U0 UseItemCombat(Actor *p)
   break;
   default:
   break;
- }
- 
+ } 
 }
 
-U0 UsePrayerCombat(Actor *p){
+U0 UsePrayerCombat(Actor *p){
  switch(mc->prayerToCast){
   case SP_HEAL: //lay on hands
    if(mc->turnIndex==1) { CastPrayer(p);}
