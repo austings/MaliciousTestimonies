@@ -51,6 +51,10 @@ Actor *GetPlayer(){
  }
 }
 
+Bool HasLivingEnemies(){
+ return QueCnt(combatCQue) > 1;
+}
+
 U0 RemoveDeadCombatants(){
  CombatTurn *cur = combatCQue.next;
  I64 count = QueCnt(combatCQue);

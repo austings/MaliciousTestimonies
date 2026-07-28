@@ -109,60 +109,65 @@ U0 KeyShift(){
  mc->running = !mc->running;
 }
 
-U0 AnyKey(){
+U0 AdvanceEnemyTurn()
+{
  Actor *player = GetPlayer();
- if(mc->combatMenuStage==STAGE_1){//enemy turn
-  switch(mc->combatMenuSelection){
-   case CMS_ENE1:
-    if(mc->turnIndex>2){
-     mc->combatMenuSelection = CMS_ENE2;//move complete
-     if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=mc->localPlayerId){
-      player->currentHealth-=(ctp->ready->str);
-      AddStatus(ctp->ready,NRML_STATUS);
-     }
-     mc->turnIndex=0;
-    }
-   break;
-   case CMS_ENE2:
-    if(mc->turnIndex>2){
-     mc->combatMenuSelection = CMS_ENE3;
-     mc->turnIndex=0;
-    }
-   break;
-   case CMS_ENE3:
-   break;
-   default:
-    mc->combatMenuSelection = CMS_ENE1;
-   break;
-  }
+
+ switch(mc->combatMenuSelection)
+ {
+  case CMS_ENE1:
+   mc->combatMenuSelection = CMS_ENE2;
+
+   RemoveDeadCombatants();
+
+   if(HasStatus(ctp->ready, ATTK_STATUS) &&
+      ctp->ready->id != mc->localPlayerId)
+   {
+    player->currentHealth -= ctp->ready->str;
+    AddStatus(ctp->ready, NRML_STATUS);
+   }
+
+   mc->turnIndex = 0;
+  break;
+
+  case CMS_ENE2:
+   mc->combatMenuSelection = CMS_ENE1;
+   mc->turnIndex = 0;
+  break;
+
+  default:
+   mc->combatMenuSelection = CMS_ENE1;
+  break;
+ }
+}
+
+U0 AnyKey()
+{
+ if(mc->combatMenuStage != STAGE_1)
+  return;
+
+ switch(mc->combatMenuSelection)
+ {
+  case CMS_ENE1:
+   if(mc->turnIndex > 2)
+    AdvanceEnemyTurn();
+  break;
+
+  case CMS_ENE2:
+   if(mc->turnIndex > 2)
+    AdvanceEnemyTurn();
+  break;
+
+  default:
+   AdvanceEnemyTurn();
+  break;
  }
 }
 
 U0 AutoTurnEnd()
 {
- if(mc->combatMenuStage==STAGE_1)//enemy turn
- {
-  switch(mc->combatMenuSelection)
-  {
-   case CMS_ENE1:
-    mc->combatMenuSelection = CMS_ENE2;//move complete
-    if(HasStatus(ctp->ready,ATTK_STATUS)&&ctp->ready->id!=mc->localPlayerId){
-     GetPlayer()->currentHealth-=(ctp->ready->str);
-     AddStatus(ctp->ready,NRML_STATUS);
-    }
-    mc->turnIndex=0;
-   break;
-   case CMS_ENE2:
-    mc->combatMenuSelection = CMS_ENE3;
-    mc->turnIndex=0;
-   break;
-   case CMS_ENE3:
-   break;
-   default:
-    mc->combatMenuSelection = CMS_ENE1;
-   break;
-  }
- }
+ if(mc->combatMenuStage == STAGE_1)
+  AdvanceEnemyTurn();
 }
 
 Bool CombatDialog2Hover(I64 M_X, I64 M_Y)

@@ -86,9 +86,8 @@ U0 Stage1(I64 i, Actor *p){
    mc->turnIndex++;
    if(mc->turnIndex>6)
     AutoTurnEnd;
-  break;
-  case CMS_ENE3:
    EnemyEndTurn(i, p);
+
   break;
  }
 }

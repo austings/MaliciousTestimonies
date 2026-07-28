@@ -409,9 +409,9 @@ U0 CombatDialog5(CDC *dc, CTask *task, Actor *p)
  //CombatTurn *last_turn = ctp->last;
  //Actor *last_actor = last_turn->ready;
  U8 *eText;
- if(ctp->ready->currentHealth<=0)
+ if(!HasLivingEnemies())
   eText = "You are victorious!";
- else 
+ else
   eText = "Your turn!";
  dc->color = BLACK;
  Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);

@@ -86,6 +86,7 @@ U0 CTPProgress()
   else
    ctp = ctp->next;
  }
+
  mc->prayerToCast=DELIMITER;
  mc->prayerListIndex = 0;
  mc->isItem =FALSE;
@@ -194,13 +195,9 @@ U0 EnemyEndTurn(I64 i, Actor *p){
  SetActorDir(p, DELIMITER); // End previous animations
  mc->turnIndex = 0;
  //
- // Remove any enemies whose death animation has completed.
- //
- RemoveDeadCombatants();
- //
  // If only the player remains, combat is over.
  //
- if(QueCnt(combatCQue) <= 1){
+ if(!HasLivingEnemies()){
   mc->combatON = FALSE;
   // CombatQueFree();
   return;

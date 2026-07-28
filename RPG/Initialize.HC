@@ -27,12 +27,12 @@ Cd(__DIR__);;
 
 // Loading Workflows
 #include "Dev/Dev.HC";
-#include "Gameplay/InvLogic.HC";
+#include "Gameplay/InvLogic.HC";
 #include "Dev/Deserialize.HC";
 #include "Data/GUI.HC";
 
 // Loading World
-#include "Gameplay/Equipment.HC";
+#include "Gameplay/Equipment.HC";
 #include "Map/Objects.HC";
 #include "Graphics/Dialog.HC";
 #include "Gameplay/Player.HC";

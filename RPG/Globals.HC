@@ -112,7 +112,6 @@ I64 hotkeys[NUM_HOTKEYS] ;
 
 #define CMS_ENE1                 4
 #define CMS_ENE2                 5
-#define CMS_ENE3                 6
 
 
 
@@ -200,7 +199,7 @@ class CombatTurn:CQue
 //Global variables
 //
 
-I64 wX,wY,wZ;
+I64 wX,wY,wZ;
 CombatTurn *ctp;
 MenuControl *mc;
 Prayers *prayers;
