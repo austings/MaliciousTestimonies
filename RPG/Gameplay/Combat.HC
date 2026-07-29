@@ -70,29 +70,6 @@ U0 SetTargetFromActor(Actor *a)
  }
 }
 
-U0 CTPProgress()
-{
- mc->combatTurn++;
- I64 i, count = QueCnt(combatCQue);
- if(mc->combatTurn==count)
- {
-  mc->combatTurn = 0;
- }
- ctp = combatCQue.next;
- for(i=0;i<count;i++)
- {
-  if(i==mc->combatTurn)
-   break;
-  else
-   ctp = ctp->next;
- }
-
- mc->prayerToCast=DELIMITER;
- mc->prayerListIndex = 0;
- mc->isItem =FALSE;
- mc->isItemSelector =FALSE;
-
-}
 
 U0 CombatTurnArrows(Actor *p,I64 dir){
  I64 i;
@@ -212,6 +189,6 @@ U0 EnemyEndTurn(I64 i, Actor *p){
   mc->combatMenuSelection = CMS_MOVE;
  }
  else{
-  mc->combatMenuStage = STAGE_1;
+  SetCombatStage1; //mc->combatMenuStage = STAGE_1;
  }
 }

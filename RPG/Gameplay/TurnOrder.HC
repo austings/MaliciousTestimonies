@@ -50,6 +50,37 @@ Actor *GetPlayer(){
   fetch = fetch->next;
  }
 }
+U0 CTPProgress()
+{
+ mc->combatTurn++;
+ I64 i, count = QueCnt(combatCQue);
+ if(mc->combatTurn==count)
+ {
+  mc->combatTurn = 0;
+ }
+ ctp = combatCQue.next;
+ for(i=0;i<count;i++)
+ {
+  if(i==mc->combatTurn)
+   break;
+  else
+   ctp = ctp->next;
+ }
+
+ mc->prayerToCast=DELIMITER;
+ mc->prayerListIndex = 0;
+ mc->isItem =FALSE;
+ mc->isItemSelector =FALSE;
+
+}
+
+U0 SetCombatStage1(){
+ mc->turnIndex=1;
+ mc->combatMenuStage=STAGE_1;
+ mc->combatMenuSelection=CMS_ENE1;
+ CTPProgress;
+}
+
 
 Bool HasLivingEnemies(){
  return QueCnt(combatCQue) > 1;

@@ -1,11 +1,3 @@
-
-U0 SetCombatStage1(){
- mc->turnIndex=1;
- mc->combatMenuStage=STAGE_1;
- mc->combatMenuSelection=CMS_ENE1;
- CTPProgress;
-}
-
 U0 Stage0(Actor *p){
  switch(mc->combatMenuSelection){
   case CMS_MOVE_DONE:
@@ -67,6 +59,9 @@ U0 Stage0(Actor *p){
 }
 
 U0 Stage1(I64 i, Actor *p){
+PrintDevMessage(MStrPrint("Stage1 actor=%d selection=%d\n",
+       ctp->ready->id,
+       mc->combatMenuSelection));
  switch(mc->combatMenuSelection){
   case CMS_ENE1:
    mc->turnIndex++;
