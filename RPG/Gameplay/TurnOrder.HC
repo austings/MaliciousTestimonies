@@ -53,32 +53,26 @@ Actor *GetPlayer(){
 U0 CTPProgress()
 {
  mc->combatTurn++;
- I64 i, count = QueCnt(combatCQue);
- if(mc->combatTurn==count)
- {
+ I64 count = QueCnt(combatCQue);
+ I64 i;
+ if(mc->combatTurn == count)
   mc->combatTurn = 0;
- }
+
  ctp = combatCQue.next;
- for(i=0;i<count;i++)
- {
-  if(i==mc->combatTurn)
+
+ for(i = 0; i < count; i++){
+  if(i == mc->combatTurn)
    break;
-  else
-   ctp = ctp->next;
+
+  ctp = ctp->next;
  }
-
- mc->prayerToCast=DELIMITER;
- mc->prayerListIndex = 0;
- mc->isItem =FALSE;
- mc->isItemSelector =FALSE;
-
 }
-
-U0 SetCombatStage1(){
- mc->turnIndex=1;
- mc->combatMenuStage=STAGE_1;
- mc->combatMenuSelection=CMS_ENE1;
- CTPProgress;
+
+U0 SetCombatStage1()
+{
+ mc->turnIndex = 1;
+ mc->combatMenuStage = STAGE_1;
+ mc->combatMenuSelection = CMS_ENE1;
 }
 
 
@@ -86,14 +80,19 @@ Bool HasLivingEnemies(){
  return QueCnt(combatCQue) > 1;
 }
 
+
 U0 RemoveDeadCombatants(){
  CombatTurn *cur = combatCQue.next;
  I64 count = QueCnt(combatCQue);
  I64 i;
-
- for(i = 0; i < count; i++){
+ for(i = 0; i < count; i++) {
   CombatTurn *next = cur->next;
   if(cur->ready->status1 == DEAD_STATUS){
+   if(cur == ctp){
+    ctp = next;
+    if(ctp == &combatCQue)
+     ctp = combatCQue.next;
+   }
    QueRem(cur);
    Free(cur);
   }

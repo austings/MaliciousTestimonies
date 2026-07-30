@@ -43,7 +43,7 @@ Cd(__DIR__);;
 #include "Graphics/Walk.HC";
 #include "Graphics/Anim.HC";
 #include "Graphics/Armor.HC";
-#include "Graphics/Buttons.HC";
+#include "Graphics/Buttons.HC";
 #include "Graphics/Menu.HC";
 #include "Graphics/Sidebar.HC";
 #include "Graphics/Drag.HC";
@@ -134,7 +134,6 @@ U0 InitMenuControl()
  mc->target = GetPlayer();
  mc->tarposx = 0;
  mc->tarposy = 0;
- mc->combatTurn = 0;
  mc->targetCTPIndex = 0;
  mc->running =  FALSE;
 

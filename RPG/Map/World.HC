@@ -59,9 +59,9 @@ U0 Stage0(Actor *p){
 }
 
 U0 Stage1(I64 i, Actor *p){
-PrintDevMessage(MStrPrint("Stage1 actor=%d selection=%d\n",
-       ctp->ready->id,
-       mc->combatMenuSelection));
+//PrintDevMessage(MStrPrint("Stage1 actor=%d selection=%d\n",
+//       ctp->ready->id,
+//       mc->combatMenuSelection));
  switch(mc->combatMenuSelection){
   case CMS_ENE1:
    mc->turnIndex++;
@@ -73,15 +73,16 @@ PrintDevMessage(MStrPrint("Stage1 actor=%d selection=%d\n",
       AddDirective(ARCSTRIKE, ctp->ready);
     break;
    }
-   if(mc->turnIndex>6)
+   if(mc->turnIndex==6)
     AutoTurnEnd;
   break;
   case CMS_ENE2:
    UpdateDirective(ARCSTRIKE, ctp->ready, 0, 0, 0, TRUE);
    mc->turnIndex++;
-   if(mc->turnIndex>6)
+   if(mc->turnIndex==6){
     AutoTurnEnd;
-   EnemyEndTurn(i, p);
+   }
+    EnemyEndTurn(i, p);
 
   break;
  }

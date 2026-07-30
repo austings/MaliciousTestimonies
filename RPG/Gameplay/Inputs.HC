@@ -118,7 +118,6 @@ U0 AdvanceEnemyTurn()
   case CMS_ENE1:
    mc->combatMenuSelection = CMS_ENE2;
 
-   RemoveDeadCombatants();
 
    if(HasStatus(ctp->ready, ATTK_STATUS) &&
       ctp->ready->id != mc->localPlayerId)
@@ -141,8 +140,8 @@ U0 AdvanceEnemyTurn()
  }
 }
 
-U0 AnyKey()
-{
+U0 AnyKey(){
+ return; //skip
  if(mc->combatMenuStage != STAGE_1)
   return;
 
@@ -150,7 +149,7 @@ U0 AnyKey()
  {
   case CMS_ENE1:
    if(mc->turnIndex > 2)
-    AdvanceEnemyTurn();
+    AdvanceEnemyTurn(); 
   break;
 
   case CMS_ENE2:

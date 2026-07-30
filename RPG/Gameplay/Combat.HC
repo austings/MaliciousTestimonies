@@ -171,24 +171,25 @@ U0 EnemyEndTurn(I64 i, Actor *p){
   return;
  SetActorDir(p, DELIMITER); // End previous animations
  mc->turnIndex = 0;
- //
- // If only the player remains, combat is over.
- //
- if(!HasLivingEnemies()){
+ RemoveDeadCombatants();
+ 
+ if(!HasLivingEnemies())
+ {
   mc->combatON = FALSE;
-  // CombatQueFree();
   return;
  }
- //
- // Continue combat.
- //
- mc->combatON = TRUE;
+ 
+ mc->combatON = TRUE; 
+ 
  CTPProgress();
- if(ctp->ready == GetPlayer()){
+ 
+ if(ctp->ready == GetPlayer())
+ {
   mc->combatMenuStage = STAGE_0;
   mc->combatMenuSelection = CMS_MOVE;
  }
- else{
-  SetCombatStage1; //mc->combatMenuStage = STAGE_1;
+ else
+ {
+  SetCombatStage1;
  }
 }
