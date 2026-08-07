@@ -58,10 +58,11 @@ U0 Stage0(Actor *p){
  }
 }
 
+I64 modlock = 0;
 U0 Stage1(I64 i, Actor *p){
-//PrintDevMessage(MStrPrint("Stage1 actor=%d selection=%d\n",
-//       ctp->ready->id,
-//       mc->combatMenuSelection));
+
+ if(!modlock){
+  modlock = 1;
  switch(mc->combatMenuSelection){
   case CMS_ENE1:
    mc->turnIndex++;
@@ -69,8 +70,10 @@ U0 Stage1(I64 i, Actor *p){
     case DEAD_STATUS:
     break;
     default:
-     if(!HasDirective(ARCSTRIKE, ctp->ready))
+     if(!HasDirective(ARCSTRIKE, ctp->ready)){
       AddDirective(ARCSTRIKE, ctp->ready);
+      AddStatus(ctp->ready, ATTK_STATUS);
+    }
     break;
    }
    if(mc->turnIndex==6)
@@ -82,9 +85,11 @@ U0 Stage1(I64 i, Actor *p){
    if(mc->turnIndex==6){
     AutoTurnEnd;
    }
-    EnemyEndTurn(i, p);
+   EnemyEndTurn(i, p);
 
   break;
+ }
+  modlock =0;
  }
 }
 

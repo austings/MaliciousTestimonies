@@ -37,17 +37,31 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
  }
 
 }
-
 U0 SwitchTarget()
 {
- I64 count = QueCnt(combatCQue);
-  ctp = ctp->next;
-  mc->targetCTPIndex++;
-  if(mc->targetCTPIndex==count){
-   ctp = combatCQue.next;
-   mc->targetCTPIndex = 0;
-  }
+ PrintDevMessage(MStrPrint(
+  "before index=%d target=%d",
+  mc->targetCTPIndex,
+  targetCTP->ready->id));
 
+ I64 count = QueCnt(combatCQue);
+
+ mc->targetCTPIndex++;
+ if(mc->targetCTPIndex >= count)
+  mc->targetCTPIndex = 0;
+
+ CombatTurn *it = combatCQue.next;
+ I64 i;
+
+ for(i = 0; i < mc->targetCTPIndex; i++)
+  it = it->next;
+
+ targetCTP = it;
+ mc->target = targetCTP->ready;
+ PrintDevMessage(MStrPrint(
+  "after index=%d target=%d",
+  mc->targetCTPIndex,
+  mc->target->id));
 
 }
 
@@ -58,21 +72,22 @@ U0 SetTargetFromActor(Actor *a)
 
  while(it != &combatCQue){
   if(it->ready && it->ready->id == a->id){
-   ctp = it;
+   targetCTP = it;
    mc->targetCTPIndex = index;
    mc->target = a;
-   mc->tarposx = a->screenX;
-   mc->tarposy = a->screenY;
    return;
   }
+
   it = it->next;
   index++;
  }
 }
 
-
 U0 CombatTurnArrows(Actor *p,I64 dir){
  I64 i;
+PrintDevMessage(MStrPrint(
+ "selection=%d",
+ mc->combatMenuSelection));
  switch(mc->combatMenuSelection){
   case CMS_MOVE:
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
@@ -183,7 +198,7 @@ U0 EnemyEndTurn(I64 i, Actor *p){
  
  CTPProgress();
  
- if(ctp->ready == GetPlayer())
+ if(ctp->ready->id == mc->localPlayerId)
  {
   mc->combatMenuStage = STAGE_0;
   mc->combatMenuSelection = CMS_MOVE;
@@ -192,4 +207,9 @@ U0 EnemyEndTurn(I64 i, Actor *p){
  {
   SetCombatStage1;
  }
+PrintDevMessage(MStrPrint(
+ "EnemyEndTurn EXIT stage=%d sel=%d actor=%d",
+ mc->combatMenuStage,
+ mc->combatMenuSelection,
+ ctp->ready->id));
 }

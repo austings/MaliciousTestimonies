@@ -147,7 +147,8 @@ class MenuControl{
   Bool running;
 
   //players current target
-  Actor *target;I64 targetCTPIndex, tarposx,tarposy;
+  Actor *target;
+  I64 targetCTPIndex;
   Bool mouseTargetingActive;
 
   //prayerSelection
@@ -201,8 +202,20 @@ class CombatTurn:CQue
 
 I64 wX,wY,wZ;
 CombatTurn *ctp;
+CombatTurn *targetCTP;
 MenuControl *mc;
 Prayers *prayers;
 Camera *camera;
 World *world;//world
 Vector *worldSz;//world size, with values wX,wY,wZ
+
+Actor *GetPlayer(){
+ I64 id = mc->localPlayerId;
+ Actor *fetch = actors->next;
+ while(fetch != actors){
+  if(fetch->id==id)
+   return fetch;
+  fetch = fetch->next;
+ }
+}
+

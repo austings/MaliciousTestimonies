@@ -195,7 +195,7 @@ Actor *DeserializeNPC(I64 npcid)
    p->name[i] = nameptr[i];//null term..?
 
   if(Str2I64(inv1)!=0){
-   AddItemToInventory(p->myInv,Str2I64(inv1));
+   AddItemToInventory(p->myInv,Str2I64(inv1));
   }
 
   if(Str2I64(inv2)!=0)

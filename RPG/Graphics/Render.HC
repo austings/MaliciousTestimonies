@@ -141,6 +141,7 @@ U0 CombatQueInit(Actor **enemies,I64 count)
  mc->combatMenuSelection = CMS_MOVE;
  mc->turnIndex = 1;
  mc->currentSong = 5;
+ mc->combatTurn=0;
 
  QueInit(&combatCQue);
 
@@ -162,6 +163,19 @@ U0 CombatQueInit(Actor **enemies,I64 count)
  }
 
  ctp=combatCQue.next;
+ targetCTP=combatCQue.next;
+CombatTurn *it = combatCQue.next;
+ i=0;
+while(it != &combatCQue)
+{
+ PrintDevMessage(MStrPrint(
+  "%d: actor=%d",
+  i,
+  it->ready->id));
+
+ it = it->next;
+ i++;
+}
 }
 
 

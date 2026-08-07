@@ -118,17 +118,13 @@ U0 AdvanceEnemyTurn()
   case CMS_ENE1:
    mc->combatMenuSelection = CMS_ENE2;
 
-
    if(HasStatus(ctp->ready, ATTK_STATUS) &&
       ctp->ready->id != mc->localPlayerId)
    {
-    player->currentHealth -= ctp->ready->str;
-    AddStatus(ctp->ready, NRML_STATUS);
-   }
 
    mc->turnIndex = 0;
+   }
   break;
-
   case CMS_ENE2:
    mc->combatMenuSelection = CMS_ENE1;
    mc->turnIndex = 0;
@@ -440,8 +436,6 @@ U0 ClickHighlightedTarget(){
     mc->combatMenuSelection == CS_PRAYER2))
  {
   if(mc->target != NULL){
-   mc->tarposx = mc->target->screenX;
-   mc->tarposy = mc->target->screenY;
    I64 idx = GetCTPIndexFromActor(mc->target);
    if(idx != -1){
     mc->targetCTPIndex = idx;

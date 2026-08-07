@@ -41,15 +41,6 @@ static class StrikeAnims{
     { T_BENJ, IT_HATCHET,T4SLASH },
 };
 
-Actor *GetPlayer(){
- I64 id = mc->localPlayerId;
- Actor *fetch = actors->next;
- while(fetch != actors){
-  if(fetch->id==id)
-   return fetch;
-  fetch = fetch->next;
- }
-}
 U0 CTPProgress()
 {
  mc->combatTurn++;
@@ -70,6 +61,11 @@ U0 CTPProgress()
 
 U0 SetCombatStage1()
 {
+PrintDevMessage(MStrPrint(
+ "SetCombatStage1 caller actor=%d stage=%d sel=%d",
+ ctp->ready->id,
+ mc->combatMenuStage,
+ mc->combatMenuSelection));
  mc->turnIndex = 1;
  mc->combatMenuStage = STAGE_1;
  mc->combatMenuSelection = CMS_ENE1;

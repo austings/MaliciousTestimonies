@@ -22,13 +22,13 @@ Cd(__DIR__);;
 #include "Map/Director.HC";
 #include "Map/Level.HC";
 #include "Globals.HC";
-#include "Gameplay/TurnOrder.HC";
 #include "Gameplay/AI.HC";
 
 // Loading Workflows
 #include "Dev/Dev.HC";
 #include "Gameplay/InvLogic.HC";
 #include "Dev/Deserialize.HC";
+#include "Gameplay/TurnOrder.HC";
 #include "Data/GUI.HC";
 
 // Loading World
@@ -132,8 +132,6 @@ U0 InitMenuControl()
  mc->combatMenuSelection=CMS_MOVE;
  mc->mouseTargetingActive=FALSE;
  mc->target = GetPlayer();
- mc->tarposx = 0;
- mc->tarposy = 0;
  mc->targetCTPIndex = 0;
  mc->running =  FALSE;
 
