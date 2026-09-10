@@ -60,7 +60,8 @@ Bool CheckTarget(Actor *toRender, I64 mouseX, I64 mouseY)
  if(targetCTP && targetCTP->ready){
   if(toRender->id == targetCTP->ready->id){
    highlight = TRUE;
-   mc->target = toRender;
+   Actor *p = GetPlayer;
+   p->target = toRender;
   }
  }
 

@@ -131,7 +131,6 @@ U0 InitMenuControl()
  mc->combatMenuStage =STAGE_0;
  mc->combatMenuSelection=CMS_MOVE;
  mc->mouseTargetingActive=FALSE;
- mc->target = GetPlayer();
  mc->targetCTPIndex = 0;
  mc->running =  FALSE;
 

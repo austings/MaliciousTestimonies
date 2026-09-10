@@ -231,10 +231,17 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
   case T1SLASH...T4SLASH:
   case T1SLEEP...T4SLEEP:
   task->cQueDirective = directive;
-  if(p->x<=mc->target->x){
-   task->flip = TRUE;
-   SetActorDir(p,DIR_RIGHT);
-  }else {SetActorDir(p,DIR_LEFT);}
+  Actor *pT = p->target;
+  if(pT==NULL){
+   SetActorDir(p,DIR_LEFT);
+  }else{
+   if(p->x<=p->target->x){
+    task->flip = TRUE;
+    SetActorDir(p,DIR_RIGHT);
+   }else{
+    SetActorDir(p,DIR_LEFT);
+   }
+  }
   break;
   case T1EFFHEAL:
   case EFFFISH:

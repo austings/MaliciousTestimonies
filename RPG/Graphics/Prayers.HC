@@ -170,7 +170,7 @@ U0 CastPrayer(Actor *a)
      AddDirective(T4CAST,a);
     break;
    }
-   AddDirective(T1EFFHEAL,mc->target);
+   AddDirective(T1EFFHEAL,a->target);
   break;
   default:
    AddDirective(T1CAST,a);
@@ -184,7 +184,7 @@ U0 UseItemCombat(Actor *p)
   case IT_HPPOT:
    if(mc->turnIndex==1) { CastPrayer(p);}
    if(mc->turnIndex>3){
-    AddHealth(mc->target,10);
+    AddHealth(p->target,10);
    }
   break;
   default:
@@ -197,7 +197,7 @@ U0 UsePrayerCombat(Actor *p){
   case SP_HEAL: //lay on hands
    if(mc->turnIndex==1) { CastPrayer(p);}
    if(mc->turnIndex>3){
-    AddHealth(mc->target,p->int);
+    AddHealth(p->target,p->int);
     RemoveMana(p,prayers->list[mc->prayerToCast]->cost);
    }
   break;

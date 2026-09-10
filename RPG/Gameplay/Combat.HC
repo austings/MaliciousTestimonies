@@ -52,7 +52,8 @@ U0 SwitchTarget(){
   it = it->next;
 
  targetCTP = it;
- mc->target = targetCTP->ready;
+ Actor *p = GetPlayer;
+ p->target = targetCTP->ready;
 
 }
 
@@ -60,12 +61,12 @@ U0 SetTargetFromActor(Actor *a)
 {
  I64 index = 0;
  CombatTurn *it = combatCQue.next;
-
+ Actor *p = GetPlayer;
  while(it != &combatCQue){
   if(it->ready && it->ready->id == a->id){
    targetCTP = it;
    mc->targetCTPIndex = index;
-   mc->target = a;
+   p->target = a;
    return;
   }
 
@@ -170,7 +171,8 @@ U0 SelectValidTarget()
  I64 index = 0;
 
  targetCTP = NULL;
- mc->target = NULL;
+ Actor *p = GetPlayer;
+ p->target = NULL;
  mc->targetCTPIndex = 0;
 
  while(cur != &combatCQue){
@@ -180,7 +182,7 @@ U0 SelectValidTarget()
      cur->ready->id != mc->localPlayerId)
   {
    targetCTP = cur;
-   mc->target = cur->ready;
+   p->target = cur->ready;
    mc->targetCTPIndex = index;
 
    PrintDevMessage(MStrPrint(
@@ -208,10 +210,10 @@ U0 EndCombatTurn(I64 i, Actor *p){
   Clear target references BEFORE RemoveDeadCombatants()
   can free the CombatTurn node.
  */
- if(mc->target &&
-    mc->target->status1 == DEAD_STATUS)
+ if(p->target &&
+    p->target->status1 == DEAD_STATUS)
  {
-  mc->target = NULL;
+  p->target = NULL;
   targetCTP = NULL;
   mc->targetCTPIndex = 0;
  }
@@ -221,7 +223,7 @@ U0 EndCombatTurn(I64 i, Actor *p){
   mc->combatON = FALSE;
   return;
  }
- //if(!mc->target) TODO: check if this works
+ //if(!p->target) TODO: check if this works
  // SelectValidTarget();
 
  mc->combatON = TRUE; 

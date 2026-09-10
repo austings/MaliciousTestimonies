@@ -10,7 +10,6 @@ class Actor:CQue{
 
   //persistent
   U8 name[15];
-
   U8  tribe,face,hair;
   
   I64 id,x,y,screenX,screenY,
@@ -38,6 +37,8 @@ class Actor:CQue{
  I64 pathLen;
  I64 pathIndex;
  Bool hasPath,pickUpTrigger;
+
+ Actor *target;
 
 };
 
@@ -95,6 +96,8 @@ U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  Inventory *newInv = MakeInventory();
  me->myInv = newInv;
  me->walking = DIR_IDLE,me->walkingSubFrame=DIR_IDLE;
+ me->target = NULL;
+
  return me;
 
 }

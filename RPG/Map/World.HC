@@ -17,7 +17,7 @@ U0 Stage0(Actor *p)
    if(mc->turnIndex > 3){
     I64 damage = p->str;
 
-    RemoveHealth(mc->target, damage);
+    RemoveHealth(p->target, damage);
     SetActorDir(p, DELIMITER);
 
     EndCombatTurn(0, p);

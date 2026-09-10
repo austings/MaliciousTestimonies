@@ -424,12 +424,13 @@ U0 HandleMouseTargeting(I64 mx, I64 my)
 }
 
 U0 ClickHighlightedTarget(){
+ Actor *p = GetPlayer;
  if(mc->combatON &&
    (mc->combatMenuSelection == CS_STRIKE ||
     mc->combatMenuSelection == CS_PRAYER2))
  {
-  if(mc->target != NULL){
-   I64 idx = GetCTPIndexFromActor(mc->target);
+  if(p->target != NULL){
+   I64 idx = GetCTPIndexFromActor(p->target);
    if(idx != -1){
     mc->targetCTPIndex = idx;
    }
