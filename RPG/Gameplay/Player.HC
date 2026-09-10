@@ -92,6 +92,7 @@ U0 InitActors(I64 currentZ){
 	         0,0,0,0,
 	         0,0,
 	         5,5,5,5,0));//new player
+ newPlayer->name ="Player";
  QueIns(newPlayer,actors->last);
 
 }

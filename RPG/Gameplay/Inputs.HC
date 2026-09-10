@@ -109,27 +109,20 @@ U0 KeyShift(){
  mc->running = !mc->running;
 }
 
-U0 AdvanceEnemyTurn()
-{
+U0 AdvanceEnemyTurn(){
  Actor *player = GetPlayer();
-
- switch(mc->combatMenuSelection)
- {
+ switch(mc->combatMenuSelection){
   case CMS_ENE1:
    mc->combatMenuSelection = CMS_ENE2;
-
    if(HasStatus(ctp->ready, ATTK_STATUS) &&
-      ctp->ready->id != mc->localPlayerId)
-   {
-
-   mc->turnIndex = 0;
+      ctp->ready->id != mc->localPlayerId){
+    mc->turnIndex = 0;
    }
   break;
   case CMS_ENE2:
    mc->combatMenuSelection = CMS_ENE1;
    mc->turnIndex = 0;
   break;
-
   default:
    mc->combatMenuSelection = CMS_ENE1;
   break;

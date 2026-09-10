@@ -25,10 +25,6 @@ U0 PrintInventory(Inventory *myInv){
     myInv->mtrx[3][6].occupied, myInv->mtrx[3][7].occupied, myInv->mtrx[3][8].occupied,
     myInv->mtrx[3][9].occupied, myInv->mtrx[3][10].occupied);
 
- PrintDevMessage(str1);
- PrintDevMessage(str2);
- PrintDevMessage(str3);
- PrintDevMessage(str4);
 
 }
 
@@ -195,7 +191,7 @@ Actor *DeserializeNPC(I64 npcid)
    p->name[i] = nameptr[i];//null term..?
 
   if(Str2I64(inv1)!=0){
-   AddItemToInventory(p->myInv,Str2I64(inv1));
+   AddItemToInventory(p->myInv,Str2I64(inv1));
   }
 
   if(Str2I64(inv2)!=0)

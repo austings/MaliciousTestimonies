@@ -35,6 +35,8 @@ I64 GetCTPIndexFromActor(Actor *a)
 Bool CheckTarget(Actor *toRender, I64 mouseX, I64 mouseY)
 {
  Bool highlight = FALSE;
+ if(!toRender)
+  return FALSE;
 
  if(mc->combatMenuSelection != CS_STRIKE &&
     mc->combatMenuSelection != CS_PRAYER2)
@@ -58,7 +60,6 @@ Bool CheckTarget(Actor *toRender, I64 mouseX, I64 mouseY)
  if(targetCTP && targetCTP->ready){
   if(toRender->id == targetCTP->ready->id){
    highlight = TRUE;
-
    mc->target = toRender;
   }
  }

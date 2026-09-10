@@ -149,8 +149,7 @@ U0 CombatQueInit(Actor **enemies,I64 count)
  ctn->ready = GetPlayer();
  QueIns(ctn,combatCQue.last);
 
- for(i=0;i<count;i++)
- {
+ for(i=0;i<count;i++){
   if(enemies[i]->status1==DEAD_STATUS)
    goto skipcount;
 
@@ -164,18 +163,23 @@ U0 CombatQueInit(Actor **enemies,I64 count)
 
  ctp=combatCQue.next;
  targetCTP=combatCQue.next;
-CombatTurn *it = combatCQue.next;
- i=0;
-while(it != &combatCQue)
-{
- PrintDevMessage(MStrPrint(
-  "%d: actor=%d",
-  i,
-  it->ready->id));
+ CombatTurn *it = combatCQue.next;
+ PrintDevMessage("=== Combat Queue Init ===",FALSE);
 
- it = it->next;
- i++;
-}
+ i = 0;
+
+ while(it != &combatCQue){
+  PrintDevMessage(MStrPrint("QUEUE[%d] actor=%d name=%s",
+  i,
+  it->ready->id,
+  it->ready->name
+  ));
+
+  it = it->next;
+  i++;
+ }
+  it = it->next;
+
 }
 
 

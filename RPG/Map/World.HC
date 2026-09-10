@@ -1,4 +1,77 @@
-U0 Stage0(Actor *p){
+U0 Stage0(Actor *p)
+{
+ switch(mc->combatMenuSelection){
+
+  case CMS_MOVE_DONE:
+   mc->turnIndex++;
+
+   if(mc->turnIndex > 1){
+    EndCombatTurn(0, p);
+   }
+  break;
+
+
+  case CMS_STRIKE_DONE:
+   mc->turnIndex++;
+
+   if(mc->turnIndex > 3){
+    I64 damage = p->str;
+
+    RemoveHealth(mc->target, damage);
+    SetActorDir(p, DELIMITER);
+
+    EndCombatTurn(0, p);
+   }
+  break;
+
+
+  case CMS_PRAYER_DONE:
+
+   if(mc->isItem)
+    UseItemCombat(p);
+   else
+    UsePrayerCombat(p);
+
+   mc->turnIndex++;
+
+   if(mc->turnIndex > 3){
+    EndCombatTurn(0, p);
+   }
+
+  break;
+
+
+  case CS_FLEE:
+   mc->turnIndex++;
+
+   if(mc->turnIndex > 3){
+
+    mc->turnIndex = 0;
+
+    Actor *player = GetPlayer();
+
+    if(PlayerInAggroRange(player)){
+     EndCombatTurn(0, p);
+     break;
+    }
+
+    U16 r = RandU16();
+
+    if(r < 0.8 * 65536){
+     CombatQueFree();
+     mc->combatON = FALSE;
+     mc->combatMenuStage = STAGE_0;
+
+    } else {
+     EndCombatTurn(0, p);
+    }
+   }
+
+  break;
+ }
+}
+
+U0 Stage0old(Actor *p){
  switch(mc->combatMenuSelection){
   case CMS_MOVE_DONE:
    mc->turnIndex++;
@@ -58,38 +131,104 @@ U0 Stage0(Actor *p){
  }
 }
 
-I64 modlock = 0;
-U0 Stage1(I64 i, Actor *p){
+U0 Stage1(I64 i, Actor *p)
+{
+ /*
+  Stage1 should never automatically execute
+  the local player's turn.
+ */
+ if(ctp->ready->id == mc->localPlayerId){
 
- if(!modlock){
-  modlock = 1;
+
+  mc->combatMenuStage = STAGE_0;
+  mc->combatMenuSelection = CMS_MOVE;
+  mc->turnIndex = 0;
+
+  return;
+ }
+
  switch(mc->combatMenuSelection){
+
   case CMS_ENE1:
+
    mc->turnIndex++;
-   switch(ctp->ready->status1) {
-    case DEAD_STATUS:
-    break;
-    default:
-     if(!HasDirective(ARCSTRIKE, ctp->ready)){
-      AddDirective(ARCSTRIKE, ctp->ready);
-      AddStatus(ctp->ready, ATTK_STATUS);
+
+   if(ctp->ready->status1 != DEAD_STATUS){
+
+    if(!HasDirective(ARCSTRIKE, ctp->ready)){
+
+     PrintDevMessage(MStrPrint(
+      "Stage1: actor=%d beginning attack",
+      ctp->ready->id
+     ));
+
+     AddDirective(ARCSTRIKE, ctp->ready);
+     AddStatus(ctp->ready, ATTK_STATUS);
     }
-    break;
    }
-   if(mc->turnIndex==6)
-    AutoTurnEnd;
+
+   if(mc->turnIndex >= 6){
+    PrintDevMessage(MStrPrint(
+     "Stage1: actor=%d attack animation complete",
+     ctp->ready->id
+    ));
+
+    AdvanceEnemyTurn();
+   }
+
   break;
+
+
   case CMS_ENE2:
-   UpdateDirective(ARCSTRIKE, ctp->ready, 0, 0, 0, TRUE);
+
+   UpdateDirective(
+    ARCSTRIKE,
+    ctp->ready,
+    0, 0, 0,
+    TRUE
+   );
+
    mc->turnIndex++;
-   if(mc->turnIndex==6){
-    AutoTurnEnd;
+
+   if(mc->turnIndex >= 6){
+
+    PrintDevMessage(MStrPrint(
+     "Stage1: actor=%d ending turn",
+     ctp->ready->id
+    ));
+
+    EndCombatTurn(i, p);
    }
-   EnemyEndTurn(i, p);
 
   break;
  }
-  modlock =0;
+}
+
+U0 Stage1old(I64 i, Actor *p){
+ switch(mc->combatMenuSelection){
+  case CMS_ENE1:
+   mc->turnIndex++;
+
+   if(ctp->ready->status1 != DEAD_STATUS){
+    if(!HasDirective(ARCSTRIKE, ctp->ready)){
+     AddDirective(ARCSTRIKE, ctp->ready);
+     AddStatus(ctp->ready, ATTK_STATUS);
+    }
+   }
+
+   if(mc->turnIndex >= 6)
+    AdvanceEnemyTurn();
+  break;
+
+  case CMS_ENE2:
+   UpdateDirective(ARCSTRIKE, ctp->ready, 0, 0, 0, TRUE);
+
+   mc->turnIndex++;
+
+   if(mc->turnIndex >= 6){
+    EndCombatTurn(i, p);
+   }
+  break;
  }
 }
 

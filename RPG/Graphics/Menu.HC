@@ -593,6 +593,7 @@ U0 CharacterCreator()
   FreeActor(GetPlayer);
   Actor *p = MakeActor(0,tribe,GetSelectedStats(1),GetSelectedStats(2), 
                        0,0,0,0,3,2,str,int,con,wis,0);
+  p->name = "You";
   QueIns(p,actors->last);
   mc->currentMenu=1;
   mc->currentSong=0;

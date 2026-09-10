@@ -4,6 +4,7 @@ U0 CombatQueFree() {
 }
 
 U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
+
  mc->displayEquipment=FALSE;
  switch(mc->combatMenuStage){
   case STAGE_0:  
@@ -37,15 +38,9 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
  }
 
 }
-U0 SwitchTarget()
-{
- PrintDevMessage(MStrPrint(
-  "before index=%d target=%d",
-  mc->targetCTPIndex,
-  targetCTP->ready->id));
 
+U0 SwitchTarget(){
  I64 count = QueCnt(combatCQue);
-
  mc->targetCTPIndex++;
  if(mc->targetCTPIndex >= count)
   mc->targetCTPIndex = 0;
@@ -58,10 +53,6 @@ U0 SwitchTarget()
 
  targetCTP = it;
  mc->target = targetCTP->ready;
- PrintDevMessage(MStrPrint(
-  "after index=%d target=%d",
-  mc->targetCTPIndex,
-  mc->target->id));
 
 }
 
@@ -85,9 +76,6 @@ U0 SetTargetFromActor(Actor *a)
 
 U0 CombatTurnArrows(Actor *p,I64 dir){
  I64 i;
-PrintDevMessage(MStrPrint(
- "selection=%d",
- mc->combatMenuSelection));
  switch(mc->combatMenuSelection){
   case CMS_MOVE:
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
@@ -176,27 +164,69 @@ Bool PlayerInAggroRange(Actor *player)
 
  return FALSE;
 }
+U0 SelectValidTarget()
+{
+ CombatTurn *cur = combatCQue.next;
+ I64 index = 0;
 
+ targetCTP = NULL;
+ mc->target = NULL;
+ mc->targetCTPIndex = 0;
+
+ while(cur != &combatCQue){
+
+  if(cur->ready &&
+     cur->ready->status1 != DEAD_STATUS &&
+     cur->ready->id != mc->localPlayerId)
+  {
+   targetCTP = cur;
+   mc->target = cur->ready;
+   mc->targetCTPIndex = index;
+
+   PrintDevMessage(MStrPrint(
+    "SelectValidTarget: actor=%d",
+    cur->ready->id
+   ));
+
+   return;
+  }
+
+  cur = cur->next;
+  index++;
+ }
+}
 //i = iterable
 //p = player
-U0 EnemyEndTurn(I64 i, Actor *p){
+U0 EndCombatTurn(I64 i, Actor *p){
  mc->turnIndex++;
  // Update after two world ticks
  if(mc->turnIndex <= 2)
   return;
  SetActorDir(p, DELIMITER); // End previous animations
  mc->turnIndex = 0;
+ /*
+  Clear target references BEFORE RemoveDeadCombatants()
+  can free the CombatTurn node.
+ */
+ if(mc->target &&
+    mc->target->status1 == DEAD_STATUS)
+ {
+  mc->target = NULL;
+  targetCTP = NULL;
+  mc->targetCTPIndex = 0;
+ }
  RemoveDeadCombatants();
  
- if(!HasLivingEnemies())
- {
+ if(!HasLivingEnemies()){
   mc->combatON = FALSE;
   return;
  }
- 
+ //if(!mc->target) TODO: check if this works
+ // SelectValidTarget();
+
  mc->combatON = TRUE; 
  
- CTPProgress();
+ CTPProgress;
  
  if(ctp->ready->id == mc->localPlayerId)
  {
@@ -207,9 +237,6 @@ U0 EnemyEndTurn(I64 i, Actor *p){
  {
   SetCombatStage1;
  }
-PrintDevMessage(MStrPrint(
- "EnemyEndTurn EXIT stage=%d sel=%d actor=%d",
- mc->combatMenuStage,
- mc->combatMenuSelection,
- ctp->ready->id));
+
+
 }

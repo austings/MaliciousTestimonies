@@ -370,21 +370,18 @@ U0 CombatDialog2(CDC *dc, CTask *task)
 }
 
 //Flee box
-U0 CombatDialog3(CDC *dc, CTask *task)
-{
+U0 CombatDialog3(CDC *dc, CTask *task){
  U8 *fleeText = "Attempting to run away!";
  dc->color = BLACK;
  Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
  PrintLine(dc,fleeText,12,385,2);
 
-
 }
+
 //Enemy attack     
-U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
-{
+U0 CombatDialog4(CDC *dc, CTask *task, Actor *p){
  U8 *prefix = "star";
- switch(ctp->ready->status1)
- {
+ switch(ctp->ready->status1){
   case DEAD_STATUS:
    prefix = "dy";
   break;
@@ -400,10 +397,9 @@ U0 CombatDialog4(CDC *dc, CTask *task, Actor *p)
  Free(action);
  Free(eText);
 
-
 }
-U0 CombatDialog5(CDC *dc, CTask *task, Actor *p)
-{
+
+U0 CombatDialog5(CDC *dc, CTask *task, Actor *p){
  U8 *eText;
  Bool freeText = FALSE;
 

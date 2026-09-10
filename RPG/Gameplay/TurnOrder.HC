@@ -61,11 +61,6 @@ U0 CTPProgress()
 
 U0 SetCombatStage1()
 {
-PrintDevMessage(MStrPrint(
- "SetCombatStage1 caller actor=%d stage=%d sel=%d",
- ctp->ready->id,
- mc->combatMenuStage,
- mc->combatMenuSelection));
  mc->turnIndex = 1;
  mc->combatMenuStage = STAGE_1;
  mc->combatMenuSelection = CMS_ENE1;
