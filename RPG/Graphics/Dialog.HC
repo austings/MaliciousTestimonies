@@ -398,20 +398,58 @@ U0 CombatDialog4(CDC *dc, CTask *task, Actor *p){
  Free(eText);
 
 }
-
-U0 CombatDialog5(CDC *dc, CTask *task, Actor *p){
+U0 CombatDialog5(CDC *dc, CTask *task, Actor *p)
+{
  U8 *eText;
  Bool freeText = FALSE;
+ CombatTurn *nextTurn;
 
+ if(!HasLivingEnemies())
+ {
+  eText = "You are victorious!";
+ }
+ else
+ {
+  nextTurn = ctp->next;
+
+  if(nextTurn == &combatCQue)
+   nextTurn = combatCQue.next;
+
+  if(nextTurn->ready->id == mc->localPlayerId)
+  {
+   eText = "Your turn!";
+  }
+  else
+  {
+   eText = MStrPrint(
+    "%s's turn!",
+    nextTurn->ready->name
+   );
+   freeText = TRUE;
+  }
+ }
+
+ dc->color = BLACK;
+ Sprite3B(dc,0,DIALOG_BOX_Y,0,GetDialogBox);
+ PrintLine(dc,eText,12,385,2);
+
+ if(freeText)
+  Free(eText);
+}
+
+U0 CombatDialog5old(CDC *dc, CTask *task, Actor *p){
+ U8 *eText;
+ Bool freeText = FALSE;
  if(!HasLivingEnemies())
   eText = "You are victorious!";
  else
  {
-  if(!StrCmp(ctp->ready->name,p->name))
+  if(ctp->ready->id==p->id){
    eText = "Your turn!";
-  else
-  {
-   eText = MStrPrint("%s's turn!", ctp->ready->name);
+  }
+  else{
+   CombatTurn *ctpL = ctp->last;
+   eText = MStrPrint("%s's turn!", ctpL->ready->name);
    freeText = TRUE;
   }
  }
