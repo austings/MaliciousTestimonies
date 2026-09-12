@@ -4,6 +4,7 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl){
  DCFill(completeActor, TRANSPARENT);
 
  switch(a->status1){
+  case DYNG_STATUS:
   case DEAD_STATUS:
    DrawDead(completeActor,a);
    return completeActor;

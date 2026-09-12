@@ -610,44 +610,64 @@ U0 CheckAnimQueue(CDC *dc,I64 y,I64 ty){
   }                 
  }                     
 }                   
-                  
-U0 DrawDead(CDC *dc, Actor *a){
 
+
+U0 DrawDead(CDC *dc, Actor *a)
+{
  I64 directive = T1DIE;
  CDC *frame;
- switch(a->face){
-  start:
-    case T_JUDA:
-     directive = T1DIE;
-     frame = AAE114;  
-    break;
-    case T_LEVI:
-     directive = T2DIE;
-     frame = AAE167;
-    break;
-    case T_EPHR:
-     directive = T3DIE;
-     frame = AAE6;
-    break;
-    case T_BENJ:
-     directive = T4DIE;
-     frame = AAE60;
-    break;
-  end:
-   if(!HasDirective(directive,a)){
-    AddDirective(directive,a);
-   }
-  break;
- }
 
  switch(a->face){
-  case T_JUDA...T_BENJ:
-   GrBlot3(dc,0,32,10,frame);  
+  case T_JUDA:
+   directive = T1DIE;
+   frame = AAE114;
   break;
+
+  case T_LEVI:
+   directive = T2DIE;
+   frame = AAE167;
+  break;
+
+  case T_EPHR:
+   directive = T3DIE;
+   frame = AAE6;
+  break;
+
+  case T_BENJ:
+   directive = T4DIE;
+   frame = AAE60;
+  break;
+
   case T_DOG:
    Sprite3B(dc,0,32,10,GetDog(TRUE));
-  break;
- } 
+   return;
+ }
+
+ // Start death animation once
+ if(!HasDirective(directive,a) &&
+    a->status1 != DEAD_STATUS)
+ {
+  AddDirective(directive,a);
+ }
+
+ // Animation finished: mark as permanently dead
+ if(a->status1 != DEAD_STATUS &&
+    DeathAnimationFinished(a))
+ {
+  AddStatus(a,DEAD_STATUS);
+  UpdateDirective(
+   directive,
+   a,
+   0, 0, 0,
+   TRUE
+  );
+ }
+
+ // Draw stable corpse after animation
+ if(a->status1 == DEAD_STATUS)
+ {
+  GrBlot3(dc,0,32,10,frame);
+ }
 }
 
 U8 GetWalkOffsetX(U8 walkdir){

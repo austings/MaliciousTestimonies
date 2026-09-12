@@ -165,8 +165,7 @@ Bool PlayerInAggroRange(Actor *player)
 
  return FALSE;
 }
-U0 SelectValidTarget()
-{
+U0 SelectValidTarget(){
  CombatTurn *cur = combatCQue.next;
  I64 index = 0;
 
@@ -176,19 +175,12 @@ U0 SelectValidTarget()
  mc->targetCTPIndex = 0;
 
  while(cur != &combatCQue){
-
   if(cur->ready &&
-     cur->ready->status1 != DEAD_STATUS &&
-     cur->ready->id != mc->localPlayerId)
-  {
+     (cur->ready->status1!=DEAD_STATUS ||cur->ready->status1!=DYNG_STATUS)&&
+     cur->ready->id != mc->localPlayerId) {
    targetCTP = cur;
    p->target = cur->ready;
    mc->targetCTPIndex = index;
-
-   PrintDevMessage(MStrPrint(
-    "SelectValidTarget: actor=%d",
-    cur->ready->id
-   ));
 
    return;
   }
@@ -211,7 +203,7 @@ U0 EndCombatTurn(I64 i, Actor *p){
   can free the CombatTurn node.
  */
  if(p->target &&
-    p->target->status1 == DEAD_STATUS)
+   ( p->target->status1 == DEAD_STATUS||p->target->status1==DYNG_STATUS))
  {
   p->target = NULL;
   targetCTP = NULL;

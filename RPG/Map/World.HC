@@ -71,6 +71,8 @@ U0 Stage0(Actor *p)
  }
 }
 
+//I64 i = iterable
+//Actor p = local player
 U0 Stage1(I64 i, Actor *p)
 {
  /*
@@ -88,7 +90,8 @@ U0 Stage1(I64 i, Actor *p)
  switch(mc->combatMenuSelection){
   case CMS_ENE1:
    mc->turnIndex++;
-   if(ctp->ready->status1 != DEAD_STATUS){
+   if(ctp->ready->status1 != DEAD_STATUS && ctp->ready->status1!=DYNG_STATUS){
+    ctp->ready->target = p;
     if(!HasDirective(ARCSTRIKE, ctp->ready)){
      AddDirective(ARCSTRIKE, ctp->ready);
      AddStatus(ctp->ready, ATTK_STATUS);
@@ -99,13 +102,16 @@ U0 Stage1(I64 i, Actor *p)
    }
   break;
   case CMS_ENE2:
-   
+   if(mc->turnIndex==1)
+   {
+    RemoveHealth(ctp->ready->target,ctp->ready->str);
    UpdateDirective(
     ARCSTRIKE,
     ctp->ready,
     0, 0, 0,
     TRUE
    );
+   }
    mc->turnIndex++;
    if(mc->turnIndex >= 6){
     EndCombatTurn(i, p);
@@ -125,7 +131,7 @@ I64 BuildEncounter(Actor *trigger, Actor **encounter){
   if(enemy == GetPlayer())
    goto nextEnemy;
 
-  if(enemy->status1 == DEAD_STATUS)
+  if(enemy->status1 == DEAD_STATUS ||enemy->status1==DYNG_STATUS)
    goto nextEnemy;
 
   if(enemy->ai_script != AI_DEFAULT)
@@ -171,7 +177,7 @@ U0 TickTile(I64 i, I64 j, Actor *p)
  if(trigger->ai_script != AI_DEFAULT)
   return;
 
- if(trigger->status1 == DEAD_STATUS)
+ if(trigger->status1 == DEAD_STATUS||trigger->status1==DYNG_STATUS)
   return;
 
  if(Abs(p->x - trigger->x) > AGGRO_DIS)

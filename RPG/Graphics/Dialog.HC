@@ -174,10 +174,10 @@ U0 MerchantMenu(CDC *dc, I64 selection){
 
  switch(selection)
  {
-  case CMS_MOVE:
+  case 0:
    Sprite3B(dc,238,DIALOG_BOX_Y-42,0,GetCross);
   break;
-  case CMS_STRIKE:
+  case 1:
    Sprite3B(dc,238,DIALOG_BOX_Y-20,0,GetCross);
   break; 
  }
@@ -263,7 +263,7 @@ U0 Chatbox(U8 *name, CDC *dc, CTask *task,U8 textID)
    currLetter++;
 
  if(MerchantList(textID))
-  MerchantMenu(dc,mc->combatMenuSelection);
+  MerchantMenu(dc,mc->dialogSelection);
  
  
  GetDialogMsg(textID);
@@ -382,7 +382,7 @@ U0 CombatDialog3(CDC *dc, CTask *task){
 U0 CombatDialog4(CDC *dc, CTask *task, Actor *p){
  U8 *prefix = "star";
  switch(ctp->ready->status1){
-  case DEAD_STATUS:
+  case DYNG_STATUS:
    prefix = "dy";
   break;
   default:

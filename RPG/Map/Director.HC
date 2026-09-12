@@ -16,7 +16,7 @@ class Director:CQue{
  I64 x, y, z, xAOff, yAOff,tileX,tileY; 
  //x/y/z to render; 
  //x/y armor frame Offset; 
- //hometile X/Y
+ //hometile X/Y
  Bool flip, isEffect;
  Actor *a;
 } direct;
@@ -53,3 +53,5 @@ Director *HasAnyDirective(Actor *a){
   return NULL;
  return task;
 }
+
+

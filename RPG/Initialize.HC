@@ -103,6 +103,7 @@ U0 InitMenuControl()
  mc->smoothScreenX = 0;
  mc->smoothScreenY = 0;
  mc->clip=FALSE;
+ mc->dialogSelection=0;
 
  //prayers
  mc->prayerPage=0;

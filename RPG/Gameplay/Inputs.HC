@@ -5,13 +5,13 @@ U0 KeyEnter(Actor *p, MapNode *puin)
  {DevKeyEnter(); }
  else if(MerchantList(mc->talkieScene)){
   switch(mc->combatMenuSelection){
-   case CMS_MOVE://move
+   case 0://trade
    //todo show tradewindow
     mc->talkieScene = IT_NULL;
     mc->lootedSwitch = TRUE;
     mc->lootInv = GetNPC(mc->dialogID)->myInv;
     break;
-   case CMS_STRIKE://strike
+   case 1://close
     mc->talkieScene = IT_NULL; 
     break;
   }
@@ -130,6 +130,10 @@ U0 AdvanceEnemyTurn(){
 }
 
 U0 AnyKey(){
+ if(mc->dialogSelection)
+  mc->dialogSelection=0;
+ else
+  mc->dialogSelection=1;
  return; //skip
  if(mc->combatMenuStage != STAGE_1)
   return;

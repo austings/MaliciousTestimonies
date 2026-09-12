@@ -26,6 +26,7 @@
 #define DEAD_STATUS 1
 #define WADE_STATUS 2
 #define ATTK_STATUS 3
+#define DYNG_STATUS 4
 
 //Animations
 #define T1FISH 0//"T1Fish"

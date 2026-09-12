@@ -185,7 +185,7 @@ Bool UpdateDirective(I64 directive,Actor *p,
   if(task->cQueDirective==directive){
    if(task->a->id==p->id&&
      ((task->tileX==tX&&task->tileY==tY)||tX==DELIMITER)){
-    if(p->status1==DEAD_STATUS||explicitRemoval){ //update if actor dies mid animate
+    if(p->status1==DEAD_STATUS||p->status1==DYNG_STATUS||explicitRemoval){ //update if actor dies mid animate
      ResetDirective(task);
      return FALSE;
     }
@@ -241,7 +241,7 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
    }else{
     SetActorDir(p,DIR_LEFT);
    }
-  }
+  }
   break;
   case T1EFFHEAL:
   case EFFFISH:
@@ -263,4 +263,23 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
  if(!isEffect) 
   p->visible=FALSE;
 
+}
+
+Bool DeathAnimationFinished(Actor *a){
+ Director *task = FindDirective(a);
+
+ if(task == NULL)
+  return FALSE;
+
+ switch(task->cQueDirective){
+  case T1DIE:
+  case T2DIE:
+  case T3DIE:
+  case T4DIE:
+   if(task->animIndex >= 7)
+    return TRUE;
+  break;
+ }
+
+ return FALSE;
 }

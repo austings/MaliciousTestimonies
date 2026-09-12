@@ -131,7 +131,7 @@ class MenuControl{
   I64 cutsceneTimer,cutsceneIndex;
 
   //Dialog
-  I64 talkieScene,dialogID;//textID,actorID
+  I64 talkieScene,dialogID,dialogSelection;//textID,actorID
   U8* dialogName;//dialog actor name
 
   //Looting

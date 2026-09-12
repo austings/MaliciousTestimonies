@@ -78,7 +78,7 @@ U0 RemoveDeadCombatants(){
  I64 i;
  for(i = 0; i < count; i++) {
   CombatTurn *next = cur->next;
-  if(cur->ready->status1 == DEAD_STATUS){
+  if(cur->ready->status1==DYNG_STATUS|| cur->ready->status1 == DEAD_STATUS){
    if(cur == ctp){
     ctp = next;
     if(ctp == &combatCQue)

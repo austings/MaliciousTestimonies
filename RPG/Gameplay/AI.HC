@@ -23,24 +23,20 @@ Bool HasStatus(Actor *a, U16 statusCode)
  return FALSE;
 }
 
-U0 AddStatus(Actor *a,U16 statusCode)
-{
+U0 AddStatus(Actor *a,U16 statusCode){
  switch(a->status1){
   case NRML_STATUS:
    a->status1 = statusCode;
   break;
+  case DYNG_STATUS:
   case DEAD_STATUS:
-   a->status2 = statusCode;
+   a->status1 = statusCode;
   break;  
   case WADE_STATUS:
   case ATTK_STATUS:
    a->status1= statusCode;
   break;
-
-  
-
  }
-
 }
 
 U0 ScreenToWorldTile(I64 M_X, I64 M_Y, I64 *tx, I64 *ty)
