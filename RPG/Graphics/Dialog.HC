@@ -381,13 +381,10 @@ U0 CombatDialog3(CDC *dc, CTask *task){
 //Enemy attack     
 U0 CombatDialog4(CDC *dc, CTask *task, Actor *p){
  U8 *prefix = "star";
- switch(ctp->ready->status1){
-  case DYNG_STATUS:
+ if(HasStatus(ctp->ready, LIFE_DYING)){
    prefix = "dy";
-  break;
-  default:
+ }else{
    prefix = "attack";
-  break;
  }
  U8 *action = MStrPrint(" is %sing!",prefix);
  U8 *eText = MStrPrint("%s%s",ctp->ready->name,action);

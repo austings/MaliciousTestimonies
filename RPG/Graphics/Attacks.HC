@@ -32,6 +32,7 @@ I64 GetCTPIndexFromActor(Actor *a)
  return -1; // not found (shouldnt happen)
 }
 
+
 Bool CheckTarget(Actor *toRender, I64 mouseX, I64 mouseY)
 {
  Bool highlight = FALSE;
@@ -91,4 +92,53 @@ U0 PlayStrikeAnim(Actor *p){
  }
 
  AddDirective(anim,p); 
+}
+
+U0 HandleDeathScreen(CDC *dc)
+{
+ Actor *p = GetPlayer;
+
+ if(!p)
+  return;
+
+ // Start death screen timer once
+ if(!deathScreenActive &&
+    (HasStatus(p,LIFE_DYING) ||
+     HasStatus(p,LIFE_DEAD)))
+ {
+  //CombatQueFree();
+  mc->combatON = FALSE;
+  mc->combatMenuStage = STAGE_0;
+
+  deathScreenActive = TRUE;
+  deathScreenShown = FALSE;
+  deathScreenStart = tS();
+ }
+
+ if(!deathScreenActive)
+  return;
+
+ // Wait 3 seconds after death
+ if(!deathScreenShown &&
+    tS() >= deathScreenStart + 3.0)
+ {
+  deathScreenShown = TRUE;
+ }
+
+ if(deathScreenShown)
+ {
+  GrBlot3(
+   dc,
+   0,
+   0,
+   0,
+   DIESCREEN
+  );
+
+  // Quit seconds after death screen appears
+  if(tS() >= deathScreenStart + 7.0)
+  {
+   Quit();
+  }
+ }
 }

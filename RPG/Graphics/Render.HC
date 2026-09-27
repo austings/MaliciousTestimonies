@@ -3,13 +3,9 @@ CDC *GetActorAnimationJob(Actor *a,I64 wlvl){
  CDC *completeActor = DCNew(500,500);
  DCFill(completeActor, TRANSPARENT);
 
- switch(a->status1){
-  case DYNG_STATUS:
-  case DEAD_STATUS:
+ if(HasStatus(a,LIFE_DEAD)||HasStatus(a,LIFE_DYING)){
    DrawDead(completeActor,a);
    return completeActor;
-  default:
-  break;
  }
  switch(a->face){
    case T_JUDA...T_BENJ:
@@ -151,7 +147,7 @@ U0 CombatQueInit(Actor **enemies,I64 count)
  QueIns(ctn,combatCQue.last);
 
  for(i=0;i<count;i++){
-  if(enemies[i]->status1==DEAD_STATUS)
+  if(HasStatus(enemies[i],LIFE_DYING)||HasStatus(enemies[i],LIFE_DEAD))
    goto skipcount;
 
   ctn=CAlloc(sizeof(CombatTurn));

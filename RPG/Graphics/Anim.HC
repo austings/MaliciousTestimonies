@@ -642,32 +642,35 @@ U0 DrawDead(CDC *dc, Actor *a)
    Sprite3B(dc,0,32,10,GetDog(TRUE));
    return;
  }
-
- // Start death animation once
- if(!HasDirective(directive,a) &&
-    a->status1 != DEAD_STATUS)
+ // Draw stable corpse after animation
+ if(HasStatus(a, LIFE_DEAD))
  {
-  AddDirective(directive,a);
+  GrBlot3(dc,0,32,100,frame);
+  return;
  }
 
  // Animation finished: mark as permanently dead
- if(a->status1 != DEAD_STATUS &&
+ if(!HasStatus(a, LIFE_DEAD) &&
     DeathAnimationFinished(a))
  {
-  AddStatus(a,DEAD_STATUS);
+  AddStatus(a,LIFE_DEAD);
   UpdateDirective(
    directive,
    a,
    0, 0, 0,
    TRUE
   );
+  return;
  }
 
- // Draw stable corpse after animation
- if(a->status1 == DEAD_STATUS)
+ // Start death animation once
+ if(!HasDirective(directive,a) &&
+    HasStatus(a, LIFE_DYING))
  {
-  GrBlot3(dc,0,32,10,frame);
+  AddDirective(directive,a);
  }
+
+
 }
 
 U8 GetWalkOffsetX(U8 walkdir){

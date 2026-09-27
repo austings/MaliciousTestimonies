@@ -90,11 +90,11 @@ U0 Stage1(I64 i, Actor *p)
  switch(mc->combatMenuSelection){
   case CMS_ENE1:
    mc->turnIndex++;
-   if(ctp->ready->status1 != DEAD_STATUS && ctp->ready->status1!=DYNG_STATUS){
+   if(!HasStatus(ctp->ready,LIFE_DEAD) && !HasStatus(ctp->ready,LIFE_DYING)){
     ctp->ready->target = p;
     if(!HasDirective(ARCSTRIKE, ctp->ready)){
      AddDirective(ARCSTRIKE, ctp->ready);
-     AddStatus(ctp->ready, ATTK_STATUS);
+     AddStatus(ctp->ready, MOVE_ATTACK);
     }
    }
    if(mc->turnIndex >= 6){
@@ -131,7 +131,7 @@ I64 BuildEncounter(Actor *trigger, Actor **encounter){
   if(enemy == GetPlayer())
    goto nextEnemy;
 
-  if(enemy->status1 == DEAD_STATUS ||enemy->status1==DYNG_STATUS)
+  if(HasStatus(enemy,LIFE_DEAD) ||HasStatus(enemy,LIFE_DYING))
    goto nextEnemy;
 
   if(enemy->ai_script != AI_DEFAULT)
@@ -177,7 +177,7 @@ U0 TickTile(I64 i, I64 j, Actor *p)
  if(trigger->ai_script != AI_DEFAULT)
   return;
 
- if(trigger->status1 == DEAD_STATUS||trigger->status1==DYNG_STATUS)
+ if(HasStatus(trigger,LIFE_DEAD)||HasStatus(trigger,LIFE_DYING))
   return;
 
  if(Abs(p->x - trigger->x) > AGGRO_DIS)
@@ -189,7 +189,7 @@ U0 TickTile(I64 i, I64 j, Actor *p)
  Actor *encounter[MAX_ENCOUNTER];
  I64 count = BuildEncounter(trigger, encounter);
 
- if(count > 0)
+ if(count > 0 && p->currentHealth>0)
   CombatQueInit(encounter, count);
 }
 
@@ -337,10 +337,10 @@ U0 WorldTick(I64 i, I64 j, Actor *p){
    }
   }
  }
-
  mc->tickWeather++;
  if(mc->tickWeather>W_T)
   mc->tickWeather=0;
+ 
 }
  
 

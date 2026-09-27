@@ -11,59 +11,36 @@
 
 
 //StatusEffects
-
-Bool HasStatus(Actor *a, U16 statusCode)
-{
- if(a->status1 == statusCode)
- {
-  return TRUE;
- }else if(a->status2 == statusCode) {
-  return TRUE;
- }
- return FALSE;
+Bool HasStatus(Actor *a, U64 status){
+ return (a->statuses & status) != 0;
 }
 
-U0 AddStatus(Actor *a,U16 statusCode){
- switch(a->status1){
-  case NRML_STATUS:
-   a->status1 = statusCode;
-  break;
-  case DYNG_STATUS:
-  case DEAD_STATUS:
-   a->status1 = statusCode;
-  break;  
-  case WADE_STATUS:
-  case ATTK_STATUS:
-   a->status1= statusCode;
-  break;
- }
+U0 AddStatus(Actor *a, U64 status){
+ a->statuses |= status;
 }
 
-U0 ScreenToWorldTile(I64 M_X, I64 M_Y, I64 *tx, I64 *ty)
-{
+U0 RemoveStatus(Actor *a, U64 status){
+ a->statuses &= ~status;
+}
+
+U0 ScreenToWorldTile(I64 M_X,I64 M_Y,I64 *tx, I64 *ty){
  *tx = camera->topLR + ((M_X - camera->cameraOffSetX) / camera->dividX);
  *ty = camera->topUD + ((M_Y - camera->cameraOffSetY) / camera->dividY);
 }
 
-
-U0 IndicatorText(I64 realX, I64 realY, I64 magnitude, U8* currency)
-{
+U0 IndicatorText(I64 realX,I64 realY,I64 magnitude, U8* currency){
   U8* indicator = "+";
   if(magnitude<1)
    indicator = MStrPrint("-%d%s",Abs(magnitude),currency);
   else 
-    indicator= MStrPrint("%s%d%s",indicator,magnitude,currency);
+   indicator= MStrPrint("%s%d%s",indicator,magnitude,currency);
   
   I64 i  =0 ;
 //  PrintLine(dc,indicator,realX,realY);
 
 }
 
-
-
-
-I64 Heuristic(I64 x1, I64 y1, I64 x2, I64 y2)
-{
+I64 Heuristic(I64 x1, I64 y1, I64 x2, I64 y2){
  // Manhattan distance for 4-dir grid
  return AbsI64(x1 - x2) + AbsI64(y1 - y2);
 }

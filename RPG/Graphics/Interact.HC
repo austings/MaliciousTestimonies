@@ -62,13 +62,13 @@ U0 InteractCorpse(I64 npc){
 //param npc- the npc id of the actor player is interacting with
 U0 InteractActor(I64 npc){
  Actor *aAtLoc= GetNPC(npc);
- if(aAtLoc->ai_script==1&&aAtLoc->status1!=DEAD_STATUS) {//combat
+ if(aAtLoc->ai_script==1&&!HasStatus(aAtLoc, LIFE_DEAD)) {//combat
   mc->combatON=TRUE;
  }
  else{
   mc->dialogName = aAtLoc->name;
   mc->dialogID = npc;  
-  if(aAtLoc->status1==DEAD_STATUS){
+  if(HasStatus(aAtLoc, LIFE_DEAD)){
    InteractCorpse(npc);
   }
   else
@@ -180,6 +180,7 @@ Bool InteractTile(Actor *p, U8 dir,
 //actors with anim
 //use move actor on the new dir to move
 Bool MoveActor(Actor *p, U8 dir){
+ if(p->currentHealth>0){
  switch(dir){
   case DIR_LEFT://left
    return InteractTile(p,dir,leftXOff,0,
@@ -197,6 +198,6 @@ Bool MoveActor(Actor *p, U8 dir){
    return InteractTile(p,dir,0,downYOff,
                 downSubFrame,downFrame);
   break;
- }
+ }}
  return FALSE;
 }

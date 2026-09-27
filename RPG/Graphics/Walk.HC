@@ -185,7 +185,7 @@ Bool UpdateDirective(I64 directive,Actor *p,
   if(task->cQueDirective==directive){
    if(task->a->id==p->id&&
      ((task->tileX==tX&&task->tileY==tY)||tX==DELIMITER)){
-    if(p->status1==DEAD_STATUS||p->status1==DYNG_STATUS||explicitRemoval){ //update if actor dies mid animate
+    if(HasStatus(p,LIFE_DEAD)||HasStatus(p,LIFE_DYING)||explicitRemoval){ //update if actor dies mid animate
      ResetDirective(task);
      return FALSE;
     }

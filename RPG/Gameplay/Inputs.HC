@@ -114,7 +114,7 @@ U0 AdvanceEnemyTurn(){
  switch(mc->combatMenuSelection){
   case CMS_ENE1:
    mc->combatMenuSelection = CMS_ENE2;
-   if(HasStatus(ctp->ready, ATTK_STATUS) &&
+   if(HasStatus(ctp->ready, MOVE_ATTACK) &&
       ctp->ready->id != mc->localPlayerId){
     mc->turnIndex = 0;
    }

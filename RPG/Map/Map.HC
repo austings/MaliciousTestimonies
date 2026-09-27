@@ -56,7 +56,7 @@ static CDC*             ITEM6IP= FramePtr("CLOT012P");
 
 #define IT_BULB 	7
 static CDC*		ITEM7=DCNew(100,100); //poppy bulb
-static CDC*		ITEM7I=DCNew(100,100);
+static CDC*		ITEM7I=DCNew(100,100);
 
 #define IT_POT	 	8
 static CDC*		ITEM8=DCNew(100,100); 
@@ -104,6 +104,14 @@ static CDC*		SPECIAL2 = FramePtr("EFF076");
 static CDC*             ITEM048 = FramePtr("ITEM048");//boots
 static CDC*             ITEM142 = FramePtr("ITEM142");//up sign
 
+//death
+static CDC*		DIESCREEN=FramePtr("DIET");
+#define DEATH_SCREEN_DELAY 3
+#define DEATH_SCREEN_TIME  2
+
+I64 deathScreenStart = 0;
+Bool deathScreenActive = FALSE;
+Bool deathScreenShown = FALSE;
 
 //prayers
 #define SP_HEAL	0
@@ -140,6 +148,11 @@ class ItemTemplate {
   CDC *img;            // world/equipped sprite
   F64 blotSX, blotSY;  // world render scale
   I16 blotXOff, blotYOff; // world render offsets
+
+  I16 hp_bonus, sp_bonus;
+  I16 str_bonus, con_bonus;
+  I16 int_bonus, wis_bonus;
+  I16 min_range,max_range;
 };
 
 // defaults used in old BlotItem
@@ -164,7 +177,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     0, FALSE,
     1,1, 0,0,
     NULL,NULL,NULL,
-    NULL, 1.0,1.0, BLOT_X_DEFAULT,BLOT_Y_DEFAULT
+    NULL, 1.0,1.0, BLOT_X_DEFAULT,BLOT_Y_DEFAULT,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_FIST,
@@ -173,7 +190,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     0, FALSE,
     1,1, 0,0,
     NULL,NULL,NULL,
-    NULL, 1.0,1.0, BLOT_X_DEFAULT,BLOT_Y_DEFAULT // no sprite (unarmed)
+    NULL, 1.0,1.0, BLOT_X_DEFAULT,BLOT_Y_DEFAULT, // no sprite (unarmed)
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
 
   // Dagger
@@ -184,7 +205,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     7, FALSE,
     1,2, 20,50,      // inventory size/ground offset
     "STR+2", NULL, NULL,
-    ITEM1I, 1.0,1.0, 4, BLOT_Y_DEFAULT
+    ITEM1I, 1.0,1.0, 4, BLOT_Y_DEFAULT,
+    0,0,
+    2,0,
+    0,0,
+    0,1
   },
 
   // Harpoon
@@ -195,7 +220,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     12, FALSE,
     1,3, 25,15,// inventory size/ground offset
     "STR+1", "CON+1", "Fishing Tool",
-    ITEM2I, 1.0,1.0, BLOT_X_DEFAULT, 302
+    ITEM2I, 1.0,1.0, BLOT_X_DEFAULT, 302,
+    0,0,
+    1,1,
+    0,0,
+    1,3
   },
 
   // Wolf fang
@@ -206,7 +235,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     2, FALSE,
     1,1, 0,0,// inventory size/ground offset
     NULL,NULL,NULL,
-    ITEM3I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT
+    ITEM3I, 1.0,1.0, BLOT_X_DEFAULT, BLOT_Y_DEFAULT,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
 
   // Raw Carp
@@ -217,7 +250,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     1, TRUE,
     1,2, 0,32,// inventory size/ground offset
     "SP+10", "Ingredient", NULL,
-    ITEM4I, 1.0,1.0, BLOT_X_DEFAULT, 312
+    ITEM4I, 1.0,1.0, BLOT_X_DEFAULT, 312,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
 
   // Iron Helm
@@ -228,7 +265,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     25, FALSE,
     2,2, 0,32,// inventory size/ground offset
     "CON+1", "HP+10", "WIS-1",
-    ITEM5I, 0.5,0.5, 8,312
+    ITEM5I, 0.5,0.5, 8,312,
+    10,0,
+    0,1,
+    0,-1,
+    0,0
   },
 
   // Tunics (Brown / R / G / B / P) – all share same blot scale/ground offset
@@ -239,7 +280,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     5, FALSE,
     2,3, 0,32,// inventory size/ground offset
     "HP+10", "SP+10", NULL,
-    ITEM6I, 0.9,0.9, BLOT_X_DEFAULT-2, 312
+    ITEM6I, 0.9,0.9, BLOT_X_DEFAULT-2, 312,
+    10,10,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_SHIRTR,
@@ -248,7 +293,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     60, FALSE,
     2,3, 0,32,
     "HP+10", "SP+10", NULL,
-    ITEM6IR, 0.9,0.9, BLOT_X_DEFAULT-2, 312
+    ITEM6IR, 0.9,0.9, BLOT_X_DEFAULT-2, 312,
+    10,10,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_SHIRTG,
@@ -257,7 +306,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     10, FALSE,
     2,3, 0,32,
     "HP+10", "SP+10", NULL,
-    ITEM6IG, 0.9,0.9, BLOT_X_DEFAULT-2, 312
+    ITEM6IG, 0.9,0.9, BLOT_X_DEFAULT-2, 312,
+    10,10,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_SHIRTB,
@@ -266,7 +319,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     15, FALSE,
     2,3, 0,32,
     "HP+10", "SP+10", NULL,
-    ITEM6IB, 0.9,0.9, BLOT_X_DEFAULT-2, 312
+    ITEM6IB, 0.9,0.9, BLOT_X_DEFAULT-2, 312,
+    10,10,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_SHIRTP,
@@ -275,7 +332,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     1500, FALSE,
     2,3, 0,32,// inventory size/ground offset
     "HP+10", "SP+10", NULL,
-    ITEM6IP, 0.9,0.9, BLOT_X_DEFAULT-2, 312
+    ITEM6IP, 0.9,0.9, BLOT_X_DEFAULT-2, 312,
+    10,10,
+    0,0,
+    0,0,
+    0,0
   },
 
   // Poppy Bulb
@@ -286,7 +347,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     1, FALSE,
     1,1, 0,32,
     "Alchemy Ingredient", NULL, NULL,
-    ITEM7I, 1.0,1.0, BLOT_X_DEFAULT, 300
+    ITEM7I, 1.0,1.0, BLOT_X_DEFAULT, 300,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
 
   // Pots
@@ -297,7 +362,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     1, FALSE,
     2,2, 10,50,
     "Crafting Reagent", NULL, NULL,
-    ITEM8I, 1.0,1.0, 12,315
+    ITEM8I, 1.0,1.0, 12,315,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_WPOT,
@@ -306,7 +375,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     1, FALSE,
     2,2, 10,50,// inventory size/ground offset
     "Crafting Reagent", NULL, NULL,
-    ITEM9I, 1.0,1.0, 12,315
+    ITEM9I, 1.0,1.0, 12,315,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_HPPOT,
@@ -315,7 +388,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     4, TRUE,
     2,2, 10,50,
     "HP+25", NULL, NULL,
-    ITEM10I, 1.0,1.0, 12,315
+    ITEM10I, 1.0,1.0, 12,315,
+    25,0,
+    0,0,
+    0,0,
+    0,0
   },
 
   // Coins
@@ -326,7 +403,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     1, FALSE,
     1,1, 0,32,// inventory size/ground offset
     NULL,NULL,NULL,
-    ITEM16, 1.0,1.0, BLOT_X_DEFAULT, 296
+    ITEM16, 1.0,1.0, BLOT_X_DEFAULT, 296,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_SHEKEL2,
@@ -335,7 +416,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     2, FALSE,
     1,1, 0,32,
     NULL,NULL,NULL,
-    ITEM17, 1.0,1.0, BLOT_X_DEFAULT, 298
+    ITEM17, 1.0,1.0, BLOT_X_DEFAULT, 298,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_SHEKEL10,
@@ -344,7 +429,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     10, FALSE,
     2,1, 0,32,
     NULL,NULL,NULL,
-    ITEM18, 1.0,1.0, 24,296
+    ITEM18, 1.0,1.0, 24,296,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
   {
     IT_SHEKEL100,
@@ -353,7 +442,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     100, FALSE,
     2,2, 0,32,
     NULL,NULL,NULL,
-    ITEM19, 1.2,1.2, 16,308
+    ITEM19, 1.2,1.2, 16,308,
+    0,0,
+    0,0,
+    0,0,
+    0,0
   },
 
   // Bronze Sword
@@ -364,7 +457,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     25, FALSE,
     1,2, 25,15,// inventory size/ground offset
     "STR+2", "CON+1", NULL,
-    ITEM20I, 1.0,1.0, 4, BLOT_Y_DEFAULT
+    ITEM20I, 1.0,1.0, 4, BLOT_Y_DEFAULT,
+    0,0,
+    2,1,
+    0,0,
+    0,2
   },
 
   // Hammer
@@ -375,7 +472,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     35, FALSE,
     1,3, 25,15,// inventory size/ground offset
     "STR+3", NULL, NULL,
-    ITEM21I, 1.0,1.0, 4, BLOT_Y_DEFAULT
+    ITEM21I, 1.0,1.0, 4, BLOT_Y_DEFAULT,
+    0,0,
+    3,0,
+    0,0,
+    0,1
   },
 
   // Hatchet
@@ -386,7 +487,11 @@ static ItemTemplate ItemTemplates[TOTALITEMS] = {
     20, FALSE,
     1,2, 25,15,
     "STR+1", "CON+2", NULL,
-    ITEM22I, 1.0,1.0, 4, BLOT_Y_DEFAULT
+    ITEM22I, 1.0,1.0, 4, BLOT_Y_DEFAULT,
+    0,0,
+    1,2,
+    0,0,
+    0,1
   },
 };
 
@@ -414,6 +519,11 @@ class Item:CQue
   F64 blotSX, blotSY; // scale for world/equipped render
   I16 blotXOff;       // world/equipped x offset (BlotItems xoff)
   I16 blotYOff;       // world/equipped y offset (BlotItems yoff)
+
+  I16 hp_bonus, sp_bonus;
+  I16 str_bonus, con_bonus;
+  I16 int_bonus, wis_bonus;
+  I16 min_range,max_range;
 };
 
 class ItemNode

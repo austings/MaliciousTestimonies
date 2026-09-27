@@ -26,9 +26,7 @@ class Actor:CQue{
   Bool isRemotePlayer;
   I64 netId;
 
-  U16 status1,
-      //volatile
-      status2,status3,
+  U64 statuses,
       ai_script,dir,walking,
       walkingSubFrame,clock;
 
@@ -86,10 +84,8 @@ U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  me->con=con;
  me->wis=wis;
  me->ai_script=ai;
- me->status1=NRML_STATUS;
- me->status2=NRML_STATUS;
- me->status3=NRML_STATUS;
- SetActorDir(me,DIR_DOWN);
+ me->statuses=LIFE_NORMAL;
+ SetActorDir(me,DIR_DOWN);
  me->screenX = 0;
  me->screenY = 0;
  me->visible = TRUE;

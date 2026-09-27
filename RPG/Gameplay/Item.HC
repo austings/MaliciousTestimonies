@@ -21,7 +21,7 @@ Item *MakeItem(I64 id){
  // lookup template  
  for(i=0; i<TOTALITEMS;++i) {
   if(ItemTemplates[i].id == id) {
-   ItemTemplate *t = &ItemTemplates[i];
+   ItemTemplate *t = &ItemTemplates[i];
 
    build->name       = t->name;
    build->equip_slot = t->equip_slot;
@@ -42,6 +42,17 @@ Item *MakeItem(I64 id){
    build->blotSY     = t->blotSY;
    build->blotXOff   = t->blotXOff;
    build->blotYOff   = t->blotYOff;
+
+   build->hp_bonus  = t->hp_bonus;
+   build->sp_bonus  = t->sp_bonus;
+
+   build->str_bonus  = t->str_bonus;
+   build->con_bonus  = t->con_bonus;
+   build->int_bonus  = t->int_bonus;
+   build->wis_bonus  = t->wis_bonus;
+
+   build->min_range  = t->min_range;
+   build->max_range  = t->max_range;
    break;
   }
  }

@@ -71,18 +71,23 @@ Bool HasLivingEnemies(){
  return QueCnt(combatCQue) > 1;
 }
 
-
 U0 RemoveDeadCombatants(){
  CombatTurn *cur = combatCQue.next;
  I64 count = QueCnt(combatCQue);
  I64 i;
  for(i = 0; i < count; i++) {
   CombatTurn *next = cur->next;
-  if(cur->ready->status1==DYNG_STATUS|| cur->ready->status1 == DEAD_STATUS){
-   if(cur == ctp){
+  if(HasStatus(cur->ready, LIFE_DYING) ||
+     HasStatus(cur->ready, LIFE_DEAD))
+  {
+   if(cur == ctp) {
     ctp = next;
     if(ctp == &combatCQue)
      ctp = combatCQue.next;
+   }
+   if(cur == targetCTP) {
+    targetCTP = NULL;
+    mc->targetCTPIndex = 0;
    }
    QueRem(cur);
    Free(cur);

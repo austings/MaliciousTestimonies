@@ -22,11 +22,16 @@
 #define SV_MISS_FISH_EQUIP      7001
 
 //Status Effects
-#define NRML_STATUS 0
-#define DEAD_STATUS 1
-#define WADE_STATUS 2
-#define ATTK_STATUS 3
-#define DYNG_STATUS 4
+#define LIFE_NORMAL   (1 << 0)
+#define LIFE_DYING    (1 << 1)
+#define LIFE_DEAD     (1 << 2)
+#define MOVE_NORMAL   (1 << 3)
+#define MOVE_SWIM     (1 << 4)
+#define MOVE_ATTACK   (1 << 5)
+#define EFFECT_NONE   (1 << 6)
+#define EFFECT_POISON (1 << 7)
+#define EFFECT_BURN   (1 << 8)
+#define EFFECT_STUN   (1 << 9)
 
 //Animations
 #define T1FISH 0//"T1Fish"

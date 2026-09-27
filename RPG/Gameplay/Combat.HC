@@ -171,12 +171,12 @@ U0 SelectValidTarget(){
 
  targetCTP = NULL;
  Actor *p = GetPlayer;
- p->target = NULL;
+ p->target = GetPlayer;
  mc->targetCTPIndex = 0;
 
  while(cur != &combatCQue){
   if(cur->ready &&
-     (cur->ready->status1!=DEAD_STATUS ||cur->ready->status1!=DYNG_STATUS)&&
+     !HasStatus(cur->ready,LIFE_DEAD) && !HasStatus(cur->ready,LIFE_DYING)&&
      cur->ready->id != mc->localPlayerId) {
    targetCTP = cur;
    p->target = cur->ready;
@@ -203,9 +203,9 @@ U0 EndCombatTurn(I64 i, Actor *p){
   can free the CombatTurn node.
  */
  if(p->target &&
-   ( p->target->status1 == DEAD_STATUS||p->target->status1==DYNG_STATUS))
+   !HasStatus(p->target, LIFE_DEAD)&&!HasStatus(p->target,LIFE_DYING))
  {
-  p->target = NULL;
+  p->target = GetPlayer;
   targetCTP = NULL;
   mc->targetCTPIndex = 0;
  }

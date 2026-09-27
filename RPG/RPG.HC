@@ -58,6 +58,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    CombatDialog2Hover(camera->cursorX,camera->cursorY);
    CombatDialog3Hover(camera->cursorX,camera->cursorY);
    ShowToolTips(dc);
+   HandleDeathScreen(dc);
    
   break;
   //character select

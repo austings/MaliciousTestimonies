@@ -52,7 +52,7 @@ U0 RemoveHealth(Actor *a, I64 magnitude){
    Actor *p = GetPlayer;
    CalculateExp(p, a);
   }
-  AddStatus(a, DYNG_STATUS);
+  AddStatus(a, LIFE_DYING);
  }else{
   a->currentHealth -= magnitude;
   if(a->currentHealth > a->health)
