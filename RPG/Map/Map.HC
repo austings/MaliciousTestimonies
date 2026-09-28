@@ -104,7 +104,8 @@ static CDC*		SPECIAL2 = FramePtr("EFF076");
 static CDC*             ITEM048 = FramePtr("ITEM048");//boots
 static CDC*             ITEM142 = FramePtr("ITEM142");//up sign
 
-//death
+//titles
+static CDC*		MENUSCREEN=FramePtr("TWILIGHT");
 static CDC*		DIESCREEN=FramePtr("DIET");
 #define DEATH_SCREEN_DELAY 3
 #define DEATH_SCREEN_TIME  2

@@ -76,12 +76,12 @@ I64 MainMenuControls(I64 arg1, I64 arg2, I64 msg_code){
      }
     }
     // music toggle
-    else if(InRect(camera->cursorX, camera->cursorY, 494, 250, 549, 310))
+    else if(InRect(camera->cursorX, camera->cursorY, 494, 350, 549, 410))
     {
      mc->musicMuted = !mc->musicMuted;
     }
     // fx toggle
-    else if(InRect(camera->cursorX, camera->cursorY, 550, 250, 610, 310))
+    else if(InRect(camera->cursorX, camera->cursorY, 550, 350, 610, 410))
     {
      mc->fxMuted = !mc->fxMuted;
     }
@@ -153,9 +153,9 @@ U0 MainMenu(CDC *dc, CTask *task)
  GrLine3(dc,0, 240, 0, 640, 240, 0);
   
  GrFloodFill(dc,15,15,FALSE,0,0);
- dc->color = GREEN;
+ dc->color = YELLOW;
  GrFloodFill(dc,15,300,FALSE,0,0);
- 
+ GrBlot3(dc,0,0,10,MENUSCREEN);
  GrBlot3(dc,84,32,10,CDCTITLE);
  
  Sprite3B(dc,220,250,10,GetButton(MENU_MENUBOX));
@@ -163,16 +163,16 @@ U0 MainMenu(CDC *dc, CTask *task)
  Sprite3B(dc,220,350,10,GetButton(2));
  Sprite3B(dc,220,400,10,GetButton(3));
  //music button
- Sprite3B(dc,494,250,0,GetMenuSprite(MENU_MENUBOX));    
- Sprite3B(dc,493,252,0,GetMenuSprite(7));
+ Sprite3B(dc,494,350,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,493,352,0,GetMenuSprite(7));
  if(mc->musicMuted)   
-  Sprite3B(dc,500,260,0,GetMenuSprite(MENU_MUTE));
+  Sprite3B(dc,500,360,0,GetMenuSprite(MENU_MUTE));
 
  //fx button
- Sprite3B(dc,554,250,0,GetMenuSprite(MENU_MENUBOX));    
- Sprite3B(dc,546,260,0,GetMenuSprite(MENU_FX));
+ Sprite3B(dc,554,350,0,GetMenuSprite(MENU_MENUBOX));    
+ Sprite3B(dc,546,360,0,GetMenuSprite(MENU_FX));
  if(mc->fxMuted)
-  Sprite3B(dc,558,260,0,GetMenuSprite(MENU_MUTE));   
+  Sprite3B(dc,558,360,0,GetMenuSprite(MENU_MUTE));   
 }
 
 U0 GameModeSelection(CDC *dc, CTask *task)
@@ -181,9 +181,9 @@ U0 GameModeSelection(CDC *dc, CTask *task)
  GrLine3(dc,0, 240, 0, 640, 240, 0);
   
  GrFloodFill(dc,15,15,FALSE,0,0);
- dc->color = GREEN;
+ dc->color = YELLOW;
  GrFloodFill(dc,15,300,FALSE,0,0);
- 
+ GrBlot3(dc,0,0,10,MENUSCREEN); 
  GrBlot3(dc,84,32,10,CDCTITLE);
  Sprite3B(dc,220,250,10,GetButton(6));
  Sprite3B(dc,220,350,10,GetButton(7));
@@ -196,9 +196,10 @@ U0 MultiplayerSelection(CDC *dc, CTask *task)
  GrLine3(dc,0, 240, 0, 640, 240, 0);
   
  GrFloodFill(dc,15,15,FALSE,0,0);
- dc->color = GREEN;
+ dc->color = YELLOW;
  GrFloodFill(dc,15,300,FALSE,0,0);
- 
+
+ GrBlot3(dc,0,0,10,MENUSCREEN); 
  GrBlot3(dc,84,32,10,CDCTITLE);
 
  Sprite3B(dc,220,250,10,GetButton(8));
@@ -216,8 +217,9 @@ U0 LoadMenu(CDC *dc, CTask *task,CDirEntry *root)
    
   GrFloodFill(dc,15,15,FALSE,0,0);
 
-  dc->color = GREEN;
+  dc->color = YELLOW;
   GrFloodFill(dc,15,300,FALSE,0,0);
+ GrBlot3(dc,0,0,10,MENUSCREEN);
   
   Sprite3B(dc,10,10,10,GetButton(3));
 

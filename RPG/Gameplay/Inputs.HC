@@ -4,14 +4,14 @@ U0 KeyEnter(Actor *p, MapNode *puin)
  if(mc->displayDev)
  {DevKeyEnter(); }
  else if(MerchantList(mc->talkieScene)){
-  switch(mc->combatMenuSelection){
-   case 0://trade
+  switch(mc->dialogSelection){
+   case 1://trade
    //todo show tradewindow
     mc->talkieScene = IT_NULL;
     mc->lootedSwitch = TRUE;
     mc->lootInv = GetNPC(mc->dialogID)->myInv;
     break;
-   case 1://close
+   case 0://close
     mc->talkieScene = IT_NULL; 
     break;
   }

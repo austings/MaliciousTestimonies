@@ -381,7 +381,7 @@ U0 CombatDialog3(CDC *dc, CTask *task){
 //Enemy attack     
 U0 CombatDialog4(CDC *dc, CTask *task, Actor *p){
  U8 *prefix = "star";
- if(HasStatus(ctp->ready, LIFE_DYING)){
+ if(HasStatus(ctp->ready, LIFE_DYING)){
    prefix = "dy";
  }else{
    prefix = "attack";
