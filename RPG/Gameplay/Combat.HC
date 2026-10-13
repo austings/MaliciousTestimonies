@@ -228,22 +228,34 @@ U0 SelectValidTarget(){
 
 U0 ExecuteStrike(Actor *p)
 {
- if(!p->target)
-  return;
+    I64 attackX, attackY;
 
- if(!CanStrikeTarget(p, p->target))
-  return;
+    mc->strikeApproach = FALSE;
 
- if(IsInStrikeRange(p, p->target)){
-  // We're already close enough.
-  PlayStrikeAnim(p);
-  return;
- }
- // Not in range.
- // Calculate path toward target.
- // Move as far as possible using currentMana.
- // If we reach strike range, strike.
- // Otherwise end turn.
+    if(!p->target)
+        return;
+
+    if(!CanStrikeTarget(p, p->target))
+        return;
+
+    if(IsInStrikeRange(p, p->target))
+    {
+        mc->combatMenuSelection = CMS_STRIKE_DONE;
+        PlayStrikeAnim(p);
+        return;
+    }
+
+    if(FindStrikePosition(p, p->target, &attackX, &attackY))
+    {
+        mc->strikeApproach = TRUE;
+        mc->combatMenuSelection = CS_STRIKE;
+        return;
+    }
+
+    // No reachable attack position.
+    ClearActorPath(p);
+    mc->strikeApproach = FALSE;
+    mc->combatMenuSelection = CMS_MOVE_DONE;
 }
 
 //i = iterable
@@ -275,12 +287,15 @@ U0 EndCombatTurn(I64 i, Actor *p){
  //if(!p->target) TODO: check if this works
  // SelectValidTarget();
 
- mc->combatON = TRUE; 
+ mc->combatON = TRUE;
  
  CTPProgress;
  
  if(ctp->ready->id == mc->localPlayerId)
  {
+  //regain spirit;
+  RemoveMana(p,-(p->wis/2)); 
+
   mc->combatMenuStage = STAGE_0;
   mc->combatMenuSelection = CMS_MOVE;
  }

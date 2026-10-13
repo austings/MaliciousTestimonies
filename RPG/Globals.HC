@@ -144,7 +144,7 @@ class MenuControl{
   U8 combatMenuSelection; //affects combat dialog options
   U8 turnIndex;//used for specific world tick timers
   U8 combatTurn;//whose turn it is
-  Bool running;
+  Bool running, strikeApproach;
 
   //players current target
   Actor *target;

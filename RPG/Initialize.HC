@@ -73,7 +73,7 @@ Cd(__DIR__);;
 #include "Online/Polling.HC";
 #include "Online/Client.HC";
 #include "Online/Server.HC";
-#include "Online/Glowie_Artifact.HC";
+#include "Online/Glowie_Artifact.HC";
 #include "Online/Multiplayer.HC";
 
 U0 InitMenuControl()
@@ -137,6 +137,7 @@ U0 InitMenuControl()
  mc->mouseTargetingActive=FALSE;
  mc->targetCTPIndex = 0;
  mc->running =  FALSE;
+ mc->strikeApproach = FALSE;
 
  //network
  mc->netMode = NET_SINGLEPLAYER;

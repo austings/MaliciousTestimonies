@@ -34,8 +34,7 @@ U0 KeyEnter(Actor *p, MapNode *puin)
     mc->combatMenuSelection =CMS_MOVE_DONE;
     break;
    case CS_STRIKE://strike completion
-    mc->combatMenuSelection=CMS_STRIKE_DONE;
-    PlayStrikeAnim(p);
+    ExecuteStrike(p);
     break;
    case CS_PRAYER://select which prayer
     if(mc->prayerToCast!=DELIMITER){
@@ -441,8 +440,7 @@ U0 ClickHighlightedTarget(){
 
    // confirm action
    if(mc->combatMenuSelection == CS_STRIKE){
-    mc->combatMenuSelection = CMS_STRIKE_DONE;
-    PlayStrikeAnim(GetPlayer());
+    ExecuteStrike(GetPlayer());
 
    }
    else if(mc->combatMenuSelection == CS_PRAYER2){
