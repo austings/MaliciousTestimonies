@@ -85,7 +85,7 @@ U64 str=1,U64 int=1, U64 con=1, U64 wis=1, U8 ai=0)
  me->wis=wis;
  me->ai_script=ai;
  me->statuses=LIFE_NORMAL;
- SetActorDir(me,DIR_DOWN);
+ SetActorDir(me,DIR_DOWN);
  me->screenX = 0;
  me->screenY = 0;
  me->visible = TRUE;
@@ -258,3 +258,10 @@ static CDC*		A4R3;
  A4R3 = FramePtr("ACTOR089");
 
 
+I64 GetActorDistance(Actor *a, Actor *b)
+{
+    I64 dx = Abs(a->x - b->x);
+    I64 dy = Abs(a->y - b->y);
+
+    return dx + dy;
+}

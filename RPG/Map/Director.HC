@@ -54,4 +54,3 @@ Director *HasAnyDirective(Actor *a){
  return task;
 }
 
-

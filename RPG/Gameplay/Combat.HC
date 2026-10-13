@@ -9,37 +9,37 @@ U0 CombatDialogs(CTask *task, CDC *dc,Actor *p){
  switch(mc->combatMenuStage){
   case STAGE_0:  
    switch(mc->combatMenuSelection) {
-    case CS_PRAYER:
-     mc->displayInventory=TRUE;   
-     CombatDialog2(dc,task);     
-    break;
-    case CS_FLEE:
-     CombatDialog3(dc,task);
-    break;
-    default:
-     mc->displayInventory=FALSE;
-     CombatDialog1(dc,task, mc->combatMenuSelection);     
-    break;
+ case CS_PRAYER:
+  mc->displayInventory=TRUE;   
+  CombatDialog2(dc,task);  
+ break;
+ case CS_FLEE:
+  CombatDialog3(dc,task);
+ break;
+ default:
+  mc->displayInventory=FALSE;
+  CombatDialog1(dc,task, mc->combatMenuSelection);  
+ break;
    }
   break;
   case STAGE_1:
    switch(mc->combatMenuSelection) {
-    case CMS_ENE1:
-     CombatDialog4(dc,task,p);
-    break;
-    case CMS_ENE2:
-     SetActorDir(p,DELIMITER);//ene move complete
-     CombatDialog5(dc,task,p);
-    break;
-    default:
-    break;
+ case CMS_ENE1:
+  CombatDialog4(dc,task,p);
+ break;
+ case CMS_ENE2:
+  SetActorDir(p,DELIMITER);//ene move complete
+  CombatDialog5(dc,task,p);
+ break;
+ default:
+ break;
    }
   break;
  }
 
 }
-
-U0 SwitchTarget(){
+/*
+U0 SwitchTarget_Old(){
  I64 count = QueCnt(combatCQue);
  mc->targetCTPIndex++;
  if(mc->targetCTPIndex >= count)
@@ -56,7 +56,43 @@ U0 SwitchTarget(){
  p->target = targetCTP->ready;
 
 }
+*/
 
+U0 SwitchTarget()
+{
+ Actor *p = GetPlayer;
+ I64 count = QueCnt(combatCQue);
+
+ if(count <= 0)
+  return;
+
+ I64 startIndex = mc->targetCTPIndex;
+
+ // Try every combatant, starting with the next one.
+ I64 i;
+
+ for(i = 1; i <= count; i++)
+ {
+  I64 index = startIndex + i;
+
+  if(index >= count)
+   index -= count;
+
+  CombatTurn *it = combatCQue.next;
+  I64 j;
+
+  for(j = 0; j < index; j++)
+   it = it->next;
+
+  if(it->ready && CanTargetForAction(p, it->ready))
+  {
+   mc->targetCTPIndex = index;
+   targetCTP = it;
+   p->target = it->ready;
+   return;
+  }
+ }
+}
 U0 SetTargetFromActor(Actor *a)
 {
  I64 index = 0;
@@ -80,50 +116,50 @@ U0 CombatTurnArrows(Actor *p,I64 dir){
  switch(mc->combatMenuSelection){
   case CMS_MOVE:
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
-    mc->combatMenuSelection=CMS_PRAYER;}
+ mc->combatMenuSelection=CMS_PRAYER;}
    if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.right)){
-    mc->combatMenuSelection=CMS_STRIKE;}
+ mc->combatMenuSelection=CMS_STRIKE;}
   break;
   case CMS_STRIKE:
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
-    mc->combatMenuSelection=CMS_FLEE;}
+ mc->combatMenuSelection=CMS_FLEE;}
    if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.right)){
-    mc->combatMenuSelection=CMS_MOVE;}
+ mc->combatMenuSelection=CMS_MOVE;}
   break;
   case CMS_PRAYER:
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
-    mc->combatMenuSelection=CMS_MOVE;}
+ mc->combatMenuSelection=CMS_MOVE;}
    if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.right)){
-    mc->combatMenuSelection=CMS_FLEE;}
+ mc->combatMenuSelection=CMS_FLEE;}
   break;
   case CMS_FLEE:
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.up)){
-    mc->combatMenuSelection=CMS_STRIKE;}
+ mc->combatMenuSelection=CMS_STRIKE;}
    if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.right)){
-    mc->combatMenuSelection=CMS_PRAYER;}
+ mc->combatMenuSelection=CMS_PRAYER;}
   break;
   case CS_MOVE: 
    if(p->currentMana>=MOVEMENT_COST){
-    if(p->walking==DIR_IDLE){
-     if(MoveActor(p,dir))
-      RemoveMana(p,MOVEMENT_COST);
-    }
+ if(p->walking==DIR_IDLE){
+  if(MoveActor(p,dir))
+   RemoveMana(p,MOVEMENT_COST);
+ }
    } else{mc->combatMenuSelection=CMS_MOVE_DONE;}
   break;
   case CS_STRIKE://select target
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.right))
-    SwitchTarget;
+ SwitchTarget;
    if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.up))
-    SwitchTarget();//integrate otherway
+ SwitchTarget();//integrate otherway
   break;
   case CS_PRAYER://select prayer/item
    if(KeyPressed(&keyboard.down)||KeyPressed(&keyboard.right))
-    CycleInv();
+ CycleInv();
    if(KeyPressed(&keyboard.left)||KeyPressed(&keyboard.up))
-    CycleInv(TRUE);   
+ CycleInv(TRUE);   
   break;
   case CS_PRAYER2://select target
-    SwitchTarget;
+ SwitchTarget;
   break;
   default:
   break;
@@ -140,23 +176,23 @@ Bool PlayerInAggroRange(Actor *player)
 
   if(a && a != player){
    // hostile only
-   if(a->ai_script != 0){
+   if(a->ai_script ==AI_ENEMY){
 
-    I64 dx = Abs(a->x - player->x);
-    I64 dy = Abs(a->y - player->y);
+ I64 dx = Abs(a->x - player->x);
+ I64 dy = Abs(a->y - player->y);
 
-    // Chebyshev distance (grid-based, includes diagonals)
-    I64 dist;
+ // Chebyshev distance (grid-based, includes diagonals)
+ I64 dist;
 
-    if(dx > dy){
-     dist = dx;
-    }
-    else{
-     dist = dy;
-    }
-    if(dist <= 2){
-     return TRUE; // inside aggro zone
-    }
+ if(dx > dy){
+  dist = dx;
+ }
+ else{
+  dist = dy;
+ }
+ if(dist <= 2){
+  return TRUE; // inside aggro zone
+ }
    }
   }
 
@@ -176,8 +212,8 @@ U0 SelectValidTarget(){
 
  while(cur != &combatCQue){
   if(cur->ready &&
-     !HasStatus(cur->ready,LIFE_DEAD) && !HasStatus(cur->ready,LIFE_DYING)&&
-     cur->ready->id != mc->localPlayerId) {
+  !HasStatus(cur->ready,LIFE_DEAD) && !HasStatus(cur->ready,LIFE_DYING)&&
+  cur->ready->id != mc->localPlayerId) {
    targetCTP = cur;
    p->target = cur->ready;
    mc->targetCTPIndex = index;
@@ -189,6 +225,27 @@ U0 SelectValidTarget(){
   index++;
  }
 }
+
+U0 ExecuteStrike(Actor *p)
+{
+ if(!p->target)
+  return;
+
+ if(!CanStrikeTarget(p, p->target))
+  return;
+
+ if(IsInStrikeRange(p, p->target)){
+  // We're already close enough.
+  PlayStrikeAnim(p);
+  return;
+ }
+ // Not in range.
+ // Calculate path toward target.
+ // Move as far as possible using currentMana.
+ // If we reach strike range, strike.
+ // Otherwise end turn.
+}
+
 //i = iterable
 //p = player
 U0 EndCombatTurn(I64 i, Actor *p){

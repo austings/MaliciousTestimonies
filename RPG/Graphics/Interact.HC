@@ -62,7 +62,7 @@ U0 InteractCorpse(I64 npc){
 //param npc- the npc id of the actor player is interacting with
 U0 InteractActor(I64 npc){
  Actor *aAtLoc= GetNPC(npc);
- if(aAtLoc->ai_script==1&&!HasStatus(aAtLoc, LIFE_DEAD)) {//combat
+ if(aAtLoc->ai_script==AI_ENEMY&&!HasStatus(aAtLoc, LIFE_DEAD)) {//combat
   mc->combatON=TRUE;
  }
  else{

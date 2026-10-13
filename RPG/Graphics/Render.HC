@@ -69,7 +69,7 @@ I64 GetActorScreenY(Actor *a, I64 npcoy, I64 j,Bool Player=TRUE){
  }
 }
 
-Actor *GetActorAtMouse(I64 mx, I64 my){
+Actor *GetActorAtMouseOld(I64 mx, I64 my){
  CombatTurn *ct = combatCQue.next;
  I64 index = 0;
  while(ct != &combatCQue){
@@ -91,7 +91,37 @@ Actor *GetActorAtMouse(I64 mx, I64 my){
 
  return NULL;
 }
+Actor *GetActorAtMouse(I64 mx, I64 my)
+{
+    CombatTurn *ct = combatCQue.next;
+    I64 index = 0;
+    Actor *p = GetPlayer;
 
+    while(ct != &combatCQue)
+    {
+        Actor *it = ct->ready;
+
+        if(it && it->visible)
+        {
+            I64 ax = it->screenX;
+            I64 ay = it->screenY;
+
+            if(InRect(mx, my, ax, ay, ax+50, ay+70))
+            {
+                if(CanTargetForAction(p, it))
+                {
+                    mc->targetCTPIndex = index;
+                    return it;
+                }
+            }
+        }
+
+        ct = ct->next;
+        index++;
+    }
+
+    return NULL;
+}
 U0 StartCameraPan(CDC *dc,Actor *p){
  // background world x pan
  if(camera->topLR==0||camera->topLR==wX-11){

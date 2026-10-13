@@ -31,69 +31,7 @@ I64 GetCTPIndexFromActor(Actor *a)
 
  return -1; // not found (shouldnt happen)
 }
-
-
-Bool CheckTarget(Actor *toRender, I64 mouseX, I64 mouseY)
-{
- Bool highlight = FALSE;
- if(!toRender)
-  return FALSE;
-
- if(mc->combatMenuSelection != CS_STRIKE &&
-    mc->combatMenuSelection != CS_PRAYER2)
-  return FALSE;
-
- // --- MOUSE MODE (visual only, no state mutation) ---
- if(mc->mouseTargetingActive){
-  if(InRect(mouseX, mouseY,
-            toRender->screenX,
-            toRender->screenY + 50,
-            toRender->screenX + 50,
-            toRender->screenY + 90))
-  {
-   return TRUE;
-  }
-
-  return FALSE;
- }
-
- // --- KEYBOARD MODE (authoritative) ---
- if(targetCTP && targetCTP->ready){
-  if(toRender->id == targetCTP->ready->id){
-   highlight = TRUE;
-   Actor *p = GetPlayer;
-   p->target = toRender;
-  }
- }
-
- return highlight;
-}
-
-//called after combatMenuSelection==11
-U0 HighlightTarget(CDC *dc, I64 hX, I64 hY,I64 hZ)
-{
- dc->color=RED;
- dc->thick=3;
-    //GrRect3(dc,hX+25,hY+45,0,50,50);
- GrCircle3(dc,hX+25,hY+45,0,15);
-    //GrFloodFill(dc,hX+13,hY+13,TRUE);   
- dc->thick = 1;   
-}
-
-U0 PlayStrikeAnim(Actor *p){
- I64 anim = T1PUNCH;
- I64 i;
- for(i = 0;i<STRIKETYPES;++i) {
-  if(StrikeAnimMap[i].face  == p->face &&
-     StrikeAnimMap[i].sword == p->sword) {
-   anim = StrikeAnimMap[i].anim;
-   break;
-  }
- }
-
- AddDirective(anim,p); 
-}
-
+
 U0 HandleDeathScreen(CDC *dc)
 {
  Actor *p = GetPlayer;

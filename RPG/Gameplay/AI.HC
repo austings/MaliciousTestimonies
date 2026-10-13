@@ -2,8 +2,8 @@
 #define FRAMERULE_CAP 30
 
 //ai scripts
-#define AI_DEFAULT	1
-#define AI_FISHING	10
+#define AI_DEFAULT	0
+#define AI_ENEMY	1
 #define DIALOG_BOX_Y	375
 
 #define A_STAR_MAX_LEN  10
@@ -12,7 +12,7 @@
 
 //StatusEffects
 Bool HasStatus(Actor *a, U64 status){
- return (a->statuses & status) != 0;
+ return (a->statuses & status) != 0;
 }
 
 U0 AddStatus(Actor *a, U64 status){

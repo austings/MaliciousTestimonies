@@ -134,7 +134,7 @@ I64 BuildEncounter(Actor *trigger, Actor **encounter){
   if(HasStatus(enemy,LIFE_DEAD) ||HasStatus(enemy,LIFE_DYING))
    goto nextEnemy;
 
-  if(enemy->ai_script != AI_DEFAULT)
+  if(enemy->ai_script != AI_ENEMY)
    goto nextEnemy;
 
   if(Abs(enemy->x - trigger->x) <= AGGRO_DIS &&
@@ -174,7 +174,7 @@ U0 TickTile(I64 i, I64 j, Actor *p)
  if(mc->combatON)
   return;
 
- if(trigger->ai_script != AI_DEFAULT)
+ if(trigger->ai_script != AI_ENEMY)
   return;
 
  if(HasStatus(trigger,LIFE_DEAD)||HasStatus(trigger,LIFE_DYING))

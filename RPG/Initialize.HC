@@ -50,6 +50,9 @@ Cd(__DIR__);;
 #include "Gameplay/Fishing.HC";
 #include "Graphics/Interact.HC";
 #include "Music.HC";
+
+//Loading Routing
+#include "Gameplay/Target.HC";
 #include "Graphics/Attacks.HC";
 #include "Graphics/Prayers.HC";
 #include "Gameplay/Combat.HC";
@@ -70,7 +73,7 @@ Cd(__DIR__);;
 #include "Online/Polling.HC";
 #include "Online/Client.HC";
 #include "Online/Server.HC";
-#include "Online/Glowie_Artifact.HC";
+#include "Online/Glowie_Artifact.HC";
 #include "Online/Multiplayer.HC";
 
 U0 InitMenuControl()

@@ -21,7 +21,7 @@ Item *MakeItem(I64 id){
  // lookup template  
  for(i=0; i<TOTALITEMS;++i) {
   if(ItemTemplates[i].id == id) {
-   ItemTemplate *t = &ItemTemplates[i];
+   ItemTemplate *t = &ItemTemplates[i];
 
    build->name       = t->name;
    build->equip_slot = t->equip_slot;
@@ -89,4 +89,18 @@ U0 FreeInventory(Inventory *inv)
  Free(inv->collection);
  Free(inv);
 
+}
+
+ItemTemplate *GetItemTemplate(I64 id)
+{
+ if(id==IT_FIST)
+  return NULL;
+
+ I64 i;
+ for(i = 0; i < TOTALITEMS; i++)
+ {
+  if(ItemTemplates[i].id == id)
+   return &ItemTemplates[i];
+ }
+ return NULL;
 }
