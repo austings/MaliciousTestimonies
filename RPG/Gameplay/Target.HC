@@ -80,7 +80,7 @@ Bool FindStrikePosition(
         *attackY = y;
         return TRUE;
       }
-     nextTile:
+     nextTile:
     }
   }
 
@@ -117,17 +117,14 @@ Bool CanPrayerTarget(Actor *p, Actor *target)
 
  switch(mc->prayerToCast)
  {
- case SP_HEAL:
- {
-  // Heal can target allies.
-  if(target->ai_script==AI_ENEMY)
-  return FALSE;
+  case SP_HEAL:
+   // Heal can target allies.
+   if(target->ai_script==AI_ENEMY)
+    return FALSE;
 
-  return TRUE;
- }
-
- default:
-  return FALSE;
+   return TRUE;
+  default:
+   return FALSE;
  }
 }
 
@@ -142,14 +139,13 @@ Bool CanItemTarget(Actor *p, Actor *target)
 
  switch(mc->prayerToCast)
  {
- case IT_HPPOT:
-  if(target->ai_script ==AI_ENEMY)
-  return FALSE;
-
-  return TRUE;
-
- default:
-  return FALSE;
+  case IT_FISH1:
+  case IT_HPPOT:
+   if(target->ai_script ==AI_ENEMY)
+    return FALSE;
+   return TRUE;
+  default:
+   return TRUE;
  }
 }
 
@@ -173,12 +169,25 @@ Bool CheckTarget(Actor *toRender, I64 mouseX, I64 mouseY)
   if(!toRender)
     return FALSE;
 
-  if(mc->combatMenuSelection != CS_STRIKE &&
-    mc->combatMenuSelection != CS_PRAYER2)
-    return FALSE;
+//  if(mc->combatMenuSelection != CS_STRIKE &&
+//    mc->combatMenuSelection != CS_PRAYER2)
+//    return FALSE;
 
   Actor *p = GetPlayer;
-
+    // Keep the selected target highlighted during the action.
+  if(mc->combatON &&
+     p->target &&
+     p->target->id == toRender->id)
+  {
+   if(mc->combatMenuSelection == CMS_STRIKE_DONE ||
+      mc->combatMenuSelection == CMS_PRAYER_DONE)
+   {
+    if(HasStatus(toRender, LIFE_DEAD) ||
+       HasStatus(toRender, LIFE_DYING))
+     return FALSE;
+    return TRUE;
+   }
+  }
   // Target must be valid for the currently selected action.
   if(!CanTargetForAction(p, toRender))
     return FALSE;

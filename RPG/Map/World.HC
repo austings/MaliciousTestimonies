@@ -6,7 +6,7 @@ U0 Stage0(Actor *p)
   mc->turnIndex++;
 
   if(mc->turnIndex > 1){
-  EndCombatTurn(0, p);
+   EndCombatTurn(0, p);
   }
  break;
 
@@ -15,27 +15,29 @@ U0 Stage0(Actor *p)
   mc->turnIndex++;
 
   if(mc->turnIndex > 3){
-  I64 damage = p->str;
-
-  RemoveHealth(p->target, damage);
-  SetActorDir(p, DELIMITER);
-
-  EndCombatTurn(0, p);
+   I64 damage = p->str;
+   
+   RemoveHealth(p->target, damage);
+   SetActorDir(p, DELIMITER);
+   
+   EndCombatTurn(0, p);
   }
  break;
 
 
  case CMS_PRAYER_DONE:
 
+  if(!p->target)
+   p->target = GetPlayer;
   if(mc->isItem)
-  UseItemCombat(p);
+   UseItemCombat(p);
   else
-  UsePrayerCombat(p);
+   UsePrayerCombat(p);
 
   mc->turnIndex++;
 
   if(mc->turnIndex > 3){
-  EndCombatTurn(0, p);
+   EndCombatTurn(0, p);
   }
 
  break;
@@ -80,44 +82,41 @@ U0 Stage1(I64 i, Actor *p)
  the local player's turn.
  */
  if(ctp->ready->id == mc->localPlayerId){
- mc->combatMenuStage = STAGE_0;
- mc->combatMenuSelection = CMS_MOVE;
- mc->turnIndex = 0;
-
+  mc->combatMenuStage = STAGE_0;
+  mc->combatMenuSelection = CMS_MOVE;
+  mc->turnIndex = 0;
  return;
  }
 
  switch(mc->combatMenuSelection){
- case CMS_ENE1:
-  mc->turnIndex++;
-  if(!HasStatus(ctp->ready,LIFE_DEAD) && !HasStatus(ctp->ready,LIFE_DYING)){
-  ctp->ready->target = p;
-  if(!HasDirective(ARCSTRIKE, ctp->ready)){
-   AddDirective(ARCSTRIKE, ctp->ready);
-   AddStatus(ctp->ready, MOVE_ATTACK);
-  }
-  }
-  if(mc->turnIndex >= 6){
-  AdvanceEnemyTurn();
-  }
- break;
- case CMS_ENE2:
-  if(mc->turnIndex==1)
-  {
-  RemoveHealth(ctp->ready->target,ctp->ready->str);
-  UpdateDirective(
-  ARCSTRIKE,
-  ctp->ready,
-  0, 0, 0,
-  TRUE
-  );
-  }
-  mc->turnIndex++;
-  if(mc->turnIndex >= 6){
-  EndCombatTurn(i, p);
-  }
-
- break;
+  case CMS_ENE1:
+   mc->turnIndex++;
+   if(!HasStatus(ctp->ready,LIFE_DEAD) && !HasStatus(ctp->ready,LIFE_DYING)){
+    ctp->ready->target = p;
+    if(!HasDirective(ARCSTRIKE, ctp->ready)){
+     AddDirective(ARCSTRIKE, ctp->ready);
+     AddStatus(ctp->ready, MOVE_ATTACK);
+    }
+   }
+   if(mc->turnIndex >= 6){
+    AdvanceEnemyTurn();
+   }
+  break;
+  case CMS_ENE2:
+   if(mc->turnIndex==1){
+    RemoveHealth(ctp->ready->target,ctp->ready->str);
+    UpdateDirective(
+     ARCSTRIKE,
+     ctp->ready,
+     0, 0, 0,
+     TRUE
+    );
+   }
+   mc->turnIndex++;
+   if(mc->turnIndex >= 6){
+    EndCombatTurn(i, p);
+   }
+  break;
  }
 }
 
@@ -370,7 +369,7 @@ U0 UpdateActorPathOld(Actor *p)
   return;
 
  if(mc->combatON) {
-  if(mc->combatMenuSelection != CS_MOVE) {
+  if(mc->combatMenuSelection != CS_MOVE) {
    ClearActorPath(p);
    return;
   }

@@ -183,20 +183,21 @@ U0 UseItemCombat(Actor *p)
  switch(mc->prayerToCast){
   case IT_HPPOT:
    if(mc->turnIndex==1) { CastPrayer(p);}
-   if(mc->turnIndex>3){
+   if(mc->turnIndex==3){
     AddHealth(p->target,10);
    }
   break;
   default:
   break;
- } 
+ }
+
 }
 
 U0 UsePrayerCombat(Actor *p){
  switch(mc->prayerToCast){
   case SP_HEAL: //lay on hands
    if(mc->turnIndex==1) { CastPrayer(p);}
-   if(mc->turnIndex>3){
+   if(mc->turnIndex==3){
     AddHealth(p->target,p->int);
     RemoveMana(p,prayers->list[mc->prayerToCast]->cost);
    }
@@ -204,5 +205,6 @@ U0 UsePrayerCombat(Actor *p){
   default:
   break;
  }//switch prayer
+
 
 }

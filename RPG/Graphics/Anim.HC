@@ -645,7 +645,7 @@ U0 DrawDead(CDC *dc, Actor *a)
  // Draw stable corpse after animation
  if(HasStatus(a, LIFE_DEAD))
  {
-  GrBlot3(dc,0,32,100,frame);
+  GrBlot3(dc,0,0,100,frame);
   return;
  }
 
