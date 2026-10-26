@@ -10,6 +10,16 @@ U0 DrawIt(CTask *task, CDC *dc){
    break;
   //Main Game
   case 1:
+   if(mc->displayWorld){
+    HandleKeyboard(GetPlayer());
+    RenderWorldMap(dc);
+    if(mc->displayDev){
+     CDC *debug=RenderDev();
+     GrBlot3(dc,0,0,0,debug);
+     DCDel(debug);
+    }
+    break;
+   }
    //1. First Refresh Player and Tile reference
    Actor *p = GetPlayer;
    //2. Then get Input from Keyboard
@@ -37,6 +47,7 @@ U0 DrawIt(CTask *task, CDC *dc){
    DrawActorsAndItems(dc,p,i,j,l); 
    DrawRoofs(dc,p,i,j);
    PlayWeatherLayer(dc,p,WEATHER_LAYER_FG);
+   RenderFishingOverlay(dc);
 
    //7. Game Menus   
    RPGSideBar(dc);
@@ -59,7 +70,6 @@ U0 DrawIt(CTask *task, CDC *dc){
    CombatDialog3Hover(camera->cursorX,camera->cursorY);
    ShowToolTips(dc);
    HandleDeathScreen(dc);
-   
   break;
   //character select
   case 2:
@@ -83,9 +93,13 @@ U0 DrawIt(CTask *task, CDC *dc){
 
 U0 CleanUp()
 {
+ I64 i;
  DocClear;
  SettingsPop;
- DestroyTensor(world->level);
+ if(world->level)
+  DestroyTensor(world->level);
+ for(i=0;i<world->territoryCount;i++)
+  Free(world->territories[i]);
  Free(world);
  
  MenuPop;
@@ -130,8 +144,16 @@ while(TRUE){
       1<<MSG_KEY_DOWN|1<<MSG_MS_L_DOWN
       |1<<MSG_MS_L_UP|1<<MSG_MS_MOVE|1<<MSG_KEY_UP);
 
-    //scan keys
-    if(world->gameTicks>10&&!mc->controlLock){
+    // Strategic confirmations are consumed in the message loop itself.
+    // They do not depend on a later draw callback or the gameplay key edge.
+    if(input==MSG_KEY_UP &&
+       (mc->displayWorld || world->strategicEnterHandled)){
+     ProcessGameplayKeyUp(arg1,arg2.u8[0]);
+    }else if(input==MSG_KEY_DOWN && mc->displayWorld){
+     ProcessGameplayKeyDown(arg1,arg2.u8[0]);
+    }else if(input==MSG_MS_L_DOWN && mc->displayWorld){
+     HandleMouse(camera->cursorX,camera->cursorY,i,j);
+    }else if(world->gameTicks>10&&!mc->controlLock){
      switch (input) {
      case MSG_KEY_UP:
       if(arg1 != 0) {
@@ -141,11 +163,10 @@ while(TRUE){
       }
      break;
      case MSG_KEY_DOWN:
-      if(arg1!=0){
+      if(arg1!=0)
        HandleCharKeyDown(arg1);
-      }else{
+      else
        HandleScanKeyDown(arg2.u8[0]);
-      }
      break;
      case MSG_MS_L_DOWN:
       HandleMouse(camera->cursorX,camera->cursorY,i,j);

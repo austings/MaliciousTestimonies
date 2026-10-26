@@ -265,7 +265,7 @@ U0 DestroyVector(Vector *v)
  I64 i,j;
  for(i=0;i<v->size;i++)
  {
-  while(v->data[i]->len>-1)//delete head
+  while(v->data[i]->len>0)//delete remaining items, but keep the queue sentinel
   {
    ClearItem(v->data[i],0);
   }

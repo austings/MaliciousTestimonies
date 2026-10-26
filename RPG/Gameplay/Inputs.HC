@@ -1,6 +1,10 @@
 
 U0 KeyEnter(Actor *p, MapNode *puin)
 {
+ if(mc->fishingMode){
+  ThrowFishingHarpoon;
+  return;
+ }
  if(mc->displayDev)
  {DevKeyEnter(); }
  else if(MerchantList(mc->talkieScene)){
@@ -231,6 +235,8 @@ Bool NoGameWindowOpen(I64 M_X, I64 M_Y)
 }
 
 U0 HandleMouseAction(I64 id, I64 M_X, I64 M_Y, I64 i, I64 j){
+ if(mc->displayWorld)
+  return;
  switch(id){
   case BTN_EQUIP:
    if(mc->displayStats == FALSE)
@@ -456,6 +462,13 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 {
  Actor *player = GetPlayer;
 
+ if(mc->displayWorld){
+  SelectTerritoryOnStrategicMap(M_X,M_Y);
+  return;
+ }
+ if(mc->fishingMode)
+  return;
+
  /* 1. Sidebar / global UI first */
  HandleMouseSideBar(M_X, M_Y, i, j);
 
@@ -544,7 +557,7 @@ U0 ShowToolTips(CDC *dc = gr.dc)
      if(!tipme)
       me = player->myInv;
      Item *item= RetrieveItem(me,me->mtrx[j][i].occupied);
-     //TODOfix this defensive programming
+     // TODO: fix this defensive programming
      //inventory item not properly referenced/ old items removed
      if(!item || !item->name ||StrCmp(item->name,"Bag")==0){break;}                 
      dc->color = DKGRAY;

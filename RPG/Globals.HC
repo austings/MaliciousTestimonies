@@ -22,14 +22,60 @@ CDirEntry *loadRoot;
 #define MAX_PLAYERS 4
 #define STARTCLIENTS 9
 
+// A territory owns one regional map and links to neighboring regions.
+// Neighbor indexes use -1 when that edge has no connected location.
+class Territory
+{
+ I64 id, localMapId, ownerFaction, width, height;
+ Bool mapStateSaved;
+ U8 *name, *settlement;
+ I64 north, south, east, west;
+ I64 neighborCount, neighborIds[8], neighborDirections[8];
+};
+
+#define TERRITORY_SNAPSHOT_MAGIC 0x54524D50
+#define TERRITORY_SNAPSHOT_ITEMS 32
+class TerritorySnapshotHeader { I64 magic,width,height; };
+class TerritorySnapshotCell
+{
+ F64 bg;
+ Bool isSolid,hasNPC,hasObj;
+ I64 idNPC,idObj,idInv,waterLvl,itemCount;
+ I64 items[TERRITORY_SNAPSHOT_ITEMS];
+};
+
 //Loaded Map
 class World
 {
  I64 currentZ;
  Tensor3D *level;
+ I64 territoryCount, currentTerritory;
+ I64 selectedTerritory, travelOffset;
+ I64 mapPanX, mapPanY;
+ Bool travelPending, mapLoadFailed, strategicEnterHandled;
+ Bool fishingRipple,fishingCaught;
+ I64 fishingOriginX,fishingOriginY,
+     fishingCursorX,fishingCursorY,
+     fishingFishX,fishingFishY,
+     fishingTimer,fishingFeedbackTicks;
+ Territory *territories[12];
  I64 timer;
  I64 gameTicks;
 };
+
+#define FACTION_ISRAEL 0
+#define FACTION_SAMARIA FACTION_ISRAEL
+#define FACTION_JUDAH 1
+#define FACTION_PHILISTIA 2
+#define FACTION_PHOENICIA 3
+#define FACTION_ARAM 4
+#define FACTION_AMMON 5
+#define FACTION_MOAB 6
+#define FACTION_EDOM 7
+
+Bool TravelToTerritory(Actor *p, I64 destinationId);
+I64 TerritoryDirectionTo(I64 fromId, I64 toId);
+U0 PanStrategicMap(I64 dx, I64 dy);
 
 class PathNode {
  I64 x, y;
@@ -169,6 +215,8 @@ class MenuControl{
        displayEquipment,
        displayDev,
        displaySave;
+
+  Bool fishingMode;
 
   //Network
   I64 netMode, hostSocket, serverSocket,

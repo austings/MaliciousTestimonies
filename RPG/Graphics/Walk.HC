@@ -214,6 +214,9 @@ Director *InitDirective(Actor *p, I64 sX, I64 sY,I64 tX, I64 tY){
  task->animIndex = 0;
  task->flip = FALSE;
  task->isEffect = FALSE;
+ task->strikeStartTick=world->gameTicks;
+ task->strikeDirX=0;
+ task->strikeDirY=0;
  return task;
 }
 
@@ -242,6 +245,20 @@ U0 AddDirective(I64 directive, Actor *p,//npc must own animation
     SetActorDir(p,DIR_LEFT);
    }
   }
+   if((directive>=T1STAB && directive<=T4STAB) ||
+      (directive>=T1SLASH && directive<=T4SLASH)){
+    if(p->target){
+     if(p->target->x>p->x) task->strikeDirX=1;
+     else if(p->target->x<p->x) task->strikeDirX=-1;
+     if(p->target->y>p->y) task->strikeDirY=1;
+     else if(p->target->y<p->y) task->strikeDirY=-1;
+     if(task->strikeDirX==0){
+      task->flip=FALSE;
+      if(task->strikeDirY<0) SetActorDir(p,DIR_UP);
+      else SetActorDir(p,DIR_DOWN);
+     }
+    }
+   }
   break;
   case T1EFFHEAL:
   case EFFFISH:

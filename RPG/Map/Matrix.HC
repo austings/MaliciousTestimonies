@@ -347,13 +347,14 @@ Vector *GetMatrixVector(Matrix *m, I64 row)
 //Free a created Matrix m
 U0 DestroyMatrix(Matrix *m)
 {
- I64 i;
- for(i =0;i<m->x;i++)
+ I64 i,rowCount=m->x;
+ for(i=0;i<rowCount;i++)
  {
+   Matrix *next=m->next;
    Vector *v = m->data;
    DestroyVector(v);
-   m = m->last;
-   Free(m->next);
+   Free(m);
+   m=next;
  }
 
 }

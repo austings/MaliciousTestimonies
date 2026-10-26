@@ -18,19 +18,23 @@ U0 HandleCharKeyDown(I64 ch){
    SetKey(&keyboard.inv,TRUE);
   break;
   case 'W': case 'w':
-   if(camera->cameraOffSetX==0&&camera->cameraOffSetY==0)
+   if(mc->displayWorld ||
+      (camera->cameraOffSetX==0&&camera->cameraOffSetY==0))
     SetKey(&keyboard.up,TRUE);
   break;
   case 'A': case 'a':
-   if(camera->cameraOffSetX==0&&camera->cameraOffSetY==0)
+   if(mc->displayWorld ||
+      (camera->cameraOffSetX==0&&camera->cameraOffSetY==0))
     SetKey(&keyboard.left,TRUE);
   break;
   case 'S': case 's':
-   if(camera->cameraOffSetX==0&&camera->cameraOffSetY==0)
+   if(mc->displayWorld ||
+      (camera->cameraOffSetX==0&&camera->cameraOffSetY==0))
     SetKey(&keyboard.down,TRUE);
   break;
   case 'D': case 'd':
-   if(camera->cameraOffSetX==0&&camera->cameraOffSetY==0)
+   if(mc->displayWorld ||
+      (camera->cameraOffSetX==0&&camera->cameraOffSetY==0))
     SetKey(&keyboard.right,TRUE);
   break;
   case 'E': case 'e':
@@ -43,6 +47,7 @@ U0 HandleCharKeyDown(I64 ch){
    SetKey(&keyboard.esc,TRUE);
   break;
   case '\n':
+  case '\r':
    SetKey(&keyboard.enter,TRUE);
   break;
   case '~':
@@ -87,7 +92,7 @@ U0 HandleCharKeyUp(I64 ch){
   case CH_ESC:
    SetKey(&keyboard.esc,FALSE);
   break;
-  case '\n':
+  case '\n': case '\r':
    SetKey(&keyboard.enter,FALSE);
   break;
   case '~':
@@ -106,7 +111,8 @@ U0 HandleScanKeyDown(I64 sc){
    SetKey(&keyboard.enter, TRUE);
   break;
   start:
-   if(camera->cameraOffSetX!=0||camera->cameraOffSetY!=0)
+   if((camera->cameraOffSetX!=0||camera->cameraOffSetY!=0) &&
+      !mc->displayWorld)
     goto escape;
    case SC_CURSOR_LEFT:
     SetKey(&keyboard.left,TRUE);

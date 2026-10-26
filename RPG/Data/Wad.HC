@@ -24,6 +24,39 @@ CDC* DCFlippedX(CDC* src){
   return dst;
 }
 
+CDC *DCRotated_MemCpy(CDC *src,F64 angle)
+{
+ I64 x,y,srcX,srcY,newWidth,newHeight;
+ F64 absCos,absSin,srcCX,srcCY,dstCX,dstCY,dstX,dstY;
+ CDC *dst;
+ absCos=Abs(Cos(angle));
+ absSin=Abs(Sin(angle));
+ newWidth=ToI64(src->width*absCos+src->height*absSin+0.999);
+ newHeight=ToI64(src->width*absSin+src->height*absCos+0.999);
+ if(newWidth<1) newWidth=1;
+ if(newHeight<1) newHeight=1;
+ dst=DCNew(newWidth,newHeight);
+ DCFill(dst,TRANSPARENT);
+ srcCX=(src->width-1)/2.0;
+ srcCY=(src->height-1)/2.0;
+ dstCX=(dst->width-1)/2.0;
+ dstCY=(dst->height-1)/2.0;
+ for(y=0;y<dst->height;y++){
+  for(x=0;x<dst->width;x++){
+   dstX=x-dstCX;
+   dstY=y-dstCY;
+   srcX=ToI64(srcCX+Cos(angle)*dstX+Sin(angle)*dstY);
+   srcY=ToI64(srcCY-Sin(angle)*dstX+Cos(angle)*dstY);
+   if(srcX>=0 && srcX<src->width &&
+      srcY>=0 && srcY<src->height){
+    dst->body[y*dst->width_internal+x]=
+      src->body[srcY*src->width_internal+srcX];
+   }
+  }
+ }
+ return dst;
+}
+
 CDC *DCScaled(CDC* src, F64 scale_x, F64 scale_y) {
     if (scale_x <= 0 || scale_y <= 0) return NULL;
 

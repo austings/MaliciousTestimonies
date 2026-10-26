@@ -121,60 +121,60 @@ Animation *CreateAnimation(I64 wadFrameName){
    QueIns(AddFrame(AAE18,T4PUNCH,11,0,0,STANDSFD,0),allAnimations.last);     
   break;
   case T1STAB:
-   QueIns(AddFrame(AAE72,T1STAB,0),allAnimations.last);
-   QueIns(AddFrame(AAE69,T1STAB,1),allAnimations.last);
-   QueIns(AddFrame(AAE66,T1STAB,2),allAnimations.last);
-   QueIns(AddFrame(AAE65,T1STAB,3),allAnimations.last);
-   QueIns(AddFrame(AAE63,T1STAB,4),allAnimations.last);
+   QueIns(AddFrame(AAE72,T1STAB,0,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE69,T1STAB,1,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE66,T1STAB,2,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE65,T1STAB,3,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE63,T1STAB,4,0,0,6),allAnimations.last);
   break;
   case T2STAB:
-   QueIns(AddFrame(AAE115,T2STAB,0),allAnimations.last);
-   QueIns(AddFrame(AAE122,T2STAB,1),allAnimations.last);
-   QueIns(AddFrame(AAE120,T2STAB,2),allAnimations.last);
-   QueIns(AddFrame(AAE119,T2STAB,3),allAnimations.last);
-   QueIns(AddFrame(AAE118,T2STAB,4),allAnimations.last);
+   QueIns(AddFrame(AAE115,T2STAB,0,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE122,T2STAB,1,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE120,T2STAB,2,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE119,T2STAB,3,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE118,T2STAB,4,0,0,6),allAnimations.last);
   break;
   case T3STAB:
-   QueIns(AddFrame(AAE169,T3STAB,0),allAnimations.last);
-   QueIns(AddFrame(AAE176,T3STAB,1),allAnimations.last);
-   QueIns(AddFrame(AAE174,T3STAB,2),allAnimations.last);
-   QueIns(AddFrame(AAE173,T3STAB,3),allAnimations.last);
-   QueIns(AddFrame(AAE172,T3STAB,4),allAnimations.last);
+   QueIns(AddFrame(AAE169,T3STAB,0,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE176,T3STAB,1,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE174,T3STAB,2,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE173,T3STAB,3,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE172,T3STAB,4,0,0,6),allAnimations.last);
   break;
   case T4STAB:
-   QueIns(AddFrame(AAE9, T4STAB,0),allAnimations.last);
-   QueIns(AddFrame(AAE14,T4STAB,1),allAnimations.last);
-   QueIns(AddFrame(AAE12,T4STAB,2),allAnimations.last);
-   QueIns(AddFrame(AAE11,T4STAB,3),allAnimations.last);
-   QueIns(AddFrame(AAE10,T4STAB,4),allAnimations.last);
+   QueIns(AddFrame(AAE9, T4STAB,0,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE14,T4STAB,1,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE12,T4STAB,2,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE11,T4STAB,3,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE10,T4STAB,4,0,0,6),allAnimations.last);
   break;
   case T1SLASH:
-   QueIns(AddFrame(AAE62,T1SLASH,0),allAnimations.last);
-   QueIns(AddFrame(AAE66,T1SLASH,1),allAnimations.last);
-   QueIns(AddFrame(AAE73,T1SLASH,2),allAnimations.last);
-   QueIns(AddFrame(AAE66,T1SLASH,3),allAnimations.last);
-   QueIns(AddFrame(AAE62,T1SLASH,4),allAnimations.last);
+   QueIns(AddFrame(AAE62,T1SLASH,0,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE66,T1SLASH,1,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE73,T1SLASH,2,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE66,T1SLASH,3,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE62,T1SLASH,4,0,0,6),allAnimations.last);
   break;
   case T2SLASH:
-   QueIns(AddFrame(AAE116,T2SLASH,0),allAnimations.last);
-   QueIns(AddFrame(AAE120,T2SLASH,1),allAnimations.last);
-   QueIns(AddFrame(AAE127,T2SLASH,2),allAnimations.last);
-   QueIns(AddFrame(AAE120,T2SLASH,3),allAnimations.last);
-   QueIns(AddFrame(AAE116,T2SLASH,4),allAnimations.last);
+   QueIns(AddFrame(AAE116,T2SLASH,0,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE120,T2SLASH,1,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE127,T2SLASH,2,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE120,T2SLASH,3,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE116,T2SLASH,4,0,0,6),allAnimations.last);
   break;
   case T3SLASH:
-   QueIns(AddFrame(AAE170,T3SLASH,0),allAnimations.last);
-   QueIns(AddFrame(AAE174,T3SLASH,1),allAnimations.last);
-   QueIns(AddFrame(AAE181,T3SLASH,2),allAnimations.last);
-   QueIns(AddFrame(AAE174,T3SLASH,3),allAnimations.last);
-   QueIns(AddFrame(AAE170,T3SLASH,4),allAnimations.last);
+   QueIns(AddFrame(AAE170,T3SLASH,0,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE174,T3SLASH,1,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE181,T3SLASH,2,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE174,T3SLASH,3,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE170,T3SLASH,4,0,0,6),allAnimations.last);
   break;
   case T4SLASH:
-   QueIns(AddFrame(AAE16,T4SLASH,0),allAnimations.last);
-   QueIns(AddFrame(AAE12,T4SLASH,1),allAnimations.last);
-   QueIns(AddFrame(AAE19,T4SLASH,2),allAnimations.last);
-   QueIns(AddFrame(AAE12,T4SLASH,3),allAnimations.last);
-   QueIns(AddFrame(AAE16,T4SLASH,4),allAnimations.last);
+   QueIns(AddFrame(AAE16,T4SLASH,0,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE12,T4SLASH,1,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE19,T4SLASH,2,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE12,T4SLASH,3,0,0,6),allAnimations.last);
+   QueIns(AddFrame(AAE16,T4SLASH,4,0,0,6),allAnimations.last);
   break;
   case BOUNCE:
    QueIns(AddFrame(AAE7,BOUNCE,0),allAnimations.last);
@@ -459,20 +459,74 @@ U0 AnimTaskFlip(CDC *dc, Director *task, Animation *ajc){
  }
 }
 
+F64 StrikeWeaponAngle(Director *task)
+{
+ F64 angle;
+ if(task->strikeDirX>0){
+  if(task->strikeDirY<0) angle=-pi/4.0;
+  else if(task->strikeDirY>0) angle=pi/4.0;
+  else angle=0.0;
+ }else if(task->strikeDirX<0){
+  if(task->strikeDirY<0) angle=-3.0*pi/4.0;
+  else if(task->strikeDirY>0) angle=3.0*pi/4.0;
+  else angle=pi;
+ }else if(task->strikeDirY<0){
+  angle=-pi/2.0;
+ }else{
+  angle=pi/2.0;
+ }
+ // Weapon artwork points upward; screen Y increases downward.
+ return angle+pi/2.0;
+}
+
+U0 DrawStrikeWeapon(CDC *dc,Director *task,Animation *ajc,Item *wep)
+{
+ I64 elapsed,reach,weaponX,weaponY;
+ F64 directionX,directionY;
+ CDC *weaponSource,*weaponImage;
+ Bool scaled=FALSE;
+ weaponSource=wep->img;
+ if(wep->blotSX!=1.0 || wep->blotSY!=1.0){
+  weaponSource=DCScaled(wep->img,wep->blotSX,wep->blotSY);
+  scaled=TRUE;
+ }
+ weaponImage=DCRotated_MemCpy(weaponSource,StrikeWeaponAngle(task));
+ if(scaled)
+  DCDel(weaponSource);
+ elapsed=world->gameTicks-task->strikeStartTick;
+ reach=0;
+ if(elapsed==1)
+  reach=18;
+ else if(elapsed==2)
+  reach=8;
+ directionX=task->strikeDirX;
+ directionY=task->strikeDirY;
+ if(directionX!=0 && directionY!=0){
+  directionX=directionX*0.70710678;
+  directionY=directionY*0.70710678;
+ }
+ weaponX=task->x+ajc->xOffset+32+
+         ToI64(directionX*(8+reach));
+ weaponY=task->y+ajc->yOffset+48+
+         ToI64(directionY*(8+reach));
+ GrBlot3(dc,weaponX-weaponImage->width/2,
+         weaponY-weaponImage->height/2,0,weaponImage);
+ DCDel(weaponImage);
+}
+
 U0 OptionallyDrawWeapon(CDC *dc, Director *task, Animation *ajc){
  Item *wep = MakeItem(task->a->sword);
  switch(task->cQueDirective){
   case T1STAB...T4STAB:
+  case T1SLASH...T4SLASH:
+   DrawStrikeWeapon(dc,task,ajc,wep);
+  break;
+  case T1FISH...T4FISH:
    BlotItem(dc,wep,task->x+ajc->xOffset,
             task->y+ajc->yOffset,FALSE,90);
   break;
-  case T1SLASH...T4SLASH:
-   BlotItem(dc,wep,task->x+ajc->xOffset,
-            task->y+ajc->yOffset,FALSE);
-  break;
  }
  Free(wep);
-
 }
 
 //returns true for hard end

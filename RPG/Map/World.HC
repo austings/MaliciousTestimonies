@@ -28,7 +28,7 @@ U0 Stage0(Actor *p)
  case CMS_PRAYER_DONE:
 
   if(!p->target)
-   p->target = GetPlayer;
+   p->target = GetPlayer;
   if(mc->isItem)
    UseItemCombat(p);
   else
@@ -257,6 +257,8 @@ U0 FinishStrikeApproach(Actor *p)
 
 U0 UpdateActorPath(Actor *p)
 {
+ if(mc->displayWorld)
+  return;
  if(!p->hasPath)
  {
   // A strike approach should not remain stuck if its path vanished.
@@ -446,6 +448,11 @@ U0 FindFreeSpawnTile(I64 *outX,I64 *outY)
 //updates the matrix model based on taken actions
 U0 WorldTick(I64 i, I64 j, Actor *p){
 
+ if(mc->displayWorld)
+  return;
+
+ FishingWorldTick;
+
  if(mc->combatON)
  TickCombat(i,j,p);
 
@@ -479,6 +486,21 @@ Bool IfAnyKey(){
 }
 
 U0 HandleKeyboard(Actor *p) {
+ if(mc->displayWorld){
+  if(keyboard.left.isDown) PanStrategicMap(-8,0);
+  if(keyboard.right.isDown) PanStrategicMap(8,0);
+  if(keyboard.up.isDown) PanStrategicMap(0,-8);
+  if(keyboard.down.isDown) PanStrategicMap(0,8);
+  if(KeyPressed(&keyboard.developer))
+   mc->displayDev=!mc->displayDev;
+  if(KeyPressed(&keyboard.esc))
+   WorldButton;
+  return;
+ }
+
+ if(FishingHandleKeyboard(p))
+  return;
+
  MapNode *puin = GetTensorNode(world->level,
           p->x,p->y,world->currentZ);
 

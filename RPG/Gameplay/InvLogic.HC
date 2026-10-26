@@ -152,17 +152,16 @@ class CoinObj{
 Item *HasShekel(Inventory *myInv)
 { 
  Item *toBeRetrieved = myInv->collection->next;
- I64 i;
- for(i=0;i<QueCnt(toBeRetrieved);i++){
-  toBeRetrieved = toBeRetrieved->next;
+ while(toBeRetrieved!=myInv->collection){
   if(toBeRetrieved->id>=IT_SHEKEL&&toBeRetrieved->id<=IT_SHEKEL100)
    return toBeRetrieved;
+  toBeRetrieved = toBeRetrieved->next;
  }
  return NULL;
 }
 
-Bool AddCoin(Inventory *myInv, I64 itemID){
- I64 i,v =0;
+CoinObj *AddCoin(Inventory *myInv, I64 itemID){
+I64 v =0;
  I64 v2Add = 0;
 
  if(itemID>=IT_SHEKEL&&itemID<=IT_SHEKEL100){
@@ -238,7 +237,7 @@ Bool AddItemToInventory(Inventory *myInv, I64 itemID){
     //remove old purse if this is coinage
     if(purse!=NULL){
      if(purse->oldShek!=NULL){
-      RemoveItemFromInv(GetPlayer()->myInv, mc->draggingItem, TRUE);
+      RemoveItemFromInv(myInv,purse->oldShek,TRUE);
      }
     }
  

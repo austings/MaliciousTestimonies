@@ -50,10 +50,17 @@ U0 PrayerButton()
 
 U0 WorldButton()
 {
- if(mc->displayWorld==FALSE)
+ if(mc->displayWorld==FALSE){
   mc->displayWorld=TRUE;
- else
+  world->travelPending=FALSE;
+  world->selectedTerritory=-1;
+  world->mapLoadFailed=FALSE;
+  world->strategicEnterHandled=FALSE;
+ }else{
   mc->displayWorld=FALSE; 
+  world->travelPending=FALSE;
+  world->selectedTerritory=-1;
+ }
 
 }
 

@@ -14,6 +14,7 @@ class Director:CQue{
  I64 cQueDirective;
  I32 animIndex;//cur pos in anim
  I64 x, y, z, xAOff, yAOff,tileX,tileY; 
+ I64 strikeStartTick,strikeDirX,strikeDirY;
  //x/y/z to render; 
  //x/y armor frame Offset; 
  //hometile X/Y

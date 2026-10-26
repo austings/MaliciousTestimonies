@@ -199,6 +199,9 @@ Bool CheckSolid(Tensor3D *t,I64 x=0, I64 y=0, I64 z=0)
   if(tot==z)
   {
    val= GetMatrixSolid(t->data,x,y);
+   I64 bg=GetMatrix(t->data,x,y);
+   if(bg==BG_BUSH_WALL || bg==BG_ROCK_WALL || bg==BG_DK_GRAY)
+    val=TRUE;
   }
   t = t->next;
   tot++;
