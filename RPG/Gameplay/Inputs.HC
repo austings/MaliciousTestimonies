@@ -218,7 +218,8 @@ Bool CombatDialog2Click(I64 M_X, I64 M_Y)
 }
 Bool NoGameWindowOpen(I64 M_X, I64 M_Y)
 {
- if(!mc->displayInventory&&!mc->displayEquipment&&!mc->lootedSwitch       &&
+ if(!mc->displayInventory&&!mc->displayEquipment&&!mc->displayMiniMap&&
+        !mc->lootedSwitch       &&
         !mc->draggingInv&&!mc->prayerDragging)
  {
   return TRUE;
@@ -258,7 +259,7 @@ U0 HandleMouseAction(I64 id, I64 M_X, I64 M_Y, I64 i, I64 j){
   break;
 
   case BTN_ORB:
-   WorldButton;
+   MiniMapButton;
   break;
 
   case BTN_PRAYER:
@@ -462,6 +463,10 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 {
  Actor *player = GetPlayer;
 
+ if(mc->displayMiniMap){
+  HandleMiniMapClick(M_X,M_Y);
+  return;
+ }
  if(mc->displayWorld){
   SelectTerritoryOnStrategicMap(M_X,M_Y);
   return;
@@ -471,6 +476,8 @@ U0 HandleMouse(I64 M_X, I64 M_Y, I64 i, I64 j)
 
  /* 1. Sidebar / global UI first */
  HandleMouseSideBar(M_X, M_Y, i, j);
+ if(mc->displayMiniMap)
+  return;
 
  /* 2. Only continue for game-area clicks */
  if(CombatDialog2Click(M_X, M_Y))

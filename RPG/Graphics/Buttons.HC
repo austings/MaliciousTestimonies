@@ -48,6 +48,26 @@ U0 PrayerButton()
 
 }
 
+U0 MiniMapButton()
+{
+ Actor *p;
+ I64 maxPanX,maxPanY;
+ if(mc->displayMiniMap){
+  mc->displayMiniMap=FALSE;
+  return;
+ }
+ if(!world || !world->level) return;
+ p=GetPlayer();
+ if(!p) return;
+ maxPanX=wX-MINIMAP_VIEW_TILES_X;
+ maxPanY=wY-MINIMAP_VIEW_TILES_Y;
+ if(maxPanX<0) maxPanX=0;
+ if(maxPanY<0) maxPanY=0;
+ mc->miniMapPanX=Min(Max(p->x-MINIMAP_VIEW_TILES_X/2,0),maxPanX);
+ mc->miniMapPanY=Min(Max(p->y-MINIMAP_VIEW_TILES_Y/2,0),maxPanY);
+ mc->displayMiniMap=TRUE;
+}
+
 U0 WorldButton()
 {
  if(mc->displayWorld==FALSE){

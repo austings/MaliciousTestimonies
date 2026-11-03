@@ -213,7 +213,9 @@ class MenuControl{
        displayPrayers,prayerPage,prayerDragging,
        displayShop,
        displayEquipment,
-       displayDev,
+       displayMiniMap;
+  I64 miniMapPanX,miniMapPanY;
+  Bool displayDev,
        displaySave;
 
   Bool fishingMode;

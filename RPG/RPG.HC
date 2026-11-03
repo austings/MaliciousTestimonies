@@ -24,23 +24,23 @@ U0 DrawIt(CTask *task, CDC *dc){
    Actor *p = GetPlayer;
    //2. Then get Input from Keyboard
    HandleKeyboard(p);
-   //3. Next World Tick/ Move Tick
-   world->timer = world->timer + FRAMERULE;
-   if(world->timer>=FRAMERULE_CAP)
-   {
-    WorldTick(i,j,p);
-    world->timer = 0;
-    world->gameTicks++;
+   if(!mc->displayMiniMap){
+    //3. Advance gameplay only when the modal minimap is closed.
+    world->timer = world->timer + FRAMERULE;
+    if(world->timer>=FRAMERULE_CAP)
+    {
+     WorldTick(i,j,p);
+     world->timer = 0;
+     world->gameTicks++;
+    }
+    TickActorWalkState(p);
+    mc->smoothScreenY = fmod(mc->smoothScreenY+
+      camera->cameraOffSetY * world->timer,480.0);
+    mc->smoothScreenX = fmod(mc->smoothScreenX+
+      camera->cameraOffSetX * world->timer,480.0);
+    UpdateActorPath(p);
+    StartCameraPan(dc,p);
    }
-   //4.Advance animation states
-   TickActorWalkState(p);
-   mc->smoothScreenY = fmod(mc->smoothScreenY+camera->cameraOffSetY * world->timer, 480.0);
-   mc->smoothScreenX = fmod(mc->smoothScreenX+camera->cameraOffSetX * world->timer, 480.0);
-  
-   UpdateActorPath(p);
- 
-   //5. Compute Camera Offset from the Same walk state  
-   StartCameraPan(dc,p);   
    //6. Draw world and extra for preload on either side 
    ReDrawWorld(dc,i,j);
    PlayWeatherLayer(dc,p,WEATHER_LAYER_BG);
@@ -70,6 +70,8 @@ U0 DrawIt(CTask *task, CDC *dc){
    CombatDialog3Hover(camera->cursorX,camera->cursorY);
    ShowToolTips(dc);
    HandleDeathScreen(dc);
+   if(mc->displayMiniMap)
+    DrawMiniMap(dc,p);
   break;
   //character select
   case 2:

@@ -486,6 +486,15 @@ Bool IfAnyKey(){
 }
 
 U0 HandleKeyboard(Actor *p) {
+ if(mc->displayMiniMap){
+  if(keyboard.left.isDown) PanMiniMap(-2,0);
+  if(keyboard.right.isDown) PanMiniMap(2,0);
+  if(keyboard.up.isDown) PanMiniMap(0,-2);
+  if(keyboard.down.isDown) PanMiniMap(0,2);
+  if(KeyPressed(&keyboard.esc))
+   mc->displayMiniMap=FALSE;
+  return;
+ }
  if(mc->displayWorld){
   if(keyboard.left.isDown) PanStrategicMap(-8,0);
   if(keyboard.right.isDown) PanStrategicMap(8,0);

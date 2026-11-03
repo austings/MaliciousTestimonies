@@ -454,6 +454,35 @@ U0 DrawStrategicFeatures(CDC *dc)
  PrintLine(dc,"Dead Sea",x1,y1);
 }
 
+static CDC *STRATEGIC_CAS1=FramePtr("CAS1");
+static CDC *STRATEGIC_VIL1=FramePtr("VIL1");
+static CDC *STRATEGIC_CAS1_SMALL=NULL;
+static CDC *STRATEGIC_VIL1_SMALL=NULL;
+
+CDC *GetStrategicMapIcon(CDC *source,CDC **scaled)
+{
+ F64 scale;
+ if(!source || source->width<=0 || source->height<=0) return NULL;
+ if(!*scaled){
+  // Keep more of the WAD sprite's native detail while fitting comfortably
+  // beside the settlement labels on the strategic map.
+  scale=40.0/source->width;
+  if(source->height*scale>40.0)
+   scale=40.0/source->height;
+  *scaled=DCScaled(source,scale,scale);
+ }
+ return *scaled;
+}
+
+Bool TerritoryUsesCastleIcon(I64 id)
+{
+ // Samaria is the starting stronghold; the other fortified regional
+ // capitals use the same castle marker.
+ if(id==0 || id==1 || id==4 || id==5 || id==6 || id==7)
+  return TRUE;
+ return FALSE;
+}
+
 U0 TerritoryLabelPosition(I64 id,I64 *regionX,I64 *regionY,
                           I64 *cityX,I64 *cityY)
 {
@@ -467,6 +496,41 @@ U0 TerritoryLabelPosition(I64 id,I64 *regionX,I64 *regionY,
   case 6: *regionX=555; *regionY=78; *cityX=603; *cityY=150; break;
   case 7: *regionX=594; *regionY=289; *cityX=628; *cityY=349; break;
   default:*regionX=555; *regionY=438; *cityX=588; *cityY=486; break;
+ }
+}
+
+U0 DrawStrategicSettlementIcons(CDC *dc)
+{
+ I64 i,regionX,regionY,cityX,cityY;
+ CDC *settlementIcon;
+ Territory *t;
+ for(i=0;i<world->territoryCount;i++){
+  t=world->territories[i];
+  TerritoryLabelPosition(i,&regionX,&regionY,&cityX,&cityY);
+  if(TerritoryUsesCastleIcon(i))
+   settlementIcon=GetStrategicMapIcon(STRATEGIC_CAS1,
+                                     &STRATEGIC_CAS1_SMALL);
+  else
+   settlementIcon=GetStrategicMapIcon(STRATEGIC_VIL1,
+                                     &STRATEGIC_VIL1_SMALL);
+  if(settlementIcon){
+   // Draw with the 2D blitter after map fills and features, avoiding reliance
+   // on depth-buffer ordering for the strategic symbols.
+   GrBlot(dc,cityX-settlementIcon->width/2-world->mapPanX,
+          STRATEGIC_MAP_TOP+cityY-settlementIcon->height/2-world->mapPanY,
+          settlementIcon);
+   dc->color=WHITE;
+   PrintLine(dc,t->settlement,
+             cityX+settlementIcon->width/2+4-world->mapPanX,
+             STRATEGIC_MAP_TOP+cityY-4-world->mapPanY);
+  } else {
+   dc->color=YELLOW;
+   GrRect3(dc,cityX-world->mapPanX,
+           STRATEGIC_MAP_TOP+cityY-world->mapPanY,0,5,5);
+   dc->color=WHITE;
+   PrintLine(dc,t->settlement,cityX+8-world->mapPanX,
+             STRATEGIC_MAP_TOP+cityY-2-world->mapPanY);
+  }
  }
 }
 
@@ -510,14 +574,9 @@ U0 RenderWorldMap(CDC *dc)
   dc->color=WHITE;
   PrintLine(dc,t->name,regionX-world->mapPanX,
             STRATEGIC_MAP_TOP+regionY-world->mapPanY);
-  dc->color=YELLOW;
-  GrRect3(dc,cityX-world->mapPanX,STRATEGIC_MAP_TOP+cityY-world->mapPanY,
-          0,5,5);
-  dc->color=WHITE;
-  PrintLine(dc,t->settlement,cityX+8-world->mapPanX,
-            STRATEGIC_MAP_TOP+cityY-2-world->mapPanY);
  }
  DrawStrategicFeatures(dc);
+ DrawStrategicSettlementIcons(dc);
 
  GrRect3(dc,0,0,0,SCREENX+SIDEX,STRATEGIC_MAP_TOP);
  dc->color=WHITE;
@@ -547,6 +606,154 @@ U0 RenderWorldMap(CDC *dc)
   dc->color=RED;
   PrintLine(dc,"Destination load failed; choose another region or press Escape",28,474);
  }
+}
+
+U0 ClampMiniMapPan()
+{
+ I64 maxPanX=wX-MINIMAP_VIEW_TILES_X;
+ I64 maxPanY=wY-MINIMAP_VIEW_TILES_Y;
+ if(maxPanX<0) maxPanX=0;
+ if(maxPanY<0) maxPanY=0;
+ mc->miniMapPanX=Min(Max(mc->miniMapPanX,0),maxPanX);
+ mc->miniMapPanY=Min(Max(mc->miniMapPanY,0),maxPanY);
+}
+
+U0 PanMiniMap(I64 dx,I64 dy)
+{
+ mc->miniMapPanX+=dx;
+ mc->miniMapPanY+=dy;
+ ClampMiniMapPan;
+}
+
+U0 HandleMiniMapClick(I64 mx,I64 my)
+{
+ I64 viewX=MINIMAP_WINDOW_X+MINIMAP_VIEW_X;
+ I64 viewY=MINIMAP_WINDOW_Y+MINIMAP_VIEW_Y;
+ I64 tileX,tileY;
+ if(InRect(mx,my,MINIMAP_CLOSE_X1,MINIMAP_CLOSE_Y1,
+           MINIMAP_CLOSE_X2,MINIMAP_CLOSE_Y2)){
+  mc->displayMiniMap=FALSE;
+  return;
+ }
+ if(!InRect(mx,my,viewX,viewY,viewX+MINIMAP_VIEW_W,
+            viewY+MINIMAP_VIEW_H))
+  return;
+ tileX=mc->miniMapPanX+(mx-viewX)/MINIMAP_TILE_SIZE;
+ tileY=mc->miniMapPanY+(my-viewY)/MINIMAP_TILE_SIZE;
+ mc->miniMapPanX=tileX-MINIMAP_VIEW_TILES_X/2;
+ mc->miniMapPanY=tileY-MINIMAP_VIEW_TILES_Y/2;
+ ClampMiniMapPan;
+}
+
+U0 DrawMiniMap(CDC *dc,Actor *player)
+{
+ I64 i,j,tile,tileX,tileY,screenX,screenY;
+ I64 pathX,pathY,k;
+ MapNode *node;
+ I64 winX=MINIMAP_WINDOW_X,winY=MINIMAP_WINDOW_Y;
+ I64 viewX=winX+MINIMAP_VIEW_X,viewY=winY+MINIMAP_VIEW_Y;
+
+ ClampMiniMapPan;
+ dc->color=BLACK;
+ GrRect(dc,winX,winY,winX+MINIMAP_WINDOW_W,winY+MINIMAP_WINDOW_H);
+ dc->color=LTGRAY;
+ GrRect(dc,winX,winY,winX+MINIMAP_WINDOW_W,winY+2);
+ GrRect(dc,winX,winY+MINIMAP_WINDOW_H-2,
+        winX+MINIMAP_WINDOW_W,winY+MINIMAP_WINDOW_H);
+ GrRect(dc,winX,winY,winX+2,winY+MINIMAP_WINDOW_H);
+ GrRect(dc,winX+MINIMAP_WINDOW_W-2,winY,
+        winX+MINIMAP_WINDOW_W,winY+MINIMAP_WINDOW_H);
+
+ dc->color=DKGRAY;
+ GrRect(dc,winX+3,winY+3,winX+MINIMAP_WINDOW_W-3,viewY-4);
+ dc->color=WHITE;
+ PrintLine(dc,"MINIMAP",winX+12,winY+15);
+ dc->color=DKGRAY;
+ GrRect(dc,MINIMAP_CLOSE_X1,MINIMAP_CLOSE_Y1,
+        MINIMAP_CLOSE_X2,MINIMAP_CLOSE_Y2);
+ dc->color=WHITE;
+ PrintLine(dc,"X",MINIMAP_CLOSE_X1+7,MINIMAP_CLOSE_Y1+5);
+
+ dc->color=BLACK;
+ GrRect(dc,viewX,viewY,viewX+MINIMAP_VIEW_W,
+        viewY+MINIMAP_VIEW_H);
+ for(j=0;j<MINIMAP_VIEW_TILES_Y;j++){
+  tileY=mc->miniMapPanY+j;
+  if(tileY>=0 && tileY<wY){
+   for(i=0;i<MINIMAP_VIEW_TILES_X;i++){
+    tileX=mc->miniMapPanX+i;
+    if(tileX>=0 && tileX<wX){
+     tile=ToI64(GetTensor(world->level,tileX,tileY,world->currentZ));
+     screenX=viewX+i*MINIMAP_TILE_SIZE;
+     screenY=viewY+j*MINIMAP_TILE_SIZE;
+     dc->color=GetBG(tile);
+     GrRect(dc,screenX,screenY,
+            screenX+MINIMAP_TILE_SIZE,screenY+MINIMAP_TILE_SIZE);
+
+     node=GetTensorNode(world->level,tileX,tileY,world->currentZ);
+     if(node && node->hasObj){
+      if(node->idObj==SP_FISHING_SPOT)
+       dc->color=CYAN;
+      else if(node->isSolid)
+       dc->color=LTRED;
+      else
+       dc->color=YELLOW;
+      GrRect(dc,screenX+1,screenY+1,screenX+5,screenY+5);
+     }
+     if(node && node->len>0){
+      dc->color=WHITE;
+      GrRect(dc,screenX+4,screenY+4,screenX+6,screenY+6);
+     }
+     if(node && node->hasNPC){
+      dc->color=RED;
+      GrRect(dc,screenX+2,screenY+2,screenX+4,screenY+4);
+     }
+    }
+   }
+  }
+ }
+
+ // Draw the player's existing queued movement path as small waypoint dots.
+ if(player && player->hasPath){
+  pathX=player->x;
+  pathY=player->y;
+  for(k=player->pathIndex;k<player->pathLen;k++){
+   switch(player->pathDirs[k]){
+    case DIR_UP: pathY--; break;
+    case DIR_DOWN: pathY++; break;
+    case DIR_LEFT: pathX--; break;
+    case DIR_RIGHT: pathX++; break;
+   }
+   if(pathX>=mc->miniMapPanX &&
+      pathX<mc->miniMapPanX+MINIMAP_VIEW_TILES_X &&
+      pathY>=mc->miniMapPanY &&
+      pathY<mc->miniMapPanY+MINIMAP_VIEW_TILES_Y){
+    screenX=viewX+(pathX-mc->miniMapPanX)*MINIMAP_TILE_SIZE;
+    screenY=viewY+(pathY-mc->miniMapPanY)*MINIMAP_TILE_SIZE;
+    dc->color=LTBLUE;
+    GrRect(dc,screenX+2,screenY+2,screenX+4,screenY+4);
+   }
+  }
+ }
+
+ if(player && player->x>=mc->miniMapPanX &&
+    player->x<mc->miniMapPanX+MINIMAP_VIEW_TILES_X &&
+    player->y>=mc->miniMapPanY &&
+    player->y<mc->miniMapPanY+MINIMAP_VIEW_TILES_Y){
+  screenX=viewX+(player->x-mc->miniMapPanX)*MINIMAP_TILE_SIZE;
+  screenY=viewY+(player->y-mc->miniMapPanY)*MINIMAP_TILE_SIZE;
+  dc->color=WHITE;
+  GrRect(dc,screenX+1,screenY+1,screenX+5,screenY+5);
+  dc->color=RED;
+  GrRect(dc,screenX+2,screenY+2,screenX+4,screenY+4);
+ }
+
+ dc->color=LTGRAY;
+ GrRect(dc,winX+3,viewY+MINIMAP_VIEW_H+4,
+        winX+MINIMAP_WINDOW_W-3,winY+MINIMAP_WINDOW_H-3);
+ dc->color=WHITE;
+ PrintLine(dc,"Arrows: pan | Click map: center | Esc/X: close",
+           winX+12,winY+MINIMAP_WINDOW_H-15);
 }
 
 U0 RenderMenus(CDC *dc, Actor *p)

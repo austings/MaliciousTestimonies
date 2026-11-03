@@ -97,6 +97,9 @@ U0 InitMenuControl()
  mc->displayWorld=FALSE;
  mc->displayShop=FALSE;
  mc->displayEquipment=FALSE;
+ mc->displayMiniMap=FALSE;
+ mc->miniMapPanX=0;
+ mc->miniMapPanY=0;
  mc->displayPrayers=FALSE;
  mc->displayDev=FALSE;
  mc->displaySave=FALSE;
