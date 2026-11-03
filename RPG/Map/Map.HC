@@ -56,7 +56,7 @@ static CDC*             ITEM6IP= FramePtr("CLOT012P");
 
 #define IT_BULB 	7
 static CDC*		ITEM7=DCNew(100,100); //poppy bulb
-static CDC*		ITEM7I=DCNew(100,100);
+static CDC*		ITEM7I=DCNew(100,100);
 
 #define IT_POT	 	8
 static CDC*		ITEM8=DCNew(100,100); 

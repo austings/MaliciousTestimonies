@@ -37,14 +37,14 @@ U0 BuildHouse(Matrix *toAdd, I64 startX, I64 startY){
 
 }
 
-Matrix *MakeCastle(Matrix *toAdd){
+Matrix *MakeCastle(Matrix *toAdd){
 
  I64 i,j;
   
- for(j=0;j<100;j++)
+ for(j=0;j<10;j++)
  {    
-  SetMatrix(toAdd,BG_BUSH_WALL,100,j);
-  SetMatrix(toAdd,BG_BUSH_WALL,0,j);
+  //SetMatrix(toAdd,BG_BUSH_WALL,100,j);
+  SetMatrix(toAdd,BG_BUSH_WALL,0,j);
  }
   //left hand start
 
